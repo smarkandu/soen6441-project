@@ -13,7 +13,7 @@ public class EditNeighborRemoveCommand implements Command {
     }
 
     @Override
-    public void interpret(GameContext context) {
-        context.removeNeighbor(d_countryID, d_neighborCountryID);
+    public void interpret(GameContext p_context) {
+        p_context.removeNeighbor(d_countryID, d_neighborCountryID);
     }
 }

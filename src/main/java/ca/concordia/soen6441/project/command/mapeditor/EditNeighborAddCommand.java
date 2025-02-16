@@ -13,7 +13,7 @@ public class EditNeighborAddCommand implements Command {
     }
 
     @Override
-    public void interpret(GameContext context) {
-        context.addNeighbor(d_countryID, d_neighborCountryID);
+    public void interpret(GameContext p_context) {
+        p_context.addNeighbor(d_countryID, d_neighborCountryID);
     }
 }

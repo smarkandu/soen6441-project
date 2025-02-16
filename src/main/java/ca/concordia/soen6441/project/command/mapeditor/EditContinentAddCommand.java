@@ -13,7 +13,7 @@ public class EditContinentAddCommand implements Command {
     }
 
     @Override
-    public void interpret(GameContext context) {
-        context.addContinent(d_continentID, d_continentValue);
+    public void interpret(GameContext p_context) {
+        p_context.addContinent(d_continentID, d_continentValue);
     }
 }

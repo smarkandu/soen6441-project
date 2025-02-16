@@ -5,7 +5,7 @@ import ca.concordia.soen6441.project.interfaces.GameContext;
 
 public class ShowMapCommand implements Command {
     @Override
-    public void interpret(GameContext context) {
+    public void interpret(GameContext p_context) {
 
     }
 }

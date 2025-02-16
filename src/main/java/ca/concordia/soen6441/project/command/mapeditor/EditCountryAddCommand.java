@@ -15,7 +15,7 @@ public class EditCountryAddCommand implements Command {
     }
 
     @Override
-    public void interpret(GameContext context) {
-        context.addCountry(d_countryID, d_continentID, new ArrayList<String>());
+    public void interpret(GameContext p_context) {
+        p_context.addCountry(d_countryID, d_continentID, new ArrayList<String>());
     }
 }
