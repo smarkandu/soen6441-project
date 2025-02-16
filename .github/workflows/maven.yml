@@ -16,8 +16,10 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write  # 🔥 Grant permission for dependency submission
 
     steps:
     - uses: actions/checkout@v4
