@@ -1,0 +1,24 @@
+editcontinent -add "Asia" 7
+editcontinent -add "Europe" 5
+editcontinent -add "NorthAmerica" 5
+editcontinent -add "SouthAmerica" 2
+editcontinent -add "Africa" 3
+editcontinent -add "Australia" 2
+editcountry -add Canada "NorthAmerica"
+editcountry -add "UnitedStates" "NorthAmerica"
+editcountry -add "Japan" "Asia"
+editneighbor -add Canada "UnitedStates"
+
+
+
+=================================================================================
+
+editcontinent -remove continentID
+
+editcountry -add countryID continentID
+editcountry -remove countryID
+
+editneighbor -add countryID neighborCountryID
+editneighbor -remove countryID neighborCountryID
+
+showmap
