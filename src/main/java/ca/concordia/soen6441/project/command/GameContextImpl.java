@@ -17,9 +17,9 @@ public class GameContextImpl implements GameContext {
     private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;
 
-    public GameContextImpl(SortedMap<String, Continent> d_Continents, SortedMap<String, Country> d_Countries) {
-        this.d_Continents = d_Continents;
-        this.d_Countries = d_Countries;
+    public GameContextImpl(SortedMap<String, Continent> p_Continents, SortedMap<String, Country> p_Countries) {
+        this.d_Continents = p_Continents;
+        this.d_Countries = p_Countries;
         d_author = "SOEN6441";
         d_image = "noimage.bmp";
         d_wrap = false;
@@ -81,27 +81,27 @@ public class GameContextImpl implements GameContext {
 
     @Override
     public String toString() {
-        String mapStr = "[Map]\n"
+        String l_mapStr = "[Map]\n"
                 + "author=" + d_author + "\n"
                 + "image=" + d_image + "\n"
                 + "wrap=" + d_wrap + "\n"
                 + "scroll=" + d_scroll;
 
         // Format continents to string
-        StringBuilder l_sb_continents = new StringBuilder();
-        for (Continent continent : d_Continents.values()) {
-            l_sb_continents.append(continent).append("\n");
+        StringBuilder l_sbContinents = new StringBuilder();
+        for (Continent l_continent : d_Continents.values()) {
+            l_sbContinents.append(l_continent).append("\n");
         }
 
         // Format countries to string
-        StringBuilder l_sb_countries = new StringBuilder();
-        for (Country country : d_Countries.values()) {
-            l_sb_countries.append(country).append("\n");
+        StringBuilder l_sbCountries = new StringBuilder();
+        for (Country l_country : d_Countries.values()) {
+            l_sbCountries.append(l_country).append("\n");
         }
 
-        String continentsStr = "[Continents]\n" + l_sb_continents;
-        String territoriesStr = "[Territories]\n" + l_sb_countries;
+        String l_continentsStr = "[Continents]\n" + l_sbContinents;
+        String l_territoriesStr = "[Territories]\n" + l_sbCountries;
 
-        return mapStr + "\n\n" + continentsStr + "\n\n" + territoriesStr;
+        return l_mapStr + "\n\n" + l_continentsStr + "\n\n" + l_territoriesStr;
     }
 }

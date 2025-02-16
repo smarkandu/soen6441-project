@@ -6,7 +6,7 @@ import ca.concordia.soen6441.project.interfaces.GameContext;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] p_args) {
         boolean l_continuePlaying = true;
         GameContext l_gameContext = OverallFactory.getInstance().CreateGameContext();
         Scanner l_scanner = new Scanner(System.in);
