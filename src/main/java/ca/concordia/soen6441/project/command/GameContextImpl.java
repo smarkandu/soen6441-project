@@ -44,8 +44,8 @@ public class GameContextImpl implements GameContext {
     }
 
     @Override
-    public void addCountry(String p_CountryID, String p_continentID, List<String> neighbors) {
-        Country l_country = OverallFactory.getInstance().CreateCountry(p_CountryID, p_continentID, neighbors);
+    public void addCountry(String p_CountryID, String p_continentID, List<String> p_neighbors) {
+        Country l_country = OverallFactory.getInstance().CreateCountry(p_CountryID, p_continentID, p_neighbors);
         d_Countries.put(p_CountryID, l_country);
         System.out.println("Country added: " + d_Countries.get(l_country.getID()));
     }

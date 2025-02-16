@@ -11,7 +11,7 @@ public class EditContinentRemoveCommand implements Command {
     }
 
     @Override
-    public void interpret(GameContext context) {
-        context.removeContinent(d_continentID);
+    public void interpret(GameContext p_context) {
+        p_context.removeContinent(d_continentID);
     }
 }

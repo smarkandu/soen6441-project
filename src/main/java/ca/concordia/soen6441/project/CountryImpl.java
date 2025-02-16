@@ -6,15 +6,15 @@ import java.util.List;
 
 public class CountryImpl implements Country {
     private final String d_ID;
-    private final int x_coord;
-    private final int y_coord;
+    private final int d_xCoord;
+    private final int d_yCoord;
     private final String d_ContinentID;
     private List<String> d_NeighborIDs;
 
     public CountryImpl(String p_ID, String p_ContinentID, List<String> p_NeighborIDs) {
         this.d_ID = p_ID;
-        this.x_coord = 0;
-        this.y_coord = 0;
+        this.d_xCoord = 0;
+        this.d_yCoord = 0;
         d_ContinentID = p_ContinentID;
         this.d_NeighborIDs = p_NeighborIDs;
     }
@@ -41,11 +41,11 @@ public class CountryImpl implements Country {
 
     @Override
     public String toString() {
-        String d_NeighborIDsAsString = String.join(",", d_NeighborIDs);
+        String l_NeighborIDsAsString = String.join(",", d_NeighborIDs);
 
-        return d_ID + ',' + x_coord +
-                "," + y_coord +
-                "," + d_ContinentID + (!d_NeighborIDsAsString.isEmpty()?
-                "," + d_NeighborIDsAsString:"");
+        return d_ID + ',' + d_xCoord +
+                "," + d_yCoord +
+                "," + d_ContinentID + (!l_NeighborIDsAsString.isEmpty()?
+                "," + l_NeighborIDsAsString:"");
     }
 }

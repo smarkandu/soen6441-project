@@ -11,7 +11,7 @@ public class EditCountryRemoveCommand implements Command {
     }
 
     @Override
-    public void interpret(GameContext context) {
-        context.removeCountry(d_countryID);
+    public void interpret(GameContext p_context) {
+        p_context.removeCountry(d_countryID);
     }
 }

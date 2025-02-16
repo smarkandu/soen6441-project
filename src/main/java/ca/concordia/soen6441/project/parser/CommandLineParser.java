@@ -6,7 +6,7 @@ import ca.concordia.soen6441.project.interfaces.Parser;
 public class CommandLineParser implements Parser {
 
     @Override
-    public Command createCommand(String str) {
+    public Command createCommand(String p_str) {
         return null;
     }
 }
