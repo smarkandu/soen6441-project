@@ -9,24 +9,18 @@
 <!--        <module name="ClassName">-->
 <!--            <property name="severity" value="warning" />-->
 <!--        </module>-->
-
-        <!-- Enforce Method names in camelCase -->
-        <module name="MethodName">
+        <module name="MemberName">
+            <property name="format" value="^d_[a-zA-Z0-9]*$"/>
             <property name="severity" value="error" />
         </module>
 
-        <!-- Enforce Variable names in camelCase -->
+        <module name="ParameterName">
+            <property name="format" value="^p_[a-zA-Z0-9]*$"/>
+            <property name="severity" value="error" />
+        </module>
+
         <module name="LocalVariableName">
-            <property name="severity" value="error" />
-        </module>
-
-        <!-- Enforce Constants in UPPER_CASE -->
-        <module name="ConstantName">
-            <property name="severity" value="error" />
-        </module>
-
-        <!-- Enforce Package names in lowercase -->
-        <module name="PackageName">
+            <property name="format" value="^l_[a-zA-Z0-9]*$"/>
             <property name="severity" value="error" />
         </module>
     </module>
