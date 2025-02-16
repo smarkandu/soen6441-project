@@ -47,7 +47,7 @@ jobs:
     - name: Run Maven build with Checkstyle
       run: |
         curl -sSL https://github.com/checkstyle/checkstyle/releases/download/checkstyle-8.45/checkstyle-8.45-all.jar -o checkstyle.jar
-        java -jar checkstyle.jar -c checkstyle.xml src/main/java/**/*.java || true
+        java -jar checkstyle.jar -c checkstyle.xml $(find src/main/java -name "*.java") || true
 
     - name: Build with Maven
       run: mvn -B package --file pom.xml
