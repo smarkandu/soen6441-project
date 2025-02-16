@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+    "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+    "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+    <module name="TreeWalker">
+        <!-- Enforce Class names in PascalCase -->
+        <module name="ClassName"/>
+
+        <!-- Enforce Method names in camelCase -->
+        <module name="MethodName"/>
+
+        <!-- Enforce Variable names in camelCase -->
+        <module name="LocalVariableName"/>
+
+        <!-- Enforce Constants in UPPER_CASE -->
+        <module name="ConstantName"/>
+
+        <!-- Enforce Package names in lowercase -->
+        <module name="PackageName"/>
+    </module>
+</module>
