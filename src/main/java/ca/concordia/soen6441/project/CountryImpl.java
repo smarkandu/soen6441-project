@@ -2,6 +2,7 @@ package ca.concordia.soen6441.project;
 
 import ca.concordia.soen6441.project.interfaces.Country;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CountryImpl implements Country {
@@ -11,12 +12,12 @@ public class CountryImpl implements Country {
     private final String d_ContinentID;
     private List<String> d_NeighborIDs;
 
-    public CountryImpl(String p_ID, String p_ContinentID, List<String> p_NeighborIDs) {
+    public CountryImpl(String p_ID, String p_ContinentID) {
         this.d_ID = p_ID;
         this.d_xCoord = 0;
         this.d_yCoord = 0;
         d_ContinentID = p_ContinentID;
-        this.d_NeighborIDs = p_NeighborIDs;
+        d_NeighborIDs = new ArrayList<String>();
     }
 
     @Override
