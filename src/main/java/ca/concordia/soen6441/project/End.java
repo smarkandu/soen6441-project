@@ -21,17 +21,32 @@ public class End extends Phase {
     }
 
     @Override
-    public void editContinent() {
+    public void editContinentAdd(String p_continentID, int p_continentValue) {
         printInvalidCommandMessage();
     }
 
     @Override
-    public void editCountry() {
+    public void editContinentRemove(String p_continentID) {
         printInvalidCommandMessage();
     }
 
     @Override
-    public void editNeighbor() {
+    public void editCountryAdd(String p_countryID, String p_continentID) {
+        printInvalidCommandMessage();
+    }
+
+    @Override
+    public void editCountryRemove(String p_countryID) {
+        printInvalidCommandMessage();
+    }
+
+    @Override
+    public void editNeighborAdd(String p_countryID, String p_neighborCountryID) {
+        printInvalidCommandMessage();
+    }
+
+    @Override
+    public void editNeighborRemove(String p_countryID, String p_neighborCountryID) {
         printInvalidCommandMessage();
     }
 

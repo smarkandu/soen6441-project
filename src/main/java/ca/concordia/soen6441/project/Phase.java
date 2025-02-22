@@ -13,9 +13,12 @@ public abstract class Phase {
     abstract public void validateMap();
 
     // edit map state behavior
-    abstract public void editContinent();
-    abstract public void editCountry();
-    abstract public void editNeighbor();
+    abstract public void editContinentAdd(String p_continentID, int p_continentValue);
+    abstract public void editContinentRemove(String p_continentID);
+    abstract public void editCountryAdd(String p_countryID, String p_continentID);
+    abstract public void editCountryRemove(String p_countryID);
+    abstract public void editNeighborAdd(String p_countryID, String p_neighborCountryID);
+    abstract public void editNeighborRemove(String p_countryID, String p_neighborCountryID);
     abstract public void saveMap();
 
     // play state behavior
