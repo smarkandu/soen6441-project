@@ -1,0 +1,17 @@
+package ca.concordia.soen6441.project;
+
+public abstract class MainPlay extends Play {
+    public MainPlay(GameEngine l_gameEngine) {
+        super(l_gameEngine);
+    }
+
+    public void loadMap() {
+        this.printInvalidCommandMessage();
+    }
+    public void setPlayers() {
+        this.printInvalidCommandMessage();
+    }
+    public void assignCountries() {
+        this.printInvalidCommandMessage();
+    }
+}
