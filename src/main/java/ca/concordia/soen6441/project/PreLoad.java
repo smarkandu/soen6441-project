@@ -1,8 +1,8 @@
 package ca.concordia.soen6441.project;
 
 public class PreLoad extends Edit {
-    public PreLoad(GameEngine l_gameEngine) {
-        super(l_gameEngine);
+    public PreLoad(GameEngine p_gameEngine) {
+        super(p_gameEngine);
     }
 
     public void loadMap() {

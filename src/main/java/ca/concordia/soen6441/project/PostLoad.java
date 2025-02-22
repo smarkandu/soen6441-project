@@ -1,8 +1,8 @@
 package ca.concordia.soen6441.project;
 
 public class PostLoad extends Edit {
-    public PostLoad(GameEngine l_gameEngine) {
-        super(l_gameEngine);
+    public PostLoad(GameEngine p_gameEngine) {
+        super(p_gameEngine);
     }
 
     public void loadMap() {

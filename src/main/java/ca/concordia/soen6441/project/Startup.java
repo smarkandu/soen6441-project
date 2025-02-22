@@ -1,8 +1,8 @@
 package ca.concordia.soen6441.project;
 
 public class Startup extends Play {
-    public Startup(GameEngine l_gameEngine) {
-        super(l_gameEngine);
+    public Startup(GameEngine p_gameEngine) {
+        super(p_gameEngine);
     }
 
     public void loadMap()

@@ -2,8 +2,8 @@ package ca.concordia.soen6441.project;
 
 // State of the State pattern
 public abstract class Play extends Phase {
-    public Play(GameEngine l_gameEngine) {
-        super(l_gameEngine);
+    public Play(GameEngine p_gameEngine) {
+        super(p_gameEngine);
     }
 
     public void showMap() {
