@@ -26,7 +26,7 @@ public class PostLoad extends Edit {
 
     public void saveMap() {
         System.out.println("map has been saved");
-        d_gameEngine.setPhase(new PlaySetup(d_gameEngine));
+        d_gameEngine.setPhase(new Startup(d_gameEngine));
     }
 
     public void next() {

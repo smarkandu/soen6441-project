@@ -1,7 +1,7 @@
 package ca.concordia.soen6441.project;
 
-public class PlaySetup extends Play {
-    public PlaySetup(GameEngine l_gameEngine) {
+public class Startup extends Play {
+    public Startup(GameEngine l_gameEngine) {
         super(l_gameEngine);
     }
 
