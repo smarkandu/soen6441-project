@@ -6,7 +6,7 @@ public abstract class Edit extends Phase {
     }
 
     public void showMap() {
-        System.out.println("edited map is displayed");
+        System.out.println(d_gameEngine);
     }
     public void setPlayers() {
         printInvalidCommandMessage();

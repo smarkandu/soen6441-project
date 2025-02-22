@@ -1,6 +1,5 @@
 package ca.concordia.soen6441.project;
 
-import ca.concordia.soen6441.project.command.GameContextImpl;
 import ca.concordia.soen6441.project.command.gameplay.*;
 import ca.concordia.soen6441.project.command.mapeditor.*;
 import ca.concordia.soen6441.project.command.mapeditor.ShowMapCommand;
@@ -59,19 +58,14 @@ public class OverallFactory {
         return new EditNeighborRemoveCommand(p_country, p_neighborCountryID);
     }
 
-    public GameContext CreateGameContext()
-    {
-        return new GameContextImpl(new TreeMap<String, Continent>(), new TreeMap<String, Country>());
-    }
-
     public Continent CreateContinent(String p_ID, int p_Value)
     {
         return new ContinentImpl(p_ID, p_Value);
     }
 
-    public Country CreateCountry(String p_ID, String p_ContinentID, List<String> p_NeighborIDs)
+    public Country CreateCountry(String p_ID, String p_ContinentID)
     {
-        return new CountryImpl(p_ID, p_ContinentID, p_NeighborIDs);
+        return new CountryImpl(p_ID, p_ContinentID);
     }
 
 
