@@ -10,11 +10,13 @@ public class GameEngine {
     public void start() {
         // Can change the state of the Context (GameEngine) object, e.g.
         setPhase(new PreLoad(this));
+        setPhase(new PostLoad(this));
         setPhase(new PlaySetup(this));
+        setPhase(new Reinforcement(this));
 
         // Can trigger State-dependent behavior by using
         // the methods defined in the State (Phase) object, e.g.
-        gamePhase.loadMap();
-        gamePhase.next();
+        //        gamePhase.loadMap();
+        //        gamePhase.next();
     }
 }

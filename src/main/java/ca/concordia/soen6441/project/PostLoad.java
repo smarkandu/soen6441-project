@@ -11,7 +11,7 @@ public class PostLoad extends Edit {
 
     public void editContinent() {
         // TODO
-        System.out.println("continent has been edited");
+        // d_gameEngine.addContinent(d_continentID, d_continentValue);
     }
 
     public void editCountry() {
