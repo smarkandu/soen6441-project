@@ -3,8 +3,8 @@ package ca.concordia.soen6441.project;
 public abstract class Phase {
     GameEngine d_gameEngine;
 
-    public Phase(GameEngine l_gameEngine) {
-        this.d_gameEngine = l_gameEngine;
+    public Phase(GameEngine p_gameEngine) {
+        this.d_gameEngine = p_gameEngine;
     }
 
     // general behavior

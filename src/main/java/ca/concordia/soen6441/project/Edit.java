@@ -1,8 +1,8 @@
 package ca.concordia.soen6441.project;
 
 public abstract class Edit extends Phase {
-    public Edit(GameEngine l_gameEngine) {
-        super(l_gameEngine);
+    public Edit(GameEngine p_gameEngine) {
+        super(p_gameEngine);
     }
 
     public void showMap() {
