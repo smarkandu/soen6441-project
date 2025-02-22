@@ -10,7 +10,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class GameEngine {
-    private Phase gamePhase;
+    private Phase d_gamePhase;
     private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;
     private final String d_author;
@@ -28,7 +28,7 @@ public class GameEngine {
     }
 
     public void setPhase(Phase p_phase) {
-        gamePhase = p_phase;
+        d_gamePhase = p_phase;
     }
 
     public void start() {
@@ -54,10 +54,10 @@ public class GameEngine {
                     if ("-add".equals(l_operation) && l_args.length == 4) {
                         String l_continentID = l_args[2].replace("\"", "");
                         int l_continentValue = Integer.parseInt(l_args[3]);
-                        gamePhase.editContinentAdd(l_continentID, l_continentValue);
+                        d_gamePhase.editContinentAdd(l_continentID, l_continentValue);
                     } else if ("-remove".equals(l_operation) && l_args.length == 3) {
                         String l_continentID = l_args[2].replace("\"", "");
-                        gamePhase.editContinentRemove(l_continentID);
+                        d_gamePhase.editContinentRemove(l_continentID);
                     } else {
                         System.out.println("Operation not recognized");
                     }
@@ -66,10 +66,10 @@ public class GameEngine {
                     if ("-add".equals(l_operation) && l_args.length == 4) {
                         String l_countryID = l_args[2].replace("\"", "");
                         String l_continentID = l_args[3].replace("\"", "");
-                        gamePhase.editCountryAdd(l_countryID, l_continentID);
+                        d_gamePhase.editCountryAdd(l_countryID, l_continentID);
                     } else if ("-remove".equals(l_operation) && l_args.length == 3) {
                         String l_countryID = l_args[2].replace("\"", "");
-                        gamePhase.editCountryRemove(l_countryID);
+                        d_gamePhase.editCountryRemove(l_countryID);
                     } else {
                         System.out.println("Operation not recognized");
                     }
@@ -78,35 +78,35 @@ public class GameEngine {
                     if ("-add".equals(l_operation) && l_args.length == 4) {
                         String l_countryID = l_args[2].replace("\"", "");
                         String l_neighborCountryID = l_args[3].replace("\"", "");
-                        gamePhase.editNeighborAdd(l_countryID, l_neighborCountryID);
+                        d_gamePhase.editNeighborAdd(l_countryID, l_neighborCountryID);
                     } else if ("-remove".equals(l_operation) && l_args.length == 4) {
                         String l_countryID = l_args[2].replace("\"", "");
                         String l_neighborCountryID = l_args[3].replace("\"", "");
-                        gamePhase.editNeighborRemove(l_countryID, l_neighborCountryID);
+                        d_gamePhase.editNeighborRemove(l_countryID, l_neighborCountryID);
                     } else {
                         System.out.println("Operation not recognized");
                     }
                     break;
                 case "showmap":
-                    gamePhase.showMap();
+                    d_gamePhase.showMap();
                     break;
                 case "savemap":
-                    gamePhase.saveMap();
+                    d_gamePhase.saveMap();
                     break;
                 case "assigncountries":
-                    gamePhase.assignCountries();
+                    d_gamePhase.assignCountries();
                     break;
                 case "deploy":
                     // TODO
                     break;
                 case "gameplayer":
-                    gamePhase.setPlayers();
+                    d_gamePhase.setPlayers();
                     break;
                 case "loadmap":
-                    gamePhase.loadMap();
+                    d_gamePhase.loadMap();
                     break;
                 case "exit":
-                    gamePhase.endGame();
+                    d_gamePhase.endGame();
                     l_continuePlaying = false;
                     break;
                 default:
