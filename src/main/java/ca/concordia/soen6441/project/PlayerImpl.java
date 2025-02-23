@@ -17,7 +17,7 @@ public class PlayerImpl implements Player {
         this.d_name = d_name;
         this.d_ownedCountries = d_ownedCountries;
         this.d_Orders = d_Orders;
-        this.d_gameContext = GameContextImpl.getInstance();
+        // this.d_gameContext = GameContextImpl.getInstance();
     }
 
     @Override
@@ -48,8 +48,8 @@ public class PlayerImpl implements Player {
             int num = Integer.parseInt(l_args[2]);
         }
 
-        Order deployOrder = new DeployOrder();
-        d_Orders.add(deployOrder);
+        //Order deployOrder = new DeployOrder();
+        //d_Orders.add(deployOrder);
     }
 
     @Override

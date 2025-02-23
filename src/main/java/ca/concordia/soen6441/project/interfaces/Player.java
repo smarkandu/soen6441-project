@@ -7,5 +7,6 @@ public interface Player {
     List<Order> getOrders();
     void issue_order();
     Order next_order();
-    int reinforcement();
+    String getName();
+    int getTotalNumberOfReinforcementsPerTurn();
 }
