@@ -5,22 +5,49 @@
 
 <module name="Checker">
     <module name="TreeWalker">
-        <!-- Enforce Class names in PascalCase -->
-<!--        <module name="ClassName">-->
-<!--            <property name="severity" value="warning" />-->
-<!--        </module>-->
+
+
+        <!-- Class names: CamelCase, start with a capital letter -->
+        <module name="ClassName">
+            <property name="format" value="^[A-Z][a-zA-Z0-9]*$"/>
+            <property name="severity" value="error" />
+        </module>
+
+        <!-- Data members: start with d_ -->
         <module name="MemberName">
             <property name="format" value="^d_[a-zA-Z0-9]*$"/>
             <property name="severity" value="error" />
         </module>
 
+        <!-- Method parameters: start with p_ -->
         <module name="ParameterName">
             <property name="format" value="^p_[a-zA-Z0-9]*$"/>
             <property name="severity" value="error" />
         </module>
 
+        <!-- Local variables: start with l_ -->
         <module name="LocalVariableName">
             <property name="format" value="^l_[a-zA-Z0-9]*$"/>
+            <property name="severity" value="error" />
+        </module>
+
+        <!-- Global variables: all capital letters -->
+        <module name="ConstantName">
+            <property name="format" value="^[A-Z][A-Z0-9_]*$"/>
+            <property name="severity" value="error" />
+        </module>
+
+        <!-- Static members: start with a capital letter -->
+        <module name="MemberName">
+            <property name="format" value="^[A-Z].*" />
+            <property name="applyToStatic" value="true"/>
+            <property name="severity" value="error" />
+        </module>
+
+        <!-- Non-static members: start with a lowercase letter -->
+        <module name="MemberName">
+            <property name="format" value="^[a-z].*" />
+            <property name="applyToInstance" value="true"/>
             <property name="severity" value="error" />
         </module>
     </module>
