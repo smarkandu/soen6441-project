@@ -7,4 +7,5 @@ public interface Player {
     List<Order> getOrders();
     void issue_order();
     Order next_order();
+    int reinforcement();
 }
