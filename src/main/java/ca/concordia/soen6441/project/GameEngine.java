@@ -140,7 +140,7 @@ public class GameEngine implements GameContext {
     public void addCountry(String p_CountryID, String p_continentID, List<String> p_neighbors) {
         Country l_country = OverallFactory.getInstance().CreateCountry(p_CountryID, p_continentID, p_neighbors);
         d_Countries.put(p_CountryID, l_country);
-        for (String neighborID : p_neighbors) {
+        for (String l_neighborID : p_neighbors) {
         if (d_Countries.containsKey(neighborID)) {
             d_Countries.get(neighborID).addNeighborID(p_CountryID);
             d_Countries.get(p_CountryID).addNeighborID(neighborID);
@@ -173,7 +173,7 @@ public class GameEngine implements GameContext {
     @Override
     public void showMap() {
         System.out.println("==== Countries & Neighbors ====");
-    for (String countryID : d_Countries.keySet()) {
+    for (String l_countryID : d_Countries.keySet()) {
         System.out.println(countryID + " -> " + d_Countries.get(countryID).getNeighborIDs());
     }
     System.out.println("==============================");
