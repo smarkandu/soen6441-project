@@ -141,9 +141,9 @@ public class GameEngine implements GameContext {
         Country l_country = OverallFactory.getInstance().CreateCountry(p_CountryID, p_continentID, p_neighbors);
         d_Countries.put(p_CountryID, l_country);
         for (String l_neighborID : p_neighbors) {
-        if (d_Countries.containsKey(neighborID)) {
-            d_Countries.get(neighborID).addNeighborID(p_CountryID);
-            d_Countries.get(p_CountryID).addNeighborID(neighborID);
+        if (d_Countries.containsKey(l_neighborID)) {
+            d_Countries.get(l_neighborID).addNeighborID(p_CountryID);
+            d_Countries.get(p_CountryID).addNeighborID(l_neighborID);
         }
     }
     }
@@ -174,7 +174,7 @@ public class GameEngine implements GameContext {
     public void showMap() {
         System.out.println("==== Countries & Neighbors ====");
     for (String l_countryID : d_Countries.keySet()) {
-        System.out.println(countryID + " -> " + d_Countries.get(countryID).getNeighborIDs());
+        System.out.println(l_countryID + " -> " + d_Countries.get(l_countryID).getNeighborIDs());
     }
     System.out.println("==============================");
     }
