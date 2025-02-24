@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;  
 
 //  Import game-related dependencies
-import ca.concordia.soen6441.project.command.GameContextImpl;  
+import ca.concordia.soen6441.project.GameEngine;  
 import ca.concordia.soen6441.project.interfaces.GameContext;   
 import ca.concordia.soen6441.project.PlayerImpl;              
 import ca.concordia.soen6441.project.interfaces.Player;        
@@ -60,7 +60,7 @@ class DeployArmiesConstraintTest {
      */
     @BeforeEach  
     void setup() {  
-        d_gameContext = new GameContextImpl();  // Initializes an empty game state
+        d_gameContext = new GameEngine();  // Initializes an empty game state
         d_player = new PlayerImpl("Player1");   // Creates a new test player
     d_gameContext.addCountry("India", "Asia", new ArrayList<>());  // Adds the country to the map
         d_gameContext.assignCountryToPlayer(d_player, "India"); // Assigns it to Player1

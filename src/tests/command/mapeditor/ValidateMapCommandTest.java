@@ -47,15 +47,15 @@ import org.junit.jupiter.api.Test;                                       // @Tes
 import static org.junit.jupiter.api.Assertions.*;                        //Assertions are used to verify expected behavior in your test cases.
 
 
-import ca.concordia.soen6441.project.command.GameContextImpl;            //Game Context Import :For Testing the Game Logic
-import ca.concordia.soen6441.project.interfaces.GameContext;             //GameContext → Interface defining map operations. GameContext is the interface that GameContextImpl implements.
+import ca.concordia.soen6441.project.GameEngine;                        //Game Context Import :For Testing the Game Logic
+import ca.concordia.soen6441.project.interfaces.GameContext;             //GameContext → Interface defining map operations. GameContext is the interface that GameEngine implements.
 import ca.concordia.soen6441.project.interfaces.Continent;               // Continent & Country → interfaces Used to test country/continent structures. Imported because they are Core game elements that need to be tested for correctness.
 import ca.concordia.soen6441.project.interfaces.Country;
 
-                                                                         //Java Utility Imports (For Data Structures Used in GameContextImpl). We import these to set up the game’s map structure properly in tests and ensure we are testing realistic data handling.
-import java.util.List;                                                   //Needed to store and pass test data for countries & their neighbors when testing GameContextImpl.
+                                                                         //Java Utility Imports (For Data Structures Used in GameEngine). We import these to set up the game’s map structure properly in tests and ensure we are testing realistic data handling.
+import java.util.List;                                                   //Needed to store and pass test data for countries & their neighbors when testing GameEngine.
 import java.util.ArrayList;                                              //ArrayList is used because it's fast for access and simple for testing.
-import java.util.SortedMap;                                              // GameContextImpl stores continents & countries using sorted maps
+import java.util.SortedMap;                                              // GameEngine stores continents & countries using sorted maps
 import java.util.TreeMap;                                                // Ensure map elements are stored and retrieved in sorted order.
 import java.util.Set;
 import java.util.HashSet;
@@ -73,7 +73,9 @@ class ValidateMapCommandTest {                                          //The te
 void setup() {                                                          // Defines the method that will prepare our test environment.
     d_continents = new TreeMap<>();                                     // Creates a fresh, empty TreeMap for storing continents.This ensures that each test starts with a clean map.
     d_countries = new TreeMap<>();                                      // Same as above, but for countries.
-    d_gameContext = new GameContextImpl(d_continents, d_countries);     // Initializes the GameContextImpl object, which is what we will be testing.Passes our TreeMaps to simulate the actual way the game stores map data.
+    d_gameContext = new GameEngine();     // Initializes the GameEngine object, which is what we will be testing.Passes our TreeMaps to simulate the actual way the game stores map data.
+     ((GameEngine) d_gameContext).setContinents(d_continents);
+    ((GameEngine) d_gameContext).setCountries(d_countries);
 }
 
 
@@ -89,6 +91,9 @@ void testMapIsConnected() {                                             //Define
     d_gameContext.addCountry("China", "Asia", List.of("India", "Russia"));  //Adds "China" and connects it to India & Russia. This establishes cross-continent connectivity.
     d_gameContext.addCountry("Russia", "Europe", List.of("China"));         //Adds "Russia" to Europe but connects it to China, linking the continents
 
+    // DEBUG: Print countries and neighbors
+    System.out.println("DEBUG: Checking Country Connections");
+    d_gameContext.showMap();
                                                                                // Step 3: Check if the game context validates the map correctly
     boolean l_isConnected = validateMapConnectivity();                         //Calls the validation method. Checks if all countries are reachable from any starting point.
 

@@ -1,7 +1,7 @@
 package ca.concordia.soen6441.project;
 
 import ca.concordia.soen6441.project.interfaces.Country;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class CountryImpl implements Country {
@@ -12,12 +12,12 @@ public class CountryImpl implements Country {
     private List<String> d_NeighborIDs;
     private int d_armies;
 
-    public CountryImpl(String p_ID, String p_ContinentID, List<String> p_NeighborIDs) {
+    public CountryImpl(String p_ID, String p_ContinentID) {
         this.d_ID = p_ID;
         this.d_xCoord = 0;
         this.d_yCoord = 0;
-        d_ContinentID = p_ContinentID;
-        this.d_NeighborIDs = p_NeighborIDs;
+        this.d_ContinentID = p_ContinentID;  // Fixed `final` variable issue
+        this.d_NeighborIDs = new ArrayList<>();
     }
 
     @Override
@@ -32,7 +32,9 @@ public class CountryImpl implements Country {
 
     @Override
     public void addNeighborID(String p_NeighborID) {
-        d_NeighborIDs.add(p_NeighborID);
+        if (!d_NeighborIDs.contains(p_NeighborID)) {  // Fixed undefined variable
+            d_NeighborIDs.add(p_NeighborID);
+        }
     }
 
     @Override
@@ -48,12 +50,12 @@ public class CountryImpl implements Country {
         this.d_armies += p_armies;
     }
 
-    // Get army count for validation
+    // This method is not in the interface, so no @Override needed
     public int getArmies() {
         return d_armies;
     }
 
-     @Override
+    @Override
     public String getContinentID() {  
         return d_ContinentID;
     }
@@ -64,7 +66,7 @@ public class CountryImpl implements Country {
 
         return d_ID + ',' + d_xCoord +
                 "," + d_yCoord +
-                "," + d_ContinentID + (!l_NeighborIDsAsString.isEmpty()?
-                "," + l_NeighborIDsAsString:"");
+                "," + d_ContinentID + (!l_NeighborIDsAsString.isEmpty() ?
+                "," + l_NeighborIDsAsString : "");
     }
 }

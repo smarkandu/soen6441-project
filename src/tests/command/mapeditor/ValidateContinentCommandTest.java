@@ -45,14 +45,14 @@ import org.junit.jupiter.api.BeforeEach;                                        
 import org.junit.jupiter.api.Test;                                              // @Test tells JUnit which methods are test cases.
 import static org.junit.jupiter.api.Assertions.*;                               // Assertions are used to verify expected behavior in tests.
 
-import ca.concordia.soen6441.project.command.GameContextImpl;                   // Game Context Import: For Testing the Game Logic.
+import ca.concordia.soen6441.project.GameEngine;                            // Game Context Import: For Testing the Game Logic.
 import ca.concordia.soen6441.project.interfaces.GameContext;                    // GameContext interface defines the map structure.
 import ca.concordia.soen6441.project.interfaces.Continent;                      // Continent & Country are imported to test the continent structure.
 import ca.concordia.soen6441.project.interfaces.Country;
 
 import java.util.List;                                                          // Used to store test data for countries and neighbors.
 import java.util.ArrayList;                                                     // ArrayList is used because it's fast for access and simple for testing.
-import java.util.SortedMap;                                                     // GameContextImpl stores continents & countries using sorted maps.
+import java.util.SortedMap;                                                     // Gameengine stores continents & countries using sorted maps.
 import java.util.TreeMap;                                                       // TreeMap ensures map elements are stored in sorted order.
 import java.util.Set;
 import java.util.HashSet;
@@ -68,7 +68,9 @@ class ValidateContinentCommandTest {                                            
     void setup() {
         d_continents = new TreeMap<>();                                         // Creates a fresh TreeMap for storing continents.
         d_countries = new TreeMap<>();                                          // Creates a fresh TreeMap for storing countries.
-        d_gameContext = new GameContextImpl(d_continents, d_countries);         // Initializes the game context.
+        d_gameContext = new GameEngine();         // Initializes the game context.
+     ((GameEngine) d_gameContext).setContinents(d_continents);
+    ((GameEngine) d_gameContext).setCountries(d_countries);
     }
 
     @Test                                                                       // Marks this method as a JUnit test case.
@@ -81,7 +83,10 @@ class ValidateContinentCommandTest {                                            
         d_gameContext.addCountry("China", "Asia", List.of("India", "Japan"));   // China neighbors India & Japan.
         d_gameContext.addCountry("Japan", "Asia", List.of("China"));            // Japan neighbors China, completing the loop.
 
-                                                                                // Step 3: Validate if all countries inside Asia are connected.
+          // DEBUG: Print before validation
+    System.out.println("DEBUG: Checking Continent Connectivity");
+    d_gameContext.showMap();
+                                                                          // Step 3: Validate if all countries inside Asia are connected.
         boolean l_isConnected = validateContinentConnectivity("Asia");
 
                                                                                 // Step 4: Assert that the continent is fully connected.
