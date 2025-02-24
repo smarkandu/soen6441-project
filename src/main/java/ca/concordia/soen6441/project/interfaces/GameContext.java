@@ -12,4 +12,8 @@ public interface GameContext {
     void removeCountry(String p_countryID);
     void removeNeighbor(String p_neighborCountryID, String p_countryToAdd);
     void showMap();
+    void assignCountryToPlayer(Player p_player, String p_countryID);
+    int calculateReinforcements(Player p_player);
+    void deployArmies(Player p_player, String p_countryID, int p_armies);
+    void assignReinforcements(Player p_player, int p_reinforcements);
 }

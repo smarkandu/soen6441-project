@@ -1,5 +1,6 @@
 package ca.concordia.soen6441.project.command;
 
+import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.OverallFactory;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
@@ -8,6 +9,7 @@ import ca.concordia.soen6441.project.interfaces.GameContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class GameContextImpl implements GameContext {
     private final String d_author;
@@ -25,6 +27,16 @@ public class GameContextImpl implements GameContext {
         d_wrap = false;
         d_scroll = false;
     }
+
+    public GameContextImpl() {                                                    //This ensures the test code does not break when calling new GameContextImpl(); It initializes empty data structures (TreeMap) for d_Continents and d_Countries, ensuring we don’t get null pointer exceptions.
+    this.d_Continents = new TreeMap<>();
+    this.d_Countries = new TreeMap<>();
+     this.d_author = "SOEN6441";
+     this.d_image = "noimage.bmp";
+     this.d_wrap = false;
+     this.d_scroll = false;
+}
+
 
     @Override
     public List<String> getContinentIDs() {
@@ -70,8 +82,10 @@ public class GameContextImpl implements GameContext {
 
     @Override
     public void removeNeighbor(String p_CountryID, String p_neighborCountryID) {
-        d_Countries.get(p_CountryID).removeNeighborID(p_neighborCountryID);
-        d_Countries.get(p_neighborCountryID).removeNeighborID(p_CountryID);
+        if (d_Countries.containsKey(p_CountryID) && d_Countries.containsKey(p_neighborCountryID)) {
+            d_Countries.get(p_CountryID).removeNeighborID(p_neighborCountryID);
+            d_Countries.get(p_neighborCountryID).removeNeighborID(p_CountryID);
+        }
     }
 
     @Override
@@ -104,4 +118,59 @@ public class GameContextImpl implements GameContext {
 
         return l_mapStr + "\n\n" + l_continentsStr + "\n\n" + l_territoriesStr;
     }
-}
+      @Override
+    public int calculateReinforcements(Player p_player) {
+        int l_ownedCountries = p_player.getOwnedCountries().size();                     //Retrieves the total number of countries owned by the player. Calls p_player.getOwnedCountries().size() to count how many territories the player owns
+        int l_reinforcements = Math.max(3, l_ownedCountries / 3);                       //Each player receives at least 3 armies, or (number of owned countries) / 3 (rounded down)
+        return l_reinforcements;                                                        //Returns the calculated reinforcements to be assigned to the player at the start of their turn.
+    }
+
+    // @Override
+    // public void assignReinforcements(Player p_player, int p_reinforcements) {
+    //     p_player.setReinforcements(p_reinforcements);
+    // }
+     @Override
+    public void assignReinforcements(Player p_player, int p_reinforcements) {
+        p_player.addReinforcements(p_reinforcements);
+    }
+    /**
+     * Deploys armies to a specified country.
+     * **Prevention Mechanism:** Ensures that players **cannot issue an invalid order**.
+     * **Fail-Safe Handling:** Throws an error if deployment is impossible.
+     */
+    @Override
+    public void deployArmies(Player p_player, String p_countryID, int p_armies) {
+        // **Check if player has enough reinforcements before allowing deployment**
+        if (p_armies > p_player.getReinforcements()) {
+            throw new IllegalArgumentException("Insufficient reinforcements!");
+        }
+
+        // **Prevention Mechanism**: Stop invalid deployments at input level
+        if (!p_player.getOwnedCountries().contains(p_countryID)) {
+            throw new IllegalArgumentException("Player does not own country: " + p_countryID);
+        }
+
+        // **Reduce reinforcement pool** (game state updates)
+        p_player.reduceReinforcements(p_armies);
+
+        // **Deploy the armies**
+        if (d_Countries.containsKey(p_countryID)) {
+            d_Countries.get(p_countryID).addArmies(p_armies);
+        } else {
+            throw new IllegalArgumentException("Country does not exist: " + p_countryID);
+        }
+
+        System.out.println(p_armies + " armies deployed to " + p_countryID + " by " + p_player.getName());
+    }
+
+         @Override
+    public void assignCountryToPlayer(Player p_player, String p_countryID) {           //Assigns a country to a player. In the test case, countries are added to the game but not linked to any player.Players own countries only in PlayerImpl, but GameContextImpl does not track which player owns which country.The test should ideally use a method like assignCountryToPlayer() in GameContextImpl.
+        if (d_Countries.containsKey(p_countryID)) {
+            p_player.addCountry(p_countryID);
+        } else {
+            throw new IllegalArgumentException("Country ID does not exist: " + p_countryID);
+        }
+    }
+   
+    }
+

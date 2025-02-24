@@ -7,4 +7,8 @@ public interface Country {
     List<String> getNeighborIDs();
     void addNeighborID(String p_NeighborID);
     void removeNeighborID(String p_NeighborID);
+    
+    String getContinentID();  // Retrieves the continent ID of the country
+    void addArmies(int p_armies);
 }
+

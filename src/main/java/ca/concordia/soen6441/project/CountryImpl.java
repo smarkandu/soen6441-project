@@ -10,6 +10,7 @@ public class CountryImpl implements Country {
     private final int d_yCoord;
     private final String d_ContinentID;
     private List<String> d_NeighborIDs;
+    private int d_armies;
 
     public CountryImpl(String p_ID, String p_ContinentID, List<String> p_NeighborIDs) {
         this.d_ID = p_ID;
@@ -37,6 +38,24 @@ public class CountryImpl implements Country {
     @Override
     public void removeNeighborID(String p_NeighborID) {
         d_NeighborIDs.remove(p_NeighborID);
+    }
+
+    @Override
+    public void addArmies(int p_armies) {
+        if (p_armies <= 0) {
+            throw new IllegalArgumentException("Army count must be positive.");
+        }
+        this.d_armies += p_armies;
+    }
+
+    // Get army count for validation
+    public int getArmies() {
+        return d_armies;
+    }
+
+     @Override
+    public String getContinentID() {  
+        return d_ContinentID;
     }
 
     @Override
