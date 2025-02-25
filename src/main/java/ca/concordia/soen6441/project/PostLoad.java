@@ -5,11 +5,11 @@ public class PostLoad extends Edit {
         super(p_gameEngine);
     }
 
-    public void loadMap(String filename) {
+    public void loadMap(String p_filename) {
         System.out.println("map has been loaded");
     }
 
-    public void saveMap(String filename) {
+    public void saveMap(String p_filename) {
         System.out.println("map has been saved");
         d_gameEngine.setPhase(new Startup(d_gameEngine));
     }
