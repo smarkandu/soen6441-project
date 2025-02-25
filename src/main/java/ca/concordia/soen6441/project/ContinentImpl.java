@@ -6,11 +6,11 @@ import ca.concordia.soen6441.project.interfaces.Country;
 import java.util.List;
 
 public class ContinentImpl implements Continent {
-    private String d_ID;
-    private int d_Value;
+    private final String d_ID;
+    private final int d_Value;
     private static int d_Count = 0;
     private final int d_numericID;
-    private String d_color;
+    private final String d_color;
 
     /**
      * Constructor (to be used when loading a .map file)
@@ -18,7 +18,7 @@ public class ContinentImpl implements Continent {
      * @param p_ID
      * @param p_Value
      */
-    public ContinentImpl(int p_numericID, String p_ID, int p_Value, String d_color) {
+    public ContinentImpl(int p_numericID, String p_ID, int p_Value, String p_color) {
         this.d_ID = p_ID;
         this.d_Value = p_Value;
         this.d_numericID = p_numericID;
@@ -26,6 +26,7 @@ public class ContinentImpl implements Continent {
         {
             d_Count = p_numericID;
         }
+        this.d_color = p_color;
     }
 
     public ContinentImpl(String p_ID, int p_Value) {
