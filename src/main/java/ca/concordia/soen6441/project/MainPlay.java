@@ -5,7 +5,7 @@ public abstract class MainPlay extends Play {
         super(p_gameEngine);
     }
 
-    public void loadMap() {
+    public void loadMap(String filename) {
         this.printInvalidCommandMessage();
     }
     public void setPlayers() {

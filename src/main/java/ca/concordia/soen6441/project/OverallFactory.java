@@ -30,8 +30,8 @@ public class OverallFactory {
         return new ContinentImpl(p_ID, p_Value);
     }
 
-    public Country CreateCountry(int p_numericID, String p_ID, String p_ContinentID) {
-        return new CountryImpl(p_numericID, p_ID, p_ContinentID);
+    public Country CreateCountry(int p_numericID, String p_ID, String p_ContinentID, int p_xCoord, int p_yCoord) {
+        return new CountryImpl(p_numericID, p_ID, p_ContinentID, p_xCoord, p_yCoord);
     }
 
     public Country CreateCountry(String p_ID, String p_ContinentID) {

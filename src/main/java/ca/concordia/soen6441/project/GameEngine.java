@@ -5,10 +5,7 @@ import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.GameContext;
 
-import java.util.List;
-import java.util.Scanner;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 public class GameEngine implements GameContext {
     private Phase d_gamePhase;
@@ -26,8 +23,8 @@ public class GameEngine implements GameContext {
 
     public void start() {
         // Can change the state of the Context (GameEngine) object, e.g.
-//        setPhase(new PreLoad(this));
-          setPhase(new PostLoad(this));
+        setPhase(new PreLoad(this));
+//          setPhase(new PostLoad(this));
 //        setPhase(new Startup(this));
 //        setPhase(new IssueOrder(this));
 //        setPhase(new OrderExecution(this));
@@ -84,7 +81,7 @@ public class GameEngine implements GameContext {
                     d_gamePhase.showMap();
                     break;
                 case "savemap":
-                    d_gamePhase.saveMap();
+                    d_gamePhase.saveMap(l_args[1]);
                     break;
                 case "assigncountries":
                     d_gamePhase.assignCountries();
@@ -96,7 +93,7 @@ public class GameEngine implements GameContext {
                     d_gamePhase.setPlayers();
                     break;
                 case "loadmap":
-                    d_gamePhase.loadMap();
+                    d_gamePhase.loadMap(l_args[1]);
                     break;
                 case "exit":
                     d_gamePhase.endGame();
@@ -123,8 +120,8 @@ public class GameEngine implements GameContext {
     }
 
     @Override
-    public void addCountry(int p_numericID, String p_CountryID, String p_continentID) {
-        Country l_country = OverallFactory.getInstance().CreateCountry(p_numericID, p_CountryID, p_continentID);
+    public void addCountry(int p_numericID, String p_CountryID, String p_continentID, int p_xCoord, int p_yCoord) {
+        Country l_country = OverallFactory.getInstance().CreateCountry(p_numericID, p_CountryID, p_continentID, p_xCoord, p_yCoord);
         d_Countries.put(p_CountryID, l_country);
         System.out.println("Country added: " + d_Countries.get(l_country.getID()));
     }
@@ -143,8 +140,31 @@ public class GameEngine implements GameContext {
     }
 
     @Override
-    public Country getCountry(int p_numericIDOfCountry) {
-        return null;
+    public Continent getContinentByNumericID(int p_numericIDOfContinent) {
+
+        for (String key: d_Continents.keySet())
+        {
+            if (d_Continents.get(key).getNumericID() == p_numericIDOfContinent)
+            {
+                return d_Continents.get(key); // found
+            }
+        }
+
+        return null; // not found
+    }
+
+    @Override
+    public Country getCountryByNumericID(int p_numericIDOfCountry) {
+
+        for (String key: d_Countries.keySet())
+        {
+            if (d_Countries.get(key).getNumericID() == p_numericIDOfCountry)
+            {
+                return d_Countries.get(key); // found
+            }
+        }
+
+        return null; // not found
     }
 
     public void removeContinent(String p_continentID) {

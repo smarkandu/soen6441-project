@@ -43,7 +43,7 @@ public abstract class Play extends Phase {
         printInvalidCommandMessage();
     }
 
-    public void saveMap() {
+    public void saveMap(String filename) {
         printInvalidCommandMessage();
     }
     public void endGame() {
