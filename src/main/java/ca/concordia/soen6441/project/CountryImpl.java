@@ -13,7 +13,7 @@ public class CountryImpl implements Country {
     private final int d_yCoord;
     private final String d_ContinentID;
     private TreeMap<String, Country> d_Neighbors;
-    private static int d_Count = 0;
+    private static int d_Counter = 0;
     private final int d_numericID;
 
     /**
@@ -29,9 +29,9 @@ public class CountryImpl implements Country {
         d_ContinentID = p_ContinentID;
         d_Neighbors = new TreeMap<String, Country>();
         this.d_numericID = p_numericID;
-        if (p_numericID > d_Count)
+        if (p_numericID > d_Counter)
         {
-            d_Count = p_numericID;
+            d_Counter = p_numericID;
         }
     }
 
@@ -41,7 +41,7 @@ public class CountryImpl implements Country {
         this.d_yCoord = 0; // Hardcoded
         d_ContinentID = p_ContinentID;
         d_Neighbors = new TreeMap<String, Country>();
-        this.d_numericID = ++d_Count;
+        this.d_numericID = ++d_Counter;
     }
 
     @Override
@@ -79,5 +79,10 @@ public class CountryImpl implements Country {
                 "," + d_yCoord +
                 "," + d_ContinentID + (!l_NeighborIDsAsString.isEmpty()?
                 "," + l_NeighborIDsAsString:"");
+    }
+
+    public static void resetCounter()
+    {
+        d_Counter = 0;
     }
 }
