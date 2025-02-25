@@ -3,13 +3,15 @@ package ca.concordia.soen6441.project.interfaces;
 import java.util.List;
 
 public interface GameContext {
-    List<String> getContinentIDs();
-    List<String> getCountryIDs();
+    void addContinent(int p_numericID, String p_continentID, int p_continentValue, String p_colour);
     void addContinent(String p_continentID, int p_continentValue);
-    void addCountry(String p_CountryID, String p_continentID, List<String> p_neighbors);
+    void addCountry(int p_numericID, String p_CountryID, String p_continentID, int p_xCoord, int p_yCoord);
+    void addCountry(String p_CountryID, String p_continentID);
     void addNeighbor(String p_CountryID, String p_neighborCountryID);
     void removeContinent(String p_continentID);
     void removeCountry(String p_countryID);
     void removeNeighbor(String p_neighborCountryID, String p_countryToAdd);
+    Continent getContinentByNumericID(int p_numericIDOfContinent);
+    Country getCountryByNumericID(int p_numericIDOfCountry);
     void showMap();
 }

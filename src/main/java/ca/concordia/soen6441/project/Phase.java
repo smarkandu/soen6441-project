@@ -8,7 +8,7 @@ public abstract class Phase {
     }
 
     // general behavior
-    abstract public void loadMap();
+    abstract public void loadMap(String p_filename);
     abstract public void showMap();
     abstract public void validateMap();
 
@@ -19,7 +19,7 @@ public abstract class Phase {
     abstract public void editCountryRemove(String p_countryID);
     abstract public void editNeighborAdd(String p_countryID, String p_neighborCountryID);
     abstract public void editNeighborRemove(String p_countryID, String p_neighborCountryID);
-    abstract public void saveMap();
+    abstract public void saveMap(String p_filename);
 
     // play state behavior
     // game setup state behavior

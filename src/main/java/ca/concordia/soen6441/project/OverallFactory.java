@@ -22,8 +22,16 @@ public class OverallFactory {
         return instance;
     }
 
+    public Continent CreateContinent(int p_numericID, String p_ID, int p_Value, String p_colour) {
+        return new ContinentImpl(p_numericID, p_ID, p_Value, p_colour);
+    }
+
     public Continent CreateContinent(String p_ID, int p_Value) {
         return new ContinentImpl(p_ID, p_Value);
+    }
+
+    public Country CreateCountry(int p_numericID, String p_ID, String p_ContinentID, int p_xCoord, int p_yCoord) {
+        return new CountryImpl(p_numericID, p_ID, p_ContinentID, p_xCoord, p_yCoord);
     }
 
     public Country CreateCountry(String p_ID, String p_ContinentID) {

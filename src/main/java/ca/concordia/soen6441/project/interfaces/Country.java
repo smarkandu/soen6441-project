@@ -5,6 +5,7 @@ import java.util.List;
 public interface Country {
     String getID();
     List<String> getNeighborIDs();
-    void addNeighborID(String p_NeighborID);
-    void removeNeighborID(String p_NeighborID);
+    void addNeighbor(Country p_Neighbor);
+    void removeNeighbor(String p_NeighborID);
+    int getNumericID();
 }
