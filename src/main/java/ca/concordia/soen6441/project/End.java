@@ -6,7 +6,7 @@ public class End extends Phase {
     }
 
     @Override
-    public void loadMap() {
+    public void loadMap(String p_filename) {
         printInvalidCommandMessage();
     }
 
@@ -51,7 +51,7 @@ public class End extends Phase {
     }
 
     @Override
-    public void saveMap() {
+    public void saveMap(String p_filename) {
         printInvalidCommandMessage();
     }
 

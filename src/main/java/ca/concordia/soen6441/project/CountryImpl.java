@@ -4,20 +4,44 @@ import ca.concordia.soen6441.project.interfaces.Country;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 public class CountryImpl implements Country {
     private final String d_ID;
     private final int d_xCoord;
     private final int d_yCoord;
     private final String d_ContinentID;
-    private List<String> d_NeighborIDs;
+    private TreeMap<String, Country> d_Neighbors;
+    private static int d_Counter = 0;
+    private final int d_numericID;
+
+    /**
+     * Constructor (to be used when loading a .map file)
+     * @param p_numericID
+     * @param p_ID
+     * @param p_ContinentID
+     */
+    public CountryImpl(int p_numericID, String p_ID, String p_ContinentID, int p_xCoord, int p_yCoord) {
+        this.d_ID = p_ID;
+        this.d_xCoord = p_xCoord;
+        this.d_yCoord = p_yCoord;
+        d_ContinentID = p_ContinentID;
+        d_Neighbors = new TreeMap<String, Country>();
+        this.d_numericID = p_numericID;
+        if (p_numericID > d_Counter)
+        {
+            d_Counter = p_numericID;
+        }
+    }
 
     public CountryImpl(String p_ID, String p_ContinentID) {
         this.d_ID = p_ID;
-        this.d_xCoord = 0;
-        this.d_yCoord = 0;
+        this.d_xCoord = 0; // Hardcoded
+        this.d_yCoord = 0; // Hardcoded
         d_ContinentID = p_ContinentID;
-        d_NeighborIDs = new ArrayList<String>();
+        d_Neighbors = new TreeMap<String, Country>();
+        this.d_numericID = ++d_Counter;
     }
 
     @Override
@@ -27,26 +51,38 @@ public class CountryImpl implements Country {
 
     @Override
     public List<String> getNeighborIDs() {
-        return d_NeighborIDs;
+        return d_Neighbors.values().stream().map(Country::getID)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public void addNeighborID(String p_NeighborID) {
-        d_NeighborIDs.add(p_NeighborID);
+    public void addNeighbor(Country p_Neighbor) {
+        d_Neighbors.put(p_Neighbor.getID(), p_Neighbor);
     }
 
     @Override
-    public void removeNeighborID(String p_NeighborID) {
-        d_NeighborIDs.remove(p_NeighborID);
+    public void removeNeighbor(String p_NeighborID) {
+        d_Neighbors.remove(p_NeighborID);
+    }
+
+    @Override
+    public int getNumericID() {
+        return d_numericID;
     }
 
     @Override
     public String toString() {
-        String l_NeighborIDsAsString = String.join(",", d_NeighborIDs);
+        String l_NeighborIDsAsString = d_Neighbors.values().stream().map(Country::getID)
+                .collect(Collectors.joining(" "));
 
         return d_ID + ',' + d_xCoord +
                 "," + d_yCoord +
                 "," + d_ContinentID + (!l_NeighborIDsAsString.isEmpty()?
                 "," + l_NeighborIDsAsString:"");
+    }
+
+    public static void resetCounter()
+    {
+        d_Counter = 0;
     }
 }
