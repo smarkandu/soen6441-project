@@ -14,8 +14,6 @@
 name: Java CI with Maven and Checkstyle
 
 on:
-  push:
-    branches: [ "*" ]
   pull_request:
     branches: [ "master" ]
 
