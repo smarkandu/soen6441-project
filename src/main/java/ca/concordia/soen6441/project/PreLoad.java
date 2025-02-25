@@ -7,9 +7,11 @@ public class PreLoad extends Edit {
 
     public void loadMap(String filename) {
         System.out.println("map has been loaded");
-        MapFileReader mapFileReader = new MapFileReader();
-        mapFileReader.readMapFile(filename, d_gameEngine);
-        d_gameEngine.setPhase(new PostLoad(d_gameEngine));
+
+        // TODO: Shubo Uncomment below (feature #3)
+//        MapFileReader mapFileReader = new MapFileReader();
+//        mapFileReader.readMapFile(filename, d_gameEngine);
+//        d_gameEngine.setPhase(new PostLoad(d_gameEngine));
     }
 
     public void saveMap(String filename) {
