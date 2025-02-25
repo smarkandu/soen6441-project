@@ -5,16 +5,16 @@ public class PreLoad extends Edit {
         super(p_gameEngine);
     }
 
-    public void loadMap(String filename) {
+    public void loadMap(String p_filename) {
         System.out.println("map has been loaded");
 
         // TODO: Shubo Uncomment below (feature #3)
 //        MapFileReader mapFileReader = new MapFileReader();
-//        mapFileReader.readMapFile(filename, d_gameEngine);
+//        mapFileReader.readMapFile(p_filename, d_gameEngine);
 //        d_gameEngine.setPhase(new PostLoad(d_gameEngine));
     }
 
-    public void saveMap(String filename) {
+    public void saveMap(String p_filename) {
         printInvalidCommandMessage();
     }
     public void next() {
