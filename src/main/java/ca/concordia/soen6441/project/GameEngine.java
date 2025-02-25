@@ -100,6 +100,10 @@ public class GameEngine {
                     // TODO
                     break;
                 case "gameplayer":
+                    // TODO (Marc) You'll need to look for the add/remove flag
+                    // (similar to commands above)
+                    // Also we'll need to change setPlayers to something else
+                    // (See notes in "Phase")
                     d_gamePhase.setPlayers();
                     break;
                 case "loadmap":
