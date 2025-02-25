@@ -3,11 +3,9 @@ package ca.concordia.soen6441.project;
 import ca.concordia.soen6441.project.interfaces.Command;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
+import ca.concordia.soen6441.project.interfaces.Player;
 
-import java.util.List;
-import java.util.Scanner;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 public class GameEngine {
     private Phase d_gamePhase;
@@ -17,6 +15,7 @@ public class GameEngine {
     private final String d_image;
     private final Boolean d_wrap;
     private final Boolean d_scroll;
+    private List<Player> d_players;
 
     public GameEngine() {
         d_Continents = new TreeMap<String, Continent>();
@@ -25,6 +24,7 @@ public class GameEngine {
         d_image = "noimage.bmp";
         d_wrap = false;
         d_scroll = false;
+        d_players = new ArrayList<Player>();
     }
 
     public void setPhase(Phase p_phase) {
@@ -128,6 +128,7 @@ public class GameEngine {
         System.out.println("Country added: " + d_Countries.get(l_country.getID()));
     }
 
+
     public void addNeighbor(String p_CountryID, String p_neighborCountryID) {
         d_Countries.get(p_CountryID).addNeighborID(d_Countries.get(p_neighborCountryID).getID());
         d_Countries.get(p_neighborCountryID).addNeighborID(d_Countries.get(p_CountryID).getID());
@@ -146,6 +147,14 @@ public class GameEngine {
     public void removeNeighbor(String p_CountryID, String p_neighborCountryID) {
         d_Countries.get(p_CountryID).removeNeighborID(p_neighborCountryID);
         d_Countries.get(p_neighborCountryID).removeNeighborID(p_CountryID);
+    }
+
+    public void addPlayer(Player p_player) {
+        d_players.add(p_player);
+    }
+
+    public void removePlayer(Player p_player) {
+        d_players.remove(p_player);
     }
 
     public void showMap() {
