@@ -3,28 +3,21 @@ package ca.concordia.soen6441.project;
 import ca.concordia.soen6441.project.interfaces.Command;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
+import ca.concordia.soen6441.project.interfaces.GameContext;
 
 import java.util.List;
 import java.util.Scanner;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class GameEngine {
+public class GameEngine implements GameContext {
     private Phase d_gamePhase;
     private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;
-    private final String d_author;
-    private final String d_image;
-    private final Boolean d_wrap;
-    private final Boolean d_scroll;
 
     public GameEngine() {
         d_Continents = new TreeMap<String, Continent>();
         d_Countries = new TreeMap<String, Country>();
-        d_author = "SOEN6441";
-        d_image = "noimage.bmp";
-        d_wrap = false;
-        d_scroll = false;
     }
 
     public void setPhase(Phase p_phase) {
@@ -116,10 +109,24 @@ public class GameEngine {
         }
     }
 
+    @Override
+    public void addContinent(int p_numericID, String p_continentID, int p_continentValue, String p_colour) {
+        Continent l_continent = OverallFactory.getInstance().CreateContinent(p_numericID, p_continentID, p_continentValue, p_colour);
+        d_Continents.put(l_continent.getID(), l_continent);
+        System.out.println("Continent added: " + d_Continents.get(l_continent.getID()));
+    }
+
     public void addContinent(String p_continentID, int p_continentValue) {
         Continent l_continent = OverallFactory.getInstance().CreateContinent(p_continentID, p_continentValue);
         d_Continents.put(l_continent.getID(), l_continent);
         System.out.println("Continent added: " + d_Continents.get(l_continent.getID()));
+    }
+
+    @Override
+    public void addCountry(int p_numericID, String p_CountryID, String p_continentID) {
+        Country l_country = OverallFactory.getInstance().CreateCountry(p_numericID, p_CountryID, p_continentID);
+        d_Countries.put(p_CountryID, l_country);
+        System.out.println("Country added: " + d_Countries.get(l_country.getID()));
     }
 
     public void addCountry(String p_CountryID, String p_continentID) {
@@ -129,10 +136,15 @@ public class GameEngine {
     }
 
     public void addNeighbor(String p_CountryID, String p_neighborCountryID) {
-        d_Countries.get(p_CountryID).addNeighborID(d_Countries.get(p_neighborCountryID).getID());
-        d_Countries.get(p_neighborCountryID).addNeighborID(d_Countries.get(p_CountryID).getID());
+        d_Countries.get(p_CountryID).addNeighbor(d_Countries.get(p_neighborCountryID));
+        d_Countries.get(p_neighborCountryID).addNeighbor(d_Countries.get(p_CountryID));
         System.out.println("Neighbor added: " + d_Countries.get(p_CountryID));
         System.out.println("Neighbor added: " + d_Countries.get(p_neighborCountryID));
+    }
+
+    @Override
+    public Country getCountry(int p_numericIDOfCountry) {
+        return null;
     }
 
     public void removeContinent(String p_continentID) {
@@ -144,8 +156,8 @@ public class GameEngine {
     }
 
     public void removeNeighbor(String p_CountryID, String p_neighborCountryID) {
-        d_Countries.get(p_CountryID).removeNeighborID(p_neighborCountryID);
-        d_Countries.get(p_neighborCountryID).removeNeighborID(p_CountryID);
+        d_Countries.get(p_CountryID).removeNeighbor(p_neighborCountryID);
+        d_Countries.get(p_neighborCountryID).removeNeighbor(p_CountryID);
     }
 
     public void showMap() {
@@ -154,12 +166,6 @@ public class GameEngine {
 
     @Override
     public String toString() {
-        String l_mapStr = "[Map]\n"
-                + "author=" + d_author + "\n"
-                + "image=" + d_image + "\n"
-                + "wrap=" + d_wrap + "\n"
-                + "scroll=" + d_scroll;
-
         // Format continents to string
         StringBuilder l_sbContinents = new StringBuilder();
         for (Continent l_continent : d_Continents.values()) {
@@ -175,6 +181,6 @@ public class GameEngine {
         String l_continentsStr = "[Continents]\n" + l_sbContinents;
         String l_territoriesStr = "[Territories]\n" + l_sbCountries;
 
-        return l_mapStr + "\n\n" + l_continentsStr + "\n\n" + l_territoriesStr;
+        return "\n\n" + l_continentsStr + "\n\n" + l_territoriesStr;
     }
 }
