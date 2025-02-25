@@ -142,11 +142,11 @@ public class GameEngine implements GameContext {
     @Override
     public Continent getContinentByNumericID(int p_numericIDOfContinent) {
 
-        for (String key: d_Continents.keySet())
+        for (String l_key: d_Continents.keySet())
         {
-            if (d_Continents.get(key).getNumericID() == p_numericIDOfContinent)
+            if (d_Continents.get(l_key).getNumericID() == p_numericIDOfContinent)
             {
-                return d_Continents.get(key); // found
+                return d_Continents.get(l_key); // found
             }
         }
 
@@ -156,11 +156,11 @@ public class GameEngine implements GameContext {
     @Override
     public Country getCountryByNumericID(int p_numericIDOfCountry) {
 
-        for (String key: d_Countries.keySet())
+        for (String l_key: d_Countries.keySet())
         {
-            if (d_Countries.get(key).getNumericID() == p_numericIDOfCountry)
+            if (d_Countries.get(l_key).getNumericID() == p_numericIDOfCountry)
             {
-                return d_Countries.get(key); // found
+                return d_Countries.get(l_key); // found
             }
         }
 
