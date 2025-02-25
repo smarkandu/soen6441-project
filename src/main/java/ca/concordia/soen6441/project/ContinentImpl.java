@@ -47,6 +47,11 @@ public class ContinentImpl implements Continent {
     }
 
     @Override
+    public int getNumericID() {
+        return d_numericID;
+    }
+
+    @Override
     public String toString() {
         return d_ID + "=" + d_Value;
     }

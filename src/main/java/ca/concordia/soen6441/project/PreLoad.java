@@ -5,12 +5,14 @@ public class PreLoad extends Edit {
         super(p_gameEngine);
     }
 
-    public void loadMap() {
+    public void loadMap(String filename) {
         System.out.println("map has been loaded");
+        MapFileReader mapFileReader = new MapFileReader();
+        mapFileReader.readMapFile(filename, d_gameEngine);
         d_gameEngine.setPhase(new PostLoad(d_gameEngine));
     }
 
-    public void saveMap() {
+    public void saveMap(String filename) {
         printInvalidCommandMessage();
     }
     public void next() {
