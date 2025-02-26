@@ -26,18 +26,13 @@ public class CountryImpl implements Country {
      */
     GameEngine gameEngine = new GameEngine();
     public CountryImpl(int p_numericID, String p_ID, String p_ContinentID, int p_xCoord, int p_yCoord) {
-        this.d_numericID = p_numericID;
         this.d_ID = p_ID;
         this.d_xCoord = p_xCoord;
         this.d_yCoord = p_yCoord;
         d_ContinentID = p_ContinentID;
         d_Neighbors = new TreeMap<String, Country>();
-<<<<<<< Updated upstream
         this.d_numericID = p_numericID;
         if (p_numericID > d_Counter)
-=======
-        if (p_numericID > d_Count)
->>>>>>> Stashed changes
         {
             d_Counter = p_numericID;
         }
