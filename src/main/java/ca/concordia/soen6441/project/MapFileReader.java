@@ -1,7 +1,13 @@
+package ca.concordia.soen6441.project;
+
 /**
  * The readMapFile method is called to read the .map file
  * The input parameter includes the file path to the .map file
  * */
+
+import ca.concordia.soen6441.project.interfaces.Continent;
+import ca.concordia.soen6441.project.interfaces.Country;
+import ca.concordia.soen6441.project.interfaces.GameContext;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -11,12 +17,12 @@ import java.util.*;
 
 public class MapFileReader {
     //Checks the existence of file before reading it
-    public void readMapFile(String filePath){
+    public void readMapFile(String filePath, GameContext riskMap){
         //Validate first
         try {
             Path path = Paths.get(filePath);
             if (Files.exists(path) && Files.isRegularFile(path)) {
-                readFile(filePath);
+                readFile(filePath, riskMap);
             } else {
                 System.out.println("The file does not exist or is not a file.");
             }
@@ -24,9 +30,9 @@ public class MapFileReader {
             System.out.println("An error occurred: " + e.getMessage());
         }
     }
-    private void readFile(String filePath) {
+    private void readFile(String filePath, GameContext riskMap) {
         //RiskMap object to manipulate add/remove/modify the continent/countries
-        RiskMap riskMap = new RiskMap();
+        // RiskMap riskMap = new RiskMap();
         boolean mapIsValid = true;
 
         //String mapPicName = null; //Name of map picture as per .map file
@@ -64,7 +70,7 @@ public class MapFileReader {
                             }else{
                                 String fileType = parts[0];
                                 String fileName = parts[1];
-                                riskMap.addFile(fileType, fileName);
+                                // riskMap.addFile(fileType, fileName);
                             }
                         }
                         break;
@@ -80,7 +86,7 @@ public class MapFileReader {
                                 int bonus = Integer.parseInt(parts[1]);
                                 String color = parts[2];
                                 // Add a continent
-                                riskMap.addContinent(new Continent(continentID, name, bonus, color));
+                                riskMap.addContinent(continentID, name, bonus, color);
                                 continentID++;
                             }
                         }
@@ -95,11 +101,12 @@ public class MapFileReader {
 
                             int id = Integer.parseInt(parts[0]);
                             String name = parts[1];
-                            int continentId = Integer.parseInt(parts[2]);
+                            int continentNumericID = Integer.parseInt(parts[2]);
                             int x = Integer.parseInt(parts[3]);
                             int y = Integer.parseInt(parts[4]);
 
-                            riskMap.addCountry(new Country(id, name, continentId, x, y));
+                            Continent continent = riskMap.getContinentByNumericID(continentNumericID);
+                            riskMap.addCountry(id, name, continent.getID(), x, y);
                             }
                         }
                         break;
@@ -111,14 +118,13 @@ public class MapFileReader {
                                 mapIsValid = false; //VALIDATION
                             }else{
                                 int countryId = Integer.parseInt(parts[0]);
-                                Country country = riskMap.getCountries().get(countryId);
+                                Country country = riskMap.getCountryByNumericID(countryId);
 
                                 for (int i = 1; i < parts.length; i++) {
                                     int neighborId = Integer.parseInt(parts[i]);
-                                    Country neighbor = riskMap.getCountries().get(neighborId);
+                                    Country neighbor = riskMap.getCountryByNumericID(neighborId);
                                     if (country != null && neighbor != null) {
                                         country.addNeighbor(neighbor);
-
                                     }
                                 }
                             }
@@ -130,11 +136,11 @@ public class MapFileReader {
             e.printStackTrace();
         }
         if(mapIsValid){
-            riskMap.addMapFilePath(filePath);
+            // riskMap.addMapFilePath(filePath, riskMap);
             System.out.println("\nSUCCESS! Map loaded...");
         }else{
             System.out.println("\nSORRY! There was a problem loading the map...");
-            riskMap.clearMapData();
+            // riskMap.clearMapData();
         }
     }
 }
