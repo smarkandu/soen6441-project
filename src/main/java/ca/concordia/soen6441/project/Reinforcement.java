@@ -9,49 +9,49 @@ import java.util.Map;
 
 public class Reinforcement {
 
-    private final GameEngine gameEngine;
+    private final GameEngine d_gameEngine;
 
-    public Reinforcement(GameEngine gameEngine) {
-        this.gameEngine = gameEngine;
+    public Reinforcement(GameEngine p_gameEngine) {
+        this.d_gameEngine = p_gameEngine;
     }
 
 
     public void assignReinforcements() {
-        Map<String, Player> players = gameEngine.getPlayers();
-        Map<String, Continent> continents = gameEngine.getContinents();
+        Map<String, Player> l_players = d_gameEngine.getPlayers();
+        Map<String, Continent> l_continents = d_gameEngine.getContinents();
 
-        for (Player player : players.values()) {
-            int territoriesOwned = player.getOwnedCountries().size();
-            int continentBonus = calculateContinentBonus(player, continents);
+        for (Player l_player : l_players.values()) {
+            int l_territoriesOwned = l_player.getOwnedCountries().size();
+            int l_continentBonus = calculateContinentBonus(l_player, l_continents);
 
-            int reinforcements = Math.max(3, (int) Math.floor(territoriesOwned / 3.0) + continentBonus);
-            player.setReinforcements(reinforcements);
+            int l_reinforcements = Math.max(3, (int) Math.floor(l_territoriesOwned / 3.0) + l_continentBonus);
+            l_player.setReinforcements(l_reinforcements);
 
-            System.out.println(player.getName() + " receives " + reinforcements + " reinforcements.");
+            System.out.println(l_player.getName() + " receives " + l_reinforcements + " reinforcements.");
         }
     }
 
 
-    private int calculateContinentBonus(Player player, Map<String, Continent> continents) {
-        int bonus = 0;
+    private int calculateContinentBonus(Player p_player, Map<String, Continent> p_continents) {
+        int l_bonus = 0;
 
-        for (Continent continent : continents.values()) {
-            boolean ownsAll = true;
+        for (Continent l_continent : p_continents.values()) {
+            boolean l_ownsAll = true;
 
 
-            for (Country country : gameEngine.getCountries().values()) {
-                if (gameEngine.getContinentByNumericID(country.getNumericID()) == continent) {
-                    if (!player.getOwnedCountries().contains(country.getID())) {
-                        ownsAll = false;
+            for (Country l_country : d_gameEngine.getCountries().values()) {
+                if (d_gameEngine.getContinentByNumericID(l_country.getNumericID()) == l_continent) {
+                    if (!p_player.getOwnedCountries().contains(l_country.getID())) {
+                        l_ownsAll = false;
                         break;
                     }
                 }
             }
 
-            if (ownsAll) {
-                bonus += 5;
+            if (l_ownsAll) {
+                l_bonus += 5;
             }
         }
-        return bonus;
+        return l_bonus;
     }
 }

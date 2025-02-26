@@ -9,5 +9,5 @@ public interface Country {
     void removeNeighbor(String p_NeighborID);
     int getNumericID();
 
-    void setTroops(int troops);
+    void setTroops(int p_troops);
 }
