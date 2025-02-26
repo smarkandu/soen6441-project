@@ -13,7 +13,7 @@ public class PlayerImpl implements Player {
     private ArrayList<Order> d_Orders;
     private GameContext d_gameContext;
 
-    public PlayerImpl(String d_name, ArrayList<String> d_ownedCountries, ArrayList<Order> d_Orders) {
+    public PlayerImpl(String p_name, ArrayList<String> p_ownedCountries, ArrayList<Order> p_Orders) {
         this.d_name = d_name;
         this.d_ownedCountries = d_ownedCountries;
         this.d_Orders = d_Orders;
@@ -45,7 +45,7 @@ public class PlayerImpl implements Player {
 
         if (l_action.equalsIgnoreCase("deploy") && l_args.length == 3) {
             String l_countryID = l_args[1];
-            int num = Integer.parseInt(l_args[2]);
+            int l_num = Integer.parseInt(l_args[2]);
         }
 
         //Order deployOrder = new DeployOrder();
@@ -59,11 +59,11 @@ public class PlayerImpl implements Player {
 
     @Override
     public int getTotalNumberOfReinforcementsPerTurn() {
-        int returnValue = 5;
+        int l_returnValue = 5;
 
         // TODO: Get Bonuses if any continents are fully owned
 
-        return returnValue;
+        return l_returnValue;
     }
 }
 
