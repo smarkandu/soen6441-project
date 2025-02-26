@@ -87,9 +87,23 @@ public class CountryImpl implements Country, MapComponent {
     }
 
     @Override
-    public String toMapString() {
-        // TODO #2
-        // Use europass.txt to determine what string needs to be printed for a country
-        return "";
+    public String toMapString() {   
+    // Formats country details in the Domination format:
+    // CountryNumericID x y ContinentNumericID Neighbor1NumericID Neighbor2NumericID ...
+    // Get the numeric ID of the continent this country belongs to
+       int l_continentNumericID = GameEngine.getInstance()
+                                     .getContinentByNumericID(Integer.parseInt(d_ContinentID))
+                                     .getNumericID();
+
+
+
+        // Get the list of neighbors as numeric IDs
+        String l_neighbors = d_Neighbors.values().stream()
+                          .map(c -> String.valueOf(c.getNumericID()))
+                          .collect(Collectors.joining(" "));
+
+        // Format the country as: NumericID x y ContinentNumericID Neighbor1 Neighbor2 ...
+        return d_numericID + " " + d_xCoord + " " + d_yCoord + " " + l_continentNumericID +
+           (l_neighbors.isEmpty() ? "" : " " + l_neighbors);
     }
 }

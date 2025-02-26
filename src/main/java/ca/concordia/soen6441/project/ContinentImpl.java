@@ -63,9 +63,7 @@ public class ContinentImpl implements Continent, MapComponent {
 
     @Override
     public String toMapString() {
-        // TODO #2
-        // Use europass.txt to determine what string needs to be printed for a continent
-
-        return "";
+    //Converts the continent's details into the required domination format.
+    return d_ID + "=" + d_Value;
     }
 }
