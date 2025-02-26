@@ -181,6 +181,14 @@ public class GameEngine implements GameContext {
         return null; // not found
     }
 
+    public SortedMap<String, Player> getPlayers() {
+        return d_players;
+    }
+
+    public SortedMap<String, Country> getCountries() {
+        return d_Countries;
+    }
+
     public void removeContinent(String p_continentID) {
         d_Continents.remove(p_continentID);
     }

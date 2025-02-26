@@ -9,4 +9,5 @@ public interface Player {
     Order next_order();
     String getName();
     int getTotalNumberOfReinforcementsPerTurn();
+    void assignCountry(String p_country);
 }

@@ -1,8 +1,12 @@
 package ca.concordia.soen6441.project;
 
+import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.SortedMap;
 
 public class Startup extends Play {
     public Startup(GameEngine p_gameEngine) {
@@ -16,7 +20,24 @@ public class Startup extends Play {
 
     public void assignCountries()
     {
-        // TODO
+        SortedMap<String, Country> l_countries = d_gameEngine.getCountries();
+        SortedMap<String, Player> l_players = d_gameEngine.getPlayers();
+
+        if(l_countries.size() < l_players.size()) {
+            return;
+        }
+
+        List<Country> l_listOfCountries = new ArrayList<Country>();
+        l_listOfCountries.addAll(l_countries.values());
+
+
+        Random l_random = new Random();
+        for(Player p_player: l_players.values()) {
+            int l_numberOfCountries = l_listOfCountries.size()-1;
+            int l_index = l_random.nextInt(l_numberOfCountries);
+            l_players.get(p_player.getName()).assignCountry(l_listOfCountries.get(l_index).getID());
+            l_listOfCountries.remove(l_index);
+        }
     }
 
     public void gamePlayerAdd(String p_playerName)

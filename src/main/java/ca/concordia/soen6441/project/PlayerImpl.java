@@ -65,5 +65,12 @@ public class PlayerImpl implements Player {
 
         return l_returnValue;
     }
+
+    @Override
+    public void assignCountry(String p_country) {
+        if(!d_ownedCountries.contains(p_country)) {
+            d_ownedCountries.add(p_country);
+        }
+    }
 }
 
