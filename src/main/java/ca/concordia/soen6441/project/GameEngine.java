@@ -3,6 +3,7 @@ package ca.concordia.soen6441.project;
 import ca.concordia.soen6441.project.interfaces.Command;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
+import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.GameContext;
 
 import java.util.*;
@@ -11,10 +12,12 @@ public class GameEngine implements GameContext {
     private Phase d_gamePhase;
     private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;
+    private SortedMap<String, Player> d_players;
 
     public GameEngine() {
         d_Continents = new TreeMap<String, Continent>();
         d_Countries = new TreeMap<String, Country>();
+        d_players = new TreeMap<String, Player>();
     }
 
     public void setPhase(Phase p_phase) {
@@ -90,7 +93,17 @@ public class GameEngine implements GameContext {
                     // TODO
                     break;
                 case "gameplayer":
-                    d_gamePhase.setPlayers();
+                    // TODO (Marc) You'll need to look for the add/remove flag
+                    // (similar to commands above)
+                    // Also we'll need to change setPlayers to something else
+                    // (See notes in "Phase")
+                    String l_playername = l_args[2].toLowerCase();
+                    if ("-add".equals(l_operation) && l_args.length == 3) {
+                        d_gamePhase.gamePlayerAdd(l_playername);
+                    }
+                    if("-remove".equals(l_operation) && l_args.length == 3) {
+                        d_gamePhase.gamePlayerRemove(l_playername);
+                    }
                     break;
                 case "loadmap":
                     d_gamePhase.loadMap(l_args[1]);
@@ -131,6 +144,7 @@ public class GameEngine implements GameContext {
         d_Countries.put(p_CountryID, l_country);
         System.out.println("Country added: " + d_Countries.get(l_country.getID()));
     }
+
 
     public void addNeighbor(String p_CountryID, String p_neighborCountryID) {
         d_Countries.get(p_CountryID).addNeighbor(d_Countries.get(p_neighborCountryID));
@@ -178,6 +192,14 @@ public class GameEngine implements GameContext {
     public void removeNeighbor(String p_CountryID, String p_neighborCountryID) {
         d_Countries.get(p_CountryID).removeNeighbor(p_neighborCountryID);
         d_Countries.get(p_neighborCountryID).removeNeighbor(p_CountryID);
+    }
+
+    public void addPlayer(String p_playername) {
+        d_players.put(p_playername, new PlayerImpl(p_playername, new ArrayList<>(), new ArrayList<>()));
+    }
+
+    public void removePlayer(String p_player) {
+        d_players.remove(p_player);
     }
 
     public void showMap() {

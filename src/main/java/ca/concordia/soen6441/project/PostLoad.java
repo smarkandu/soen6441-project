@@ -14,6 +14,12 @@ public class PostLoad extends Edit {
         d_gameEngine.setPhase(new Startup(d_gameEngine));
     }
 
+    @Override
+    public void gamePlayerAdd(String p_playerName) { printInvalidCommandMessage(); }
+
+    @Override
+    public void gamePlayerRemove(String p_playerName) { printInvalidCommandMessage(); }
+
     public void next() {
         System.out.println("must save map");
     }

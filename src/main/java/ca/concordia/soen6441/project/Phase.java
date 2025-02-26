@@ -23,7 +23,13 @@ public abstract class Phase {
 
     // play state behavior
     // game setup state behavior
-    abstract public void setPlayers();
+
+    // ToDO: (Marc) Delete setPlayers and uncomment the "new" methods
+    // below (gamePlayerAdd, gamePlayerRemove).  You'll need to implement them in the child classes where setPlayer was
+    // previously implemented
+    abstract public void gamePlayerAdd(String p_playerName);
+    abstract public void gamePlayerRemove(String p_playerName);
+
     abstract public void assignCountries();
     abstract public void endGame();
 

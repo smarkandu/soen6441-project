@@ -6,6 +6,12 @@ public class OrderExecution extends MainPlay {
     }
 
     @Override
+    public void gamePlayerAdd(String p_playerName) { printInvalidCommandMessage(); }
+
+    @Override
+    public void gamePlayerRemove(String p_playerName) { printInvalidCommandMessage(); }
+
+    @Override
     public void next() {
 
     }
