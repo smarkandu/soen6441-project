@@ -15,7 +15,7 @@ public class GameEngine {
     private final String d_image;
     private final Boolean d_wrap;
     private final Boolean d_scroll;
-    private List<Player> d_players;
+    private SortedMap<String, Player> d_players;
 
     public GameEngine() {
         d_Continents = new TreeMap<String, Continent>();
@@ -24,7 +24,7 @@ public class GameEngine {
         d_image = "noimage.bmp";
         d_wrap = false;
         d_scroll = false;
-        d_players = new ArrayList<Player>();
+        d_players = new TreeMap<String, Player>();
     }
 
     public void setPhase(Phase p_phase) {
@@ -160,11 +160,11 @@ public class GameEngine {
     }
 
     public void addPlayer(String p_playername) {
-        d_players.add(new PlayerImpl(p_playername, new ArrayList<>(), new ArrayList<>()));
+        d_players.put(p_playername, new PlayerImpl(p_playername, new ArrayList<>(), new ArrayList<>()));
     }
 
     public void removePlayer(String p_player) {
-        d_players.removeIf(l_player -> l_player.getName().equals(p_player));
+        d_players.remove(p_player);
     }
 
     public void showMap() {
