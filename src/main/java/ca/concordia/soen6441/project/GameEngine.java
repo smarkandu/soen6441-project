@@ -5,16 +5,48 @@ import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.GameContext;
 
+import java.io.File;
 import java.util.*;
 
 public class GameEngine implements GameContext {
     private Phase d_gamePhase;
-    private SortedMap<String, Continent> d_Continents;
-    private SortedMap<String, Country> d_Countries;
+    private static SortedMap<String, Continent> d_Continents; //CHANGED TO MAIN STRUCTURE - added Static
+    private static SortedMap<String, Country> d_Countries; //CHANGED TO MAIN STRUCTURE - added Static
+    private static SortedMap<String, String> d_files;
+    private static String d_mapFilePath, d_directory, d_fileName;
 
+    static {
+        d_Continents = new TreeMap<String, Continent>();
+        d_Countries = new TreeMap<String, Country>();
+        d_files = new TreeMap<String, String>();
+        d_mapFilePath = "";
+        d_directory = "";
+        d_fileName = "";
+    }
+
+/*  //CHANGES TO MAIN STRUCTURE - removed this block
     public GameEngine() {
         d_Continents = new TreeMap<String, Continent>();
         d_Countries = new TreeMap<String, Country>();
+    }
+*/
+    // Add a continent to the game for file load - Shubo
+    public void addContinent(Continent p_continent) {
+        if (p_continent == null) {
+            throw new IllegalArgumentException("Continent cannot be null");
+        }
+        d_Continents.put(p_continent.getID(), p_continent);
+    }
+    // Add a country to the game and link it to its continent
+    public void addCountry(CountryImpl p_country) {
+        if (p_country == null) {
+            throw new IllegalArgumentException("Country cannot be null");
+        }
+        d_Countries.put(p_country.getID(),p_country);
+        Continent continent = d_Continents.get(p_country.getD_ContinentID());
+        if (continent != null) {
+            continent.addCountry(p_country);
+        }
     }
 
     public void setPhase(Phase p_phase) {
@@ -178,6 +210,33 @@ public class GameEngine implements GameContext {
     public void removeNeighbor(String p_CountryID, String p_neighborCountryID) {
         d_Countries.get(p_CountryID).removeNeighbor(p_neighborCountryID);
         d_Countries.get(p_neighborCountryID).removeNeighbor(p_CountryID);
+    }
+    // Record file path, directory, and fileName of the .map file
+    public void addMapFilePath(String mapFilePathx){
+        d_mapFilePath = mapFilePathx;
+        // Create a File object
+        File file = new File(d_mapFilePath);
+        // Get the parent directory and file name
+        d_directory = file.getParent() + File.separator;
+        d_fileName = file.getName();
+    }
+    // Add files as per the .map file
+    public void addFile(String p_fileType, String p_fileName){
+        if (p_fileType == null || p_fileName == null) {
+            throw new IllegalArgumentException("File type or file name cannot be null");
+        }
+        d_files.put(p_fileType, p_fileName);
+    }
+
+
+    // Remove all data before reloading the map
+    public void clearMapData(){
+        d_Continents.clear();
+        d_Countries.clear();
+        d_files.clear();
+        d_mapFilePath = "";
+        d_directory = "";
+        d_fileName = "";
     }
 
     public void showMap() {

@@ -1,9 +1,11 @@
 package ca.concordia.soen6441.project;
 
+import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
@@ -22,14 +24,20 @@ public class CountryImpl implements Country {
      * @param p_ID
      * @param p_ContinentID
      */
+    GameEngine gameEngine = new GameEngine();
     public CountryImpl(int p_numericID, String p_ID, String p_ContinentID, int p_xCoord, int p_yCoord) {
+        this.d_numericID = p_numericID;
         this.d_ID = p_ID;
         this.d_xCoord = p_xCoord;
         this.d_yCoord = p_yCoord;
         d_ContinentID = p_ContinentID;
         d_Neighbors = new TreeMap<String, Country>();
+<<<<<<< Updated upstream
         this.d_numericID = p_numericID;
         if (p_numericID > d_Counter)
+=======
+        if (p_numericID > d_Count)
+>>>>>>> Stashed changes
         {
             d_Counter = p_numericID;
         }
@@ -43,6 +51,8 @@ public class CountryImpl implements Country {
         d_Neighbors = new TreeMap<String, Country>();
         this.d_numericID = ++d_Counter;
     }
+    public String getD_ContinentID() {return d_ContinentID;}
+    public TreeMap<String,Country> getD_Neighbors(){return d_Neighbors;}
 
     @Override
     public String getID() {
@@ -69,6 +79,9 @@ public class CountryImpl implements Country {
     public int getNumericID() {
         return d_numericID;
     }
+
+    public int getD_xCoord(){return d_xCoord;}
+    public int getD_yCoord(){return d_yCoord;}
 
     @Override
     public String toString() {
