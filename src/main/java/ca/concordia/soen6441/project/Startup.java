@@ -17,6 +17,7 @@ public class Startup extends Play {
     public void assignCountries()
     {
         // TODO
+        CountryAssignment.assignCountries();
     }
 
     public void gamePlayerAdd(String p_playerName)

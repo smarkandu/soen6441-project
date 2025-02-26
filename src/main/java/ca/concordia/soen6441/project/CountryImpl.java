@@ -15,6 +15,7 @@ public class CountryImpl implements Country {
     private TreeMap<String, Country> d_Neighbors;
     private static int d_Counter = 0;
     private final int d_numericID;
+    private int d_troops;
 
     /**
      * Constructor (to be used when loading a .map file)
@@ -79,6 +80,10 @@ public class CountryImpl implements Country {
                 "," + d_yCoord +
                 "," + d_ContinentID + (!l_NeighborIDsAsString.isEmpty()?
                 "," + l_NeighborIDsAsString:"");
+    }
+    @Override
+    public void setTroops(int troops) {
+        this.d_troops = troops;  // ✅ Assign troops correctly
     }
 
     public static void resetCounter()
