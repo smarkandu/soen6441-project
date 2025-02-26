@@ -9,7 +9,7 @@ public class Startup extends Play {
         super(p_gameEngine);
     }
 
-    public void loadMap()
+    public void loadMap(String p_filename)
     {
         // TODO
     }
