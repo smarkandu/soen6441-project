@@ -159,12 +159,12 @@ public class GameEngine {
         d_Countries.get(p_neighborCountryID).removeNeighborID(p_CountryID);
     }
 
-    public void addPlayer(Player p_player) {
-        d_players.add(p_player);
+    public void addPlayer(String p_playername) {
+        d_players.add(new PlayerImpl(p_playername, new ArrayList<>(), new ArrayList<>()));
     }
 
-    public void removePlayer(Player p_player) {
-        d_players.remove(p_player);
+    public void removePlayer(String p_player) {
+        d_players.removeIf(l_player -> l_player.getName().equals(p_player));
     }
 
     public void showMap() {
