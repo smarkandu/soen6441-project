@@ -5,7 +5,7 @@ import ca.concordia.soen6441.project.interfaces.Country;
 
 import java.util.List;
 
-public class ContinentImpl implements Continent {
+public class ContinentImpl implements Continent, MapComponent {
     private final String d_ID;
     private final int d_Value;
     private static int d_Counter = 0;
@@ -59,5 +59,13 @@ public class ContinentImpl implements Continent {
     public static void resetCounter()
     {
         d_Counter = 0;
+    }
+
+    @Override
+    public String toMapString() {
+        // TODO #2
+        // Use europass.txt to determine what string needs to be printed for a continent
+
+        return "";
     }
 }
