@@ -17,6 +17,13 @@ public class PreLoad extends Edit {
     public void saveMap(String p_filename) {
         printInvalidCommandMessage();
     }
+
+    @Override
+    public void gamePlayerAdd(String p_playerName) { printInvalidCommandMessage(); }
+
+    @Override
+    public void gamePlayerRemove(String p_playerName) { printInvalidCommandMessage(); }
+
     public void next() {
         System.out.println("must load map");
     }
