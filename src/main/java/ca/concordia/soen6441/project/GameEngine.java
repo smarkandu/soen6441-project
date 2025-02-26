@@ -213,6 +213,17 @@ public class GameEngine implements GameContext {
         return d_players;
     }
 
+    public Map<String, Continent> getContinents() {
+        return d_Continents;
+    }
+
+
+    public void startTurn() {
+        Reinforcement reinforcement = new Reinforcement(this);
+        reinforcement.assignReinforcements();
+    }
+
+
     @Override
     public String toString() {
         // Format continents to string

@@ -11,4 +11,8 @@ public interface Player {
     int getTotalNumberOfReinforcementsPerTurn();
 
     void assignCountry(Country country);;
+
+    int getReinforcements();
+
+    void setReinforcements(int reinforcements);
 }
