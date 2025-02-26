@@ -8,7 +8,7 @@ import ca.concordia.soen6441.project.interfaces.GameContext;
 
 import java.util.*;
 
-public class GameEngine implements GameContext {
+public class GameEngine implements GameContext, MapComponent  {
     private Phase d_gamePhase;
     private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;
@@ -225,4 +225,11 @@ public class GameEngine implements GameContext {
 
         return "\n\n" + l_continentsStr + "\n\n" + l_territoriesStr;
     }
+
+    @Override
+    public String toMapString() {
+        // TODO #2
+        // Use europass.txt to determine what string needs to be included in the map file
+        // iterate through d_Continents and d_Countries to create the map file string
+        return "";    }
 }

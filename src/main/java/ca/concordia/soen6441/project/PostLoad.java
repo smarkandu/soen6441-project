@@ -10,8 +10,8 @@ public class PostLoad extends Edit {
     }
 
     public void saveMap(String p_filename) {
-        System.out.println("map has been saved");
-        d_gameEngine.setPhase(new Startup(d_gameEngine));
+        // TODO #2
+        // Get toMapString() from d_gameEngine and save it to a file
     }
 
     @Override

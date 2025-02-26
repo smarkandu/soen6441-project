@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-public class CountryImpl implements Country {
+public class CountryImpl implements Country, MapComponent {
     private final String d_ID;
     private final int d_xCoord;
     private final int d_yCoord;
@@ -84,5 +84,12 @@ public class CountryImpl implements Country {
     public static void resetCounter()
     {
         d_Counter = 0;
+    }
+
+    @Override
+    public String toMapString() {
+        // TODO #2
+        // Use europass.txt to determine what string needs to be printed for a country
+        return "";
     }
 }
