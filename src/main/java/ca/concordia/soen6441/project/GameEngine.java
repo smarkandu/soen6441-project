@@ -219,8 +219,8 @@ public class GameEngine implements GameContext {
 
 
     public void startTurn() {
-        Reinforcement reinforcement = new Reinforcement(this);
-        reinforcement.assignReinforcements();
+        Reinforcement l_reinforcement = new Reinforcement(this);
+        l_reinforcement.assignReinforcements();
     }
 
 

@@ -68,8 +68,8 @@ public class PlayerImpl implements Player {
         return l_returnValue;
     }
     @Override
-    public void assignCountry(Country country) {
-        d_ownedCountries.add(country.getID());
+    public void assignCountry(Country p_country) {
+        d_ownedCountries.add(p_country.getID());
     }
 
     @Override
@@ -78,8 +78,8 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public void setReinforcements(int reinforcements) {
-        this.d_reinforcements = reinforcements;
+    public void setReinforcements(int p_reinforcements) {
+        this.d_reinforcements = p_reinforcements;
     }
 
 
