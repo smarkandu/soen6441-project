@@ -6,6 +6,16 @@ public class OrderExecution extends MainPlay {
     }
 
     @Override
+    public void gamePlayerAdd(String p_playerName) {
+
+    }
+
+    @Override
+    public void gamePlayerRemove(String p_playerName) {
+
+    }
+
+    @Override
     public void next() {
 
     }
