@@ -82,8 +82,8 @@ public class CountryImpl implements Country {
                 "," + l_NeighborIDsAsString:"");
     }
     @Override
-    public void setTroops(int troops) {
-        this.d_troops = troops;  // ✅ Assign troops correctly
+    public void setTroops(int p_troops) {
+        this.d_troops = p_troops;  // ✅ Assign troops correctly
     }
 
     public static void resetCounter()

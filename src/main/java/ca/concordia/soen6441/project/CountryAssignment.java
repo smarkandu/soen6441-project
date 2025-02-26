@@ -14,35 +14,35 @@ public class CountryAssignment {
     private static GameEngine GameEngine = new GameEngine();
 
 
-    public CountryAssignment(GameEngine gameEngine) {
-        this.GameEngine = gameEngine;
+    public CountryAssignment(GameEngine p_gameEngine) {
+        this.GameEngine = p_gameEngine;
     }
 
 
     public static void assignCountries() {
-        List<Country> availableCountries = new ArrayList<>(GameEngine.getCountries().values());
-        List<Player> players = new ArrayList<>(GameEngine.getPlayers().values());
+        List<Country> l_availableCountries = new ArrayList<>(GameEngine.getCountries().values());
+        List<Player> l_players = new ArrayList<>(GameEngine.getPlayers().values());
 
-        if (players.isEmpty() || availableCountries.isEmpty()) {
+        if (l_players.isEmpty() || l_availableCountries.isEmpty()) {
             System.out.println("Error: No players or no countries available for assignment.");
             return;
         }
 
         // Shuffle countries for randomness
-        Collections.shuffle(availableCountries);
+        Collections.shuffle(l_availableCountries);
 
         // Assign one country per player
-        for (int i = 0; i < players.size(); i++) {
-            if (i >= availableCountries.size()) {
+        for (int l_i = 0; l_i < l_players.size(); l_i++) {
+            if (l_i >= l_availableCountries.size()) {
                 System.out.println("Warning: Not enough countries to assign one per player.");
                 break;
             }
 
-            Country assignedCountry = availableCountries.get(i);
-            players.get(i).assignCountry(assignedCountry);
+            Country assignedCountry = l_availableCountries.get(l_i);
+            l_players.get(l_i).assignCountry(assignedCountry);
             assignedCountry.setTroops(3); // Assign 3 troops per requirement
 
-            System.out.println(players.get(i).getName() + " assigned to " + assignedCountry.getID() + " with 3 troops.");
+            System.out.println(l_players.get(l_i).getName() + " assigned to " + assignedCountry.getID() + " with 3 troops.");
         }
     }
 }

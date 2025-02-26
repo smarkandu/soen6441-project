@@ -67,8 +67,8 @@ public class PlayerImpl implements Player {
         return l_returnValue;
     }
     @Override
-    public void assignCountry(Country country) {
-        d_ownedCountries.add(country.getID());  // ✅ Store country ID instead of object
+    public void assignCountry(Country p_country) {
+        d_ownedCountries.add(p_country.getID());  // ✅ Store country ID instead of object
     }
 
 }
