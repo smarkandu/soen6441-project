@@ -1,11 +1,8 @@
 /**
-* The readMapFile method is called to read the .map file
-* The input parameter includes the file path to the .map file
-* */
-package ca.concordia.soen6441.project;
-import ca.concordia.soen6441.project.interfaces.Continent;
-import ca.concordia.soen6441.project.interfaces.Country;
-import ca.concordia.soen6441.project.interfaces.GameContext;
+ * The readMapFile method is called to read the .map file
+ * The input parameter includes the file path to the .map file
+ * */
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,7 +26,7 @@ public class MapFileReader {
     }
     private void readFile(String filePath) {
         //RiskMap object to manipulate add/remove/modify the continent/countries
-        GameEngine gameEngine = new GameEngine();
+        RiskMap riskMap = new RiskMap();
         boolean mapIsValid = true;
 
         //String mapPicName = null; //Name of map picture as per .map file
@@ -51,28 +48,27 @@ public class MapFileReader {
                     sections.get(currentSection).add(line);
                 }
             }
-            // Read map data for Files and Continents
+            // Read map data
             for (Map.Entry<String, List<String>> entry : sections.entrySet()) {
                 String section = entry.getKey();
                 List<String> data = entry.getValue();
 
+                System.out.println("Loading [" + section + "] from map...");
                 switch (section){
                     case "files":
-                        System.out.println("Loading [" + section + "] from map...");
                         for (String lineInSection : data) {
                             String[] parts = lineInSection.split("\\s+");
                             if (parts.length != 2){
                                 System.out.println("Invalid files in map file.");
                                 mapIsValid = false; //VALIDATION
                             }else{
-                                String l_fileType = parts[0];
-                                String l_fileName = parts[1];
-                                gameEngine.addFile(l_fileType, l_fileName);
+                                String fileType = parts[0];
+                                String fileName = parts[1];
+                                riskMap.addFile(fileType, fileName);
                             }
                         }
                         break;
                     case "continents":
-                        System.out.println("Loading [" + section + "] from map...");
                         int continentID = 1;
                         for (String lineInSection : data) {
                             String[] parts = lineInSection.split("\\s+");
@@ -84,74 +80,61 @@ public class MapFileReader {
                                 int bonus = Integer.parseInt(parts[1]);
                                 String color = parts[2];
                                 // Add a continent
-                                gameEngine.addContinent(new ContinentImpl(continentID, name, bonus, color));
+                                riskMap.addContinent(new Continent(continentID, name, bonus, color));
                                 continentID++;
                             }
                         }
                         break;
-                }
-            }
-            // Read map data for Countries
-            for (Map.Entry<String, List<String>> entry : sections.entrySet()) {
-                String section = entry.getKey();
-                List<String> data = entry.getValue();
+                    case "countries":
+                        for (String lineInSection : data) {
+                            String[] parts = lineInSection.split("\\s+");
+                            if (parts.length != 5){
+                                System.out.println("Invalid countries in map file.");
+                                mapIsValid = false; //VALIDATION
+                            }else{
 
-                if (section.equals("countries")){
-                    System.out.println("Loading [" + section + "] from map...");
-                    for (String lineInSection : data) {
-                        String[] parts = lineInSection.split("\\s+");
-                        if (parts.length != 5){
-                            System.out.println("Invalid countries in map file.");
-                            mapIsValid = false; //VALIDATION
-                        }else{
                             int id = Integer.parseInt(parts[0]);
                             String name = parts[1];
                             int continentId = Integer.parseInt(parts[2]);
-                            String continentIdS = gameEngine.getContinentByNumericID(continentId).getID();
                             int x = Integer.parseInt(parts[3]);
                             int y = Integer.parseInt(parts[4]);
-                            gameEngine.addCountry(new CountryImpl(id, name, continentIdS, x, y));
+
+                            riskMap.addCountry(new Country(id, name, continentId, x, y));
+                            }
                         }
-                    }
-                }
-            }
-            //Read map data for Borders
-            for (Map.Entry<String, List<String>> entry : sections.entrySet()) {
-                String section = entry.getKey();
-                List<String> data = entry.getValue();
+                        break;
+                    case "borders":
+                        for (String lineInSection : data) {
+                            String[] parts = lineInSection.split("\\s+");
+                            if (parts.length < 2){
+                                System.out.println("Invalid borders in map file.");
+                                mapIsValid = false; //VALIDATION
+                            }else{
+                                int countryId = Integer.parseInt(parts[0]);
+                                Country country = riskMap.getCountries().get(countryId);
 
-                if (section.equals("borders")){
-                    System.out.println("Loading [" + section + "] from map...");
-                    for (String lineInSection : data) {
-                        String[] parts = lineInSection.split("\\s+");
-                        if (parts.length < 2){
-                            System.out.println("Invalid borders in map file.");
-                            mapIsValid = false; //VALIDATION
-                        }else{
-                            int countryId = Integer.parseInt(parts[0]);
-                            Country country = gameEngine.getCountryByNumericID(countryId);
+                                for (int i = 1; i < parts.length; i++) {
+                                    int neighborId = Integer.parseInt(parts[i]);
+                                    Country neighbor = riskMap.getCountries().get(neighborId);
+                                    if (country != null && neighbor != null) {
+                                        country.addNeighbor(neighbor);
 
-                            for (int i = 1; i < parts.length; i++) {
-                                int neighborId = Integer.parseInt(parts[i]);
-                                Country neighbor = gameEngine.getCountryByNumericID(countryId);
-                                if (country != null && neighbor != null) {
-                                    country.addNeighbor(neighbor);
-
+                                    }
                                 }
                             }
                         }
-                    }
+                        break;
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         if(mapIsValid){
-            gameEngine.addMapFilePath(filePath);
+            riskMap.addMapFilePath(filePath);
             System.out.println("\nSUCCESS! Map loaded...");
         }else{
             System.out.println("\nSORRY! There was a problem loading the map...");
-            gameEngine.clearMapData();
+            riskMap.clearMapData();
         }
     }
 }
