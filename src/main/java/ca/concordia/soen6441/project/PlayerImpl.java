@@ -2,6 +2,7 @@ package ca.concordia.soen6441.project;
 
 import ca.concordia.soen6441.project.interfaces.GameContext;
 import ca.concordia.soen6441.project.interfaces.Order;
+import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,5 +66,10 @@ public class PlayerImpl implements Player {
 
         return l_returnValue;
     }
+    @Override
+    public void assignCountry(Country country) {
+        d_ownedCountries.add(country.getID());  // ✅ Store country ID instead of object
+    }
+
 }
 
