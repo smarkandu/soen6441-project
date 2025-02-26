@@ -32,10 +32,10 @@ public class Startup extends Play {
 
 
         Random l_random = new Random();
-        for(Player p_player: l_players.values()) {
+        for(Player l_player: l_players.values()) {
             int l_numberOfCountries = l_listOfCountries.size()-1;
             int l_index = l_random.nextInt(l_numberOfCountries);
-            l_players.get(p_player.getName()).assignCountry(l_listOfCountries.get(l_index).getID());
+            l_players.get(l_player.getName()).assignCountry(l_listOfCountries.get(l_index).getID());
             l_listOfCountries.remove(l_index);
         }
     }
