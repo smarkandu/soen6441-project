@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Handles assigning one country per player at game start.
- */
+
 public class CountryAssignment {
 
     private static GameEngine GameEngine = new GameEngine();
