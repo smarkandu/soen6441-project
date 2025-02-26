@@ -38,8 +38,7 @@ public class MapFileReader {
         //String mapPicName = null; //Name of map picture as per .map file
         try (BufferedReader l_br = new BufferedReader(new FileReader(p_filePath))) {
             String l_line;
-            //Map<String, List<String>> sections = new HashMap<>();
-            Map<String, List<String>> sections = new LinkedHashMap<>();
+            Map<String, List<String>> l_sections = new LinkedHashMap<>();
             String l_currentSection = null;
 
             while ((l_line = l_br.readLine()) != null) {
@@ -49,15 +48,15 @@ public class MapFileReader {
 
                 if (l_line.startsWith("[")) {
                     l_currentSection = l_line.substring(1, l_line.length() - 1);
-                    sections.putIfAbsent(l_currentSection, new ArrayList<>());
+                    l_sections.putIfAbsent(l_currentSection, new ArrayList<>());
                 } else if (l_currentSection != null) {
-                    sections.get(l_currentSection).add(l_line);
+                    l_sections.get(l_currentSection).add(l_line);
                 }
             }
             // Read map l_data
-            for (Map.Entry<String, List<String>> entry : sections.entrySet()) {
-                String l_section = entry.getKey();
-                List<String> l_data = entry.getValue();
+            for (Map.Entry<String, List<String>> l_entry : l_sections.entrySet()) {
+                String l_section = l_entry.getKey();
+                List<String> l_data = l_entry.getValue();
 
                 System.out.println("Loading [" + l_section + "] from map...");
                 switch (l_section){
@@ -100,14 +99,14 @@ public class MapFileReader {
                                 l_mapIsValid = false; //VALIDATION
                             }else{
 
-                            int id = Integer.parseInt(l_parts[0]);
+                            int l_id = Integer.parseInt(l_parts[0]);
                             String l_name = l_parts[1];
-                            int continentNumericID = Integer.parseInt(l_parts[2]);
+                            int l_continentNumericID = Integer.parseInt(l_parts[2]);
                             int l_x = Integer.parseInt(l_parts[3]);
                             int l_y = Integer.parseInt(l_parts[4]);
 
-                            Continent l_continent = p_gameEngine.getContinentByNumericID(continentNumericID);
-                            p_gameEngine.addCountry(id, l_name, l_continent.getID(), l_x, l_y);
+                            Continent l_continent = p_gameEngine.getContinentByNumericID(l_continentNumericID);
+                            p_gameEngine.addCountry(l_id, l_name, l_continent.getID(), l_x, l_y);
                             }
                         }
                         break;
@@ -121,11 +120,11 @@ public class MapFileReader {
                                 int l_countryId = Integer.parseInt(l_parts[0]);
                                 Country l_country = p_gameEngine.getCountryByNumericID(l_countryId);
 
-                                for (int i = 1; i < l_parts.length; i++) {
-                                    int neighborId = Integer.parseInt(l_parts[i]);
-                                    Country neighbor = p_gameEngine.getCountryByNumericID(neighborId);
-                                    if (l_country != null && neighbor != null) {
-                                        l_country.addNeighbor(neighbor);
+                                for (int l_i = 1; l_i < l_parts.length; l_i++) {
+                                    int l_neighborId = Integer.parseInt(l_parts[l_i]);
+                                    Country l_neighbor = p_gameEngine.getCountryByNumericID(l_neighborId);
+                                    if (l_country != null && l_neighbor != null) {
+                                        l_country.addNeighbor(l_neighbor);
                                     }
                                 }
                             }
