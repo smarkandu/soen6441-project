@@ -5,10 +5,22 @@ import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.GameContext;
+import java.util.stream.Collectors;
+
 
 import java.util.*;
 
 public class GameEngine implements GameContext, MapComponent  {
+    //GameEngine has only one instance that is shared everywhere. No duplication of game states—everything is updated in one central instance.
+    private static GameEngine instance = null;
+
+    public static GameEngine getInstance() {
+        if (instance == null) {
+            instance = new GameEngine();
+        }
+        return instance;
+    }
+    
     private Phase d_gamePhase;
     private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;
@@ -228,8 +240,36 @@ public class GameEngine implements GameContext, MapComponent  {
 
     @Override
     public String toMapString() {
-        // TODO #2
-        // Use europass.txt to determine what string needs to be included in the map file
-        // iterate through d_Continents and d_Countries to create the map file string
-        return "";    }
+    // Builds the map file format string
+
+    // Create sections
+    StringBuilder l_mapBuilder = new StringBuilder();
+    
+    // Add [continents] section
+    l_mapBuilder.append("[continents]\n");
+    for (Continent l_continent : d_Continents.values()) {
+        l_mapBuilder.append(l_continent.toMapString()).append("\n");
+    }
+
+    // Add [countries] section
+    l_mapBuilder.append("\n[countries]\n");
+    for (Country l_country : d_Countries.values()) {
+        l_mapBuilder.append(l_country.toMapString()).append("\n");
+    }
+
+    // Add [borders] section
+    l_mapBuilder.append("\n[borders]\n");
+    for (Country l_country : d_Countries.values()) {
+        // Get the country's numeric ID and its neighbors' IDs
+        String l_borders = l_country.getNeighborIDs().stream()
+                                    .map(id -> String.valueOf(d_Countries.get(id).getNumericID()))
+                                    .collect(Collectors.joining(" "));
+        // Format: CountryNumericID Neighbor1NumericID Neighbor2NumericID ...
+        l_mapBuilder.append(l_country.getNumericID())
+                    .append(l_borders.isEmpty() ? "" : " " + l_borders)
+                    .append("\n");
+    }
+
+    return l_mapBuilder.toString();
+     }
 }
