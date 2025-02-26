@@ -22,14 +22,14 @@ public class Startup extends Play {
     public void gamePlayerAdd(String p_playerName)
     {
         // TODO: (Marc) Add implementation
-        d_gameEngine.addPlayer(new PlayerImpl(p_playerName, new ArrayList<>(), new ArrayList<>()));
+        d_gameEngine.addPlayer(p_playerName);
 
     }
 
     public void gamePlayerRemove(String p_playerName)
     {
         // TODO: (Marc) Add implementation
-        d_gameEngine.removePlayer(new PlayerImpl(p_playerName, new ArrayList<>(), null));
+        d_gameEngine.removePlayer(p_playerName);
     }
 
 
