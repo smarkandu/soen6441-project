@@ -104,7 +104,13 @@ public class GameEngine {
                     // (similar to commands above)
                     // Also we'll need to change setPlayers to something else
                     // (See notes in "Phase")
-                    d_gamePhase.setPlayers();
+                    String l_playername = l_args[2].toLowerCase();
+                    if ("-add".equals(l_operation) && l_args.length == 3) {
+                        d_gamePhase.gamePlayerAdd(l_playername);
+                    }
+                    if("-remove".equals(l_operation) && l_args.length == 3) {
+                        d_gamePhase.gamePlayerRemove(l_playername);
+                    }
                     break;
                 case "loadmap":
                     d_gamePhase.loadMap();

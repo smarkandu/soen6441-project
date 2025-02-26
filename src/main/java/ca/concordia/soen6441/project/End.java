@@ -56,8 +56,13 @@ public class End extends Phase {
     }
 
     @Override
-    public void setPlayers() {
-        printInvalidCommandMessage();
+    public void gamePlayerAdd(String p_playerName) {
+
+    }
+
+    @Override
+    public void gamePlayerRemove(String p_playerName) {
+
     }
 
     @Override
