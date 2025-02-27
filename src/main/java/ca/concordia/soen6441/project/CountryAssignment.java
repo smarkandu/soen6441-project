@@ -10,18 +10,16 @@ import java.util.List;
 
 
 public class CountryAssignment {
+    private GameEngine d_gameEngine;
 
-    private static GameEngine GameEngine = new GameEngine();
-
-
-    public CountryAssignment(GameEngine p_gameEngine) {
-        this.GameEngine = p_gameEngine;
+    public CountryAssignment(GameEngine p_gameEngine)
+    {
+        this.d_gameEngine = p_gameEngine;
     }
 
-
-    public static void assignCountries() {
-        List<Country> l_availableCountries = new ArrayList<>(GameEngine.getCountries().values());
-        List<Player> l_players = new ArrayList<>(GameEngine.getPlayers().values());
+    public void assignCountries() {
+        List<Country> l_availableCountries = new ArrayList<>(d_gameEngine.getCountries().values());
+        List<Player> l_players = new ArrayList<>(d_gameEngine.getPlayers().values());
 
         if (l_players.isEmpty() || l_availableCountries.isEmpty()) {
             System.out.println("Error: No players or no countries available for assignment.");
