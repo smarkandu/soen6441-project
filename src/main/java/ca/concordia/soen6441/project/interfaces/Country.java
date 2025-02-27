@@ -8,4 +8,6 @@ public interface Country {
     void addNeighbor(Country p_Neighbor);
     void removeNeighbor(String p_NeighborID);
     int getNumericID();
+    String toMapString();  
 }
+

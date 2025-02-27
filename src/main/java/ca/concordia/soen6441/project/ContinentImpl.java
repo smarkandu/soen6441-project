@@ -1,11 +1,9 @@
 package ca.concordia.soen6441.project;
 
 import ca.concordia.soen6441.project.interfaces.Continent;
-import ca.concordia.soen6441.project.interfaces.Country;
+import ca.concordia.soen6441.project.interfaces.MapComponent;
 
-import java.util.List;
-
-public class ContinentImpl implements Continent {
+public class ContinentImpl implements Continent, MapComponent {
     private final String d_ID;
     private final int d_Value;
     private static int d_Counter = 0;
@@ -59,5 +57,11 @@ public class ContinentImpl implements Continent {
     public static void resetCounter()
     {
         d_Counter = 0;
+    }
+
+    @Override
+    public String toMapString() {
+    //Converts the continent's details into the required domination format.
+    return d_ID + " " + d_Value + " " + d_color;
     }
 }
