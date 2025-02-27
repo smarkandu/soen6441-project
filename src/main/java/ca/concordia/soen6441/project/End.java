@@ -1,5 +1,7 @@
 package ca.concordia.soen6441.project;
 
+import ca.concordia.soen6441.project.interfaces.Player;
+
 public class End extends Phase {
     public End(GameEngine p_gameEngine) {
         super(p_gameEngine);
@@ -63,6 +65,11 @@ public class End extends Phase {
 
     @Override
     public void assignCountries() {
+        printInvalidCommandMessage();
+    }
+
+    @Override
+    public void deploy(Player p_player, String p_countryID, int p_to_deploy) {
         printInvalidCommandMessage();
     }
 

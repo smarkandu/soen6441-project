@@ -9,6 +9,7 @@ import java.util.*;
 
 public class GameEngine implements GameContext, MapComponent {
     private Phase d_gamePhase;
+    private Player d_currentPlayer;
     private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;
     private SortedMap<String, Player> d_players;
@@ -34,7 +35,6 @@ public class GameEngine implements GameContext, MapComponent {
             String[] l_args = l_scanner.nextLine().split(" ");
             String l_action = l_args[0].toLowerCase();
             String l_operation = l_args.length > 1 ? l_args[1].toLowerCase() : null;
-            Command l_commandToRun = null;
 
             switch (l_action) {
                 case "editcontinent":
@@ -84,7 +84,9 @@ public class GameEngine implements GameContext, MapComponent {
                     d_gamePhase.assignCountries();
                     break;
                 case "deploy":
-                    // TODO
+                    String l_countryID = l_args[1].replace("\"", "");
+                    int l_to_deploy = Integer.parseInt(l_args[2]);
+                    d_gamePhase.deploy(d_currentPlayer, l_countryID, l_to_deploy);
                     break;
                 case "gameplayer":
                     // TODO (Marc) You'll need to look for the add/remove flag

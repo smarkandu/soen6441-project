@@ -23,6 +23,11 @@ public class Startup extends Play {
         d_countryAssignment.assignCountries();
     }
 
+    @Override
+    public void deploy(Player p_player, String p_countryID, int p_to_deploy) {
+        printInvalidCommandMessage();
+    }
+
     public void gamePlayerAdd(String p_playerName)
     {
         d_gameEngine.addPlayer(p_playerName);

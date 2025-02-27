@@ -1,8 +1,7 @@
 package ca.concordia.soen6441.project;
 
-import ca.concordia.soen6441.project.interfaces.GameContext;
-import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Country;
+import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +11,11 @@ public class PlayerImpl implements Player {
     private String d_name;
     private ArrayList<String> d_ownedCountries;
     private ArrayList<Order> d_Orders;
-    private GameContext d_gameContext;
 
     public PlayerImpl(String p_name, ArrayList<String> p_ownedCountries, ArrayList<Order> p_Orders) {
         this.d_name = p_name;
         this.d_ownedCountries = p_ownedCountries;
         this.d_Orders = p_Orders;
-        // this.d_gameContext = GameContextImpl.getInstance();
     }
 
     @Override
@@ -37,25 +34,18 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public void issue_order() {
-        Scanner l_scanner = new Scanner(System.in);
-
-        System.out.print("Order>");
-        String[] l_args = l_scanner.nextLine().split(" ");
-        String l_action = l_args[0].toLowerCase();
-
-        if (l_action.equalsIgnoreCase("deploy") && l_args.length == 3) {
-            String l_countryID = l_args[1];
-            int l_num = Integer.parseInt(l_args[2]);
-        }
-
-        //Order deployOrder = new DeployOrder();
-        //d_Orders.add(deployOrder);
+    public void issue_order(Order order) {
+        d_Orders.add(order);
     }
 
     @Override
     public Order next_order() {
-        return null;
+        if (!d_Orders.isEmpty()) {
+            Order to_return = this.d_Orders.get(0);
+            this.d_Orders.remove(0);
+            return to_return;
+        } else
+            return null;
     }
 
     @Override
