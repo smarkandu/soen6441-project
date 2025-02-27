@@ -41,4 +41,9 @@ public abstract class Phase {
         System.out.println("Invalid command in state "
                 + this.getClass().getSimpleName() );
     }
+
+    public String getPhaseName()
+    {
+        return getClass().getSimpleName();
+    }
 }
