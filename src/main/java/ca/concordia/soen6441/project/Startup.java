@@ -35,6 +35,6 @@ public class Startup extends Play {
 
 
     public void next() {
-        // TODO
+        printInvalidCommandMessage();
     }
 }
