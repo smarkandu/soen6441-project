@@ -1,4 +1,7 @@
 package ca.concordia.soen6441.project;
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.IOException;
 
 public class PostLoad extends Edit {
     public PostLoad(GameEngine p_gameEngine) {
@@ -10,8 +13,16 @@ public class PostLoad extends Edit {
     }
 
     public void saveMap(String p_filename) {
-        System.out.println("map has been saved");
-        d_gameEngine.setPhase(new Startup(d_gameEngine));
+    // Fetch the map data in Domination format
+        String l_mapData = d_gameEngine.toMapString();
+
+        // Write the data to the specified file
+        try (PrintWriter l_writer = new PrintWriter(new File(p_filename))) {
+            l_writer.write(l_mapData);
+            System.out.println("Map successfully saved to: " + p_filename);
+        } catch (IOException l_exception) {
+            System.err.println("Error saving map: " + l_exception.getMessage());
+        }
     }
 
     @Override
@@ -21,12 +32,12 @@ public class PostLoad extends Edit {
     public void gamePlayerRemove(String p_playerName) { printInvalidCommandMessage(); }
 
     public void next() {
-        System.out.println("must save map");
+        d_gameEngine.setPhase(new Startup(d_gameEngine));
     }
 
     public void validateMap()
     {
-        // TODO
+        //
     }
 
     @Override
