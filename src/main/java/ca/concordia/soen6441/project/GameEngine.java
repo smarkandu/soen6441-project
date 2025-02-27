@@ -202,6 +202,13 @@ public class GameEngine implements GameContext, MapComponent {
     public void showMap() {
         System.out.println(this);
     }
+    public Map<String, Country> getCountries() {
+        return d_Countries;
+    }
+
+    public Map<String, Player> getPlayers() {
+        return d_players;
+    }
 
     @Override
     public String toString() {
