@@ -87,7 +87,7 @@ public class CountryImpl implements Country, MapComponent {
         d_Counter = 0;
     }
 
-    @Override //TODO #2
+    @Override 
     public String toMapString() {   
     // Formats country details in the Domination format:
     return d_numericID + " " + d_ID + " " + d_Continent.getNumericID() + " " + d_xCoord + " " + d_yCoord;
