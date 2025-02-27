@@ -1,4 +1,4 @@
-package ca.concordia.soen6441.project;
+package ca.concordia.soen6441.project.interfaces;
 
 public interface MapComponent {
     String toMapString();

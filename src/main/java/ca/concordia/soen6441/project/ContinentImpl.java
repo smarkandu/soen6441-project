@@ -1,9 +1,7 @@
 package ca.concordia.soen6441.project;
 
 import ca.concordia.soen6441.project.interfaces.Continent;
-import ca.concordia.soen6441.project.interfaces.Country;
-
-import java.util.List;
+import ca.concordia.soen6441.project.interfaces.MapComponent;
 
 public class ContinentImpl implements Continent, MapComponent {
     private final String d_ID;

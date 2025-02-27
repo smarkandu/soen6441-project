@@ -1,8 +1,9 @@
 package ca.concordia.soen6441.project;
 
+import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
+import ca.concordia.soen6441.project.interfaces.MapComponent;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
@@ -11,7 +12,7 @@ public class CountryImpl implements Country, MapComponent {
     private final String d_ID;
     private final int d_xCoord;
     private final int d_yCoord;
-    private final String d_ContinentID;
+    private final Continent d_Continent;
     private TreeMap<String, Country> d_Neighbors;
     private static int d_Counter = 0;
     private final int d_numericID;
@@ -20,13 +21,13 @@ public class CountryImpl implements Country, MapComponent {
      * Constructor (to be used when loading a .map file)
      * @param p_numericID
      * @param p_ID
-     * @param p_ContinentID
+     * @param p_Continent
      */
-    public CountryImpl(int p_numericID, String p_ID, String p_ContinentID, int p_xCoord, int p_yCoord) {
+    public CountryImpl(int p_numericID, String p_ID, Continent p_Continent, int p_xCoord, int p_yCoord) {
         this.d_ID = p_ID;
         this.d_xCoord = p_xCoord;
         this.d_yCoord = p_yCoord;
-        d_ContinentID = p_ContinentID;
+        d_Continent = p_Continent;
         d_Neighbors = new TreeMap<String, Country>();
         this.d_numericID = p_numericID;
         if (p_numericID > d_Counter)
@@ -35,11 +36,11 @@ public class CountryImpl implements Country, MapComponent {
         }
     }
 
-    public CountryImpl(String p_ID, String p_ContinentID) {
+    public CountryImpl(String p_ID, Continent p_Continent) {
         this.d_ID = p_ID;
         this.d_xCoord = 0; // Hardcoded
         this.d_yCoord = 0; // Hardcoded
-        d_ContinentID = p_ContinentID;
+        d_Continent = p_Continent;
         d_Neighbors = new TreeMap<String, Country>();
         this.d_numericID = ++d_Counter;
     }
@@ -77,7 +78,7 @@ public class CountryImpl implements Country, MapComponent {
 
         return d_ID + ',' + d_xCoord +
                 "," + d_yCoord +
-                "," + d_ContinentID + (!l_NeighborIDsAsString.isEmpty()?
+                "," + d_Continent.getID() + (!l_NeighborIDsAsString.isEmpty()?
                 "," + l_NeighborIDsAsString:"");
     }
 
@@ -91,9 +92,7 @@ public class CountryImpl implements Country, MapComponent {
     // Formats country details in the Domination format:
     // CountryNumericID x y ContinentNumericID Neighbor1NumericID Neighbor2NumericID ...
     // Get the numeric ID of the continent this country belongs to
-       int l_continentNumericID = GameEngine.getInstance()
-                                     .getContinentByNumericID(Integer.parseInt(d_ContinentID))
-                                     .getNumericID();
+       int l_continentNumericID = d_Continent.getNumericID();
 
 
 
