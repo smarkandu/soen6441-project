@@ -23,7 +23,7 @@ public class Startup extends Play {
         d_countryAssignment.assignCountries();
         System.out.println("Countries have been assigned.");
 
-        // ✅ Move to MainPlay phase AFTER assigning countries
+
         d_gameEngine.setPhase(new MainPlay(d_gameEngine) {
             @Override
             public void gamePlayerAdd(String p_playerName) {
