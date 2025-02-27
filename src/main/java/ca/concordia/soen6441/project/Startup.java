@@ -5,34 +5,34 @@ import ca.concordia.soen6441.project.interfaces.Player;
 import java.util.ArrayList;
 
 public class Startup extends Play {
-    public Startup(GameEngine p_gameEngine) {
+    private CountryAssignment d_countryAssignment;
+
+    public Startup(GameEngine p_gameEngine)
+    {
         super(p_gameEngine);
+        d_countryAssignment = new CountryAssignment(d_gameEngine);
     }
 
     public void loadMap(String p_filename)
     {
-        // TODO
+        printInvalidCommandMessage();
     }
 
     public void assignCountries()
     {
-        // TODO
+        d_countryAssignment.assignCountries();
     }
 
     public void gamePlayerAdd(String p_playerName)
     {
-        // TODO: (Marc) Add implementation
         d_gameEngine.addPlayer(p_playerName);
 
     }
 
     public void gamePlayerRemove(String p_playerName)
     {
-        // TODO: (Marc) Add implementation
         d_gameEngine.removePlayer(p_playerName);
     }
-
-
 
     public void next() {
         printInvalidCommandMessage();
