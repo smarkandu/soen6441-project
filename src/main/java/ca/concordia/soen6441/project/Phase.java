@@ -46,4 +46,7 @@ public abstract class Phase {
     {
         return getClass().getSimpleName();
     }
+
+    public void assignReinforcements() {
+    }
 }

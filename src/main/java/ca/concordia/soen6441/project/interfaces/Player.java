@@ -10,4 +10,6 @@ public interface Player {
     String getName();
     int getTotalNumberOfReinforcementsPerTurn();
     void assignCountry(Country p_country);;
+
+    void setReinforcements(int l_Reinforcements);
 }
