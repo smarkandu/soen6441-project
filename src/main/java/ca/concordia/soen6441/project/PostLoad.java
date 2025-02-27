@@ -21,7 +21,7 @@ public class PostLoad extends Edit {
     public void gamePlayerRemove(String p_playerName) { printInvalidCommandMessage(); }
 
     public void next() {
-        System.out.println("must save map");
+        d_gameEngine.setPhase(new Startup(d_gameEngine));
     }
 
     public void validateMap()
