@@ -81,7 +81,7 @@ public class GameEngine implements GameContext, MapComponent {
                     d_gamePhase.saveMap(l_args[1]);
                     break;
                 case "assigncountries":
-                    d_gamePhase.assignCountries();  // ✅ Calls Startup.java method
+                    d_gamePhase.assignCountries();
                     break;
 
 
