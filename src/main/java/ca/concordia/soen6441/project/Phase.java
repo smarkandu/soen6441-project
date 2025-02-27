@@ -1,5 +1,7 @@
 package ca.concordia.soen6441.project;
 
+import ca.concordia.soen6441.project.interfaces.Player;
+
 public abstract class Phase {
     GameEngine d_gameEngine;
 
@@ -29,8 +31,10 @@ public abstract class Phase {
     // previously implemented
     abstract public void gamePlayerAdd(String p_playerName);
     abstract public void gamePlayerRemove(String p_playerName);
-
     abstract public void assignCountries();
+
+    abstract public void deploy(Player p_player, String p_countryID, int p_to_deploy);
+
     abstract public void endGame();
 
     // go to next phase
