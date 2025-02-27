@@ -13,12 +13,11 @@ public class PlayerImpl implements Player {
     private ArrayList<String> d_ownedCountries;
     private ArrayList<Order> d_Orders;
     private GameContext d_gameContext;
-    private int d_reinforcements = 3;
 
     public PlayerImpl(String p_name, ArrayList<String> p_ownedCountries, ArrayList<Order> p_Orders) {
-        this.d_name = d_name;
-        this.d_ownedCountries = d_ownedCountries;
-        this.d_Orders = d_Orders;
+        this.d_name = p_name;
+        this.d_ownedCountries = p_ownedCountries;
+        this.d_Orders = p_Orders;
         // this.d_gameContext = GameContextImpl.getInstance();
     }
 
@@ -69,19 +68,8 @@ public class PlayerImpl implements Player {
     }
     @Override
     public void assignCountry(Country p_country) {
-        d_ownedCountries.add(p_country.getID());
+        d_ownedCountries.add(p_country.getID());  // ✅ Store country ID instead of object
     }
-
-    @Override
-    public int getReinforcements() {
-        return d_reinforcements;
-    }
-
-    @Override
-    public void setReinforcements(int p_reinforcements) {
-        this.d_reinforcements = p_reinforcements;
-    }
-
 
 }
 

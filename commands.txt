@@ -1,3 +1,4 @@
+next
 editcontinent -add Asia 7
 editcontinent -add Europe 5
 editcontinent -add NorthAmerica 5
@@ -8,7 +9,10 @@ editcountry -add Canada NorthAmerica
 editcountry -add UnitedStates NorthAmerica
 editcountry -add Japan Asia
 editneighbor -add Canada UnitedStates
-
+next
+gameplayer -add Steve
+gameplayer -add Marc
+assigncountries
 
 
 
