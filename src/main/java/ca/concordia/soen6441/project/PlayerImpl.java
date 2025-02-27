@@ -72,6 +72,11 @@ public class PlayerImpl implements Player {
     }
 
     @Override
+    public int getReinforcements() {
+        return 0;
+    }
+
+    @Override
     public void setReinforcements(int l_Reinforcements) {
 
     }
