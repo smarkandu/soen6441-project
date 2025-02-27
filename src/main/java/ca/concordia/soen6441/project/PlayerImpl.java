@@ -16,9 +16,9 @@ public class PlayerImpl implements Player {
     private int d_reinforcements = 3;
 
     public PlayerImpl(String p_name, ArrayList<String> p_ownedCountries, ArrayList<Order> p_Orders) {
-        this.d_name = d_name;
-        this.d_ownedCountries = d_ownedCountries;
-        this.d_Orders = d_Orders;
+        this.d_name = p_name;
+        this.d_ownedCountries = p_ownedCountries;
+        this.d_Orders = p_Orders;
         // this.d_gameContext = GameContextImpl.getInstance();
     }
 

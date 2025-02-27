@@ -24,8 +24,9 @@ public class PreLoad extends Edit {
     @Override
     public void gamePlayerRemove(String p_playerName) { printInvalidCommandMessage(); }
 
-    public void next() {
-        System.out.println("must load map");
+    public void next()
+    {
+        d_gameEngine.setPhase(new PostLoad(d_gameEngine));
     }
 
     public void validateMap()
