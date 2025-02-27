@@ -39,16 +39,11 @@ public class GameEngine implements GameContext, MapComponent  {
     public void start() {
         // Can change the state of the Context (GameEngine) object, e.g.
         setPhase(new PreLoad(this));
-//          setPhase(new PostLoad(this));
-//        setPhase(new Startup(this));
-//        setPhase(new IssueOrder(this));
-//        setPhase(new OrderExecution(this));
-
         boolean l_continuePlaying = true;
         Scanner l_scanner = new Scanner(System.in);
 
         while (l_continuePlaying) {
-            System.out.print(">");
+            System.out.print(d_gamePhase.getPhaseName() + ">");
             String[] l_args = l_scanner.nextLine().split(" ");
             String l_action = l_args[0].toLowerCase();
             String l_operation = l_args.length > 1 ? l_args[1].toLowerCase() : null;
@@ -119,6 +114,9 @@ public class GameEngine implements GameContext, MapComponent  {
                     break;
                 case "loadmap":
                     d_gamePhase.loadMap(l_args[1]);
+                    break;
+                case "next":
+                    d_gamePhase.next();
                     break;
                 case "exit":
                     d_gamePhase.endGame();
