@@ -223,7 +223,7 @@ public class GameEngine implements GameContext, MapComponent {
         return "\n\n" + l_continentsStr + "\n\n" + l_territoriesStr;
     }
 
-    @Override
+    @Override //TODO #2
     public String toMapString() {
     // Builds the map file format string
 
@@ -238,23 +238,22 @@ public class GameEngine implements GameContext, MapComponent {
 
     // Add [countries] section
     l_mapBuilder.append("\n[countries]\n");
-    for (Country l_country : d_Countries.values()) {
-        l_mapBuilder.append(l_country.toMapString()).append("\n");
-    }
+   d_Countries.values().stream()
+                .sorted(Comparator.comparingInt(Country::getNumericID))
+                .forEach(l_country -> l_mapBuilder.append(l_country.toMapString()).append("\n"));
 
     // Add [borders] section
-    l_mapBuilder.append("\n[borders]\n");
-    for (Country l_country : d_Countries.values()) {
-        // Get the country's numeric ID and its neighbors' IDs
-        String l_borders = l_country.getNeighborIDs().stream()
-                                    .map(id -> String.valueOf(d_Countries.get(id).getNumericID()))
-                                    .collect(Collectors.joining(" "));
-        // Format: CountryNumericID Neighbor1NumericID Neighbor2NumericID ...
-        l_mapBuilder.append(l_country.getNumericID())
-                    .append(l_borders.isEmpty() ? "" : " " + l_borders)
-                    .append("\n");
-    }
-
+   l_mapBuilder.append("\n[borders]\n");
+    d_Countries.values().stream()
+            .sorted(Comparator.comparingInt(Country::getNumericID))
+            .forEach(l_country -> {
+                String l_borders = d_Countries.get(l_country.getID()).getNeighborIDs().stream()
+                        .map(neighborID -> String.valueOf(d_Countries.get(neighborID).getNumericID())) // Convert to numeric ID
+                        .collect(Collectors.joining(" "));
+                l_mapBuilder.append(l_country.getNumericID())
+                        .append(l_borders.isEmpty() ? "" : " " + l_borders)
+                        .append("\n");
+            });
     return l_mapBuilder.toString();
      }
 }

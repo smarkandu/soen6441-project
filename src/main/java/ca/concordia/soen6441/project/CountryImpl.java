@@ -87,22 +87,9 @@ public class CountryImpl implements Country, MapComponent {
         d_Counter = 0;
     }
 
-    @Override
+    @Override //TODO #2
     public String toMapString() {   
     // Formats country details in the Domination format:
-    // CountryNumericID x y ContinentNumericID Neighbor1NumericID Neighbor2NumericID ...
-    // Get the numeric ID of the continent this country belongs to
-       int l_continentNumericID = d_Continent.getNumericID();
-
-
-
-        // Get the list of neighbors as numeric IDs
-        String l_neighbors = d_Neighbors.values().stream()
-                          .map(c -> String.valueOf(c.getNumericID()))
-                          .collect(Collectors.joining(" "));
-
-        // Format the country as: NumericID x y ContinentNumericID Neighbor1 Neighbor2 ...
-        return d_numericID + " " + d_xCoord + " " + d_yCoord + " " + l_continentNumericID +
-           (l_neighbors.isEmpty() ? "" : " " + l_neighbors);
+    return d_numericID + " " + d_ID + " " + d_Continent.getNumericID() + " " + d_xCoord + " " + d_yCoord;
     }
 }
