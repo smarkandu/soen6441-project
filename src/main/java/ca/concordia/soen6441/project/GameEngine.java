@@ -232,9 +232,9 @@ public class GameEngine implements GameContext, MapComponent {
     
     // Add [continents] section
     l_mapBuilder.append("[continents]\n");
-    for (Continent l_continent : d_Continents.values()) {
-        l_mapBuilder.append(l_continent.toMapString()).append("\n");
-    }
+    d_Continents.values().stream()
+    .sorted(Comparator.comparingInt(Continent::getNumericID)) // Sort by numeric ID
+    .forEach(l_continent -> l_mapBuilder.append(l_continent.toMapString()).append("\n"));
 
     // Add [countries] section
     l_mapBuilder.append("\n[countries]\n");
