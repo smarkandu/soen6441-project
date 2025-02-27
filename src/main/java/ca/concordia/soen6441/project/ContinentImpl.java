@@ -59,7 +59,7 @@ public class ContinentImpl implements Continent, MapComponent {
         d_Counter = 0;
     }
 
-    @Override //TODO #2
+    @Override
     public String toMapString() {
     //Converts the continent's details into the required domination format.
     return d_ID + " " + d_Value + " " + d_color;

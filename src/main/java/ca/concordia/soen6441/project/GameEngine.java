@@ -223,7 +223,7 @@ public class GameEngine implements GameContext, MapComponent {
         return "\n\n" + l_continentsStr + "\n\n" + l_territoriesStr;
     }
 
-    @Override //TODO #2
+    @Override
     public String toMapString() {
     // Builds the map file format string
 
