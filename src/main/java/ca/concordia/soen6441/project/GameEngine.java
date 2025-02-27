@@ -81,24 +81,9 @@ public class GameEngine implements GameContext, MapComponent {
                     d_gamePhase.saveMap(l_args[1]);
                     break;
                 case "assigncountries":
-                    d_gamePhase.assignCountries();
-                    setPhase(new MainPlay(this) {
-                        @Override
-                        public void gamePlayerAdd(String p_playerName) {
-
-                        }
-
-                        @Override
-                        public void gamePlayerRemove(String p_playerName) {
-
-                        }
-
-                        @Override
-                        public void next() {
-
-                        }
-                    });
+                    d_gamePhase.assignCountries();  // ✅ Calls Startup.java method
                     break;
+
 
                 case "deploy":
                     // TODO

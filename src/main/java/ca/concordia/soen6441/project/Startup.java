@@ -18,9 +18,30 @@ public class Startup extends Play {
         printInvalidCommandMessage();
     }
 
-    public void assignCountries()
-    {
+    @Override
+    public void assignCountries() {
         d_countryAssignment.assignCountries();
+        System.out.println("Countries have been assigned.");
+
+        // ✅ Move to MainPlay phase AFTER assigning countries
+        d_gameEngine.setPhase(new MainPlay(d_gameEngine) {
+            @Override
+            public void gamePlayerAdd(String p_playerName) {
+                System.out.println("Cannot add players in MainPlay phase.");
+            }
+
+            @Override
+            public void gamePlayerRemove(String p_playerName) {
+                System.out.println("Cannot remove players in MainPlay phase.");
+            }
+
+            @Override
+            public void next() {
+                System.out.println("Proceeding to the next phase...");
+            }
+        });
+
+        System.out.println("Game phase transitioned to MainPlay.");
     }
 
     public void gamePlayerAdd(String p_playerName)
