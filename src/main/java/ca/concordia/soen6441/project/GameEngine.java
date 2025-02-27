@@ -1,26 +1,13 @@
 package ca.concordia.soen6441.project;
 
-import ca.concordia.soen6441.project.interfaces.Command;
-import ca.concordia.soen6441.project.interfaces.Continent;
-import ca.concordia.soen6441.project.interfaces.Country;
-import ca.concordia.soen6441.project.interfaces.Player;
-import ca.concordia.soen6441.project.interfaces.GameContext;
+import ca.concordia.soen6441.project.interfaces.*;
+
 import java.util.stream.Collectors;
 
 
 import java.util.*;
 
-public class GameEngine implements GameContext, MapComponent  {
-    //GameEngine has only one instance that is shared everywhere. No duplication of game states—everything is updated in one central instance.
-    private static GameEngine instance = null;
-
-    public static GameEngine getInstance() {
-        if (instance == null) {
-            instance = new GameEngine();
-        }
-        return instance;
-    }
-    
+public class GameEngine implements GameContext, MapComponent {
     private Phase d_gamePhase;
     private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;
@@ -144,13 +131,13 @@ public class GameEngine implements GameContext, MapComponent  {
 
     @Override
     public void addCountry(int p_numericID, String p_CountryID, String p_continentID, int p_xCoord, int p_yCoord) {
-        Country l_country = OverallFactory.getInstance().CreateCountry(p_numericID, p_CountryID, p_continentID, p_xCoord, p_yCoord);
+        Country l_country = OverallFactory.getInstance().CreateCountry(p_numericID, p_CountryID, d_Continents.get(p_continentID), p_xCoord, p_yCoord);
         d_Countries.put(p_CountryID, l_country);
         System.out.println("Country added: " + d_Countries.get(l_country.getID()));
     }
 
     public void addCountry(String p_CountryID, String p_continentID) {
-        Country l_country = OverallFactory.getInstance().CreateCountry(p_CountryID, p_continentID);
+        Country l_country = OverallFactory.getInstance().CreateCountry(p_CountryID, d_Continents.get(p_continentID));
         d_Countries.put(p_CountryID, l_country);
         System.out.println("Country added: " + d_Countries.get(l_country.getID()));
     }
