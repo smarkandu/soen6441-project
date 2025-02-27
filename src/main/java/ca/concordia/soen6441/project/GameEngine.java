@@ -1,14 +1,13 @@
 package ca.concordia.soen6441.project;
 
-import ca.concordia.soen6441.project.interfaces.Command;
-import ca.concordia.soen6441.project.interfaces.Continent;
-import ca.concordia.soen6441.project.interfaces.Country;
-import ca.concordia.soen6441.project.interfaces.Player;
-import ca.concordia.soen6441.project.interfaces.GameContext;
+import ca.concordia.soen6441.project.interfaces.*;
+
+import java.util.stream.Collectors;
+
 
 import java.util.*;
 
-public class GameEngine implements GameContext {
+public class GameEngine implements GameContext, MapComponent {
     private Phase d_gamePhase;
     private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;
@@ -132,13 +131,13 @@ public class GameEngine implements GameContext {
 
     @Override
     public void addCountry(int p_numericID, String p_CountryID, String p_continentID, int p_xCoord, int p_yCoord) {
-        Country l_country = OverallFactory.getInstance().CreateCountry(p_numericID, p_CountryID, p_continentID, p_xCoord, p_yCoord);
+        Country l_country = OverallFactory.getInstance().CreateCountry(p_numericID, p_CountryID, d_Continents.get(p_continentID), p_xCoord, p_yCoord);
         d_Countries.put(p_CountryID, l_country);
         System.out.println("Country added: " + d_Countries.get(l_country.getID()));
     }
 
     public void addCountry(String p_CountryID, String p_continentID) {
-        Country l_country = OverallFactory.getInstance().CreateCountry(p_CountryID, p_continentID);
+        Country l_country = OverallFactory.getInstance().CreateCountry(p_CountryID, d_Continents.get(p_continentID));
         d_Countries.put(p_CountryID, l_country);
         System.out.println("Country added: " + d_Countries.get(l_country.getID()));
     }
@@ -230,4 +229,38 @@ public class GameEngine implements GameContext {
 
         return "\n\n" + l_continentsStr + "\n\n" + l_territoriesStr;
     }
+
+    @Override
+    public String toMapString() {
+    // Builds the map file format string
+
+    // Create sections
+    StringBuilder l_mapBuilder = new StringBuilder();
+    
+    // Add [continents] section
+    l_mapBuilder.append("[continents]\n");
+    d_Continents.values().stream()
+    .sorted(Comparator.comparingInt(Continent::getNumericID)) // Sort by numeric ID
+    .forEach(l_continent -> l_mapBuilder.append(l_continent.toMapString()).append("\n"));
+
+    // Add [countries] section
+    l_mapBuilder.append("\n[countries]\n");
+   d_Countries.values().stream()
+                .sorted(Comparator.comparingInt(Country::getNumericID))
+                .forEach(l_country -> l_mapBuilder.append(l_country.toMapString()).append("\n"));
+
+    // Add [borders] section
+   l_mapBuilder.append("\n[borders]\n");
+    d_Countries.values().stream()
+            .sorted(Comparator.comparingInt(Country::getNumericID))
+            .forEach(l_country -> {
+                String l_borders = d_Countries.get(l_country.getID()).getNeighborIDs().stream()
+                        .map(neighborID -> String.valueOf(d_Countries.get(neighborID).getNumericID())) // Convert to numeric ID
+                        .collect(Collectors.joining(" "));
+                l_mapBuilder.append(l_country.getNumericID())
+                        .append(l_borders.isEmpty() ? "" : " " + l_borders)
+                        .append("\n");
+            });
+    return l_mapBuilder.toString();
+     }
 }
