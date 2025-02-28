@@ -83,8 +83,6 @@ public class GameEngine implements GameContext, MapComponent {
                 case "assigncountries":
                     d_gamePhase.assignCountries();
                     break;
-
-
                 case "deploy":
                     // TODO
                     break;
