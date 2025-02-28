@@ -68,7 +68,17 @@ public class PlayerImpl implements Player {
     }
     @Override
     public void assignCountry(Country p_country) {
-        d_ownedCountries.add(p_country.getID());  // ✅ Store country ID instead of object
+        d_ownedCountries.add(p_country.getID());
+    }
+
+    @Override
+    public int getReinforcements() {
+        return 0;
+    }
+
+    @Override
+    public void setReinforcements(int p_Reinforcements) {
+
     }
 
 }
