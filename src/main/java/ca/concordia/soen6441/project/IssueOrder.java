@@ -17,7 +17,22 @@ public class IssueOrder extends MainPlay {
     @Override
     public void deploy(Player p_player, String p_countryID, int p_to_deploy) {
         Country l_country = d_gameEngine.getCountries().get(p_countryID);
-        p_player.issue_order(new Deploy(p_player, l_country, p_to_deploy));
+        if (p_player.equals(l_country.getOwner()))
+        {
+            int numberOfTroopsLeftToDeploy = p_player.getReinforcements() - p_player.getNumberOfTroopsOrderedToDeploy();
+            if (numberOfTroopsLeftToDeploy >= p_to_deploy)
+            {
+                p_player.issue_order(new Deploy(p_player, l_country, p_to_deploy));
+            }
+            else
+            {
+                System.out.println("Only " + numberOfTroopsLeftToDeploy + " left to deploy!");
+            }
+        }
+        else
+        {
+            System.out.println("Player " + p_player.getName() + " doesn't own this country!");
+        }
     }
 
     @Override

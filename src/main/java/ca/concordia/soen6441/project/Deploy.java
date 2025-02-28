@@ -35,4 +35,24 @@ public class Deploy implements Order {
         System.out.println("Deploy order issued by player " + this.d_initiator.getName());
         System.out.println("Deploy " + this.d_to_deploy + " to " + this.d_target_territory.getID());
     }
+
+    public Country get_target_territory() {
+        return d_target_territory;
+    }
+
+    public int get_to_deploy() {
+        return d_to_deploy;
+    }
+
+    public Player get_initiator() {
+        return d_initiator;
+    }
+
+    @Override
+    public String toString() {
+        return "{Deploy " +
+                d_target_territory.getID() +
+                "," + d_to_deploy +
+                "}";
+    }
 }

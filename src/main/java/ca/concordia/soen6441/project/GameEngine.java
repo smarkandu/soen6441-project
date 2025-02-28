@@ -87,7 +87,7 @@ public class GameEngine implements GameContext, MapComponent {
                 case "deploy":
                     String l_countryID = l_args[1].replace("\"", "");
                     int l_to_deploy = Integer.parseInt(l_args[2]);
-                    d_gamePhase.deploy(d_players.values().toArray(new Player[0])[d_currentPlayerIndex], l_countryID, l_to_deploy);
+                    d_gamePhase.deploy(new ArrayList<Player>(d_players.values()).get(d_currentPlayerIndex), l_countryID, l_to_deploy);
                     break;
                 case "gameplayer":
                     // TODO (Marc) You'll need to look for the add/remove flag
@@ -111,6 +111,9 @@ public class GameEngine implements GameContext, MapComponent {
                 case "exit":
                     d_gamePhase.endGame();
                     l_continuePlaying = false;
+                    break;
+                case "":
+                    // Do Nothing
                     break;
                 default:
                     System.out.println("Command not recognized");

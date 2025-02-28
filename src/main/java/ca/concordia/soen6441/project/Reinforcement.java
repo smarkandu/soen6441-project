@@ -44,7 +44,7 @@ public class Reinforcement extends MainPlay {
         int l_reinforcements = Math.max(3, (int) Math.floor(l_territoriesOwned / 3.0) + l_continentBonus);
         l_player.setReinforcements(l_reinforcements);
 
-        System.out.println(l_player.getName() + " receives " + l_reinforcements + " reinforcements.");
+        System.out.println(l_player.getName() + " receives " + l_player.getReinforcements() + " reinforcements.");
     }
 
 

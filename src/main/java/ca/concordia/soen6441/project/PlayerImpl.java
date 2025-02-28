@@ -11,11 +11,13 @@ public class PlayerImpl implements Player {
     private String d_name;
     private ArrayList<String> d_ownedCountries;
     private ArrayList<Order> d_Orders;
+    int d_Reinforcements;
 
     public PlayerImpl(String p_name, ArrayList<String> p_ownedCountries, ArrayList<Order> p_Orders) {
         this.d_name = p_name;
         this.d_ownedCountries = p_ownedCountries;
         this.d_Orders = p_Orders;
+        this.d_Reinforcements = 0;
     }
 
     @Override
@@ -63,13 +65,27 @@ public class PlayerImpl implements Player {
 
     @Override
     public int getReinforcements() {
-        return 0;
+        return d_Reinforcements;
     }
 
     @Override
     public void setReinforcements(int p_Reinforcements) {
-
+        d_Reinforcements = p_Reinforcements;
     }
 
+    @Override
+    public int getNumberOfTroopsOrderedToDeploy() {
+        int returnValue = 0;
+        for (int i = 0; i < d_Orders.size(); i++)
+        {
+            if (d_Orders.get(i).getClass().getSimpleName().equals("Deploy"))
+            {
+                Deploy deploy = (Deploy) d_Orders.get(i);
+                returnValue += deploy.get_to_deploy();
+            }
+        }
+
+        return returnValue;
+    }
 }
 
