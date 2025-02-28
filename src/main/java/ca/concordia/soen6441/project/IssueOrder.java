@@ -20,7 +20,20 @@ public class IssueOrder extends MainPlay {
         p_player.issue_order(new Deploy(p_player, l_country, p_to_deploy));
     }
 
+    @Override
     public void next() {
-        // TODO
+        d_gameEngine.setNextPlayerIndex();
+        if (d_gameEngine.get_currentPlayerIndex() == 0)
+        {
+            d_gameEngine.setPhase(new IssueOrder(d_gameEngine));
+        }
+    }
+
+    @Override
+    public String getPhaseName()
+    {
+        return getClass().getSimpleName() + " ["
+                + d_gameEngine.getPlayers().values().toArray(new Player[0])[d_gameEngine.get_currentPlayerIndex()]
+                .getName() + "]";
     }
 }

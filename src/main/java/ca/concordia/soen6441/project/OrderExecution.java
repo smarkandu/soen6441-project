@@ -20,6 +20,18 @@ public class OrderExecution extends MainPlay {
 
     @Override
     public void next() {
+        d_gameEngine.setNextPlayerIndex();
+        if (d_gameEngine.get_currentPlayerIndex() == 0)
+        {
+            d_gameEngine.setPhase(new IssueOrder(d_gameEngine));
+        }
+    }
 
+    @Override
+    public String getPhaseName()
+    {
+        return getClass().getSimpleName() + " ["
+                + d_gameEngine.getPlayers().values().toArray(new Player[0])[d_gameEngine.get_currentPlayerIndex()]
+                .getName() + "]";
     }
 }
