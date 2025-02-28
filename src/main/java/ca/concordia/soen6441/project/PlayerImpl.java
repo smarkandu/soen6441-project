@@ -36,16 +36,16 @@ public class PlayerImpl implements Player {
     }
 
     @Override
-    public void issue_order(Order order) {
-        d_Orders.add(order);
+    public void issue_order(Order p_order) {
+        d_Orders.add(p_order);
     }
 
     @Override
     public Order next_order() {
         if (!d_Orders.isEmpty()) {
-            Order l_to_return = this.d_Orders.get(0);
+            Order l_returnValue = this.d_Orders.get(0);
             this.d_Orders.remove(0);
-            return l_to_return;
+            return l_returnValue;
         } else
             return null;
     }
@@ -75,17 +75,17 @@ public class PlayerImpl implements Player {
 
     @Override
     public int getNumberOfTroopsOrderedToDeploy() {
-        int returnValue = 0;
-        for (int i = 0; i < d_Orders.size(); i++)
+        int l_returnValue = 0;
+        for (int l_i = 0; l_i < d_Orders.size(); l_i++)
         {
-            if (d_Orders.get(i).getClass().getSimpleName().equals("Deploy"))
+            if (d_Orders.get(l_i).getClass().getSimpleName().equals("Deploy"))
             {
-                Deploy deploy = (Deploy) d_Orders.get(i);
-                returnValue += deploy.get_to_deploy();
+                Deploy l_deployOrder = (Deploy) d_Orders.get(l_i);
+                l_returnValue += l_deployOrder.get_to_deploy();
             }
         }
 
-        return returnValue;
+        return l_returnValue;
     }
 }
 
