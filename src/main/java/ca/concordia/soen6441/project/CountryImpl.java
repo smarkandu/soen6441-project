@@ -4,7 +4,6 @@ import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.MapComponent;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
@@ -93,8 +92,8 @@ public class CountryImpl implements Country, MapComponent {
         d_Counter = 0;
     }
 
-    @Override
-    public String toMapString() {
+    @Override 
+    public String toMapString() {   
     // Formats country details in the Domination format:
     return d_numericID + " " + d_ID + " " + d_Continent.getNumericID() + " " + d_xCoord + " " + d_yCoord;
     }

@@ -104,14 +104,6 @@ public class GameEngine implements GameContext, MapComponent {
                 case "loadmap":
                     d_gamePhase.loadMap(l_args[1]);
                     break;
-                case "reinforcement":
-                    if (d_gamePhase instanceof MainPlay) {
-                        System.out.println("Reinforcements have been assigned.");
-                    } else {
-                        System.out.println("Reinforcement phase is not active.");
-                    }
-                    break;
-
                 case "next":
                     d_gamePhase.next();
                     break;
@@ -223,19 +215,6 @@ public class GameEngine implements GameContext, MapComponent {
     public Map<String, Continent> getContinents() {
         return d_Continents;
     }
-
-
-//    public void startTurn() {
-//        Reinforcement l_reinforcement = new Reinforcement(this);
-//        l_reinforcement.assignReinforcements();
-//    }
-    public void assignReinforcements() {
-        Reinforcement l_reinforcement = new Reinforcement(this);
-        l_reinforcement.assignReinforcements();
-        System.out.println("Reinforcements assigned successfully.");
-    }
-
-
 
     @Override
     public String toString() {
