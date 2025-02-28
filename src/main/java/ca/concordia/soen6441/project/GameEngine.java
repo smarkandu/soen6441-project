@@ -9,6 +9,7 @@ import java.util.*;
 
 public class GameEngine implements GameContext, MapComponent {
     private Phase d_gamePhase;
+    private int d_currentPlayerIndex;
     private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;
     private SortedMap<String, Player> d_players;
@@ -17,6 +18,7 @@ public class GameEngine implements GameContext, MapComponent {
         d_Continents = new TreeMap<String, Continent>();
         d_Countries = new TreeMap<String, Country>();
         d_players = new TreeMap<String, Player>();
+        d_currentPlayerIndex = 0;
     }
 
     public void setPhase(Phase p_phase) {
@@ -34,7 +36,6 @@ public class GameEngine implements GameContext, MapComponent {
             String[] l_args = l_scanner.nextLine().split(" ");
             String l_action = l_args[0].toLowerCase();
             String l_operation = l_args.length > 1 ? l_args[1].toLowerCase() : null;
-            Command l_commandToRun = null;
 
             switch (l_action) {
                 case "editcontinent":
@@ -84,7 +85,9 @@ public class GameEngine implements GameContext, MapComponent {
                     d_gamePhase.assignCountries();
                     break;
                 case "deploy":
-                    // TODO
+                    String l_countryID = l_args[1].replace("\"", "");
+                    int l_toDeploy = Integer.parseInt(l_args[2]);
+                    d_gamePhase.deploy(l_countryID, l_toDeploy);
                     break;
                 case "gameplayer":
                     // TODO (Marc) You'll need to look for the add/remove flag
@@ -108,6 +111,9 @@ public class GameEngine implements GameContext, MapComponent {
                 case "exit":
                     d_gamePhase.endGame();
                     l_continuePlaying = false;
+                    break;
+                case "":
+                    // Do Nothing
                     break;
                 default:
                     System.out.println("Command not recognized");
@@ -193,6 +199,7 @@ public class GameEngine implements GameContext, MapComponent {
 
     public void addPlayer(String p_playername) {
         d_players.put(p_playername, new PlayerImpl(p_playername, new ArrayList<>(), new ArrayList<>()));
+        System.out.println("Player added: " + d_players.get(p_playername).getName());
     }
 
     public void removePlayer(String p_player) {
@@ -266,5 +273,10 @@ public class GameEngine implements GameContext, MapComponent {
                         .append("\n");
             });
     return l_mapBuilder.toString();
+     }
+
+     public Player getPlayer(int p_index)
+     {
+         return new ArrayList<Player>(d_players.values()).get(p_index);
      }
 }
