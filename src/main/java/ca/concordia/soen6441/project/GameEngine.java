@@ -102,6 +102,10 @@ public class GameEngine implements GameContext, MapComponent {
                 case "loadmap":
                     d_gamePhase.loadMap(l_args[1]);
                     break;
+                case "validatemap":
+                    if(l_args.length == 1) {
+                        d_gamePhase.validateMap();
+                    }
                 case "next":
                     d_gamePhase.next();
                     break;
@@ -191,6 +195,15 @@ public class GameEngine implements GameContext, MapComponent {
         d_Countries.get(p_neighborCountryID).removeNeighbor(p_CountryID);
     }
 
+    @Override
+    public void validateMap() {
+        // in a continent every country must be connected
+        // in a map every continent must be connected
+        // Continent should have at least one country
+        // a country should belong to only one continent
+
+    }
+
     public void addPlayer(String p_playername) {
         d_players.put(p_playername, new PlayerImpl(p_playername, new ArrayList<>(), new ArrayList<>()));
     }
@@ -202,6 +215,7 @@ public class GameEngine implements GameContext, MapComponent {
     public void showMap() {
         System.out.println(this);
     }
+
     public Map<String, Country> getCountries() {
         return d_Countries;
     }

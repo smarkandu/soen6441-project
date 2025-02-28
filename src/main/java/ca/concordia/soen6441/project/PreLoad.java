@@ -31,7 +31,7 @@ public class PreLoad extends Edit {
 
     public void validateMap()
     {
-        // TODO
+        d_gameEngine.validateMap();
     }
 
     @Override
