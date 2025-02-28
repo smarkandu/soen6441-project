@@ -43,9 +43,9 @@ public class PlayerImpl implements Player {
     @Override
     public Order next_order() {
         if (!d_Orders.isEmpty()) {
-            Order to_return = this.d_Orders.get(0);
+            Order l_to_return = this.d_Orders.get(0);
             this.d_Orders.remove(0);
-            return to_return;
+            return l_to_return;
         } else
             return null;
     }

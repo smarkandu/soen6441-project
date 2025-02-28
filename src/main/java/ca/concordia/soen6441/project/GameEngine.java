@@ -86,8 +86,8 @@ public class GameEngine implements GameContext, MapComponent {
                     break;
                 case "deploy":
                     String l_countryID = l_args[1].replace("\"", "");
-                    int l_to_deploy = Integer.parseInt(l_args[2]);
-                    d_gamePhase.deploy(new ArrayList<Player>(d_players.values()).get(d_currentPlayerIndex), l_countryID, l_to_deploy);
+                    int l_toDeploy = Integer.parseInt(l_args[2]);
+                    d_gamePhase.deploy(new ArrayList<Player>(d_players.values()).get(d_currentPlayerIndex), l_countryID, l_toDeploy);
                     break;
                 case "gameplayer":
                     // TODO (Marc) You'll need to look for the add/remove flag

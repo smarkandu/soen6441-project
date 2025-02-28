@@ -69,7 +69,7 @@ public class End extends Phase {
     }
 
     @Override
-    public void deploy(Player p_player, String p_countryID, int p_to_deploy) {
+    public void deploy(Player p_player, String p_countryID, int p_toDeploy) {
         printInvalidCommandMessage();
     }
 

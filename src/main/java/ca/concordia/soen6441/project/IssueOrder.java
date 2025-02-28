@@ -3,6 +3,8 @@ package ca.concordia.soen6441.project;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
 
+import java.util.ArrayList;
+
 public class IssueOrder extends MainPlay {
     public IssueOrder(GameEngine p_gameEngine) {
         super(p_gameEngine);
@@ -15,18 +17,18 @@ public class IssueOrder extends MainPlay {
     public void gamePlayerRemove(String p_playerName) { printInvalidCommandMessage(); }
 
     @Override
-    public void deploy(Player p_player, String p_countryID, int p_to_deploy) {
+    public void deploy(Player p_player, String p_countryID, int p_toDeploy) {
         Country l_country = d_gameEngine.getCountries().get(p_countryID);
         if (p_player.equals(l_country.getOwner()))
         {
-            int numberOfTroopsLeftToDeploy = p_player.getReinforcements() - p_player.getNumberOfTroopsOrderedToDeploy();
-            if (numberOfTroopsLeftToDeploy >= p_to_deploy)
+            int l_numberOfTroopsLeftToDeploy = p_player.getReinforcements() - p_player.getNumberOfTroopsOrderedToDeploy();
+            if (l_numberOfTroopsLeftToDeploy >= p_toDeploy)
             {
-                p_player.issue_order(new Deploy(p_player, l_country, p_to_deploy));
+                p_player.issue_order(new Deploy(p_player, l_country, p_toDeploy));
             }
             else
             {
-                System.out.println("Only " + numberOfTroopsLeftToDeploy + " left to deploy!");
+                System.out.println("Only " + l_numberOfTroopsLeftToDeploy + " left to deploy!");
             }
         }
         else
@@ -51,10 +53,10 @@ public class IssueOrder extends MainPlay {
     @Override
     public String getPhaseName()
     {
-        Player currentPlayer = d_gameEngine.getPlayers().values().toArray(new Player[0])[d_gameEngine.get_currentPlayerIndex()];
-        String currentOrders = currentPlayer.getOrders().toString();
-        return currentOrders + "\n" + getClass().getSimpleName() + " ["
-                + currentPlayer
+        Player l_currentPlayer = new ArrayList<Player>(d_gameEngine.getPlayers().values()).get(d_gameEngine.get_currentPlayerIndex());
+        String l_currentOrders = l_currentPlayer.getOrders().toString();
+        return l_currentOrders + "\n" + getClass().getSimpleName() + " ["
+                + l_currentPlayer
                 .getName() + "]";
     }
 }

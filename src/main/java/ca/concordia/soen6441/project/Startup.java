@@ -21,16 +21,16 @@ public class Startup extends Play {
     public void assignCountries()
     {
         d_countryAssignment.assignCountries();
-        Reinforcement nextPhase = new Reinforcement(d_gameEngine);
-        nextPhase.assignReinforcements();
+        Reinforcement l_nextPhase = new Reinforcement(d_gameEngine);
+        l_nextPhase.assignReinforcements();
         d_gameEngine.setNextPlayerIndex();
-        nextPhase.assignReinforcements();
+        l_nextPhase.assignReinforcements();
         d_gameEngine.setNextPlayerIndex();
         d_gameEngine.setPhase(new IssueOrder(d_gameEngine));
     }
 
     @Override
-    public void deploy(Player p_player, String p_countryID, int p_to_deploy) {
+    public void deploy(Player p_player, String p_countryID, int p_toDeploy) {
         printInvalidCommandMessage();
     }
 
