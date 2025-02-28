@@ -210,6 +210,10 @@ public class GameEngine implements GameContext, MapComponent {
         return d_players;
     }
 
+    public Map<String, Continent> getContinents() {
+        return d_Continents;
+    }
+
     @Override
     public String toString() {
         // Format continents to string
