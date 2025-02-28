@@ -19,19 +19,23 @@ public class OrderExecution extends MainPlay {
     }
 
     @Override
-    public void next() {
+    public void next()
+    {
+        Reinforcement nextPhase = new Reinforcement(d_gameEngine);
+        nextPhase.assignReinforcements();
         d_gameEngine.setNextPlayerIndex();
-        if (d_gameEngine.get_currentPlayerIndex() == 0)
-        {
-            d_gameEngine.setPhase(new IssueOrder(d_gameEngine));
-        }
+        nextPhase.assignReinforcements();
+        d_gameEngine.setNextPlayerIndex();
+        d_gameEngine.setPhase(new IssueOrder(d_gameEngine));
     }
 
     @Override
     public String getPhaseName()
     {
-        return getClass().getSimpleName() + " ["
-                + d_gameEngine.getPlayers().values().toArray(new Player[0])[d_gameEngine.get_currentPlayerIndex()]
+        Player currentPlayer = d_gameEngine.getPlayers().values().toArray(new Player[0])[d_gameEngine.get_currentPlayerIndex()];
+        String currentOrders = currentPlayer.getOrders().toString();
+        return currentOrders + "\n" + getClass().getSimpleName() + " ["
+                + currentPlayer
                 .getName() + "]";
     }
 }

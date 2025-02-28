@@ -196,6 +196,7 @@ public class GameEngine implements GameContext, MapComponent {
 
     public void addPlayer(String p_playername) {
         d_players.put(p_playername, new PlayerImpl(p_playername, new ArrayList<>(), new ArrayList<>()));
+        System.out.println("Player added: " + d_players.get(p_playername).getName());
     }
 
     public void removePlayer(String p_player) {
@@ -277,6 +278,6 @@ public class GameEngine implements GameContext, MapComponent {
 
     public void setNextPlayerIndex()
      {
-         d_currentPlayerIndex = d_currentPlayerIndex + 1 % d_players.values().size();
+         d_currentPlayerIndex = (d_currentPlayerIndex + 1) % d_players.values().size();
      }
 }

@@ -7,28 +7,44 @@ import ca.concordia.soen6441.project.GameEngine;
 import java.util.List;
 import java.util.Map;
 
-public class Reinforcement {
-
-    private final GameEngine d_gameEngine;
+public class Reinforcement extends MainPlay {
 
     public Reinforcement(GameEngine p_gameEngine) {
-        this.d_gameEngine = p_gameEngine;
+        super(p_gameEngine);
+    }
+
+    @Override
+    public void gamePlayerAdd(String p_playerName) {
+        printInvalidCommandMessage();
+    }
+
+    @Override
+    public void gamePlayerRemove(String p_playerName) {
+        printInvalidCommandMessage();
+    }
+
+    @Override
+    public void deploy(Player p_player, String p_countryID, int p_to_deploy) {
+        printInvalidCommandMessage();
+    }
+
+    @Override
+    public void next() {
+        printInvalidCommandMessage();
     }
 
 
     public void assignReinforcements() {
-        Map<String, Player> l_players = d_gameEngine.getPlayers();
+        Player l_player = d_gameEngine.getPlayers().values().toArray(new Player[0])[d_gameEngine.get_currentPlayerIndex()];
         Map<String, Continent> l_continents = d_gameEngine.getContinents();
 
-        for (Player l_player : l_players.values()) {
-            int l_territoriesOwned = l_player.getOwnedCountries().size();
-            int l_continentBonus = calculateContinentBonus(l_player, l_continents);
+        int l_territoriesOwned = l_player.getOwnedCountries().size();
+        int l_continentBonus = calculateContinentBonus(l_player, l_continents);
 
-            int l_reinforcements = Math.max(3, (int) Math.floor(l_territoriesOwned / 3.0) + l_continentBonus);
-            l_player.setReinforcements(l_reinforcements);
+        int l_reinforcements = Math.max(3, (int) Math.floor(l_territoriesOwned / 3.0) + l_continentBonus);
+        l_player.setReinforcements(l_reinforcements);
 
-            System.out.println(l_player.getName() + " receives " + l_reinforcements + " reinforcements.");
-        }
+        System.out.println(l_player.getName() + " receives " + l_reinforcements + " reinforcements.");
     }
 
 
@@ -53,5 +69,13 @@ public class Reinforcement {
             }
         }
         return l_bonus;
+    }
+
+    @Override
+    public String getPhaseName()
+    {
+        return getClass().getSimpleName() + " ["
+                + d_gameEngine.getPlayers().values().toArray(new Player[0])[d_gameEngine.get_currentPlayerIndex()]
+                .getName() + "]";
     }
 }
