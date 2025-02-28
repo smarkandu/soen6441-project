@@ -19,16 +19,14 @@ public class Startup extends Play {
     public void assignCountries()
     {
         d_countryAssignment.assignCountries();
+
+        // After assigning countries, go to the next phase for each player (Assign Reinforcements)
         AssignReinforcements l_nextPhase = new AssignReinforcements(d_gameEngine);
         l_nextPhase.assignReinforcements();
-        d_gameEngine.setNextPlayerIndex();
-        l_nextPhase.assignReinforcements();
-        d_gameEngine.setNextPlayerIndex();
-        d_gameEngine.setPhase(new IssueOrder(d_gameEngine));
     }
 
     @Override
-    public void deploy(Player p_player, String p_countryID, int p_toDeploy) {
+    public void deploy(String p_countryID, int p_toDeploy) {
         printInvalidCommandMessage();
     }
 

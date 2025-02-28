@@ -16,7 +16,7 @@ public abstract class Edit extends Phase {
     public void assignCountries() {
         printInvalidCommandMessage();
     }
-    public void deploy(Player p_player, String p_countryID, int p_toDeploy) {
+    public void deploy(String p_countryID, int p_toDeploy) {
         printInvalidCommandMessage();
     }
     public void endGame() {

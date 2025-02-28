@@ -6,8 +6,11 @@ import ca.concordia.soen6441.project.interfaces.Player;
 import java.util.ArrayList;
 
 public class IssueOrder extends MainPlay {
-    public IssueOrder(GameEngine p_gameEngine) {
+    private int d_currentPlayIndex;
+
+    public IssueOrder(GameEngine p_gameEngine, int p_currentPlayIndex) {
         super(p_gameEngine);
+        d_currentPlayIndex = p_currentPlayIndex;
     }
 
     @Override
@@ -17,14 +20,16 @@ public class IssueOrder extends MainPlay {
     public void gamePlayerRemove(String p_playerName) { printInvalidCommandMessage(); }
 
     @Override
-    public void deploy(Player p_player, String p_countryID, int p_toDeploy) {
+    public void deploy(String p_countryID, int p_toDeploy) {
         Country l_country = d_gameEngine.getCountries().get(p_countryID);
-        if (p_player.equals(l_country.getOwner()))
+        Player l_player = d_gameEngine.getPlayer(d_currentPlayIndex);
+
+        if (l_player.equals(l_country.getOwner()))
         {
-            int l_numberOfTroopsLeftToDeploy = p_player.getReinforcements() - p_player.getNumberOfTroopsOrderedToDeploy();
+            int l_numberOfTroopsLeftToDeploy = l_player.getReinforcements() - l_player.getNumberOfTroopsOrderedToDeploy();
             if (l_numberOfTroopsLeftToDeploy >= p_toDeploy)
             {
-                p_player.issue_order(new Deploy(p_player, l_country, p_toDeploy));
+                l_player.issue_order(new Deploy(l_player, l_country, p_toDeploy));
             }
             else
             {
@@ -33,27 +38,26 @@ public class IssueOrder extends MainPlay {
         }
         else
         {
-            System.out.println("Player " + p_player.getName() + " doesn't own this country!");
+            System.out.println("Player " + l_player.getName() + " doesn't own this country!");
         }
     }
 
     @Override
     public void next() {
-        d_gameEngine.setNextPlayerIndex();
-        if (d_gameEngine.get_currentPlayerIndex() == 0)
+        if (d_currentPlayIndex == d_gameEngine.getPlayers().size() - 1)
         {
-            d_gameEngine.setPhase(new OrderExecution(d_gameEngine));
+            d_gameEngine.setPhase(new OrderExecution(d_gameEngine, 0));
         }
         else
         {
-            d_gameEngine.setPhase(new IssueOrder(d_gameEngine));
+            d_gameEngine.setPhase(new IssueOrder(d_gameEngine, ++d_currentPlayIndex));
         }
     }
 
     @Override
     public String getPhaseName()
     {
-        Player l_currentPlayer = new ArrayList<Player>(d_gameEngine.getPlayers().values()).get(d_gameEngine.get_currentPlayerIndex());
+        Player l_currentPlayer = d_gameEngine.getPlayer(d_currentPlayIndex);
         String l_currentOrders = l_currentPlayer.getOrders().toString();
         return l_currentOrders + "\n" + getClass().getSimpleName() + " ["
                 + l_currentPlayer
