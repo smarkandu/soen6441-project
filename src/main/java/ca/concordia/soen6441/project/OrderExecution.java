@@ -2,6 +2,8 @@ package ca.concordia.soen6441.project;
 
 import ca.concordia.soen6441.project.interfaces.Player;
 
+import java.util.ArrayList;
+
 public class OrderExecution extends MainPlay {
     public OrderExecution(GameEngine p_gameEngine) {
         super(p_gameEngine);
@@ -14,17 +16,17 @@ public class OrderExecution extends MainPlay {
     public void gamePlayerRemove(String p_playerName) { printInvalidCommandMessage(); }
 
     @Override
-    public void deploy(Player p_player, String p_countryID, int p_to_deploy) {
+    public void deploy(Player p_player, String p_countryID, int p_toDeploy) {
         printInvalidCommandMessage();
     }
 
     @Override
     public void next()
     {
-        Reinforcement nextPhase = new Reinforcement(d_gameEngine);
-        nextPhase.assignReinforcements();
+        Reinforcement l_nextPhase = new Reinforcement(d_gameEngine);
+        l_nextPhase.assignReinforcements();
         d_gameEngine.setNextPlayerIndex();
-        nextPhase.assignReinforcements();
+        l_nextPhase.assignReinforcements();
         d_gameEngine.setNextPlayerIndex();
         d_gameEngine.setPhase(new IssueOrder(d_gameEngine));
     }
@@ -32,10 +34,10 @@ public class OrderExecution extends MainPlay {
     @Override
     public String getPhaseName()
     {
-        Player currentPlayer = d_gameEngine.getPlayers().values().toArray(new Player[0])[d_gameEngine.get_currentPlayerIndex()];
-        String currentOrders = currentPlayer.getOrders().toString();
-        return currentOrders + "\n" + getClass().getSimpleName() + " ["
-                + currentPlayer
+        Player l_currentPlayer = new ArrayList<Player>(d_gameEngine.getPlayers().values()).get(d_gameEngine.get_currentPlayerIndex());
+        String l_currentOrders = l_currentPlayer.getOrders().toString();
+        return l_currentOrders + "\n" + getClass().getSimpleName() + " ["
+                + l_currentPlayer
                 .getName() + "]";
     }
 }
