@@ -87,7 +87,7 @@ public class GameEngine implements GameContext, MapComponent {
                 case "deploy":
                     String l_countryID = l_args[1].replace("\"", "");
                     int l_toDeploy = Integer.parseInt(l_args[2]);
-                    d_gamePhase.deploy(new ArrayList<Player>(d_players.values()).get(d_currentPlayerIndex), l_countryID, l_toDeploy);
+                    d_gamePhase.deploy(l_countryID, l_toDeploy);
                     break;
                 case "gameplayer":
                     // TODO (Marc) You'll need to look for the add/remove flag
@@ -275,12 +275,8 @@ public class GameEngine implements GameContext, MapComponent {
     return l_mapBuilder.toString();
      }
 
-    public int get_currentPlayerIndex() {
-        return d_currentPlayerIndex;
-    }
-
-    public void setNextPlayerIndex()
+     public Player getPlayer(int p_index)
      {
-         d_currentPlayerIndex = (d_currentPlayerIndex + 1) % d_players.values().size();
+         return new ArrayList<Player>(d_players.values()).get(p_index);
      }
 }

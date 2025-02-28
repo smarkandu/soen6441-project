@@ -4,6 +4,7 @@ import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class AssignReinforcements extends MainPlay {
@@ -23,7 +24,7 @@ public class AssignReinforcements extends MainPlay {
     }
 
     @Override
-    public void deploy(Player p_player, String p_countryID, int p_toDeploy) {
+    public void deploy(String p_countryID, int p_toDeploy) {
         printInvalidCommandMessage();
     }
 
@@ -34,16 +35,21 @@ public class AssignReinforcements extends MainPlay {
 
 
     public void assignReinforcements() {
-        Player l_player = d_gameEngine.getPlayers().values().toArray(new Player[0])[d_gameEngine.get_currentPlayerIndex()];
-        Map<String, Continent> l_continents = d_gameEngine.getContinents();
+        for (int l_i = 0; l_i < d_gameEngine.getPlayers().size(); l_i++)
+        {
+            Player l_player = d_gameEngine.getPlayer(l_i);
+            Map<String, Continent> l_continents = d_gameEngine.getContinents();
 
-        int l_territoriesOwned = l_player.getOwnedCountries().size();
-        int l_continentBonus = calculateContinentBonus(l_player, l_continents);
+            int l_territoriesOwned = l_player.getOwnedCountries().size();
+            int l_continentBonus = calculateContinentBonus(l_player, l_continents);
 
-        int l_reinforcements = Math.max(3, (int) Math.floor(l_territoriesOwned / 3.0)) + l_continentBonus;
-        l_player.setReinforcements(l_reinforcements);
+            int l_reinforcements = Math.max(3, (int) Math.floor(l_territoriesOwned / 3.0)) + l_continentBonus;
+            l_player.setReinforcements(l_reinforcements);
 
-        System.out.println(l_player.getName() + " receives " + l_player.getReinforcements() + " reinforcements.");
+            System.out.println(l_player.getName() + " receives " + l_player.getReinforcements() + " reinforcements.");
+        }
+
+        d_gameEngine.setPhase(new IssueOrder(d_gameEngine, 0));
     }
 
 
@@ -74,13 +80,5 @@ public class AssignReinforcements extends MainPlay {
             }
         }
         return l_bonus;
-    }
-
-    @Override
-    public String getPhaseName()
-    {
-        return getClass().getSimpleName() + " ["
-                + d_gameEngine.getPlayers().values().toArray(new Player[0])[d_gameEngine.get_currentPlayerIndex()]
-                .getName() + "]";
     }
 }

@@ -14,4 +14,5 @@ public interface GameContext {
     Continent getContinentByNumericID(int p_numericIDOfContinent);
     Country getCountryByNumericID(int p_numericIDOfCountry);
     void showMap();
+    Player getPlayer(int p_index);
 }

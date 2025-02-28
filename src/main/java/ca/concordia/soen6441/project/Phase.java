@@ -33,7 +33,7 @@ public abstract class Phase {
     abstract public void gamePlayerRemove(String p_playerName);
     abstract public void assignCountries();
 
-    abstract public void deploy(Player p_player, String p_countryID, int p_toDeploy);
+    abstract public void deploy(String p_countryID, int p_toDeploy);
 
     abstract public void endGame();
 
