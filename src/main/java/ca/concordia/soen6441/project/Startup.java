@@ -2,8 +2,6 @@ package ca.concordia.soen6441.project;
 
 import ca.concordia.soen6441.project.interfaces.Player;
 
-import java.util.ArrayList;
-
 public class Startup extends Play {
     private CountryAssignment d_countryAssignment;
 
@@ -21,7 +19,7 @@ public class Startup extends Play {
     public void assignCountries()
     {
         d_countryAssignment.assignCountries();
-        Reinforcement l_nextPhase = new Reinforcement(d_gameEngine);
+        AssignReinforcements l_nextPhase = new AssignReinforcements(d_gameEngine);
         l_nextPhase.assignReinforcements();
         d_gameEngine.setNextPlayerIndex();
         l_nextPhase.assignReinforcements();

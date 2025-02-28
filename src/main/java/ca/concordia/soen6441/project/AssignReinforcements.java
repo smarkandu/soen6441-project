@@ -3,13 +3,12 @@ package ca.concordia.soen6441.project;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
-import ca.concordia.soen6441.project.GameEngine;
-import java.util.List;
+
 import java.util.Map;
 
-public class Reinforcement extends MainPlay {
+public class AssignReinforcements extends MainPlay {
 
-    public Reinforcement(GameEngine p_gameEngine) {
+    public AssignReinforcements(GameEngine p_gameEngine) {
         super(p_gameEngine);
     }
 
@@ -41,7 +40,7 @@ public class Reinforcement extends MainPlay {
         int l_territoriesOwned = l_player.getOwnedCountries().size();
         int l_continentBonus = calculateContinentBonus(l_player, l_continents);
 
-        int l_reinforcements = Math.max(3, (int) Math.floor(l_territoriesOwned / 3.0) + l_continentBonus);
+        int l_reinforcements = Math.max(3, (int) Math.floor(l_territoriesOwned / 3.0)) + l_continentBonus;
         l_player.setReinforcements(l_reinforcements);
 
         System.out.println(l_player.getName() + " receives " + l_player.getReinforcements() + " reinforcements.");
@@ -51,21 +50,27 @@ public class Reinforcement extends MainPlay {
     private int calculateContinentBonus(Player p_player, Map<String, Continent> p_continents) {
         int l_bonus = 0;
 
-        for (Continent l_continent : p_continents.values()) {
+        for (Continent l_continent : p_continents.values()) { // loop through all the continents
             boolean l_ownsAll = true;
+            int countriesInContinent = 0;
+            for (Country l_country : d_gameEngine.getCountries().values()) { // loop through all the countries
 
-
-            for (Country l_country : d_gameEngine.getCountries().values()) {
-                if (d_gameEngine.getContinentByNumericID(l_country.getNumericID()) == l_continent) {
+                if (l_country.getContinent() == l_continent) { // if country is part of continent
+                    countriesInContinent++;
+                    // if player doesn't own country in continent
                     if (!p_player.getOwnedCountries().contains(l_country.getID())) {
                         l_ownsAll = false;
                         break;
                     }
                 }
             }
+            if (countriesInContinent == 0)
+            {
+                l_ownsAll = false;
+            }
 
             if (l_ownsAll) {
-                l_bonus += 5;
+                l_bonus += l_continent.getValue();
             }
         }
         return l_bonus;
