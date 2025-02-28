@@ -2,8 +2,6 @@ package ca.concordia.soen6441.project;
 
 import ca.concordia.soen6441.project.interfaces.Player;
 
-import java.util.ArrayList;
-
 public class Startup extends Play {
     private CountryAssignment d_countryAssignment;
 
@@ -21,6 +19,15 @@ public class Startup extends Play {
     public void assignCountries()
     {
         d_countryAssignment.assignCountries();
+
+        // After assigning countries, go to the next phase for each player (Assign Reinforcements)
+        AssignReinforcements l_nextPhase = new AssignReinforcements(d_gameEngine);
+        l_nextPhase.assignReinforcements();
+    }
+
+    @Override
+    public void deploy(String p_countryID, int p_toDeploy) {
+        printInvalidCommandMessage();
     }
 
     public void gamePlayerAdd(String p_playerName)
