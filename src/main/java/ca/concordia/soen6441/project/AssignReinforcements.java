@@ -34,7 +34,7 @@ public class AssignReinforcements extends MainPlay {
     }
 
 
-    public void assignReinforcements() {
+    public void execute() {
         for (int l_i = 0; l_i < d_gameEngine.getPlayers().size(); l_i++)
         {
             Player l_player = d_gameEngine.getPlayer(l_i);
