@@ -13,4 +13,5 @@ public interface Country {
     void setTroops(int p_troops);
     Player getOwner();
     void setOwner(Player p_owner);
+    Continent getContinent();
 }

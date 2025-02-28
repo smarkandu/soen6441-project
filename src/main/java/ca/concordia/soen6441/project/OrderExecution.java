@@ -23,7 +23,7 @@ public class OrderExecution extends MainPlay {
     @Override
     public void next()
     {
-        Reinforcement l_nextPhase = new Reinforcement(d_gameEngine);
+        AssignReinforcements l_nextPhase = new AssignReinforcements(d_gameEngine);
         l_nextPhase.assignReinforcements();
         d_gameEngine.setNextPlayerIndex();
         l_nextPhase.assignReinforcements();

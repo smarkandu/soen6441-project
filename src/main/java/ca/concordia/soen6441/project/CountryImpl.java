@@ -116,4 +116,8 @@ public class CountryImpl implements Country, MapComponent {
     // Formats country details in the Domination format:
     return d_numericID + " " + d_ID + " " + d_Continent.getNumericID() + " " + d_xCoord + " " + d_yCoord;
     }
+
+    public Continent getContinent() {
+        return d_Continent;
+    }
 }
