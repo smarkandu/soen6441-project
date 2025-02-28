@@ -5,7 +5,7 @@ import java.util.List;
 public interface Player {
     List<String> getOwnedCountries();
     List<Order> getOrders();
-    void issue_order(Order order);
+    void issue_order(Order p_order);
     Order next_order();
     String getName();
     int getTotalNumberOfReinforcementsPerTurn();
