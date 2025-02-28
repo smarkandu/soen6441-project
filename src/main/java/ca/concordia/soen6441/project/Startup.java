@@ -21,6 +21,12 @@ public class Startup extends Play {
     public void assignCountries()
     {
         d_countryAssignment.assignCountries();
+        Reinforcement nextPhase = new Reinforcement(d_gameEngine);
+        nextPhase.assignReinforcements();
+        d_gameEngine.setNextPlayerIndex();
+        nextPhase.assignReinforcements();
+        d_gameEngine.setNextPlayerIndex();
+        d_gameEngine.setPhase(new IssueOrder(d_gameEngine));
     }
 
     @Override

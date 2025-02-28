@@ -25,6 +25,10 @@ public class IssueOrder extends MainPlay {
         d_gameEngine.setNextPlayerIndex();
         if (d_gameEngine.get_currentPlayerIndex() == 0)
         {
+            d_gameEngine.setPhase(new OrderExecution(d_gameEngine));
+        }
+        else
+        {
             d_gameEngine.setPhase(new IssueOrder(d_gameEngine));
         }
     }
@@ -32,8 +36,10 @@ public class IssueOrder extends MainPlay {
     @Override
     public String getPhaseName()
     {
-        return getClass().getSimpleName() + " ["
-                + d_gameEngine.getPlayers().values().toArray(new Player[0])[d_gameEngine.get_currentPlayerIndex()]
+        Player currentPlayer = d_gameEngine.getPlayers().values().toArray(new Player[0])[d_gameEngine.get_currentPlayerIndex()];
+        String currentOrders = currentPlayer.getOrders().toString();
+        return currentOrders + "\n" + getClass().getSimpleName() + " ["
+                + currentPlayer
                 .getName() + "]";
     }
 }
