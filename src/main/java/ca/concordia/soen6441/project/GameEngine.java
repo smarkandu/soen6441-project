@@ -9,7 +9,7 @@ import java.util.*;
 
 public class GameEngine implements GameContext, MapComponent {
     private Phase d_gamePhase;
-    private Player d_currentPlayer;
+    private int d_currentPlayerIndex;
     private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;
     private SortedMap<String, Player> d_players;
@@ -18,6 +18,7 @@ public class GameEngine implements GameContext, MapComponent {
         d_Continents = new TreeMap<String, Continent>();
         d_Countries = new TreeMap<String, Country>();
         d_players = new TreeMap<String, Player>();
+        d_currentPlayerIndex = 0;
     }
 
     public void setPhase(Phase p_phase) {
@@ -86,7 +87,7 @@ public class GameEngine implements GameContext, MapComponent {
                 case "deploy":
                     String l_countryID = l_args[1].replace("\"", "");
                     int l_to_deploy = Integer.parseInt(l_args[2]);
-                    d_gamePhase.deploy(d_currentPlayer, l_countryID, l_to_deploy);
+                    d_gamePhase.deploy(d_players.values().toArray(new Player[0])[d_currentPlayerIndex], l_countryID, l_to_deploy);
                     break;
                 case "gameplayer":
                     // TODO (Marc) You'll need to look for the add/remove flag
@@ -264,5 +265,14 @@ public class GameEngine implements GameContext, MapComponent {
                         .append("\n");
             });
     return l_mapBuilder.toString();
+     }
+
+    public int get_currentPlayerIndex() {
+        return d_currentPlayerIndex;
+    }
+
+    public void setNextPlayerIndex()
+     {
+         d_currentPlayerIndex = d_currentPlayerIndex + 1 % d_players.values().size();
      }
 }
