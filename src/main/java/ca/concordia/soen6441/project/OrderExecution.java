@@ -25,17 +25,17 @@ public class OrderExecution extends MainPlay {
 
     public void execute()
     {
-        int l_current_player_index = 0;
+        int l_currentPlayerIndex = 0;
         while (!allPlayersFinishedExecutingOrders())
         {
-            Player l_player = d_gameEngine.getPlayer(l_current_player_index);
+            Player l_player = d_gameEngine.getPlayer(l_currentPlayerIndex);
             if (!l_player.getOrders().isEmpty())
             {
-                Order order = l_player.next_order();
-                order.execute();
+                Order l_order = l_player.next_order();
+                l_order.execute();
             }
 
-            l_current_player_index = (l_current_player_index + 1) % d_gameEngine.getPlayers().size();
+            l_currentPlayerIndex = (l_currentPlayerIndex + 1) % d_gameEngine.getPlayers().size();
         }
 
         AssignReinforcements l_assignReinforements = new AssignReinforcements(d_gameEngine);
@@ -44,17 +44,17 @@ public class OrderExecution extends MainPlay {
 
     public boolean allPlayersFinishedExecutingOrders()
     {
-        int numberOfPlayersFinished = 0;
+        int l_numberOfPlayersFinished = 0;
 
-        for (Player player: d_gameEngine.getPlayers().values())
+        for (Player l_player: d_gameEngine.getPlayers().values())
         {
-               if (player.getOrders().size() == 0)
+               if (l_player.getOrders().size() == 0)
                {
-                   numberOfPlayersFinished++;
+                   l_numberOfPlayersFinished++;
                }
         }
 
-        return numberOfPlayersFinished == d_gameEngine.getPlayers().size();
+        return l_numberOfPlayersFinished == d_gameEngine.getPlayers().size();
     }
 
     @Override

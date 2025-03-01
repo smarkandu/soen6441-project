@@ -46,8 +46,8 @@ public class IssueOrder extends MainPlay {
     public void next() {
         if (d_currentPlayIndex == d_gameEngine.getPlayers().size() - 1)
         {
-            OrderExecution orderExecution = new OrderExecution(d_gameEngine);
-            orderExecution.execute();
+            OrderExecution l_orderExecution = new OrderExecution(d_gameEngine);
+            l_orderExecution.execute();
         }
         else
         {
