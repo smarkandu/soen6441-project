@@ -218,12 +218,12 @@ public class GameEngine implements GameContext, MapComponent {
             return false; // No countries to connect
         }
 
-        Set<String> d_visited = new HashSet<>();
+        Set<String> l_visited = new HashSet<>();
         String l_startCountry = d_Countries.firstKey();
-        exploreCountries(l_startCountry, d_visited);
+        exploreCountries(l_startCountry, l_visited);
 
         // Ensure all countries are visited
-        return d_visited.size() == d_Countries.size();
+        return l_visited.size() == d_Countries.size();
     }
 
     // DFS (depth first search) to explore all connected countries
@@ -245,7 +245,7 @@ public class GameEngine implements GameContext, MapComponent {
 
     // Helper method to validate continent-country relationship
     private boolean validateContinents() {
-        Map<String, Set<String>> d_continentToCountries = new HashMap<>();
+        Map<String, Set<String>> l_continentToCountries = new HashMap<>();
 
         // Populate continent-country mapping
         for (Country l_country : d_Countries.values()) {
@@ -255,16 +255,16 @@ public class GameEngine implements GameContext, MapComponent {
                 return false; // Country belongs to a non-existent continent
             }
 
-            if (!d_continentToCountries.containsKey(l_continentID)) {
-                d_continentToCountries.put(l_continentID, new HashSet<>());
+            if (!l_continentToCountries.containsKey(l_continentID)) {
+                l_continentToCountries.put(l_continentID, new HashSet<>());
             }
-            d_continentToCountries.get(l_continentID).add(l_country.getID());
+            l_continentToCountries.get(l_continentID).add(l_country.getID());
 
         }
 
         // Check every continent has at least one country
         for (Continent l_continent : d_Continents.values()) {
-            if (!d_continentToCountries.containsKey(l_continent.getID()) || d_continentToCountries.get(l_continent.getID()).isEmpty()) {
+            if (!l_continentToCountries.containsKey(l_continent.getID()) || l_continentToCountries.get(l_continent.getID()).isEmpty()) {
                 return false; // No countries associated with this continent
             }
         }
