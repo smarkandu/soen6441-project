@@ -10,4 +10,5 @@ public interface Country {
     int getNumericID();
     String toMapString();
     void setTroops(int p_troops);
+    Continent getContinent();
 }

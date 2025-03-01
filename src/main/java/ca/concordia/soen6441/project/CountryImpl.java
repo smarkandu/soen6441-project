@@ -73,6 +73,9 @@ public class CountryImpl implements Country, MapComponent {
     }
 
     @Override
+    public Continent getContinent(){return d_Continent;}
+
+    @Override
     public String toString() {
         String l_NeighborIDsAsString = d_Neighbors.values().stream().map(Country::getID)
                 .collect(Collectors.joining(" "));
