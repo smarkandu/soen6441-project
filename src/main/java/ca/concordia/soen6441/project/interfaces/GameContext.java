@@ -13,6 +13,8 @@ public interface GameContext {
     void removeNeighbor(String p_neighborCountryID, String p_countryToAdd);
     Continent getContinentByNumericID(int p_numericIDOfContinent);
     Country getCountryByNumericID(int p_numericIDOfCountry);
-    void showMap();
     Player getPlayer(int p_index);
+    Continent getContinent(String p_continentID);
+    List<Country> getCountriesOfContinent(String p_continentID);
+    void showMap(boolean p_isDetailed);
 }
