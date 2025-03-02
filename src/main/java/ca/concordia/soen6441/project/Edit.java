@@ -22,4 +22,18 @@ public abstract class Edit extends Phase {
     public void endGame() {
         printInvalidCommandMessage();
     }
+
+    public void validateMap()
+    {
+        // TODO #5
+        // Edit as needed
+        if (d_gameEngine.isMapValid())
+        {
+            System.out.println("Map is valid");
+        }
+        else
+        {
+            System.out.println("Map is not valid");
+        }
+    }
 }
