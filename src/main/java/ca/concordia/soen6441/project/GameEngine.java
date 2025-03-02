@@ -279,4 +279,12 @@ public class GameEngine implements GameContext, MapComponent {
      {
          return new ArrayList<Player>(d_players.values()).get(p_index);
      }
+
+     public void resetMap()
+     {
+         d_Countries.clear();
+         d_Continents.clear();
+         CountryImpl.resetCounter();
+         ContinentImpl.resetCounter();
+     }
 }
