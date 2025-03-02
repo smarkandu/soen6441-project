@@ -211,15 +211,15 @@ public class GameEngine implements GameContext, MapComponent {
     }
 
     private boolean isCountryBelongsToOnlyOneContinent() {
-        int numberOfContinentsCountryBelongTo = 0;
+        int l_numberOfContinentsCountryBelongTo = 0;
         for(Country l_country: d_Countries.values()){
-            numberOfContinentsCountryBelongTo = 0;
+            l_numberOfContinentsCountryBelongTo = 0;
             for(Continent l_continent: d_Continents.values()){
                 if(l_continent.getNumericID() == l_country.getContinent().getNumericID()){
-                    numberOfContinentsCountryBelongTo++;
+                    l_numberOfContinentsCountryBelongTo++;
                 }
             }
-            if(numberOfContinentsCountryBelongTo != 1) {
+            if(l_numberOfContinentsCountryBelongTo != 1) {
                 return false;
             }
 
