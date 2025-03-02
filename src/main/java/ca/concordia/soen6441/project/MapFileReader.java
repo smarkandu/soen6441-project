@@ -24,7 +24,7 @@ public class MapFileReader {
             if (Files.exists(l_path) && Files.isRegularFile(l_path)) {
                 readFile(p_filePath, p_gameEngine);
             } else {
-                System.out.println("The file does not exist or is not a file.");
+                System.out.println("The file does not exist or is not a file.\nCreating empty new map instead for user to edit.");
             }
         } catch (Exception e) {
             System.out.println("An error occurred: " + e.getMessage());
