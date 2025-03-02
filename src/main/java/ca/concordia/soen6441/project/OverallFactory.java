@@ -1,12 +1,7 @@
 package ca.concordia.soen6441.project;
 
-import ca.concordia.soen6441.project.interfaces.Command;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
-import ca.concordia.soen6441.project.interfaces.GameContext;
-
-import java.util.List;
-import java.util.TreeMap;
 
 public class OverallFactory {
     private static OverallFactory instance = null;
@@ -30,11 +25,11 @@ public class OverallFactory {
         return new ContinentImpl(p_ID, p_Value);
     }
 
-    public Country CreateCountry(int p_numericID, String p_ID, String p_ContinentID, int p_xCoord, int p_yCoord) {
-        return new CountryImpl(p_numericID, p_ID, p_ContinentID, p_xCoord, p_yCoord);
+    public Country CreateCountry(int p_numericID, String p_ID, Continent p_Continent, int p_xCoord, int p_yCoord) {
+        return new CountryImpl(p_numericID, p_ID, p_Continent, p_xCoord, p_yCoord);
     }
 
-    public Country CreateCountry(String p_ID, String p_ContinentID) {
-        return new CountryImpl(p_ID, p_ContinentID);
+    public Country CreateCountry(String p_ID, Continent p_Continent) {
+        return new CountryImpl(p_ID, p_Continent);
     }
 }

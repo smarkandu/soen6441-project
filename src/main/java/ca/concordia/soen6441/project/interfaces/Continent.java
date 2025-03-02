@@ -6,4 +6,5 @@ public interface Continent {
     String getID();
     int getValue();
     int getNumericID();
+    String toMapString();
 }
