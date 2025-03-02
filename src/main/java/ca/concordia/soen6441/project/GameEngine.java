@@ -1,15 +1,15 @@
 package ca.concordia.soen6441.project;
 
-import ca.concordia.soen6441.project.interfaces.Command;
-import ca.concordia.soen6441.project.interfaces.Continent;
-import ca.concordia.soen6441.project.interfaces.Country;
-import ca.concordia.soen6441.project.interfaces.Player;
-import ca.concordia.soen6441.project.interfaces.GameContext;
+import ca.concordia.soen6441.project.interfaces.*;
+
+import java.util.stream.Collectors;
+
 
 import java.util.*;
 
-public class GameEngine implements GameContext {
+public class GameEngine implements GameContext, MapComponent {
     private Phase d_gamePhase;
+    private int d_currentPlayerIndex;
     private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;
     private SortedMap<String, Player> d_players;
@@ -18,6 +18,7 @@ public class GameEngine implements GameContext {
         d_Continents = new TreeMap<String, Continent>();
         d_Countries = new TreeMap<String, Country>();
         d_players = new TreeMap<String, Player>();
+        d_currentPlayerIndex = 0;
     }
 
     public void setPhase(Phase p_phase) {
@@ -27,20 +28,14 @@ public class GameEngine implements GameContext {
     public void start() {
         // Can change the state of the Context (GameEngine) object, e.g.
         setPhase(new PreLoad(this));
-//          setPhase(new PostLoad(this));
-//        setPhase(new Startup(this));
-//        setPhase(new IssueOrder(this));
-//        setPhase(new OrderExecution(this));
-
         boolean l_continuePlaying = true;
         Scanner l_scanner = new Scanner(System.in);
 
         while (l_continuePlaying) {
-            System.out.print(">");
+            System.out.print(d_gamePhase.getPhaseName() + ">");
             String[] l_args = l_scanner.nextLine().split(" ");
             String l_action = l_args[0].toLowerCase();
             String l_operation = l_args.length > 1 ? l_args[1].toLowerCase() : null;
-            Command l_commandToRun = null;
 
             switch (l_action) {
                 case "editcontinent":
@@ -90,7 +85,9 @@ public class GameEngine implements GameContext {
                     d_gamePhase.assignCountries();
                     break;
                 case "deploy":
-                    // TODO
+                    String l_countryID = l_args[1].replace("\"", "");
+                    int l_toDeploy = Integer.parseInt(l_args[2]);
+                    d_gamePhase.deploy(l_countryID, l_toDeploy);
                     break;
                 case "gameplayer":
                     // TODO (Marc) You'll need to look for the add/remove flag
@@ -108,9 +105,15 @@ public class GameEngine implements GameContext {
                 case "loadmap":
                     d_gamePhase.loadMap(l_args[1]);
                     break;
+                case "next":
+                    d_gamePhase.next();
+                    break;
                 case "exit":
                     d_gamePhase.endGame();
                     l_continuePlaying = false;
+                    break;
+                case "":
+                    // Do Nothing
                     break;
                 default:
                     System.out.println("Command not recognized");
@@ -134,13 +137,13 @@ public class GameEngine implements GameContext {
 
     @Override
     public void addCountry(int p_numericID, String p_CountryID, String p_continentID, int p_xCoord, int p_yCoord) {
-        Country l_country = OverallFactory.getInstance().CreateCountry(p_numericID, p_CountryID, p_continentID, p_xCoord, p_yCoord);
+        Country l_country = OverallFactory.getInstance().CreateCountry(p_numericID, p_CountryID, d_Continents.get(p_continentID), p_xCoord, p_yCoord);
         d_Countries.put(p_CountryID, l_country);
         System.out.println("Country added: " + d_Countries.get(l_country.getID()));
     }
 
     public void addCountry(String p_CountryID, String p_continentID) {
-        Country l_country = OverallFactory.getInstance().CreateCountry(p_CountryID, p_continentID);
+        Country l_country = OverallFactory.getInstance().CreateCountry(p_CountryID, d_Continents.get(p_continentID));
         d_Countries.put(p_CountryID, l_country);
         System.out.println("Country added: " + d_Countries.get(l_country.getID()));
     }
@@ -196,6 +199,7 @@ public class GameEngine implements GameContext {
 
     public void addPlayer(String p_playername) {
         d_players.put(p_playername, new PlayerImpl(p_playername, new ArrayList<>(), new ArrayList<>()));
+        System.out.println("Player added: " + d_players.get(p_playername).getName());
     }
 
     public void removePlayer(String p_player) {
@@ -204,6 +208,17 @@ public class GameEngine implements GameContext {
 
     public void showMap() {
         System.out.println(this);
+    }
+    public Map<String, Country> getCountries() {
+        return d_Countries;
+    }
+
+    public Map<String, Player> getPlayers() {
+        return d_players;
+    }
+
+    public Map<String, Continent> getContinents() {
+        return d_Continents;
     }
 
     @Override
@@ -225,4 +240,43 @@ public class GameEngine implements GameContext {
 
         return "\n\n" + l_continentsStr + "\n\n" + l_territoriesStr;
     }
+
+    @Override
+    public String toMapString() {
+    // Builds the map file format string
+
+    // Create sections
+    StringBuilder l_mapBuilder = new StringBuilder();
+    
+    // Add [continents] section
+    l_mapBuilder.append("[continents]\n");
+    d_Continents.values().stream()
+    .sorted(Comparator.comparingInt(Continent::getNumericID)) // Sort by numeric ID
+    .forEach(l_continent -> l_mapBuilder.append(l_continent.toMapString()).append("\n"));
+
+    // Add [countries] section
+    l_mapBuilder.append("\n[countries]\n");
+   d_Countries.values().stream()
+                .sorted(Comparator.comparingInt(Country::getNumericID))
+                .forEach(l_country -> l_mapBuilder.append(l_country.toMapString()).append("\n"));
+
+    // Add [borders] section
+   l_mapBuilder.append("\n[borders]\n");
+    d_Countries.values().stream()
+            .sorted(Comparator.comparingInt(Country::getNumericID))
+            .forEach(l_country -> {
+                String l_borders = d_Countries.get(l_country.getID()).getNeighborIDs().stream()
+                        .map(neighborID -> String.valueOf(d_Countries.get(neighborID).getNumericID())) // Convert to numeric ID
+                        .collect(Collectors.joining(" "));
+                l_mapBuilder.append(l_country.getNumericID())
+                        .append(l_borders.isEmpty() ? "" : " " + l_borders)
+                        .append("\n");
+            });
+    return l_mapBuilder.toString();
+     }
+
+     public Player getPlayer(int p_index)
+     {
+         return new ArrayList<Player>(d_players.values()).get(p_index);
+     }
 }
