@@ -230,28 +230,7 @@ public List<Country> getCountriesOfContinent(String p_continentID) {
  *                   If false, prints only continent and country names.
  */
 public void showMap(boolean p_isDetailed) { 
-    // Print header for the map display
-    System.out.println("\n------ Game Map ------\n");
-
-    // Debugging: Check which game phase we are currently in
-    // System.out.println("DEBUG: Current Phase -> " + d_gamePhase.getClass().getSimpleName());
-
-    // Debugging: Print total number of continents
-    // System.out.println("DEBUG: Total Continents -> " + d_Continents.size());
     
-    // If no continents exist, print an error message
-    // if (d_Continents.isEmpty()) {
-    //     System.out.println("ERROR: No continents found!");
-    // }
-
-    // Debugging: Print total number of countries
-    // System.out.println("DEBUG: Total Countries -> " + d_Countries.size());
-
-    // If no countries exist, print an error message
-    // if (d_Countries.isEmpty()) {
-    //     System.out.println("ERROR: No countries found!");
-    // }
-
     // Step 1: Retrieve all continents and sort them alphabetically
     List<Continent> l_sortedContinents = new ArrayList<>(d_Continents.values()); // Convert to list
     l_sortedContinents.sort(Comparator.comparing(Continent::getID)); // Sort by continent ID
@@ -259,7 +238,7 @@ public void showMap(boolean p_isDetailed) {
     // Iterate through each sorted continent
     for (Continent l_continent : l_sortedContinents) {
         // Print the continent's name and its bonus value
-        System.out.println("Continent: " + l_continent.getID() + " (Bonus: " + l_continent.getValue() + ")"); 
+        System.out.println(l_continent.getID() + " (Bonus: " + l_continent.getValue() + ")"); 
 
         // Step 2: Retrieve the list of countries belonging to this continent
         List<Country> l_countries = getCountriesOfContinent(l_continent.getID());
@@ -287,13 +266,7 @@ public void showMap(boolean p_isDetailed) {
             // Print the formatted country information
             System.out.println(l_countryInfo);
         }
-
-        // Add spacing for readability after listing countries under a continent
-        System.out.println();
     }
-
-    // Print footer for the map display
-    System.out.println("----------------------\n");
 }
 
     public Map<String, Country> getCountries() {
