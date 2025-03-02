@@ -202,6 +202,29 @@ public class GameEngine implements GameContext, MapComponent {
         // Continent should have at least one country
         // a country should belong to only one continent
 
+        if(!isCountryBelongsToOnlyOneContinent()) {
+            System.out.println("invalid");
+            return;
+        }
+
+
+    }
+
+    private boolean isCountryBelongsToOnlyOneContinent() {
+        int numberOfContinentsCountryBelongTo = 0;
+        for(Country l_country: d_Countries.values()){
+            numberOfContinentsCountryBelongTo = 0;
+            for(Continent l_continent: d_Continents.values()){
+                if(l_continent.getNumericID() == l_country.getContinent().getNumericID()){
+                    numberOfContinentsCountryBelongTo++;
+                }
+            }
+            if(numberOfContinentsCountryBelongTo != 1) {
+                return false;
+            }
+
+        }
+        return true;
     }
 
     public void addPlayer(String p_playername) {

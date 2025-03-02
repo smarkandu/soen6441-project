@@ -87,6 +87,11 @@ public class CountryImpl implements Country, MapComponent {
         this.d_troops = p_troops;  // ✅ Assign troops correctly
     }
 
+    @Override
+    public Continent getContinent() {
+        return d_Continent;
+    }
+
     public static void resetCounter()
     {
         d_Counter = 0;
