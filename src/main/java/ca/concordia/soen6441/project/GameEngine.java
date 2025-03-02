@@ -206,9 +206,96 @@ public class GameEngine implements GameContext, MapComponent {
         d_players.remove(p_player);
     }
 
-    public void showMap() {
-        System.out.println(this);
+    @Override
+public Continent getContinent(String p_continentID) {
+    return d_Continents.get(p_continentID); // Retrieve the continent from the map
+}
+
+    @Override
+public List<Country> getCountriesOfContinent(String p_continentID) {
+    List<Country> l_countries = new ArrayList<>();
+    for (Country l_country : d_Countries.values()) {
+        if (l_country.getContinent().getID().equals(p_continentID)) {
+            l_countries.add(l_country);
+        }
     }
+    return l_countries;
+}
+
+  /**
+ * Prints a list of the continents (in alphabetical order) with their countries
+ * underneath each one.
+ *
+ * @param isDetailed If true, prints country owners, army counts, and neighbors.
+ *                   If false, prints only continent and country names.
+ */
+public void showMap(boolean p_isDetailed) { 
+    // Print header for the map display
+    System.out.println("\n------ Game Map ------\n");
+
+    // Debugging: Check which game phase we are currently in
+    // System.out.println("DEBUG: Current Phase -> " + d_gamePhase.getClass().getSimpleName());
+
+    // Debugging: Print total number of continents
+    // System.out.println("DEBUG: Total Continents -> " + d_Continents.size());
+    
+    // If no continents exist, print an error message
+    // if (d_Continents.isEmpty()) {
+    //     System.out.println("ERROR: No continents found!");
+    // }
+
+    // Debugging: Print total number of countries
+    // System.out.println("DEBUG: Total Countries -> " + d_Countries.size());
+
+    // If no countries exist, print an error message
+    // if (d_Countries.isEmpty()) {
+    //     System.out.println("ERROR: No countries found!");
+    // }
+
+    // Step 1: Retrieve all continents and sort them alphabetically
+    List<Continent> l_sortedContinents = new ArrayList<>(d_Continents.values()); // Convert to list
+    l_sortedContinents.sort(Comparator.comparing(Continent::getID)); // Sort by continent ID
+
+    // Iterate through each sorted continent
+    for (Continent l_continent : l_sortedContinents) {
+        // Print the continent's name and its bonus value
+        System.out.println("Continent: " + l_continent.getID() + " (Bonus: " + l_continent.getValue() + ")"); 
+
+        // Step 2: Retrieve the list of countries belonging to this continent
+        List<Country> l_countries = getCountriesOfContinent(l_continent.getID());
+
+        // Sort countries alphabetically based on their ID
+        l_countries.sort(Comparator.comparing(Country::getID));
+
+        // Iterate through each country in the continent
+        for (Country l_country : l_countries) {
+            // Start constructing the country info string
+            StringBuilder l_countryInfo = new StringBuilder("  - " + l_country.getID());
+
+            // If detailed view is enabled, append owner, army count, and neighboring countries
+            if (p_isDetailed) {
+                Player l_owner = l_country.getOwner(); // Get the country owner
+                int l_armyCount = l_country.getTroops(); // Get the number of troops in the country
+                List<String> l_neighbors = l_country.getNeighborIDs(); // Get list of neighboring country IDs
+
+                // Append detailed information about the country
+                l_countryInfo.append(" | Owner: ").append(l_owner != null ? l_owner.getName() : "Neutral") // Owner's name or "Neutral"
+                             .append(" | Armies: ").append(l_armyCount) // Number of armies stationed
+                             .append(" | Neighbors: ").append(String.join(", ", l_neighbors)); // List of neighboring countries
+            }
+            
+            // Print the formatted country information
+            System.out.println(l_countryInfo);
+        }
+
+        // Add spacing for readability after listing countries under a continent
+        System.out.println();
+    }
+
+    // Print footer for the map display
+    System.out.println("----------------------\n");
+}
+
     public Map<String, Country> getCountries() {
         return d_Countries;
     }
