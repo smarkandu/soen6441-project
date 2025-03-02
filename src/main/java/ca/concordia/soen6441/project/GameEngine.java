@@ -280,11 +280,43 @@ public class GameEngine implements GameContext, MapComponent {
          return new ArrayList<Player>(d_players.values()).get(p_index);
      }
 
+     public void loadMap(String p_filename) throws InvalidMapFileException {
+         // Empty out contents of map in GameEngine
+         resetMap();
+
+         // Read Map into Game Engine
+         MapFileReader mapFileReader = new MapFileReader();
+         mapFileReader.readMapFile(p_filename, this);
+
+         // Validate Map
+         if (isMapValid())
+         {
+             System.out.println("Map " + p_filename + " loaded");
+         }
+         else
+         {
+             throw new InvalidMapFileException();
+         }
+     }
+
      public void resetMap()
      {
          d_Countries.clear();
          d_Continents.clear();
          CountryImpl.resetCounter();
          ContinentImpl.resetCounter();
+     }
+
+     public boolean isMapValid()
+     {
+         // TODO #5
+         // remove hardcoded "true" value and check the conditions for validity
+         // For any issues, use a print to specify what you found wrong
+         return true;
+     }
+
+     public boolean isMapEmpty()
+     {
+         return d_Continents.isEmpty() && d_Countries.isEmpty();
      }
 }

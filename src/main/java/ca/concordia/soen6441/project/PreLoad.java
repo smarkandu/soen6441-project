@@ -1,15 +1,21 @@
 package ca.concordia.soen6441.project;
 
 public class PreLoad extends Edit {
-    public PreLoad(GameEngine p_gameEngine) {
+    public PreLoad(GameEngine p_gameEngine)
+    {
         super(p_gameEngine);
     }
 
     public void loadMap(String p_filename) {
-        d_gameEngine.resetMap();
-        MapFileReader mapFileReader = new MapFileReader();
-        mapFileReader.readMapFile(p_filename, d_gameEngine);
-        d_gameEngine.setPhase(new PostLoad(d_gameEngine));
+        try
+        {
+            d_gameEngine.loadMap(p_filename);
+        }
+        catch(InvalidMapFileException e)
+        {
+            System.out.println("File not structured correctly." +
+                    "\nPlease use editor to correct and save, or load another file.");
+        }
     }
 
     public void saveMap(String p_filename) {
@@ -24,12 +30,14 @@ public class PreLoad extends Edit {
 
     public void next()
     {
-        d_gameEngine.setPhase(new PostLoad(d_gameEngine));
-    }
-
-    public void validateMap()
-    {
-        // TODO
+        if (!d_gameEngine.isMapEmpty())
+        {
+            d_gameEngine.setPhase(new PostLoad(d_gameEngine));
+        }
+        else
+        {
+            d_gameEngine.setPhase(new Startup(d_gameEngine));
+        }
     }
 
     @Override
@@ -60,5 +68,13 @@ public class PreLoad extends Edit {
     @Override
     public void editNeighborRemove(String p_countryID, String p_neighborCountryID) {
         printInvalidCommandMessage();
+    }
+
+    @Override
+    public String getPhaseName()
+    {
+        System.out.println("\n*** Welcome to the Map Editor! ***\nPlease load or create a new map using 'loadmap', or skip directly to the game using the command 'next'");
+        System.out.println("If a file is already loaded (or a new empty map created), 'next' will take you to the edit state of the MapEditor instead\n");
+        return super.getPhaseName();
     }
 }

@@ -4,6 +4,7 @@ import ca.concordia.soen6441.project.interfaces.Player;
 
 public class Startup extends Play {
     private CountryAssignment d_countryAssignment;
+    private boolean isMapLoaded = false;
 
     public Startup(GameEngine p_gameEngine)
     {
@@ -13,16 +14,35 @@ public class Startup extends Play {
 
     public void loadMap(String p_filename)
     {
-        printInvalidCommandMessage();
+        try
+        {
+            d_gameEngine.loadMap(p_filename);
+            isMapLoaded = true;
+        }
+        catch(InvalidMapFileException e)
+        {
+            System.out.println("File not structured correctly." +
+                    "\nPlease load another file.");
+            isMapLoaded = false;
+        }
     }
 
     public void assignCountries()
     {
-        d_countryAssignment.assignCountries();
+        if (!isMapLoaded) {
+            System.out.println("Map must be loaded first");
+        }
+        else if (d_gameEngine.getPlayers().size() < 2) {
+            System.out.println("You must have at least two players to proceed");
+        }
+        else
+        {
+            d_countryAssignment.assignCountries();
 
-        // After assigning countries, go to the next phase for each player (Assign Reinforcements)
-        AssignReinforcements l_assignReinforements = new AssignReinforcements(d_gameEngine);
-        l_assignReinforements.execute();
+            // After assigning countries, go to the next phase for each player (Assign Reinforcements)
+            AssignReinforcements l_assignReinforements = new AssignReinforcements(d_gameEngine);
+            l_assignReinforements.execute();
+        }
     }
 
     @Override
@@ -43,5 +63,12 @@ public class Startup extends Play {
 
     public void next() {
         printInvalidCommandMessage();
+    }
+
+    public String getPhaseName()
+    {
+        System.out.println("\n*** Welcome to the Game Warzone! ***\nPlease load map using 'loadmap' and add players using 'gameplayer'");
+        System.out.println("Once you have done the above, use the command 'assigncountries' to initiate action and start the game'\n");
+        return super.getPhaseName();
     }
 }
