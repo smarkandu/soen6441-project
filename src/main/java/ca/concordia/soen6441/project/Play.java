@@ -7,7 +7,7 @@ public abstract class Play extends Phase {
     }
 
     public void showMap() {
-        System.out.println("map is being displayed");
+        d_gameEngine.showMap(false);
     }
 
     @Override

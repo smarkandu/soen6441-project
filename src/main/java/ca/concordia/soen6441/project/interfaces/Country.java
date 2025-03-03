@@ -9,6 +9,9 @@ public interface Country {
     void removeNeighbor(String p_NeighborID);
     int getNumericID();
     String toMapString();
+    int getTroops();
     void setTroops(int p_troops);
+    Player getOwner();
+    void setOwner(Player p_owner);
     Continent getContinent();
 }

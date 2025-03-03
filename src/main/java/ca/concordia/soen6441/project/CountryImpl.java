@@ -3,6 +3,7 @@ package ca.concordia.soen6441.project;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.MapComponent;
+import ca.concordia.soen6441.project.interfaces.Player;
 
 import java.util.List;
 import java.util.TreeMap;
@@ -17,6 +18,7 @@ public class CountryImpl implements Country, MapComponent {
     private static int d_Counter = 0;
     private final int d_numericID;
     private int d_troops;
+    private Player d_owner;
 
     /**
      * Constructor (to be used when loading a .map file)
@@ -35,6 +37,7 @@ public class CountryImpl implements Country, MapComponent {
         {
             d_Counter = p_numericID;
         }
+        d_owner = null;
     }
 
     public CountryImpl(String p_ID, Continent p_Continent) {
@@ -44,6 +47,7 @@ public class CountryImpl implements Country, MapComponent {
         d_Continent = p_Continent;
         d_Neighbors = new TreeMap<String, Country>();
         this.d_numericID = ++d_Counter;
+        d_owner = null;
     }
 
     @Override
@@ -85,9 +89,24 @@ public class CountryImpl implements Country, MapComponent {
                 "," + d_Continent.getID() + (!l_NeighborIDsAsString.isEmpty()?
                 "," + l_NeighborIDsAsString:"");
     }
+
+    public int getTroops() {
+        return d_troops;
+    }
+
     @Override
     public void setTroops(int p_troops) {
         this.d_troops = p_troops;  // ✅ Assign troops correctly
+    }
+
+    @Override
+    public Player getOwner() {
+        return d_owner;
+    }
+
+    @Override
+    public void setOwner(Player p_owner) {
+        d_owner = p_owner;
     }
 
     public static void resetCounter()
@@ -99,5 +118,9 @@ public class CountryImpl implements Country, MapComponent {
     public String toMapString() {   
     // Formats country details in the Domination format:
     return d_numericID + " " + d_ID + " " + d_Continent.getNumericID() + " " + d_xCoord + " " + d_yCoord;
+    }
+
+    public Continent getContinent() {
+        return d_Continent;
     }
 }

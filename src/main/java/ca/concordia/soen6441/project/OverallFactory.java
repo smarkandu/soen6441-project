@@ -1,12 +1,7 @@
 package ca.concordia.soen6441.project;
 
-import ca.concordia.soen6441.project.interfaces.Command;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
-import ca.concordia.soen6441.project.interfaces.GameContext;
-
-import java.util.List;
-import java.util.TreeMap;
 
 public class OverallFactory {
     private static OverallFactory instance = null;
