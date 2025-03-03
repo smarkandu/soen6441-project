@@ -13,9 +13,9 @@ public class ValidateMap {
 
     public ValidateMap(
             SortedMap<String, Country> p_Countries,
-            SortedMap<String, Continent> d_Continents) {
+            SortedMap<String, Continent> p_Continents) {
         this.d_Countries = p_Countries;
-        this.d_Continents = d_Continents;
+        this.d_Continents = p_Continents;
     }
 
     public boolean isMapValidate() {
@@ -38,12 +38,12 @@ public class ValidateMap {
             return false;
         }
 
-        Set<String> d_visited = new HashSet<>();
+        Set<String> l_visited = new HashSet<>();
         String l_startCountry = d_Countries.firstKey();
-        exploreCountries(l_startCountry, d_visited);
+        exploreCountries(l_startCountry, l_visited);
 
         // Ensure all countries are visited
-        if(d_visited.size() != d_Countries.size()) {
+        if(l_visited.size() != d_Countries.size()) {
             System.out.println("Not all countries are connected.");
             return false;
         }
@@ -69,7 +69,7 @@ public class ValidateMap {
 
     // Helper method to validate continent-country relationship
     private boolean validateContinents() {
-        Map<String, Set<String>> d_continentToCountries = new HashMap<>();
+        Map<String, Set<String>> l_continentToCountries = new HashMap<>();
 
         // Populate continent-country mapping
         for (Country l_country : d_Countries.values()) {
@@ -80,16 +80,16 @@ public class ValidateMap {
                 return false;
             }
 
-            if (!d_continentToCountries.containsKey(l_continentID)) {
-                d_continentToCountries.put(l_continentID, new HashSet<>());
+            if (!l_continentToCountries.containsKey(l_continentID)) {
+                l_continentToCountries.put(l_continentID, new HashSet<>());
             }
-            d_continentToCountries.get(l_continentID).add(l_country.getID());
+            l_continentToCountries.get(l_continentID).add(l_country.getID());
 
         }
 
         // Check every continent has at least one country
         for (Continent l_continent : d_Continents.values()) {
-            if (!d_continentToCountries.containsKey(l_continent.getID()) || d_continentToCountries.get(l_continent.getID()).isEmpty()) {
+            if (!l_continentToCountries.containsKey(l_continent.getID()) || l_continentToCountries.get(l_continent.getID()).isEmpty()) {
                 System.out.println("No countries associated with this continent");
                 return false;
             }
