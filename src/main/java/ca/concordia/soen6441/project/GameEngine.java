@@ -34,7 +34,6 @@ public class GameEngine implements GameContext, MapComponent {
             String[] l_args = l_scanner.nextLine().split(" ");
             String l_action = l_args[0].toLowerCase();
             String l_operation = l_args.length > 1 ? l_args[1].toLowerCase() : null;
-            Command l_commandToRun = null;
 
             switch (l_action) {
                 case "editcontinent":
