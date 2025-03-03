@@ -17,4 +17,6 @@ public interface GameContext {
     Continent getContinent(String p_continentID);
     List<Country> getCountriesOfContinent(String p_continentID);
     void showMap(boolean p_isDetailed);
+    boolean isMapValid();
+    boolean isMapEmpty();
 }

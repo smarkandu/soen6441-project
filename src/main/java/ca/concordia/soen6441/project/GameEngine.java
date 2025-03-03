@@ -9,7 +9,6 @@ import java.util.*;
 
 public class GameEngine implements GameContext, MapComponent {
     private Phase d_gamePhase;
-    private int d_currentPlayerIndex;
     private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;
     private SortedMap<String, Player> d_players;
@@ -18,7 +17,6 @@ public class GameEngine implements GameContext, MapComponent {
         d_Continents = new TreeMap<String, Continent>();
         d_Countries = new TreeMap<String, Country>();
         d_players = new TreeMap<String, Player>();
-        d_currentPlayerIndex = 0;
     }
 
     public void setPhase(Phase p_phase) {
@@ -94,7 +92,7 @@ public class GameEngine implements GameContext, MapComponent {
                     // (similar to commands above)
                     // Also we'll need to change setPlayers to something else
                     // (See notes in "Phase")
-                    String l_playername = l_args[2].toLowerCase();
+                    String l_playername = l_args[2];
                     if ("-add".equals(l_operation) && l_args.length == 3) {
                         d_gamePhase.gamePlayerAdd(l_playername);
                     }
@@ -226,7 +224,7 @@ public List<Country> getCountriesOfContinent(String p_continentID) {
  * Prints a list of the continents (in alphabetical order) with their countries
  * underneath each one.
  *
- * @param isDetailed If true, prints country owners, army counts, and neighbors.
+ * @param p_isDetailed If true, prints country owners, army counts, and neighbors.
  *                   If false, prints only continent and country names.
  */
 public void showMap(boolean p_isDetailed) { 
@@ -338,5 +336,45 @@ public void showMap(boolean p_isDetailed) {
      public Player getPlayer(int p_index)
      {
          return new ArrayList<Player>(d_players.values()).get(p_index);
+     }
+
+     public void loadMap(String p_filename) throws InvalidMapFileException {
+         // Empty out contents of map in GameEngine
+         resetMap();
+
+         // Read Map into Game Engine
+         MapFileReader l_mapFileReader = new MapFileReader();
+         l_mapFileReader.readMapFile(p_filename, this);
+
+         // Validate Map
+         if (isMapValid())
+         {
+             System.out.println("Map " + p_filename + " loaded");
+         }
+         else
+         {
+             throw new InvalidMapFileException();
+         }
+     }
+
+     public void resetMap()
+     {
+         d_Countries.clear();
+         d_Continents.clear();
+         CountryImpl.resetCounter();
+         ContinentImpl.resetCounter();
+     }
+
+     public boolean isMapValid()
+     {
+         // TODO #5
+         // remove hardcoded "true" value and check the conditions for validity
+         // For any issues, use a print to specify what you found wrong
+         return true;
+     }
+
+     public boolean isMapEmpty()
+     {
+         return d_Continents.isEmpty() && d_Countries.isEmpty();
      }
 }
