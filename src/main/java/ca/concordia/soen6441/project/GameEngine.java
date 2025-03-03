@@ -84,7 +84,9 @@ public class GameEngine implements GameContext, MapComponent {
                     d_gamePhase.assignCountries();
                     break;
                 case "deploy":
-                    // TODO
+                    String l_countryID = l_args[1].replace("\"", "");
+                    int l_toDeploy = Integer.parseInt(l_args[2]);
+                    d_gamePhase.deploy(l_countryID, l_toDeploy);
                     break;
                 case "gameplayer":
                     // TODO (Marc) You'll need to look for the add/remove flag
@@ -102,16 +104,15 @@ public class GameEngine implements GameContext, MapComponent {
                 case "loadmap":
                     d_gamePhase.loadMap(l_args[1]);
                     break;
-                case "validatemap":
-                    if(l_args.length == 1) {
-                        d_gamePhase.validateMap();
-                    }
                 case "next":
                     d_gamePhase.next();
                     break;
                 case "exit":
                     d_gamePhase.endGame();
                     l_continuePlaying = false;
+                    break;
+                case "":
+                    // Do Nothing
                     break;
                 default:
                     System.out.println("Command not recognized");
@@ -195,96 +196,77 @@ public class GameEngine implements GameContext, MapComponent {
         d_Countries.get(p_neighborCountryID).removeNeighbor(p_CountryID);
     }
 
-    @Override
-    public void validateMap() {
-        if (!isGraphConnected()) {
-            System.out.println("Invalid map: No countries exists or not all countries are connected.");
-            return;
-        }
-
-        if (!validateContinents()) {
-            System.out.println(
-                                "Invalid map: Continent or country association is incorrect." +
-                                "\nNote: Every continent must have at least one country." +
-                                "\n      Every country must belong to exactly one continent.");
-            return;
-        }
-        System.out.println("Map is valid.");
-    }
-
-    // Helper method to check if the graph of countries is connected
-    private boolean isGraphConnected() {
-        if (d_Countries.isEmpty()) {
-            return false; // No countries to connect
-        }
-
-        Set<String> l_visited = new HashSet<>();
-        String l_startCountry = d_Countries.firstKey();
-        exploreCountries(l_startCountry, l_visited);
-
-        // Ensure all countries are visited
-        return l_visited.size() == d_Countries.size();
-    }
-
-    // DFS (depth first search) to explore all connected countries
-    private void exploreCountries(String p_countryID, Set<String> p_visited) {
-        if (p_visited.contains(p_countryID)) {
-            return;
-        }
-
-        p_visited.add(p_countryID);
-        Country l_current = d_Countries.get(p_countryID);
-
-
-        for (String l_neighborID : l_current.getNeighborIDs()) {
-            if (d_Countries.containsKey(l_neighborID)) {
-                exploreCountries(l_neighborID, p_visited);
-            }
-        }
-    }
-
-    // Helper method to validate continent-country relationship
-    private boolean validateContinents() {
-        Map<String, Set<String>> l_continentToCountries = new HashMap<>();
-
-        // Populate continent-country mapping
-        for (Country l_country : d_Countries.values()) {
-            String l_continentID = l_country.getContinent().getID();
-            // Check if the country's continent actually exists
-            if (!d_Continents.containsKey(l_continentID)) {
-                return false; // Country belongs to a non-existent continent
-            }
-
-            if (!l_continentToCountries.containsKey(l_continentID)) {
-                l_continentToCountries.put(l_continentID, new HashSet<>());
-            }
-            l_continentToCountries.get(l_continentID).add(l_country.getID());
-
-        }
-
-        // Check every continent has at least one country
-        for (Continent l_continent : d_Continents.values()) {
-            if (!l_continentToCountries.containsKey(l_continent.getID()) || l_continentToCountries.get(l_continent.getID()).isEmpty()) {
-                return false; // No countries associated with this continent
-            }
-        }
-
-        // Ensure each country belongs to exactly one continent
-        return true;
-    }
-
-
     public void addPlayer(String p_playername) {
         d_players.put(p_playername, new PlayerImpl(p_playername, new ArrayList<>(), new ArrayList<>()));
+        System.out.println("Player added: " + d_players.get(p_playername).getName());
     }
 
     public void removePlayer(String p_player) {
         d_players.remove(p_player);
     }
 
-    public void showMap() {
-        System.out.println(this);
+    @Override
+public Continent getContinent(String p_continentID) {
+    return d_Continents.get(p_continentID); // Retrieve the continent from the map
+}
+
+    @Override
+public List<Country> getCountriesOfContinent(String p_continentID) {
+    List<Country> l_countries = new ArrayList<>();
+    for (Country l_country : d_Countries.values()) {
+        if (l_country.getContinent().getID().equals(p_continentID)) {
+            l_countries.add(l_country);
+        }
     }
+    return l_countries;
+}
+
+  /**
+ * Prints a list of the continents (in alphabetical order) with their countries
+ * underneath each one.
+ *
+ * @param p_isDetailed If true, prints country owners, army counts, and neighbors.
+ *                   If false, prints only continent and country names.
+ */
+public void showMap(boolean p_isDetailed) {
+
+    // Step 1: Retrieve all continents and sort them alphabetically
+    List<Continent> l_sortedContinents = new ArrayList<>(d_Continents.values()); // Convert to list
+    l_sortedContinents.sort(Comparator.comparing(Continent::getID)); // Sort by continent ID
+
+    // Iterate through each sorted continent
+    for (Continent l_continent : l_sortedContinents) {
+        // Print the continent's name and its bonus value
+        System.out.println(l_continent.getID() + " (Bonus: " + l_continent.getValue() + ")");
+
+        // Step 2: Retrieve the list of countries belonging to this continent
+        List<Country> l_countries = getCountriesOfContinent(l_continent.getID());
+
+        // Sort countries alphabetically based on their ID
+        l_countries.sort(Comparator.comparing(Country::getID));
+
+        // Iterate through each country in the continent
+        for (Country l_country : l_countries) {
+            // Start constructing the country info string
+            StringBuilder l_countryInfo = new StringBuilder("  - " + l_country.getID());
+
+            // If detailed view is enabled, append owner, army count, and neighboring countries
+            if (p_isDetailed) {
+                Player l_owner = l_country.getOwner(); // Get the country owner
+                int l_armyCount = l_country.getTroops(); // Get the number of troops in the country
+                List<String> l_neighbors = l_country.getNeighborIDs(); // Get list of neighboring country IDs
+
+                // Append detailed information about the country
+                l_countryInfo.append(" | Owner: ").append(l_owner != null ? l_owner.getName() : "Neutral") // Owner's name or "Neutral"
+                             .append(" | Armies: ").append(l_armyCount) // Number of armies stationed
+                             .append(" | Neighbors: ").append(String.join(", ", l_neighbors)); // List of neighboring countries
+            }
+
+            // Print the formatted country information
+            System.out.println(l_countryInfo);
+        }
+    }
+}
 
     public Map<String, Country> getCountries() {
         return d_Countries;
@@ -350,5 +332,50 @@ public class GameEngine implements GameContext, MapComponent {
                         .append("\n");
             });
     return l_mapBuilder.toString();
+     }
+
+     public Player getPlayer(int p_index)
+     {
+         return new ArrayList<Player>(d_players.values()).get(p_index);
+     }
+
+     public void loadMap(String p_filename) throws InvalidMapFileException {
+         // Empty out contents of map in GameEngine
+         resetMap();
+
+         // Read Map into Game Engine
+         MapFileReader l_mapFileReader = new MapFileReader();
+         l_mapFileReader.readMapFile(p_filename, this);
+
+         // Validate Map
+         if (isMapValid())
+         {
+             System.out.println("Map " + p_filename + " loaded");
+         }
+         else
+         {
+             throw new InvalidMapFileException();
+         }
+     }
+
+     public void resetMap()
+     {
+         d_Countries.clear();
+         d_Continents.clear();
+         CountryImpl.resetCounter();
+         ContinentImpl.resetCounter();
+     }
+
+     public boolean isMapValid()
+     {
+         // TODO #5
+         // remove hardcoded "true" value and check the conditions for validity
+         // For any issues, use a print to specify what you found wrong
+         return true;
+     }
+
+     public boolean isMapEmpty()
+     {
+         return d_Continents.isEmpty() && d_Countries.isEmpty();
      }
 }
