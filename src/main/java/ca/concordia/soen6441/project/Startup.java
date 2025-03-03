@@ -65,7 +65,7 @@ public class Startup extends Play {
     public String getPhaseName()
     {
         System.out.println("\n*** Welcome to the Game Warzone! ***\nPlease load map using 'loadmap' and add players using 'gameplayer'");
-        System.out.println("Once you have done the above, use the command 'assigncountries' to initiate action and start the game'\n");
+        System.out.println("Once you have done the above, use the command 'assigncountries' to initiate action and start the game\n");
         return super.getPhaseName();
     }
 }
