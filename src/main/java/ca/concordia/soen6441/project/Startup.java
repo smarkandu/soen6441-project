@@ -4,7 +4,6 @@ import ca.concordia.soen6441.project.interfaces.Player;
 
 public class Startup extends Play {
     private CountryAssignment d_countryAssignment;
-    private boolean isMapLoaded = false;
 
     public Startup(GameEngine p_gameEngine)
     {
@@ -17,19 +16,17 @@ public class Startup extends Play {
         try
         {
             d_gameEngine.loadMap(p_filename);
-            isMapLoaded = true;
         }
         catch(InvalidMapFileException e)
         {
             System.out.println("File not structured correctly." +
                     "\nPlease load another file.");
-            isMapLoaded = false;
         }
     }
 
     public void assignCountries()
     {
-        if (!isMapLoaded) {
+        if (d_gameEngine.isMapEmpty()) {
             System.out.println("Map must be loaded first");
         }
         else if (d_gameEngine.getPlayers().size() < 2) {

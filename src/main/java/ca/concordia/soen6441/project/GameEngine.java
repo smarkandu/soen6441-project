@@ -9,7 +9,6 @@ import java.util.*;
 
 public class GameEngine implements GameContext, MapComponent {
     private Phase d_gamePhase;
-    private int d_currentPlayerIndex;
     private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;
     private SortedMap<String, Player> d_players;
@@ -18,7 +17,6 @@ public class GameEngine implements GameContext, MapComponent {
         d_Continents = new TreeMap<String, Continent>();
         d_Countries = new TreeMap<String, Country>();
         d_players = new TreeMap<String, Player>();
-        d_currentPlayerIndex = 0;
     }
 
     public void setPhase(Phase p_phase) {
@@ -94,7 +92,7 @@ public class GameEngine implements GameContext, MapComponent {
                     // (similar to commands above)
                     // Also we'll need to change setPlayers to something else
                     // (See notes in "Phase")
-                    String l_playername = l_args[2].toLowerCase();
+                    String l_playername = l_args[2];
                     if ("-add".equals(l_operation) && l_args.length == 3) {
                         d_gamePhase.gamePlayerAdd(l_playername);
                     }
@@ -345,8 +343,8 @@ public void showMap(boolean p_isDetailed) {
          resetMap();
 
          // Read Map into Game Engine
-         MapFileReader mapFileReader = new MapFileReader();
-         mapFileReader.readMapFile(p_filename, this);
+         MapFileReader l_mapFileReader = new MapFileReader();
+         l_mapFileReader.readMapFile(p_filename, this);
 
          // Validate Map
          if (isMapValid())
