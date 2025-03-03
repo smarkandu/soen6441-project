@@ -10,38 +10,32 @@ public class ValidateMap {
 
     private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;
-//    private SortedMap<String, Player> d_players;
 
     public ValidateMap(
             SortedMap<String, Country> p_Countries,
-            SortedMap<String, Continent> d_Continents
-    ) {
+            SortedMap<String, Continent> d_Continents) {
         this.d_Countries = p_Countries;
         this.d_Continents = d_Continents;
     }
 
     public boolean isMapValidate() {
         if (!isGraphConnected()) {
-            //System.out.println("Invalid map: No countries exists or not all countries are connected.");
             return false;
         }
 
         if (!validateContinents()) {
-//            System.out.println(
-//                    "Invalid map: Continent or country association is incorrect." +
-//                            "\nNote: Every continent must have at least one country." +
-//                            "\n      Every country must belong to exactly one continent.");
             return false;
         }
-        System.out.println("Map is valid.");
 
+        System.out.println("Map is valid.");
         return true;
     }
 
     // Helper method to check if the graph of countries is connected
     private boolean isGraphConnected() {
         if (d_Countries.isEmpty()) {
-            return false; // No countries to connect
+            System.out.println("Invalid map: No countries exists");
+            return false;
         }
 
         Set<String> d_visited = new HashSet<>();
@@ -49,7 +43,11 @@ public class ValidateMap {
         exploreCountries(l_startCountry, d_visited);
 
         // Ensure all countries are visited
-        return d_visited.size() == d_Countries.size();
+        if(d_visited.size() != d_Countries.size()) {
+            System.out.println("Not all countries are connected.");
+            return false;
+        }
+        return true;
     }
 
     // DFS (depth first search) to explore all connected countries
@@ -78,7 +76,8 @@ public class ValidateMap {
             String l_continentID = l_country.getContinent().getID();
             // Check if the country's continent actually exists
             if (!d_Continents.containsKey(l_continentID)) {
-                return false; // Country belongs to a non-existent continent
+                System.out.println("Country belongs to a non-existent continent");
+                return false;
             }
 
             if (!d_continentToCountries.containsKey(l_continentID)) {
@@ -91,11 +90,42 @@ public class ValidateMap {
         // Check every continent has at least one country
         for (Continent l_continent : d_Continents.values()) {
             if (!d_continentToCountries.containsKey(l_continent.getID()) || d_continentToCountries.get(l_continent.getID()).isEmpty()) {
-                return false; // No countries associated with this continent
+                System.out.println("No countries associated with this continent");
+                return false;
             }
         }
 
         // Ensure each country belongs to exactly one continent
+        if(!isCountryBelongsToOnlyOneContinent()) {
+            System.out.println("There is one country belonging to more than one continent");
+            return false;
+        }
+
+
+        return true;
+    }
+
+    private boolean isCountryBelongsToOnlyOneContinent() {
+        int l_numberOfContinentsCountryBelongTo = 0;
+        for(Country l_country: d_Countries.values()){
+            l_numberOfContinentsCountryBelongTo = 0;
+            for(Continent l_continent: d_Continents.values()){
+                if(l_continent.getNumericID() == l_country.getContinent().getNumericID()){
+                    l_numberOfContinentsCountryBelongTo++;
+                    if(l_numberOfContinentsCountryBelongTo > 1) {
+                        return false;
+                    }
+                }
+            }
+
+        }
         return true;
     }
 }
+
+
+
+
+
+
+

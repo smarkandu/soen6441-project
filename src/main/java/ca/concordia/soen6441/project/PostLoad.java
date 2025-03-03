@@ -48,7 +48,7 @@ public class PostLoad extends Edit {
 
     public void validateMap()
     {
-        d_gameEngine.validateMap();
+        d_gameEngine.isMapValid();
     }
 
     @Override
