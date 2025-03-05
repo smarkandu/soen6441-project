@@ -377,7 +377,7 @@ public void showMap(boolean p_isDetailed) {
          // TODO #5
          // remove hardcoded "true" value and check the conditions for validity
          // For any issues, use a print to specify what you found wrong
-         return d_validateMapImpl.isMapValidate();
+         return d_validateMapImpl.isMapValid();
      }
 
      public boolean isMapEmpty()

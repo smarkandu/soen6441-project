@@ -2,10 +2,11 @@ package ca.concordia.soen6441.project;
 
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
+import ca.concordia.soen6441.project.interfaces.ValidateMap;
 
 import java.util.*;
 
-public class ValidateMapImpl {
+public class ValidateMapImpl implements ValidateMap {
 
     private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;
@@ -17,7 +18,7 @@ public class ValidateMapImpl {
         this.d_Continents = p_Continents;
     }
 
-    public boolean isMapValidate() {
+    public boolean isMapValid() {
         if (!isGraphConnected()) {
             return false;
         }
