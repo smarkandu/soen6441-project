@@ -13,22 +13,15 @@ public class PostLoad extends Edit {
     }
 
     public void saveMap(String p_filename) {
-        if (d_gameEngine.isMapValid())
-        {
-            // Fetch the map data in Domination format
-            String l_mapData = d_gameEngine.toMapString();
+        // Fetch the map data in Domination format
+        String l_mapData = d_gameEngine.toMapString();
 
-            // Write the data to the specified file
-            try (PrintWriter l_writer = new PrintWriter(new File(p_filename))) {
-                l_writer.write(l_mapData);
-                System.out.println("Map successfully saved to: " + p_filename);
-            } catch (IOException l_exception) {
-                System.err.println("Error saving map: " + l_exception.getMessage());
-            }
-        }
-        else
-        {
-            System.out.println("Unable to save map (invalid).  Please use 'validatemap' to show the issues.");
+        // Write the data to the specified file
+        try (PrintWriter l_writer = new PrintWriter(new File(p_filename))) {
+            l_writer.write(l_mapData);
+            System.out.println("Map successfully saved to: " + p_filename);
+        } catch (IOException l_exception) {
+            System.err.println("Error saving map: " + l_exception.getMessage());
         }
     }
 

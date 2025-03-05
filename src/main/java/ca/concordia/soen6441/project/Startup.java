@@ -20,14 +20,15 @@ public class Startup extends Play {
         catch(InvalidMapFileException e)
         {
             System.out.println("File not structured correctly." +
-                    "\nPlease load another file.");
+                    "\nPlease load another file.  Reverting previous load.");
+            d_gameEngine.resetMap();
         }
     }
 
     public void assignCountries()
     {
-        if (d_gameEngine.isMapEmpty()) {
-            System.out.println("Map must be loaded first");
+        if (!d_gameEngine.isMapValid()) {
+            System.out.println("A valid map must be loaded first");
         }
         else if (d_gameEngine.getPlayers().size() < 2) {
             System.out.println("You must have at least two players to proceed");
