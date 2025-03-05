@@ -25,7 +25,7 @@ public class Startup extends Play {
                     "\nPlease load another file.  Reverting previous load.");
             d_gameEngine.resetMap();
         } catch (FileNotFoundException e) {
-            System.out.println("File " + p_filename + " not found.  Please try loading another map file instead");
+            System.out.println("File '" + p_filename + "' not found.  Please try loading another map file instead");
         }
     }
 

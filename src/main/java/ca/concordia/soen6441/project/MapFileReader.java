@@ -19,13 +19,9 @@ public class MapFileReader {
     //Checks the existence of file before reading it
     public void readMapFile(String p_filePath, GameContext p_gameEngine) throws FileNotFoundException {
         //Validate first
-        try {
-            Path l_path = Paths.get(p_filePath);
-            if (Files.exists(l_path) && Files.isRegularFile(l_path)) {
-                readFile(p_filePath, p_gameEngine);
-            } else {
-                System.out.println("The file does not exist or is not a file.\nCreating empty new map instead for user to edit.");
-            }
+        try
+        {
+            readFile(p_filePath, p_gameEngine);
         }
         catch (FileNotFoundException e)
         {

@@ -19,7 +19,7 @@ public class PreLoad extends Edit {
         }
         catch(FileNotFoundException e)
         {
-            System.out.println("File " + p_filename + " not found.  Creating a new map to edit instead.");
+            System.out.println("File '" + p_filename + "' not found.  Creating a new map to edit instead.");
             next();
         }
     }
