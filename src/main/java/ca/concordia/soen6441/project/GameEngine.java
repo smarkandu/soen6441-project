@@ -109,6 +109,7 @@ public class GameEngine implements GameContext, MapComponent {
                     if(l_args.length == 1) {
                         d_gamePhase.validateMap();
                     }
+                    break;
                 case "next":
                     d_gamePhase.next();
                     break;
