@@ -137,7 +137,7 @@ public class MapFileReader {
         }
         if(l_mapIsValid){
             // p_gameEngine.addMapFilePath(p_filePath, p_gameEngine);
-            System.out.println("\nSUCCESS! Map loaded...");
+            System.out.println("\nMap loaded...");
         }else{
             System.out.println("\nSORRY! There was a problem loading the map...");
             // p_gameEngine.clearMapData();
