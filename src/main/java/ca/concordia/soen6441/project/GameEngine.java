@@ -12,11 +12,13 @@ public class GameEngine implements GameContext, MapComponent {
     private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;
     private SortedMap<String, Player> d_players;
+    private ValidateMapImpl d_validateMapImpl;
 
     public GameEngine() {
         d_Continents = new TreeMap<String, Continent>();
         d_Countries = new TreeMap<String, Country>();
         d_players = new TreeMap<String, Player>();
+        d_validateMapImpl = new ValidateMapImpl(d_Countries, d_Continents);
     }
 
     public void setPhase(Phase p_phase) {
@@ -102,6 +104,11 @@ public class GameEngine implements GameContext, MapComponent {
                     break;
                 case "loadmap":
                     d_gamePhase.loadMap(l_args[1]);
+                    break;
+                case "validatemap":
+                    if(l_args.length == 1) {
+                        d_gamePhase.validateMap();
+                    }
                     break;
                 case "next":
                     d_gamePhase.next();
@@ -227,8 +234,8 @@ public List<Country> getCountriesOfContinent(String p_continentID) {
  * @param p_isDetailed If true, prints country owners, army counts, and neighbors.
  *                   If false, prints only continent and country names.
  */
-public void showMap(boolean p_isDetailed) { 
-    
+public void showMap(boolean p_isDetailed) {
+
     // Step 1: Retrieve all continents and sort them alphabetically
     List<Continent> l_sortedContinents = new ArrayList<>(d_Continents.values()); // Convert to list
     l_sortedContinents.sort(Comparator.comparing(Continent::getID)); // Sort by continent ID
@@ -236,7 +243,7 @@ public void showMap(boolean p_isDetailed) {
     // Iterate through each sorted continent
     for (Continent l_continent : l_sortedContinents) {
         // Print the continent's name and its bonus value
-        System.out.println(l_continent.getID() + " (Bonus: " + l_continent.getValue() + ")"); 
+        System.out.println(l_continent.getID() + " (Bonus: " + l_continent.getValue() + ")");
 
         // Step 2: Retrieve the list of countries belonging to this continent
         List<Country> l_countries = getCountriesOfContinent(l_continent.getID());
@@ -260,7 +267,7 @@ public void showMap(boolean p_isDetailed) {
                              .append(" | Armies: ").append(l_armyCount) // Number of armies stationed
                              .append(" | Neighbors: ").append(String.join(", ", l_neighbors)); // List of neighboring countries
             }
-            
+
             // Print the formatted country information
             System.out.println(l_countryInfo);
         }
@@ -370,7 +377,7 @@ public void showMap(boolean p_isDetailed) {
          // TODO #5
          // remove hardcoded "true" value and check the conditions for validity
          // For any issues, use a print to specify what you found wrong
-         return true;
+         return d_validateMapImpl.isMapValid();
      }
 
      public boolean isMapEmpty()
