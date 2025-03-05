@@ -13,9 +13,6 @@
         <maven.compiler.target>19</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-<build>
-    <testSourceDirectory>src/tests</testSourceDirectory>
-</build>
 <dependencies>
 <!--  JUnit 5 Dependencies  -->
 <dependency>
@@ -29,5 +26,17 @@
 <artifactId>junit-jupiter-engine</artifactId>
 <version>5.8.2</version>
 </dependency>
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>5.2.0</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-junit-jupiter</artifactId>
+        <version>5.2.0</version>
+        <scope>test</scope>
+    </dependency>
 </dependencies>
 </project>
