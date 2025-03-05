@@ -2,16 +2,15 @@ package ca.concordia.soen6441.project;
 
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
-import ca.concordia.soen6441.project.interfaces.Player;
 
 import java.util.*;
 
-public class ValidateMap {
+public class ValidateMapImpl {
 
     private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;
 
-    public ValidateMap(
+    public ValidateMapImpl(
             SortedMap<String, Country> p_Countries,
             SortedMap<String, Continent> p_Continents) {
         this.d_Countries = p_Countries;
@@ -122,10 +121,3 @@ public class ValidateMap {
         return true;
     }
 }
-
-
-
-
-
-
-

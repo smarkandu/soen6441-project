@@ -12,13 +12,13 @@ public class GameEngine implements GameContext, MapComponent {
     private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;
     private SortedMap<String, Player> d_players;
-    private ValidateMap d_validateMap;
+    private ValidateMapImpl d_validateMapImpl;
 
     public GameEngine() {
         d_Continents = new TreeMap<String, Continent>();
         d_Countries = new TreeMap<String, Country>();
         d_players = new TreeMap<String, Player>();
-        d_validateMap = new ValidateMap(d_Countries, d_Continents);
+        d_validateMapImpl = new ValidateMapImpl(d_Countries, d_Continents);
     }
 
     public void setPhase(Phase p_phase) {
@@ -94,7 +94,7 @@ public class GameEngine implements GameContext, MapComponent {
                     // (similar to commands above)
                     // Also we'll need to change setPlayers to something else
                     // (See notes in "Phase")
-                    String l_playername = l_args[2].toLowerCase();
+                    String l_playername = l_args[2];
                     if ("-add".equals(l_operation) && l_args.length == 3) {
                         d_gamePhase.gamePlayerAdd(l_playername);
                     }
@@ -376,7 +376,7 @@ public void showMap(boolean p_isDetailed) {
          // TODO #5
          // remove hardcoded "true" value and check the conditions for validity
          // For any issues, use a print to specify what you found wrong
-         return d_validateMap.isMapValidate();
+         return d_validateMapImpl.isMapValidate();
      }
 
      public boolean isMapEmpty()
