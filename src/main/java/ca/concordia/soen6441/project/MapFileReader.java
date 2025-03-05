@@ -17,7 +17,7 @@ import java.util.*;
 
 public class MapFileReader {
     //Checks the existence of file before reading it
-    public void readMapFile(String p_filePath, GameContext p_gameEngine){
+    public void readMapFile(String p_filePath, GameContext p_gameEngine) throws FileNotFoundException {
         //Validate first
         try {
             Path l_path = Paths.get(p_filePath);
@@ -26,11 +26,16 @@ public class MapFileReader {
             } else {
                 System.out.println("The file does not exist or is not a file.\nCreating empty new map instead for user to edit.");
             }
-        } catch (Exception e) {
+        }
+        catch (FileNotFoundException e)
+        {
+            throw e; // We catch exception (so it's not caught by IOException), and throw it back to caller
+        }
+        catch (Exception e) {
             System.out.println("An error occurred: " + e.getMessage());
         }
     }
-    private void readFile(String p_filePath, GameContext p_gameEngine) {
+    private void readFile(String p_filePath, GameContext p_gameEngine) throws FileNotFoundException {
         //RiskMap object to manipulate add/remove/modify the l_continent/countries
         // RiskMap p_gameEngine = new RiskMap();
         boolean l_mapIsValid = true;
@@ -132,7 +137,12 @@ public class MapFileReader {
                         break;
                 }
             }
-        } catch (IOException e) {
+        }
+        catch (FileNotFoundException e)
+        {
+            throw e; // We catch exception (so it's not caught by IOException), and throw it back to caller
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
         if(l_mapIsValid){

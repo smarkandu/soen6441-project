@@ -1,5 +1,7 @@
 package ca.concordia.soen6441.project;
 
+import java.io.FileNotFoundException;
+
 public class PreLoad extends Edit {
     public PreLoad(GameEngine p_gameEngine)
     {
@@ -14,6 +16,11 @@ public class PreLoad extends Edit {
         catch(InvalidMapFileException e)
         {
             // No need to write anything
+        }
+        catch(FileNotFoundException e)
+        {
+            System.out.println("File " + p_filename + " not found.  Creating a new map to edit instead.");
+            next();
         }
     }
 

@@ -2,6 +2,8 @@ package ca.concordia.soen6441.project;
 
 import ca.concordia.soen6441.project.interfaces.Player;
 
+import java.io.FileNotFoundException;
+
 public class Startup extends Play {
     private CountryAssignment d_countryAssignment;
 
@@ -22,6 +24,8 @@ public class Startup extends Play {
             System.out.println("File not structured correctly." +
                     "\nPlease load another file.  Reverting previous load.");
             d_gameEngine.resetMap();
+        } catch (FileNotFoundException e) {
+            System.out.println("File " + p_filename + " not found.  Please try loading another map file instead");
         }
     }
 
