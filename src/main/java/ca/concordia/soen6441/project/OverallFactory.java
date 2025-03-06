@@ -2,6 +2,8 @@ package ca.concordia.soen6441.project;
 
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
+import ca.concordia.soen6441.project.map.ContinentImpl;
+import ca.concordia.soen6441.project.map.CountryImpl;
 
 public class OverallFactory {
     private static OverallFactory instance = null;

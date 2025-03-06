@@ -1,6 +1,6 @@
-package ca.concordia.soen6441.project;
+package ca.concordia.soen6441.project.phases;
 
-import ca.concordia.soen6441.project.interfaces.Player;
+import ca.concordia.soen6441.project.GameEngine;
 
 public abstract class Edit extends Phase {
     public Edit(GameEngine p_gameEngine) {

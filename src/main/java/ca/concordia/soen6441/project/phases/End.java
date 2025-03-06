@@ -1,6 +1,6 @@
-package ca.concordia.soen6441.project;
+package ca.concordia.soen6441.project.phases;
 
-import ca.concordia.soen6441.project.interfaces.Player;
+import ca.concordia.soen6441.project.GameEngine;
 
 public class End extends Phase {
     public End(GameEngine p_gameEngine) {

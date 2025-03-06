@@ -1,9 +1,9 @@
-package ca.concordia.soen6441.project;
+package ca.concordia.soen6441.project.phases;
 
+import ca.concordia.soen6441.project.GameEngine;
+import ca.concordia.soen6441.project.gameplay.orders.Deploy;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
-
-import java.util.ArrayList;
 
 public class IssueOrder extends MainPlay {
     private int d_currentPlayIndex;

@@ -1,11 +1,11 @@
-package ca.concordia.soen6441.project;
+package ca.concordia.soen6441.project.gameplay;
 
+import ca.concordia.soen6441.project.gameplay.orders.Deploy;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class PlayerImpl implements Player {
     private String d_name;

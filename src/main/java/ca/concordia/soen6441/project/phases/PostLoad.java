@@ -1,8 +1,8 @@
-package ca.concordia.soen6441.project;
-import java.io.File;
+package ca.concordia.soen6441.project.phases;
+import ca.concordia.soen6441.project.GameEngine;
+
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.io.IOException;
 
 public class PostLoad extends Edit {
     public PostLoad(GameEngine p_gameEngine) {

@@ -1,4 +1,6 @@
-package ca.concordia.soen6441.project;
+package ca.concordia.soen6441.project.phases;
+
+import ca.concordia.soen6441.project.GameEngine;
 
 public abstract class MainPlay extends Play {
     public MainPlay(GameEngine p_gameEngine) {
