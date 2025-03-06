@@ -7,7 +7,7 @@ package ca.concordia.soen6441.project.map;
 
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
-import ca.concordia.soen6441.project.interfaces.GameContext;
+import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
 import java.io.*;
 import java.util.*;
