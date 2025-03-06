@@ -1,4 +1,7 @@
-package ca.concordia.soen6441.project;
+package ca.concordia.soen6441.project.phases;
+
+import ca.concordia.soen6441.project.GameEngine;
+import ca.concordia.soen6441.project.map.InvalidMapFileException;
 
 import java.io.FileNotFoundException;
 

@@ -1,4 +1,4 @@
-package ca.concordia.soen6441.project;
+package ca.concordia.soen6441.project.map;
 
 public class InvalidMapFileException extends Exception {
 }
