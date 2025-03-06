@@ -2,6 +2,7 @@ package ca.concordia.soen6441.project;
 
 import ca.concordia.soen6441.project.interfaces.*;
 
+import java.io.FileNotFoundException;
 import java.util.stream.Collectors;
 
 
@@ -345,7 +346,7 @@ public void showMap(boolean p_isDetailed) {
          return new ArrayList<Player>(d_players.values()).get(p_index);
      }
 
-     public void loadMap(String p_filename) throws InvalidMapFileException {
+     public void loadMap(String p_filename) throws InvalidMapFileException, FileNotFoundException {
          // Empty out contents of map in GameEngine
          resetMap();
 
