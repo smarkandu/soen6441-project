@@ -1,4 +1,4 @@
-package ca.concordia.soen6441.project;
+package ca.concordia.soen6441.project.map;
 
 /**
  * The readMapFile method is called to read the .map file
@@ -10,9 +10,6 @@ import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.GameContext;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class MapFileReader {

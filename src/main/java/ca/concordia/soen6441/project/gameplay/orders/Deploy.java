@@ -1,4 +1,4 @@
-package ca.concordia.soen6441.project;
+package ca.concordia.soen6441.project.gameplay.orders;
 
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Order;

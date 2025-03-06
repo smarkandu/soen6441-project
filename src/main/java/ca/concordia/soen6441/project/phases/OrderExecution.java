@@ -1,11 +1,8 @@
-package ca.concordia.soen6441.project;
+package ca.concordia.soen6441.project.phases;
 
-import ca.concordia.soen6441.project.interfaces.Continent;
+import ca.concordia.soen6441.project.GameEngine;
 import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
-
-import java.util.ArrayList;
-import java.util.Map;
 
 public class OrderExecution extends MainPlay {
     public OrderExecution(GameEngine p_gameEngine) {
