@@ -1,4 +1,6 @@
-package ca.concordia.soen6441.project;
+package ca.concordia.soen6441.project.phases;
+
+import ca.concordia.soen6441.project.GameEngine;
 
 // State of the State pattern
 public abstract class Play extends Phase {
