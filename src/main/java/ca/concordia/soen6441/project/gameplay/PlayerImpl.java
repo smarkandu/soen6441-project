@@ -13,6 +13,12 @@ public class PlayerImpl implements Player {
     private ArrayList<Order> d_Orders;
     int d_Reinforcements;
 
+    /**
+     *
+     * @param p_name
+     * @param p_ownedCountries
+     * @param p_Orders
+     */
     public PlayerImpl(String p_name, ArrayList<String> p_ownedCountries, ArrayList<Order> p_Orders) {
         this.d_name = p_name;
         this.d_ownedCountries = p_ownedCountries;
@@ -25,6 +31,10 @@ public class PlayerImpl implements Player {
         return d_name;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public List<String> getOwnedCountries() {
         return d_ownedCountries;
