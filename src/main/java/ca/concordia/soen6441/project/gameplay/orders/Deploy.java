@@ -21,7 +21,7 @@ public class Deploy implements Order {
         {
             this.d_targetTerritory.setTroops(this.d_targetTerritory.getTroops() + d_toDeploy);
             System.out.println(d_toDeploy + " troops of " + d_initiator.getName() + "'s army have deployed to "
-            + d_targetTerritory);
+                    + d_targetTerritory);
         }
     }
 
@@ -35,7 +35,7 @@ public class Deploy implements Order {
         }
     }
 
-   public void printOrder() {
+    public void printOrder() {
         System.out.println("Deploy order issued by player " + this.d_initiator.getName());
         System.out.println("Deploy " + this.d_toDeploy + " to " + this.d_targetTerritory.getID());
     }

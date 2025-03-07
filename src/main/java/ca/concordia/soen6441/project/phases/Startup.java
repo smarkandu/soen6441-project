@@ -44,6 +44,7 @@ public class Startup extends Play {
             d_countryAssignment.assignCountries();
 
             // After assigning countries, go to the next phase for each player (Assign Reinforcements)
+
             AssignReinforcements l_assignReinforements = new AssignReinforcements(d_gameEngine);
             l_assignReinforements.execute();
         }
