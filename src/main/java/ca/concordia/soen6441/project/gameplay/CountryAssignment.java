@@ -8,15 +8,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
+/**
+ * Handles the assignment of countries to players in the game.
+ */
 public class CountryAssignment {
     private GameEngine d_gameEngine;
 
-    public CountryAssignment(GameEngine p_gameEngine)
-    {
+    /**
+     * Constructs a CountryAssignment instance with the specified game engine.
+     *
+     * @param p_gameEngine The game engine instance controlling the game state.
+     */
+    public CountryAssignment(GameEngine p_gameEngine) {
         this.d_gameEngine = p_gameEngine;
     }
 
+    /**
+     * Assigns countries to players in the game.
+     * Each player is assigned one country at random, and the country receives an initial troop allocation.
+     * If there are fewer countries than players, a warning is displayed.
+     */
     public void assignCountries() {
         List<Country> l_availableCountries = new ArrayList<>(d_gameEngine.getCountries().values());
         List<Player> l_players = new ArrayList<>(d_gameEngine.getPlayers().values());
