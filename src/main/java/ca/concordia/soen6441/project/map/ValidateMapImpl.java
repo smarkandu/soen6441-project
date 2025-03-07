@@ -1,10 +1,11 @@
-package ca.concordia.soen6441.project;
+package ca.concordia.soen6441.project.map;
 
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.ValidateMap;
 
 import java.util.*;
+
 public class ValidateMapImpl implements ValidateMap {
 
     private SortedMap<String, Continent> d_Continents;
@@ -83,7 +84,7 @@ public class ValidateMapImpl implements ValidateMap {
         exploreCountries(l_startCountry, l_visited);
 
         // Ensure all countries are visited
-        if(l_visited.size() != d_Countries.size()) {
+        if (l_visited.size() != d_Countries.size()) {
             System.out.println("Not all countries are connected.");
             return false;
         }
@@ -136,7 +137,7 @@ public class ValidateMapImpl implements ValidateMap {
         }
 
         // Ensure each country belongs to exactly one continent
-        if(!isCountryBelongsToOnlyOneContinent()) {
+        if (!isCountryBelongsToOnlyOneContinent()) {
             System.out.println("There is one country belonging to more than one continent");
             return false;
         }
@@ -146,12 +147,12 @@ public class ValidateMapImpl implements ValidateMap {
 
     private boolean isCountryBelongsToOnlyOneContinent() {
         int l_numberOfContinentsCountryBelongTo = 0;
-        for(Country l_country: d_Countries.values()){
+        for (Country l_country : d_Countries.values()) {
             l_numberOfContinentsCountryBelongTo = 0;
-            for(Continent l_continent: d_Continents.values()){
-                if(l_continent.getNumericID() == l_country.getContinent().getNumericID()){
+            for (Continent l_continent : d_Continents.values()) {
+                if (l_continent.getNumericID() == l_country.getContinent().getNumericID()) {
                     l_numberOfContinentsCountryBelongTo++;
-                    if(l_numberOfContinentsCountryBelongTo > 1) {
+                    if (l_numberOfContinentsCountryBelongTo > 1) {
                         System.out.println("Invalid map: Country " + l_country.getID()
                                 + " belongs to more than one continent.");
                         return false;
@@ -160,7 +161,6 @@ public class ValidateMapImpl implements ValidateMap {
             }
 
         }
-
         return true;
     }
 }
