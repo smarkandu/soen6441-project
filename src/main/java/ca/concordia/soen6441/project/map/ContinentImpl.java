@@ -3,6 +3,9 @@ package ca.concordia.soen6441.project.map;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.MapComponent;
 
+/**
+ * Implementation of the Continent interface, representing a continent in the game map.
+ */
 public class ContinentImpl implements Continent, MapComponent {
     private final String d_ID;
     private final int d_Value;
@@ -12,21 +15,28 @@ public class ContinentImpl implements Continent, MapComponent {
 
     /**
      * Constructor (to be used when loading a .map file)
-     * @param p_numericID
-     * @param p_ID
-     * @param p_Value
+     *
+     * @param p_numericID The numeric identifier of the continent.
+     * @param p_ID        The string identifier of the continent.
+     * @param p_Value     The control value of the continent.
+     * @param p_color     The color representation of the continent.
      */
     public ContinentImpl(int p_numericID, String p_ID, int p_Value, String p_color) {
         this.d_ID = p_ID;
         this.d_Value = p_Value;
         this.d_numericID = p_numericID;
-        if (p_numericID > d_Counter)
-        {
+        if (p_numericID > d_Counter) {
             d_Counter = p_numericID;
         }
         this.d_color = p_color;
     }
 
+    /**
+     * Constructor for a new continent instance with an auto-incremented numeric ID.
+     *
+     * @param p_ID    The string identifier of the continent.
+     * @param p_Value The control value of the continent.
+     */
     public ContinentImpl(String p_ID, int p_Value) {
         this.d_ID = p_ID;
         this.d_Value = p_Value;
@@ -34,34 +44,61 @@ public class ContinentImpl implements Continent, MapComponent {
         this.d_color = "yellow"; // Hardcoded
     }
 
+    /**
+     * Gets the string identifier of the continent.
+     *
+     * @return The continent's ID.
+     */
     @Override
     public String getID() {
         return d_ID;
     }
 
+    /**
+     * Gets the control value of the continent.
+     *
+     * @return The continent's control value.
+     */
     @Override
     public int getValue() {
         return d_Value;
     }
 
+    /**
+     * Gets the numeric identifier of the continent.
+     *
+     * @return The continent's numeric ID.
+     */
     @Override
     public int getNumericID() {
         return d_numericID;
     }
 
+    /**
+     * Provides a string representation of the continent in the format "ID=Value".
+     *
+     * @return A formatted string representing the continent.
+     */
     @Override
     public String toString() {
         return d_ID + "=" + d_Value;
     }
 
-    public static void resetCounter()
-    {
+    /**
+     * Resets the numeric ID counter for continent instances.
+     */
+    public static void resetCounter() {
         d_Counter = 0;
     }
 
+    /**
+     * Converts the continent's details into the required domination format.
+     *
+     * @return A string representing the continent in the domination map format.
+     */
     @Override
     public String toMapString() {
-    //Converts the continent's details into the required domination format.
-    return d_ID + " " + d_Value + " " + d_color;
+        //Converts the continent's details into the required domination format.
+        return d_ID + " " + d_Value + " " + d_color;
     }
 }
