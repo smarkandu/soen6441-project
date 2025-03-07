@@ -4,7 +4,9 @@ import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -17,9 +19,9 @@ class GameEngineTest {
     private Country d_mockCountry;
     private Country d_mockNeighbor;
 
-/**
- * Sets up mock data for GameEngine before each test.
-*/
+    /**
+     * Sets up mock data for GameEngine before each test.
+     */
     @BeforeEach
     void setUp() {
         d_gameEngine = new GameEngine(); // Real instance
@@ -39,7 +41,7 @@ class GameEngineTest {
 
         when(d_mockNeighbor.getID()).thenReturn("China");
         when(d_mockNeighbor.getNumericID()).thenReturn(2);
-        when(d_mockNeighbor.getContinent()).thenReturn(l_mockContinent);
+        when(d_mockNeighbor.getContinent()).thenReturn(d_mockContinent);
         when(d_mockNeighbor.getNeighborIDs()).thenReturn(List.of("India"));
 
         // Inject mock objects
@@ -47,36 +49,37 @@ class GameEngineTest {
         d_gameEngine.getCountries().put("India", d_mockCountry);
         d_gameEngine.getCountries().put("China", d_mockNeighbor); // Ensure neighbor exists
     }
-/**
-* Tests the toMapString() method of GameEngine.
-* Ensures that the generated map string contains expected data.
-*/
+
+    /**
+     * Tests the toMapString() method of GameEngine.
+     * Ensures that the generated map string contains expected data.
+     */
     @Test
     void testToMapString() {
-    d_gameEngine = new GameEngine(); // Real instance of GameEngine
-    
-    // Mock dependencies
-    Continent d_mockContinent = mock(Continent.class);
-    when(d_mockContinent.getID()).thenReturn("Asia");
-    when(d_mockContinent.getValue()).thenReturn(5);
-    when(d_mockContinent.toMapString()).thenReturn("Asia 5");
+        d_gameEngine = new GameEngine(); // Real instance of GameEngine
 
-    Country d_mockCountry = mock(Country.class);
-    when(d_mockCountry.getID()).thenReturn("India");
-    when(d_mockCountry.getNumericID()).thenReturn(1);
-    when(d_mockCountry.toMapString()).thenReturn("1 India Asia");
+        // Mock dependencies
+        Continent l_mockContinent = mock(Continent.class);
+        when(l_mockContinent.getID()).thenReturn("Asia");
+        when(l_mockContinent.getValue()).thenReturn(5);
+        when(l_mockContinent.toMapString()).thenReturn("Asia 5");
 
-    // Add to game engine
-    d_gameEngine.getContinents().put("Asia", d_mockContinent);
-    d_gameEngine.getCountries().put("India", d_mockCountry);
+        Country l_mockCountry = mock(Country.class);
+        when(l_mockCountry.getID()).thenReturn("India");
+        when(l_mockCountry.getNumericID()).thenReturn(1);
+        when(l_mockCountry.toMapString()).thenReturn("1 India Asia");
 
-    // Capture output
-    String d_actualOutput = d_gameEngine.toMapString().trim();
-    System.out.println("Captured toMapString Output:\n" + d_actualOutput);
+        // Add to game engine
+        d_gameEngine.getContinents().put("Asia", l_mockContinent);
+        d_gameEngine.getCountries().put("India", l_mockCountry);
 
-    // Assertions
-    assertFalse(d_actualOutput.isEmpty(), "toMapString() output is empty.");
-    assertTrue(d_actualOutput.contains("Asia"), "Expected continent 'Asia' in output.");
-    assertTrue(d_actualOutput.contains("1 India Asia"), "Expected country 'India' in output.");
-}
+        // Capture output
+        String l_actualOutput = d_gameEngine.toMapString().trim();
+        System.out.println("Captured toMapString Output:\n" + l_actualOutput);
+
+        // Assertions
+        assertFalse(l_actualOutput.isEmpty(), "toMapString() output is empty.");
+        assertTrue(l_actualOutput.contains("Asia"), "Expected continent 'Asia' in output.");
+        assertTrue(l_actualOutput.contains("1 India Asia"), "Expected country 'India' in output.");
+    }
 }
