@@ -38,7 +38,7 @@ void setUp() {
     l_mockContinents.put("Asia", d_mockContinent);
     d_gameEngine.getContinents().putAll(l_mockContinents);
 
-    // ✅ **Instead of mocking `getCountriesOfContinent`, manually add the mock country**
+    // Manually add the mock country
     d_gameEngine.getCountries().put("India", d_mockCountry);
 }
 
