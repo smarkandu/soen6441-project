@@ -13,119 +13,119 @@ import static org.mockito.Mockito.*;
 
 class AssignReinforcementsTest {
 
-    private GameEngine gameEngine;
-    private AssignReinforcements assignReinforcements;
-    private Player mockPlayer;
-    private Continent mockAsia, mockEurope;
-    private Map<String, Country> mockCountries;
+    private GameEngine d_gameEngine;
+    private AssignReinforcements d_assignReinforcements;
+    private Player d_mockPlayer;
+    private Continent d_mockAsia, d_mockEurope;
+    private Map<String, Country> d_mockCountries;
 
     @BeforeEach
     void setUp() {
 
-        gameEngine = mock(GameEngine.class);
-        assignReinforcements = new AssignReinforcements(gameEngine);
+        d_gameEngine = mock(GameEngine.class);
+        d_assignReinforcements = new AssignReinforcements(d_gameEngine);
 
-        mockPlayer = mock(Player.class);
-        when(mockPlayer.getName()).thenReturn("Tharun");
+        d_mockPlayer = mock(Player.class);
+        when(d_mockPlayer.getName()).thenReturn("Tharun");
 
-        mockAsia = mock(Continent.class);
-        when(mockAsia.getID()).thenReturn("Asia");
-        when(mockAsia.getValue()).thenReturn(7);
-
-
-        mockEurope = mock(Continent.class);
-        when(mockEurope.getID()).thenReturn("Europe");
-        when(mockEurope.getValue()).thenReturn(5); // Bonus for controlling Europe
-
-        Map<String, Player> mockPlayers = new HashMap<>();
-        mockPlayers.put(mockPlayer.getName(), mockPlayer);
-        when(gameEngine.getPlayers()).thenReturn(mockPlayers);
+        d_mockAsia = mock(Continent.class);
+        when(d_mockAsia.getID()).thenReturn("Asia");
+        when(d_mockAsia.getValue()).thenReturn(7);
 
 
-        when(gameEngine.getPlayer(anyInt())).thenReturn(mockPlayer);
+        d_mockEurope = mock(Continent.class);
+        when(d_mockEurope.getID()).thenReturn("Europe");
+        when(d_mockEurope.getValue()).thenReturn(5); // Bonus for controlling Europe
 
-        Map<String, Continent> mockContinents = new HashMap<>();
-        mockContinents.put("Asia", mockAsia);
-        mockContinents.put("Europe", mockEurope);
-        when(gameEngine.getContinents()).thenReturn(mockContinents);
+        Map<String, Player> l_mockPlayers = new HashMap<>();
+        l_mockPlayers.put(d_mockPlayer.getName(), d_mockPlayer);
+        when(d_gameEngine.getPlayers()).thenReturn(l_mockPlayers);
 
-        // ✅ Initialize country map
-        mockCountries = new HashMap<>();
+
+        when(d_gameEngine.getPlayer(anyInt())).thenReturn(d_mockPlayer);
+
+        Map<String, Continent> l_mockContinents = new HashMap<>();
+        l_mockContinents.put("Asia", d_mockAsia);
+        l_mockContinents.put("Europe", d_mockEurope);
+        when(d_gameEngine.getContinents()).thenReturn(l_mockContinents);
+
+
+        d_mockCountries = new HashMap<>();
     }
 
 
     @Test
     void testReinforcementArmyCalculation() {
-        List<String> ownedCountries = Arrays.asList("A1", "A2", "A3", "A4", "A5", "E1", "E2", "E3", "E4");
-        when(mockPlayer.getOwnedCountries()).thenReturn(ownedCountries);
+        List<String> l_ownedCountries = Arrays.asList("A1", "A2", "A3", "A4", "A5", "E1", "E2", "E3", "E4");
+        when(d_mockPlayer.getOwnedCountries()).thenReturn(l_ownedCountries);
 
-        for (String countryId : ownedCountries) {
-            Country country = mock(Country.class);
-            when(country.getID()).thenReturn(countryId);
-            if (ownedCountries.indexOf(countryId) < 5) {
-                when(country.getContinent()).thenReturn(mockAsia);
+        for (String l_countryId : l_ownedCountries) {
+            Country l_country = mock(Country.class);
+            when(l_country.getID()).thenReturn(l_countryId);
+            if (l_ownedCountries.indexOf(l_countryId) < 5) {
+                when(l_country.getContinent()).thenReturn(d_mockAsia);
             } else {
-                when(country.getContinent()).thenReturn(mockEurope);
+                when(l_country.getContinent()).thenReturn(d_mockEurope);
             }
-            mockCountries.put(countryId, country);
+            d_mockCountries.put(l_countryId, l_country);
         }
 
-        when(gameEngine.getCountries()).thenReturn(mockCountries);
+        when(d_gameEngine.getCountries()).thenReturn(d_mockCountries);
 
-        assignReinforcements.execute();
-        System.out.println("Expected: 15 | Actual: " + mockPlayer.getReinforcements());
+        d_assignReinforcements.execute();
+        System.out.println("Expected: 15 | Actual: " + d_mockPlayer.getReinforcements());
 
-        verify(mockPlayer).setReinforcements(15);
+        verify(d_mockPlayer).setReinforcements(15);
     }
 
     @Test
     void testReinforcementWithoutContinentBonus() {
-        List<String> ownedCountries = Arrays.asList("C1", "C2", "C3", "C4", "C5", "C6");
-        when(mockPlayer.getOwnedCountries()).thenReturn(ownedCountries);
+        List<String> l_ownedCountries = Arrays.asList("C1", "C2", "C3", "C4", "C5", "C6");
+        when(d_mockPlayer.getOwnedCountries()).thenReturn(l_ownedCountries);
 
 
-        for (int i = 0; i < ownedCountries.size(); i++) {
-            Country country = mock(Country.class);
-            when(country.getID()).thenReturn(ownedCountries.get(i));
+        for (int l_i = 0; l_i < l_ownedCountries.size(); l_i++) {
+            Country l_country = mock(Country.class);
+            when(l_country.getID()).thenReturn(l_ownedCountries.get(l_i));
 
 
-            if (i < 3) {
-                when(country.getContinent()).thenReturn(mockAsia);
+            if (l_i < 3) {
+                when(l_country.getContinent()).thenReturn(d_mockAsia);
             } else {
-                when(country.getContinent()).thenReturn(mockEurope);
+                when(l_country.getContinent()).thenReturn(d_mockEurope);
             }
 
-            mockCountries.put(ownedCountries.get(i), country);
+            d_mockCountries.put(l_ownedCountries.get(l_i), l_country);
         }
 
 
-        assignReinforcements.execute();
-        System.out.println("Expected: 3 | Actual: " + mockPlayer.getReinforcements());
+        d_assignReinforcements.execute();
+        System.out.println("Expected: 3 | Actual: " + d_mockPlayer.getReinforcements());
 
 
-        verify(mockPlayer).setReinforcements(3);
+        verify(d_mockPlayer).setReinforcements(3);
     }
 
     @Test
     void testMinimumReinforcementAllocation() {
-        List<String> ownedCountries = Arrays.asList("C1", "C2");
-        when(mockPlayer.getOwnedCountries()).thenReturn(ownedCountries);
+        List<String> l_ownedCountries = Arrays.asList("C1", "C2");
+        when(d_mockPlayer.getOwnedCountries()).thenReturn(l_ownedCountries);
 
 
-        for (String countryId : ownedCountries) {
-            Country country = mock(Country.class);
-            when(country.getID()).thenReturn(countryId);
-            when(country.getContinent()).thenReturn(mockAsia);
-            mockCountries.put(countryId, country);
+        for (String l_countryId : l_ownedCountries) {
+            Country l_country = mock(Country.class);
+            when(l_country.getID()).thenReturn(l_countryId);
+            when(l_country.getContinent()).thenReturn(d_mockAsia);
+            d_mockCountries.put(l_countryId, l_country);
         }
 
 
-        assignReinforcements.execute();
+        d_assignReinforcements.execute();
 
 
-        System.out.println("Expected: 3 | Actual: " + mockPlayer.getReinforcements());
+        System.out.println("Expected: 3 | Actual: " + d_mockPlayer.getReinforcements());
 
-        verify(mockPlayer).setReinforcements(3);
+        verify(d_mockPlayer).setReinforcements(3);
     }
 
 }
