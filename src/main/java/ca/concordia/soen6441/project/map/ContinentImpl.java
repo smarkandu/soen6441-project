@@ -14,7 +14,7 @@ public class ContinentImpl implements Continent, MapComponent {
     private final String d_color;
 
     /**
-     * Constructor (to be used when loading a .map file)
+     * Constructor to create a ContinentImpl object.
      *
      * @param p_numericID The numeric identifier of the continent.
      * @param p_ID        The string identifier of the continent.
@@ -92,7 +92,9 @@ public class ContinentImpl implements Continent, MapComponent {
     }
 
     /**
-     * Converts the continent's details into the required domination format.
+     * Provides a string representation of a continent with a specific format.
+
+
      *
      * @return A string representing the continent in the domination map format.
      */

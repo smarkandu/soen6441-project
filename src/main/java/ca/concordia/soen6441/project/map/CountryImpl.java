@@ -26,7 +26,7 @@ public class CountryImpl implements Country, MapComponent {
     private Player d_owner;
 
     /**
-     * Constructor (to be used when loading a .map file)
+     * Constructs a new Country object with the specified parameter
      *
      * @param p_numericID Numeric ID of the country
      * @param p_ID        String ID of the country.
