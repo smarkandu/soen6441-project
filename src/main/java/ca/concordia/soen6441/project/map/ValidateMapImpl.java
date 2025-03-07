@@ -42,11 +42,11 @@ public class ValidateMapImpl implements ValidateMap {
 
     // NEW - Validate that every neighbor in a country's neighbor list exists in d_Countries.
     private boolean validateNeighborExistence() {
-        for (Country country : d_Countries.values()) {
-            for (String l_neighborID : country.getNeighborIDs()) {
+        for (Country l_country : d_Countries.values()) {
+            for (String l_neighborID : l_country.getNeighborIDs()) {
                 if (!d_Countries.containsKey(l_neighborID)) {
                     System.out.println("Invalid map: Neighbor " + l_neighborID
-                            + " for the country " + country.getID() + " does not exist in d_Countries database.");
+                            + " for the country " + l_country.getID() + " does not exist in d_Countries database.");
                     return false;
                 }
             }
@@ -56,13 +56,13 @@ public class ValidateMapImpl implements ValidateMap {
 
     // NEW - Validate that neighbor relationships are bidirectional.
     private boolean validateBidirectionalNeighbors() {
-        for (Country country : d_Countries.values()) {
-            for (String neighborID : country.getNeighborIDs()) {
-                Country neighborCountry = d_Countries.get(neighborID);
+        for (Country l_country : d_Countries.values()) {
+            for (String l_neighborID : l_country.getNeighborIDs()) {
+                Country l_neighborCountry = d_Countries.get(l_neighborID);
                 // Check if the neighbor's list includes the original country.
-                if (!neighborCountry.getNeighborIDs().contains(country.getID())) {
+                if (!l_neighborCountry.getNeighborIDs().contains(l_country.getID())) {
                     System.out.println("Invalid map: Bidirectional neighbor missing. Country "
-                            + country.getID() + " lists " + neighborID
+                            + l_country.getID() + " lists " + l_neighborID
                             + " as neighbor, but not vice versa.");
                     return false;
                 }
