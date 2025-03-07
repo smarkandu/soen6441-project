@@ -14,8 +14,8 @@ import java.util.TreeMap;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/*
-    NOTE: This class tests all the methods in the ValidateMapImpl class. This test class covers:
+/**
+    This class tests all the methods in the ValidateMapImpl class. This test class covers:
     Valid map scenario
     Missing neighbor existence
     Non-bidirectional neighbor relationships
@@ -36,6 +36,9 @@ class ValidateMapImplTest {
     private List<String> d_neighborsB;
 
 
+    /**
+     * Sets up mock data for ValidateMapImpl before each test.
+     */
     @BeforeEach
     void setUp() {
         //Create a continent mock.
@@ -59,6 +62,10 @@ class ValidateMapImplTest {
 
     }
 
+    /**
+     * This test ensure the method isMapValid in ValidateMapImplTest
+     * validate maps.
+     */
     @Test
     void isMapValid() {
         Mockito.when(d_countryA.getContinent()).thenReturn(d_continentAsia);
@@ -79,6 +86,9 @@ class ValidateMapImplTest {
         assertTrue(d_validateMap.isMapValid(), "Expected the map to be valid.");
     }
 
+    /**
+     * This test ensures that every country's neighbor exits
+     */
     @Test
     void testInvalidNeighborExistence() {
         Mockito.when(d_countryA.getContinent()).thenReturn(d_continentAsia);
@@ -93,6 +103,9 @@ class ValidateMapImplTest {
         assertFalse(d_validateMap.isMapValid(), "Expected the map to be invalid due to missing neighbor existence.");
     }
 
+    /**
+     * This test ensures that every neighbor have a bidirectional connection
+     */
     @Test
     void testInvalidBidirectionalNeighbors() {
         Mockito.when(d_countryA.getContinent()).thenReturn(d_continentAsia);
@@ -112,6 +125,9 @@ class ValidateMapImplTest {
         assertFalse(d_validateMap.isMapValid(), "Expected the map to be invalid due to non-bidirectional neighbor relationship.");
     }
 
+    /**
+     * This test ensures that the map is connected
+     */
     @Test
     void testDisconnectedGraph() {
         Country l_countryC = Mockito.mock(Country.class);
@@ -142,6 +158,9 @@ class ValidateMapImplTest {
         assertFalse(d_validateMap.isMapValid(), "Expected the map to be invalid due to disconnected graph.");
     }
 
+    /**
+     * This test ensures method verify that each country belongs to a existing continent
+     */
     @Test
     void testInvalidContinentAssociation() {
 
@@ -162,6 +181,9 @@ class ValidateMapImplTest {
         assertFalse(d_validateMap.isMapValid(), "Expected the map to be invalid because country A belongs to a non-existent continent.");
     }
 
+    /**
+     * This test ensuress that a continent's country list is not empty
+     */
     @Test
     void testContinentWithNoCountries() {
 
@@ -183,6 +205,9 @@ class ValidateMapImplTest {
         assertFalse(d_validateMap.isMapValid(), "Expected the map to be invalid because continent Europe has no associated countries.");
     }
 
+    /**
+     * This test ensures that a country belong to only one continent
+     */
     @Test
     void testCountryBelongsToMoreThanOneContinent() {
         //Create two continent mocks with the same numeric ID to simulate an error.
