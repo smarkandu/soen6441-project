@@ -6,11 +6,22 @@ import ca.concordia.soen6441.project.interfaces.ValidateMap;
 
 import java.util.*;
 
+/**
+ * Implementation of the ValidateMap interface.
+ * Provides methods to check the validity of the map,
+ * ensuring that all countries are connected and properly assigned to continents.
+ */
 public class ValidateMapImpl implements ValidateMap {
 
     private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;
 
+    /**
+     * Constructor to initialize the map validator.
+     *
+     * @param p_Countries  A sorted map of country objects.
+     * @param p_Continents A sorted map of continent objects.
+     */
     public ValidateMapImpl(
             SortedMap<String, Country> p_Countries,
             SortedMap<String, Continent> p_Continents) {
@@ -18,6 +29,12 @@ public class ValidateMapImpl implements ValidateMap {
         this.d_Continents = p_Continents;
     }
 
+    /**
+     * Validates the map by checking if the graph of countries is connected
+     * and if each country belongs to a valid continent.
+     *
+     * @return true if the map is valid, false otherwise.
+     */
     public boolean isMapValid() {
         if (!isGraphConnected()) {
             return false;
@@ -31,7 +48,12 @@ public class ValidateMapImpl implements ValidateMap {
         return true;
     }
 
-    // Helper method to check if the graph of countries is connected
+    /**
+     * Helper method to check if the graph of countries is connected
+     *
+     * @return true if all countries are connected, false otherwise.
+     */
+
     private boolean isGraphConnected() {
         if (d_Countries.isEmpty()) {
             System.out.println("Invalid map: No countries exists");
@@ -43,14 +65,20 @@ public class ValidateMapImpl implements ValidateMap {
         exploreCountries(l_startCountry, l_visited);
 
         // Ensure all countries are visited
-        if(l_visited.size() != d_Countries.size()) {
+        if (l_visited.size() != d_Countries.size()) {
             System.out.println("Not all countries are connected.");
             return false;
         }
         return true;
     }
 
-    // DFS (depth first search) to explore all connected countries
+    /**
+     * DFS (depth first search) to explore all connected countries
+     *
+     * @param p_countryID The starting country ID for traversal.
+     * @param p_visited   A set of visited country IDs to track traversal.
+     */
+
     private void exploreCountries(String p_countryID, Set<String> p_visited) {
         if (p_visited.contains(p_countryID)) {
             return;
@@ -96,7 +124,7 @@ public class ValidateMapImpl implements ValidateMap {
         }
 
         // Ensure each country belongs to exactly one continent
-        if(!isCountryBelongsToOnlyOneContinent()) {
+        if (!isCountryBelongsToOnlyOneContinent()) {
             System.out.println("There is one country belonging to more than one continent");
             return false;
         }
@@ -105,14 +133,19 @@ public class ValidateMapImpl implements ValidateMap {
         return true;
     }
 
+    /**
+     * Checks whether each country belongs to only one continent.
+     *
+     * @return true if each country belongs to exactly one continent, false otherwise.
+     */
     private boolean isCountryBelongsToOnlyOneContinent() {
         int l_numberOfContinentsCountryBelongTo = 0;
-        for(Country l_country: d_Countries.values()){
+        for (Country l_country : d_Countries.values()) {
             l_numberOfContinentsCountryBelongTo = 0;
-            for(Continent l_continent: d_Continents.values()){
-                if(l_continent.getNumericID() == l_country.getContinent().getNumericID()){
+            for (Continent l_continent : d_Continents.values()) {
+                if (l_continent.getNumericID() == l_country.getContinent().getNumericID()) {
                     l_numberOfContinentsCountryBelongTo++;
-                    if(l_numberOfContinentsCountryBelongTo > 1) {
+                    if (l_numberOfContinentsCountryBelongTo > 1) {
                         return false;
                     }
                 }

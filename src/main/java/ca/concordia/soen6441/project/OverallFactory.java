@@ -5,12 +5,23 @@ import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.map.ContinentImpl;
 import ca.concordia.soen6441.project.map.CountryImpl;
 
+/**
+ * Factory class for creating Continent and Country objects.
+ */
 public class OverallFactory {
     private static OverallFactory instance = null;
 
+    /**
+     * Private constructor to prevent direct instantiation.
+     */
     private OverallFactory() {
     }
 
+    /**
+     * Returns the singleton instance of OverallFactory.
+     *
+     * @return The singleton instance of OverallFactory.
+     */
     public static OverallFactory getInstance() {
         if (instance == null) {
             instance = new OverallFactory();
@@ -19,18 +30,51 @@ public class OverallFactory {
         return instance;
     }
 
+    /**
+     * Creates a Continent instance with numeric ID, name, value, and color.
+     *
+     * @param p_numericID Numeric ID of the continent.
+     * @param p_ID        String ID of the continent.
+     * @param p_Value     Control value of the continent.
+     * @param p_colour    Color representation of the continent.
+     * @return A new Continent instance.
+     */
     public Continent CreateContinent(int p_numericID, String p_ID, int p_Value, String p_colour) {
         return new ContinentImpl(p_numericID, p_ID, p_Value, p_colour);
     }
 
+    /**
+     * Creates a Continent instance with name and control value.
+     *
+     * @param p_ID    String ID of the continent.
+     * @param p_Value Control value of the continent.
+     * @return A new Continent instance.
+     */
     public Continent CreateContinent(String p_ID, int p_Value) {
         return new ContinentImpl(p_ID, p_Value);
     }
 
+    /**
+     * Creates a Country instance with numeric ID, name, associated continent, and coordinates.
+     *
+     * @param p_numericID Numeric ID of the country.
+     * @param p_ID        String ID of the country.
+     * @param p_Continent Continent to which the country belongs.
+     * @param p_xCoord    X coordinate of the country.
+     * @param p_yCoord    Y coordinate of the country.
+     * @return A new Country instance.
+     */
     public Country CreateCountry(int p_numericID, String p_ID, Continent p_Continent, int p_xCoord, int p_yCoord) {
         return new CountryImpl(p_numericID, p_ID, p_Continent, p_xCoord, p_yCoord);
     }
 
+    /**
+     * Creates a Country instance with name and associated continent.
+     *
+     * @param p_ID        String ID of the country.
+     * @param p_Continent Continent to which the country belongs.
+     * @return A new Country instance.
+     */
     public Country CreateCountry(String p_ID, Continent p_Continent) {
         return new CountryImpl(p_ID, p_Continent);
     }
