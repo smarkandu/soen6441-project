@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of the Country interface.
+ * Represents a country in the game with its properties and behaviors.
+ */
+
 public class CountryImpl implements Country, MapComponent {
     private final String d_ID;
     private final int d_xCoord;
@@ -21,10 +26,13 @@ public class CountryImpl implements Country, MapComponent {
     private Player d_owner;
 
     /**
-     * Constructor (to be used when loading a .map file)
-     * @param p_numericID
-     * @param p_ID
-     * @param p_Continent
+     * Constructs a new Country object with the specified parameter
+     *
+     * @param p_numericID Numeric ID of the country
+     * @param p_ID        String ID of the country.
+     * @param p_Continent Continent to which the country belongs.
+     * @param p_xCoord    X coordinate of the country.
+     * @param p_yCoord    Y coordinate of the country.
      */
     public CountryImpl(int p_numericID, String p_ID, Continent p_Continent, int p_xCoord, int p_yCoord) {
         this.d_ID = p_ID;
@@ -33,13 +41,18 @@ public class CountryImpl implements Country, MapComponent {
         d_Continent = p_Continent;
         d_Neighbors = new TreeMap<String, Country>();
         this.d_numericID = p_numericID;
-        if (p_numericID > d_Counter)
-        {
+        if (p_numericID > d_Counter) {
             d_Counter = p_numericID;
         }
         d_owner = null;
     }
 
+    /**
+     * Constructor to initialize a country without coordinates.
+     *
+     * @param p_ID        String ID of the country.
+     * @param p_Continent Continent to which the country belongs.
+     */
     public CountryImpl(String p_ID, Continent p_Continent) {
         this.d_ID = p_ID;
         this.d_xCoord = 0; // Hardcoded
@@ -50,32 +63,62 @@ public class CountryImpl implements Country, MapComponent {
         d_owner = null;
     }
 
+    /**
+     * Gets the country ID.
+     *
+     * @return Country ID as a string.
+     */
     @Override
     public String getID() {
         return d_ID;
     }
 
+    /**
+     * Retrieves the list of neighbor country IDs.
+     *
+     * @return List of neighboring country IDs.
+     */
     @Override
     public List<String> getNeighborIDs() {
         return d_Neighbors.values().stream().map(Country::getID)
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Adds a neighboring country.
+     *
+     * @param p_Neighbor The country to be added as a neighbor.
+     */
     @Override
     public void addNeighbor(Country p_Neighbor) {
         d_Neighbors.put(p_Neighbor.getID(), p_Neighbor);
     }
 
+    /**
+     * Removes a neighbor by its ID.
+     *
+     * @param p_NeighborID The ID of the neighbor to be removed.
+     */
     @Override
     public void removeNeighbor(String p_NeighborID) {
         d_Neighbors.remove(p_NeighborID);
     }
 
+    /**
+     * Gets the numeric ID of the country.
+     *
+     * @return Numeric ID of the country.
+     */
     @Override
     public int getNumericID() {
         return d_numericID;
     }
 
+    /**
+     * Converts the country object to a string representation.
+     *
+     * @return String representation of the country.
+     */
     @Override
     public String toString() {
         String l_NeighborIDsAsString = d_Neighbors.values().stream().map(Country::getID)
@@ -83,40 +126,72 @@ public class CountryImpl implements Country, MapComponent {
 
         return d_ID + ',' + d_xCoord +
                 "," + d_yCoord +
-                "," + d_Continent.getID() + (!l_NeighborIDsAsString.isEmpty()?
-                "," + l_NeighborIDsAsString:"");
+                "," + d_Continent.getID() + (!l_NeighborIDsAsString.isEmpty() ?
+                "," + l_NeighborIDsAsString : "");
     }
 
+    /**
+     * Gets the number of troops in the country.
+     *
+     * @return Number of troops.
+     */
     public int getTroops() {
         return d_troops;
     }
 
+    /**
+     * Sets the number of troops in the country.
+     *
+     * @param p_troops Number of troops to be set.
+     */
     @Override
     public void setTroops(int p_troops) {
         this.d_troops = p_troops;  // ✅ Assign troops correctly
     }
 
+    /**
+     * Gets the owner of the country.
+     *
+     * @return The player who owns the country.
+     */
     @Override
     public Player getOwner() {
         return d_owner;
     }
 
+    /**
+     * Sets the owner of the country.
+     *
+     * @param p_owner The player to be set as the owner.
+     */
     @Override
     public void setOwner(Player p_owner) {
         d_owner = p_owner;
     }
 
-    public static void resetCounter()
-    {
+    /**
+     * Resets the country ID counter.
+     */
+    public static void resetCounter() {
         d_Counter = 0;
     }
 
-    @Override 
-    public String toMapString() {   
-    // Formats country details in the Domination format:
-    return d_numericID + " " + d_ID + " " + d_Continent.getNumericID() + " " + d_xCoord + " " + d_yCoord;
+    /**
+     * Formats country details in the Domination format.
+     *
+     * @return Formatted string representing the country.
+     */
+    @Override
+    public String toMapString() {
+        // Formats country details in the Domination format:
+        return d_numericID + " " + d_ID + " " + d_Continent.getNumericID() + " " + d_xCoord + " " + d_yCoord;
     }
 
+    /**
+     * Gets the continent of the country.
+     *
+     * @return Continent to which the country belongs.
+     */
     public Continent getContinent() {
         return d_Continent;
     }
