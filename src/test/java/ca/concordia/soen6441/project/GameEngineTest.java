@@ -10,8 +10,15 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.Collections;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
 /**
- * Unit test for savemap in GameEngineTest class.
+ * Unit test for GameEngine class.
+ * This test verifies the functionality of the showMap() and toMapString() method.
  */
 class GameEngineTest {
     private GameEngine d_gameEngine;
@@ -48,6 +55,15 @@ class GameEngineTest {
         d_gameEngine.getContinents().put("Asia", d_mockContinent);
         d_gameEngine.getCountries().put("India", d_mockCountry);
         d_gameEngine.getCountries().put("China", d_mockNeighbor); // Ensure neighbor exists
+    
+
+    // Mock continents map
+        SortedMap<String, Continent> l_mockContinents = new TreeMap<>();
+        l_mockContinents.put("Asia", d_mockContinent);
+        d_gameEngine.getContinents().putAll(l_mockContinents);
+
+        // Manually add the mock country
+        d_gameEngine.getCountries().put("India", d_mockCountry);
     }
 
     /**
@@ -81,5 +97,30 @@ class GameEngineTest {
         assertFalse(l_actualOutput.isEmpty(), "toMapString() output is empty.");
         assertTrue(l_actualOutput.contains("Asia"), "Expected continent 'Asia' in output.");
         assertTrue(l_actualOutput.contains("1 India Asia"), "Expected country 'India' in output.");
+    }
+    /**
+     * Tests the showMap() method of GameEngine.
+     * Ensures that the map output contains expected continent and country data.
+     */
+    @Test
+    void testShowMap() {
+        // Capture console output
+        ByteArrayOutputStream l_outContent = new ByteArrayOutputStream();
+        PrintStream l_originalOut = System.out;
+        System.setOut(new PrintStream(l_outContent));
+
+        // Call the method being tested
+        d_gameEngine.showMap(false);
+
+        // Restore original System.out
+        System.setOut(l_originalOut);
+
+        // Get the captured output
+        String l_actualOutput = l_outContent.toString().trim();
+        System.out.println("Captured showMap Output:\n" + l_actualOutput);
+
+        // Assertions to check expected values
+        assertFalse(l_actualOutput.isEmpty(), "showMap() output is empty.");
+        assertTrue(l_actualOutput.contains("Asia"), "Expected 'Asia' in output.");
     }
 }
