@@ -64,7 +64,14 @@ public class IssueOrder extends MainPlay {
      */
     @Override
     public void next() {
-        if (d_currentPlayIndex == d_gameEngine.getPlayers().size() - 1) {
+        Player l_player = d_gameEngine.getPlayer(d_currentPlayIndex);
+        int l_numberOfTroopsLeftToDeploy = l_player.getReinforcements() - l_player.getNumberOfTroopsOrderedToDeploy();
+
+        if (l_player.getReinforcements() - l_player.getNumberOfTroopsOrderedToDeploy() > 0)
+        {
+            System.out.println("You still have " + l_numberOfTroopsLeftToDeploy + " left to deploy!");
+        }
+        else if (d_currentPlayIndex == d_gameEngine.getPlayers().size() - 1) {
             OrderExecution l_orderExecution = new OrderExecution(d_gameEngine);
             l_orderExecution.execute();
         } else {
