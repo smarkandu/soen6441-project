@@ -4,22 +4,28 @@ title Full Architecture Diagram
 ' Define the major components/modules of the system
 
 rectangle "Phases" {
+    rectangle "Edit" {
     [Preload]
     [Postload]
+    }
+    rectangle "Gameplay" {
     [Startup]
     [AssignReinforcements]
     [IssueOrder]
     [OrderExecution]
+    }
 }
 
 rectangle "Context" {
     [CommandLine]
     [CommandLine]-->[Phases]:User Commands
 
-    [Phases]-->[Map]:Load Map
-    [Phases]-->[Map]:Edit Map
-    [Phases]-->[Map]:Save Map
-    [Phases]-->[Map]:Show Map
+    [Edit]-->[Map]:Load Map
+    [Startup]-->[Map]:Load Map
+    [Postload]-->[Map]:Edit Map
+    [Postload]-->[Map]:Save Map
+    [Edit]-->[Map]:Show Map
+    [Gameplay]-->[Map]:Show Map
     [Phases]-->[Map]:Validate Map
 
     [Phases]-->[Players]:Edit Players
