@@ -1,0 +1,19 @@
+@startuml
+title State Machine Architecture
+
+package "State Machine for Game" {
+    (GameEngine) --> [Preload]
+    [Preload] --> [Postload] : next()
+    [Postload] --> [Startup] : next()
+    [Startup] --> [AssignReinforcements] : assignCountries()
+    [AssignReinforcements] --> [IssueOrder]: execute()
+    [IssueOrder] --> [IssueOrder]: next() (players left to process)
+    [IssueOrder] --> [OrderExecution]: next() (no more players to process)
+    [OrderExecution] --> [AssignReinforcements]: execute()
+    [GameDriver] --> (GameEngine) : Stores state
+}
+
+package "External Interactions" {
+    [User Input] --> (GameEngine)
+}
+@enduml

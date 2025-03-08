@@ -1,0 +1,48 @@
+@startuml
+title Full Architecture Diagram
+
+' Define the major components/modules of the system
+
+rectangle "Phases" {
+    [Preload]
+    [Postload]
+    [Startup]
+    [AssignReinforcements]
+    [IssueOrder]
+    [OrderExecution]
+}
+
+rectangle "Context" {
+    [CommandLine]
+    [CommandLine]-->[Phases]:User Commands
+
+    [Phases]-->[Map]:Load Map
+    [Phases]-->[Map]:Edit Map
+    [Phases]-->[Map]:Save Map
+    [Phases]-->[Map]:Show Map
+    [Phases]-->[Map]:Validate Map
+
+    [Phases]-->[Players]:Edit Players
+    [Phases]-->[Players]:Assign Countries
+    [Phases]-->[Players]:Queue Orders
+    [Phases]-->[Players]:Execute Orders
+
+    rectangle "Map" {
+        [Continents]
+        [Countries]
+    }
+
+    rectangle "Players" {
+        [Orders]
+    }
+}
+
+package "External Interactions" {
+    (User Input) --> [CommandLine]
+}
+
+' External interactions
+rectangle "Main" {
+    [Main] --> [Context]
+}
+@enduml
