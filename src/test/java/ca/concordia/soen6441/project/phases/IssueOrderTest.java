@@ -11,11 +11,19 @@ import org.junit.jupiter.api.Test;
 
 import java.util.TreeMap;
 
+/**
+ * Unit tests for the {@link IssueOrder} class.
+ * This class tests the behavior of the deploy method under different conditions
+ * using mocked dependencies.
+ */
 class IssueOrderTest {
     private IssueOrder d_issueOrder;
     private Player d_player;
     private Country d_country;
 
+    /**
+     * Sets up mock dependencies before each test case execution.
+     */
     @BeforeEach
     void setUp() {
         // Mock dependencies required for "deploy" method
@@ -35,6 +43,10 @@ class IssueOrderTest {
         d_issueOrder = new IssueOrder(l_gameEngine, 0);
     }
 
+    /**
+     * Tests the deploy method when the player owns the country and has enough reinforcements.
+     * Verifies that an order is issued successfully.
+     */
     @Test
     void testDeploy_SuccessfulDeployment() {
         // Player owns the country and has enough reinforcements
@@ -51,6 +63,10 @@ class IssueOrderTest {
         verify(d_player, times(1)).issue_order(any(Deploy.class));
     }
 
+    /**
+     * Tests the deploy method when the player does not have enough reinforcements.
+     * Ensures that an order is NOT issued.
+     */
     @Test
     void testDeploy_NotEnoughTroopsAvailable() {
         // Player owns the country but doesn't have enough reinforcements
@@ -67,6 +83,10 @@ class IssueOrderTest {
         verify(d_player, never()).issue_order(any(Deploy.class));
     }
 
+    /**
+     * Tests the deploy method when the player does not own the target country.
+     * Ensures that an order is NOT issued.
+     */
     @Test
     void testDeploy_CountryNotOwned() {
         // Mock when a Player does not own the country
