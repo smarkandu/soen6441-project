@@ -59,7 +59,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: javadocs
-        path: build/docs/javadoc
+        path: target/site/apidocs/
 
     - name: Run Unit Tests
       run: mvn test
