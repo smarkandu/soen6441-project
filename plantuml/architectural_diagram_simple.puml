@@ -4,38 +4,27 @@ title Full Architecture Diagram
 ' Define the major components/modules of the system
 
 rectangle "Phases" {
-    rectangle "Edit" {
-    [Preload]
-    [Postload]
-    }
-    rectangle "Gameplay" {
-    [Startup]
-    [AssignReinforcements]
-    [IssueOrder]
-    [OrderExecution]
-    }
+    [Edit]
+    [Gameplay]
 }
 
 rectangle "Context" {
     [CommandLine]
-    [CommandLine]-->[Phases]:User Commands
+    [CommandLine]-->[Phases]:Current Phase interprets command
 
-    [Edit]-->[Map]:Load Map
-    [Startup]-->[Map]:Load Map
-    [Postload]-->[Map]:Edit Map
-    [Postload]-->[Map]:Save Map
-    [Edit]-->[Map]:Show Map
-    [Gameplay]-->[Map]:Show Map
-    [Phases]-->[Map]:Validate Map
+    [Phases]-->[Map]:Show Map
+    [Phases]-->[Map]:Load Map
 
-    [Phases]-->[Players]:Edit Players
-    [Phases]-->[Players]:Assign Countries
-    [Phases]-->[Players]:Queue Orders
-    [Phases]-->[Players]:Execute Orders
+    [Edit]-->[Map]:Edit Map
+    [Edit]-->[Map]:Save Map
+    [Edit]-->[Map]:Validate Map
+
+    [Gameplay]-->[Players]:Edit Players
+    [Gameplay]-->[Players]:Assign Countries
+    [Gameplay]-->[Orders]:Queue Orders
+    [Gameplay]-->[Orders]:Execute Orders
 
     rectangle "Map" {
-        [Continents]
-        [Countries]
     }
 
     rectangle "Players" {
@@ -44,11 +33,11 @@ rectangle "Context" {
 }
 
 package "External Interactions" {
-    (User Input) --> [CommandLine]
+    (User Input) --> [CommandLine]:User Command Initiated
 }
 
 ' External interactions
 rectangle "Main" {
-    [Main] --> [Context]
+    [Main] --> [CommandLine]:Start Command Line
 }
 @enduml
