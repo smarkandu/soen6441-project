@@ -1,43 +1,38 @@
 @startuml
 title Full Architecture Diagram
 
-' Define the major components/modules of the system
+skinparam defaultFontSize 9  ' Reduce overall text size
+skinparam titleFontSize 11  ' Smaller title text
+skinparam packageTitleFontSize 10  ' Smaller package text
+skinparam arrowFontSize 8  ' Smaller labels on arrows
 
-rectangle "Phases" {
-    [Edit]
-    [Gameplay]
+package "Phases" {
+    rectangle "Edit" as Edit
+    rectangle "Gameplay" as Gameplay
 }
 
-rectangle "Context" {
-    [CommandLine]
-    [CommandLine]-->[Phases]:Current Phase interprets command
-
-    [Phases]-->[Map]:Show Map
-    [Phases]-->[Map]:Load Map
-
-    [Edit]-->[Map]:Edit Map
-    [Edit]-->[Map]:Save Map
-    [Edit]-->[Map]:Validate Map
-
-    [Gameplay]-->[Players]:Edit Players
-    [Gameplay]-->[Players]:Assign Countries
-    [Gameplay]-->[Orders]:Queue Orders
-    [Gameplay]-->[Orders]:Execute Orders
-
-    rectangle "Map" {
+package "Context" {
+    rectangle "CommandLine" as CommandLine
+    rectangle "Map" as Map
+    rectangle "Players" as Players {
+        rectangle "Orders" as Orders
     }
 
-    rectangle "Players" {
-        [Orders]
-    }
+    CommandLine -[#purple]-> Phases : "Interprets command"
+
+    Phases-[#Pink]-> Map: "Show Map"
+    Phases-[#Pink]-> Map: "Load Map"
+    Edit -[#blue]-> Map : "Save\nEdit\nValidate"
+    Gameplay -[#orange]-> Players : "Edit Players\nAssign Countries\nAssign Reinforcements"
+    Gameplay -[#orange]-> Orders : "Queue Orders (Deploy)\nExecute Orders"
+    Orders -[#Cyan]-> Map : "Deploy Soldiers"
 }
 
 package "External Interactions" {
-    (User Input) --> [CommandLine]:User Command Initiated
+    (User Input) -[#black]-> CommandLine : "User Command"
 }
 
-' External interactions
-rectangle "Main" {
-    [Main] --> [CommandLine]:Start Command Line
+package "Main" {
+    Main -[#green]-> CommandLine : "Start CLI"
 }
 @enduml
