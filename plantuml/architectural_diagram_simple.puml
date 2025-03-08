@@ -1,0 +1,38 @@
+@startuml
+title Full Architecture Diagram
+
+skinparam defaultFontSize 9  ' Reduce overall text size
+skinparam titleFontSize 11  ' Smaller title text
+skinparam packageTitleFontSize 10  ' Smaller package text
+skinparam arrowFontSize 8  ' Smaller labels on arrows
+
+package "Phases" {
+    rectangle "Edit" as Edit
+    rectangle "Gameplay" as Gameplay
+}
+
+package "Context" {
+    rectangle "CommandLine" as CommandLine
+    rectangle "Map" as Map
+    rectangle "Players" as Players {
+        rectangle "Orders" as Orders
+    }
+
+    CommandLine -[#purple]-> Phases : "Interprets command"
+
+    Phases-[#Pink]-> Map: "Show Map"
+    Phases-[#Pink]-> Map: "Load Map"
+    Edit -[#blue]-> Map : "Save\nEdit\nValidate"
+    Gameplay -[#orange]-> Players : "Edit Players\nAssign Countries\nAssign Reinforcements"
+    Gameplay -[#orange]-> Orders : "Queue Orders (Deploy)\nExecute Orders"
+    Orders -[#Cyan]-> Map : "Deploy Soldiers"
+}
+
+package "External Interactions" {
+    (User Input) -[#black]-> CommandLine : "User Command"
+}
+
+package "Main" {
+    Main -[#green]-> CommandLine : "Start CLI"
+}
+@enduml
