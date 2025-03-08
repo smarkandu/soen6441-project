@@ -36,6 +36,16 @@ public class ValidateMapImpl implements ValidateMap {
      * @return true if the map is valid, false otherwise.
      */
     public boolean isMapValid() {
+        // NEW - Validate that every neighbor exists
+        if (!validateNeighborExistence()) {
+            return false;
+        }
+        // NEW - Validate that neighbor relationships are bidirectional
+        // So, if Country A lists Country B as a neighbor, then Country B must also list Country A as a neighbor.
+        if (!validateBidirectionalNeighbors()) {
+            return false;
+        }
+
         if (!isGraphConnected()) {
             return false;
         }
@@ -49,11 +59,49 @@ public class ValidateMapImpl implements ValidateMap {
     }
 
     /**
+     * Validate that every neighbor in a country's neighbor list exists in d_Countries.
+     *
+     * @return true if every neighbor in a country's neighbor list exists in d_Countries, otherwise false
+     */
+    private boolean validateNeighborExistence() {
+        for (Country l_country : d_Countries.values()) {
+            for (String l_neighborID : l_country.getNeighborIDs()) {
+                if (!d_Countries.containsKey(l_neighborID)) {
+                    System.out.println("Invalid map: Neighbor " + l_neighborID
+                            + " for the country " + l_country.getID() + " does not exist in d_Countries database.");
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Validate that neighbor relationships are bidirectional.
+     *
+     * @return true if every neighbor relationships are bidirectional, otherwise false.
+     */
+    private boolean validateBidirectionalNeighbors() {
+        for (Country l_country : d_Countries.values()) {
+            for (String l_neighborID : l_country.getNeighborIDs()) {
+                Country l_neighborCountry = d_Countries.get(l_neighborID);
+                // Check if the neighbor's list includes the original country.
+                if (!l_neighborCountry.getNeighborIDs().contains(l_country.getID())) {
+                    System.out.println("Invalid map: Bidirectional neighbor missing. Country "
+                            + l_country.getID() + " lists " + l_neighborID
+                            + " as neighbor, but not vice versa.");
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
      * Helper method to check if the graph of countries is connected
      *
      * @return true if all countries are connected, false otherwise.
      */
-
     private boolean isGraphConnected() {
         if (d_Countries.isEmpty()) {
             System.out.println("Invalid map: No countries exists");
@@ -87,7 +135,6 @@ public class ValidateMapImpl implements ValidateMap {
         p_visited.add(p_countryID);
         Country l_current = d_Countries.get(p_countryID);
 
-
         for (String l_neighborID : l_current.getNeighborIDs()) {
             if (d_Countries.containsKey(l_neighborID)) {
                 exploreCountries(l_neighborID, p_visited);
@@ -95,7 +142,12 @@ public class ValidateMapImpl implements ValidateMap {
         }
     }
 
-    // Helper method to validate continent-country relationship
+
+    /**
+     * Helper method to validate continent-country relationship
+     *
+     * @return true if every country is attached to a continent, otherwise false
+     */
     private boolean validateContinents() {
         Map<String, Set<String>> l_continentToCountries = new HashMap<>();
 
@@ -104,7 +156,8 @@ public class ValidateMapImpl implements ValidateMap {
             String l_continentID = l_country.getContinent().getID();
             // Check if the country's continent actually exists
             if (!d_Continents.containsKey(l_continentID)) {
-                System.out.println("Country belongs to a non-existent continent");
+                System.out.println("Invalid map: Country " + l_country.getID()
+                        + " belongs to a non-existent continent " + l_continentID + ".");
                 return false;
             }
 
@@ -112,13 +165,13 @@ public class ValidateMapImpl implements ValidateMap {
                 l_continentToCountries.put(l_continentID, new HashSet<>());
             }
             l_continentToCountries.get(l_continentID).add(l_country.getID());
-
         }
 
         // Check every continent has at least one country
         for (Continent l_continent : d_Continents.values()) {
             if (!l_continentToCountries.containsKey(l_continent.getID()) || l_continentToCountries.get(l_continent.getID()).isEmpty()) {
-                System.out.println("No countries associated with this continent");
+                System.out.println("Invalid map: No countries associated with continent "
+                        + l_continent.getID() + ".");
                 return false;
             }
         }
@@ -128,7 +181,6 @@ public class ValidateMapImpl implements ValidateMap {
             System.out.println("There is one country belonging to more than one continent");
             return false;
         }
-
 
         return true;
     }
@@ -146,11 +198,12 @@ public class ValidateMapImpl implements ValidateMap {
                 if (l_continent.getNumericID() == l_country.getContinent().getNumericID()) {
                     l_numberOfContinentsCountryBelongTo++;
                     if (l_numberOfContinentsCountryBelongTo > 1) {
+                        System.out.println("Invalid map: Country " + l_country.getID()
+                                + " belongs to more than one continent.");
                         return false;
                     }
                 }
             }
-
         }
         return true;
     }
