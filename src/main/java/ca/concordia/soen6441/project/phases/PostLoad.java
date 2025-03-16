@@ -1,5 +1,5 @@
 package ca.concordia.soen6441.project.phases;
-import ca.concordia.soen6441.project.GameEngine;
+import ca.concordia.soen6441.project.context.GameEngine;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;

@@ -2,7 +2,7 @@ package ca.concordia.soen6441.project.gameplay;
 
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
-import ca.concordia.soen6441.project.GameEngine;
+import ca.concordia.soen6441.project.context.GameEngine;
 
 import java.util.ArrayList;
 import java.util.Collections;

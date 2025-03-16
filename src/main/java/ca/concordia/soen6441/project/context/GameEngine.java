@@ -1,5 +1,6 @@
-package ca.concordia.soen6441.project;
+package ca.concordia.soen6441.project.context;
 
+import ca.concordia.soen6441.project.OverallFactory;
 import ca.concordia.soen6441.project.gameplay.PlayerImpl;
 import ca.concordia.soen6441.project.interfaces.*;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
