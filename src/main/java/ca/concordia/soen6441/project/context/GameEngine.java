@@ -20,17 +20,16 @@ import java.util.*;
  */
 public class GameEngine implements GameContext, MapComponent {
     private Phase d_gamePhase;
-    private SortedMap<String, Player> d_players;
     private ValidateMapImpl d_validateMapImpl;
     private ContinentManager d_ContinentManager;
     private CountryManager d_CountryManager;
     private NeighborManager d_NeighborManager;
+    private PlayerManager d_PlayerManager;
 
     /**
      * Constructs a new GameEngine instance and initializes game data structures.
      */
     public GameEngine() {
-        d_players = new TreeMap<String, Player>();
         d_ContinentManager = new ContinentManager();
         d_CountryManager = new CountryManager(this);
         d_NeighborManager = new NeighborManager(this);
@@ -154,24 +153,6 @@ public class GameEngine implements GameContext, MapComponent {
 
 
 
-    /**
-     * Adds a new player to the game.
-     *
-     * @param p_playername The name of the player to be added.
-     */
-    public void addPlayer(String p_playername) {
-        d_players.put(p_playername, new PlayerImpl(p_playername, new ArrayList<>(), new ArrayList<>()));
-        System.out.println("Player added: " + d_players.get(p_playername).getName());
-    }
-
-    /**
-     * Removes a player from the game.
-     *
-     * @param p_player The name of the player to be removed.
-     */
-    public void removePlayer(String p_player) {
-        d_players.remove(p_player);
-    }
 
     /**
      * Prints a list of the continents (in alphabetical order) with their countries
@@ -220,9 +201,6 @@ public class GameEngine implements GameContext, MapComponent {
         }
     }
 
-    public Map<String, Player> getPlayers() {
-        return d_players;
-    }
 
     /**
      * Returns a string representation of the current game state.
@@ -289,16 +267,6 @@ public class GameEngine implements GameContext, MapComponent {
     }
 
     /**
-     * Retrieves a player based on their index in the player list.
-     *
-     * @param p_index The index of the player.
-     * @return The player at the specified index.
-     */
-    public Player getPlayer(int p_index) {
-        return new ArrayList<Player>(d_players.values()).get(p_index);
-    }
-
-    /**
      * Loads a map from a file and validates its contents.
      *
      * @param p_filename The filename of the map to be loaded.
@@ -348,6 +316,10 @@ public class GameEngine implements GameContext, MapComponent {
 
     public NeighborManager getNeighborManager() {
         return d_NeighborManager;
+    }
+
+    public PlayerManager getPlayerManager() {
+        return d_PlayerManager;
     }
 
     /**

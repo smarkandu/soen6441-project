@@ -46,7 +46,7 @@ public class Startup extends Play {
     public void assignCountries() {
         if (!d_gameEngine.isMapValid()) {
             System.out.println("A valid map must be loaded first");
-        } else if (d_gameEngine.getPlayers().size() < 2) {
+        } else if (d_gameEngine.getPlayerManager().getPlayers().size() < 2) {
             System.out.println("You must have at least two players to proceed");
         } else {
             d_countryAssignment.assignCountries();
@@ -68,7 +68,7 @@ public class Startup extends Play {
      * @param p_playerName The name of the player to add.
      */
     public void gamePlayerAdd(String p_playerName) {
-        d_gameEngine.addPlayer(p_playerName);
+        d_gameEngine.getPlayerManager().addPlayer(p_playerName);
     }
 
     /**
@@ -77,7 +77,7 @@ public class Startup extends Play {
      * @param p_playerName The name of the player to remove.
      */
     public void gamePlayerRemove(String p_playerName) {
-        d_gameEngine.removePlayer(p_playerName);
+        d_gameEngine.getPlayerManager().removePlayer(p_playerName);
     }
 
     /**

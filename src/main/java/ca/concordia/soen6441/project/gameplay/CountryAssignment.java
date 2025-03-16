@@ -30,7 +30,7 @@ public class CountryAssignment {
      */
     public void assignCountries() {
         List<Country> l_availableCountries = new ArrayList<>(d_gameEngine.getCountryManager().getCountries().values());
-        List<Player> l_players = new ArrayList<>(d_gameEngine.getPlayers().values());
+        List<Player> l_players = new ArrayList<>(d_gameEngine.getPlayerManager().getPlayers().values());
 
         if (l_players.isEmpty() || l_availableCountries.isEmpty()) {
             System.out.println("Error: No players or no countries available for assignment.");
