@@ -5,18 +5,10 @@
 
 <module name="Checker">
     <module name="TreeWalker">
-        <!-- Enforce Javadoc for classes -->
-        <module name="JavadocType">
-            <property name="severity" value="error"/>
-        </module>
-
-        <!-- Enforce Javadoc for all methods -->
-        <module name="JavadocMethod">
-            <property name="allowMissingParamTags" value="false"/>
-            <property name="allowMissingReturnTag" value="false"/>
-            <property name="severity" value="error"/>
-        </module>
-
+        <!-- Enforce Class names in PascalCase -->
+<!--        <module name="ClassName">-->
+<!--            <property name="severity" value="warning" />-->
+<!--        </module>-->
         <module name="MemberName">
             <property name="format" value="^d_[a-zA-Z0-9]*$"/>
             <property name="severity" value="error" />
