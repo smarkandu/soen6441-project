@@ -72,12 +72,12 @@ public class PostLoad extends Edit {
 
     @Override
     public void editContinentAdd(String p_continentID, int p_continentValue) {
-        d_gameEngine.addContinent(p_continentID, p_continentValue);
+        d_gameEngine.getContinentManager().addContinent(p_continentID, p_continentValue);
     }
 
     @Override
     public void editContinentRemove(String p_continentID) {
-        d_gameEngine.removeContinent(p_continentID);
+        d_gameEngine.getContinentManager().removeContinent(p_continentID);
     }
 
     @Override

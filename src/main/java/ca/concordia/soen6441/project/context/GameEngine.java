@@ -20,19 +20,19 @@ import java.util.*;
  */
 public class GameEngine implements GameContext, MapComponent {
     private Phase d_gamePhase;
-    private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;
     private SortedMap<String, Player> d_players;
     private ValidateMapImpl d_validateMapImpl;
+    private ContinentManager d_ContinentManager;
 
     /**
      * Constructs a new GameEngine instance and initializes game data structures.
      */
     public GameEngine() {
-        d_Continents = new TreeMap<String, Continent>();
         d_Countries = new TreeMap<String, Country>();
         d_players = new TreeMap<String, Player>();
-        d_validateMapImpl = new ValidateMapImpl(d_Countries, d_Continents);
+        d_ContinentManager = new ContinentManager();
+        d_validateMapImpl = new ValidateMapImpl(d_Countries, d_ContinentManager.getContinents());
     }
 
     /**
@@ -149,26 +149,6 @@ public class GameEngine implements GameContext, MapComponent {
         }
     }
 
-    /**
-     * Adds a continent to the game map.
-     *
-     * @param p_numericID      The numeric ID of the continent.
-     * @param p_continentID    The unique identifier for the continent.
-     * @param p_continentValue The control value of the continent.
-     * @param p_colour         The color associated with the continent.
-     */
-    @Override
-    public void addContinent(int p_numericID, String p_continentID, int p_continentValue, String p_colour) {
-        Continent l_continent = OverallFactory.getInstance().CreateContinent(p_numericID, p_continentID, p_continentValue, p_colour);
-        d_Continents.put(l_continent.getID(), l_continent);
-        System.out.println("Continent added: " + d_Continents.get(l_continent.getID()));
-    }
-
-    public void addContinent(String p_continentID, int p_continentValue) {
-        Continent l_continent = OverallFactory.getInstance().CreateContinent(p_continentID, p_continentValue);
-        d_Continents.put(l_continent.getID(), l_continent);
-        System.out.println("Continent added: " + d_Continents.get(l_continent.getID()));
-    }
 
     /**
      * Adds a country to the game map.
@@ -178,13 +158,13 @@ public class GameEngine implements GameContext, MapComponent {
      */
     @Override
     public void addCountry(int p_numericID, String p_CountryID, String p_continentID, int p_xCoord, int p_yCoord) {
-        Country l_country = OverallFactory.getInstance().CreateCountry(p_numericID, p_CountryID, d_Continents.get(p_continentID), p_xCoord, p_yCoord);
+        Country l_country = OverallFactory.getInstance().CreateCountry(p_numericID, p_CountryID, d_ContinentManager.getContinents().get(p_continentID), p_xCoord, p_yCoord);
         d_Countries.put(p_CountryID, l_country);
         System.out.println("Country added: " + d_Countries.get(l_country.getID()));
     }
 
     public void addCountry(String p_CountryID, String p_continentID) {
-        Country l_country = OverallFactory.getInstance().CreateCountry(p_CountryID, d_Continents.get(p_continentID));
+        Country l_country = OverallFactory.getInstance().CreateCountry(p_CountryID, d_ContinentManager.getContinents().get(p_continentID));
         d_Countries.put(p_CountryID, l_country);
         System.out.println("Country added: " + d_Countries.get(l_country.getID()));
     }
@@ -202,24 +182,6 @@ public class GameEngine implements GameContext, MapComponent {
         System.out.println("Neighbor added: " + d_Countries.get(p_neighborCountryID));
     }
 
-    /**
-     * Retrieves a continent by its numeric ID.
-     *
-     * @param p_numericIDOfContinent The numeric ID of the continent.
-     * @return The continent if found, otherwise null.
-     */
-    @Override
-    public Continent getContinentByNumericID(int p_numericIDOfContinent) {
-
-        for (String l_key : d_Continents.keySet()) {
-            if (d_Continents.get(l_key).getNumericID() == p_numericIDOfContinent) {
-                return d_Continents.get(l_key); // found
-            }
-        }
-
-        return null; // not found
-    }
-
     @Override
     public Country getCountryByNumericID(int p_numericIDOfCountry) {
 
@@ -230,15 +192,6 @@ public class GameEngine implements GameContext, MapComponent {
         }
 
         return null; // not found
-    }
-
-    /**
-     * Removes a continent from the game map.
-     *
-     * @param p_continentID The unique identifier of the continent to be removed.
-     */
-    public void removeContinent(String p_continentID) {
-        d_Continents.remove(p_continentID);
     }
 
     /**
@@ -281,17 +234,6 @@ public class GameEngine implements GameContext, MapComponent {
     }
 
     /**
-     * Retrieves a continent by its unique identifier.
-     *
-     * @param p_continentID The unique identifier of the continent.
-     * @return The continent if found, otherwise null.
-     */
-    @Override
-    public Continent getContinent(String p_continentID) {
-        return d_Continents.get(p_continentID); // Retrieve the continent from the map
-    }
-
-    /**
      * Retrieves all countries belonging to a specified continent.
      *
      * @param p_continentID The unique identifier of the continent.
@@ -318,7 +260,7 @@ public class GameEngine implements GameContext, MapComponent {
     public void showMap(boolean p_isDetailed) {
 
         // Step 1: Retrieve all continents and sort them alphabetically
-        List<Continent> l_sortedContinents = new ArrayList<>(d_Continents.values()); // Convert to list
+        List<Continent> l_sortedContinents = new ArrayList<>(d_ContinentManager.getContinents().values()); // Convert to list
         l_sortedContinents.sort(Comparator.comparing(Continent::getID)); // Sort by continent ID
 
         // Iterate through each sorted continent
@@ -363,10 +305,6 @@ public class GameEngine implements GameContext, MapComponent {
         return d_players;
     }
 
-    public Map<String, Continent> getContinents() {
-        return d_Continents;
-    }
-
     /**
      * Returns a string representation of the current game state.
      *
@@ -376,7 +314,7 @@ public class GameEngine implements GameContext, MapComponent {
     public String toString() {
         // Format continents to string
         StringBuilder l_sbContinents = new StringBuilder();
-        for (Continent l_continent : d_Continents.values()) {
+        for (Continent l_continent : d_ContinentManager.getContinents().values()) {
             l_sbContinents.append(l_continent).append("\n");
         }
 
@@ -406,7 +344,7 @@ public class GameEngine implements GameContext, MapComponent {
 
         // Add [continents] section
         l_mapBuilder.append("[continents]\n");
-        d_Continents.values().stream()
+        d_ContinentManager.getContinents().values().stream()
                 .sorted(Comparator.comparingInt(Continent::getNumericID)) // Sort by numeric ID
                 .forEach(l_continent -> l_mapBuilder.append(l_continent.toMapString()).append("\n"));
 
@@ -469,7 +407,7 @@ public class GameEngine implements GameContext, MapComponent {
      */
     public void resetMap() {
         d_Countries.clear();
-        d_Continents.clear();
+        d_ContinentManager.clear();
         CountryImpl.resetCounter();
         ContinentImpl.resetCounter();
     }
@@ -481,12 +419,16 @@ public class GameEngine implements GameContext, MapComponent {
         return d_validateMapImpl.isMapValid();
     }
 
+    public ContinentManager getContinentManager() {
+        return d_ContinentManager;
+    }
+
     /**
      * Checks if the map is empty.
      *
      * @return true if there are no continents or countries in the map.
      */
     public boolean isMapEmpty() {
-        return d_Continents.isEmpty() && d_Countries.isEmpty();
+        return d_ContinentManager.getContinents().isEmpty() && d_Countries.isEmpty();
     }
 }

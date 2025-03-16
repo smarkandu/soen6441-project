@@ -52,7 +52,7 @@ class GameEngineTest {
         when(d_mockNeighbor.getNeighborIDs()).thenReturn(List.of("India"));
 
         // Inject mock objects
-        d_gameEngine.getContinents().put("Asia", d_mockContinent);
+        d_gameEngine.getContinentManager().getContinents().put("Asia", d_mockContinent);
         d_gameEngine.getCountries().put("India", d_mockCountry);
         d_gameEngine.getCountries().put("China", d_mockNeighbor); // Ensure neighbor exists
     
@@ -60,7 +60,7 @@ class GameEngineTest {
     // Mock continents map
         SortedMap<String, Continent> l_mockContinents = new TreeMap<>();
         l_mockContinents.put("Asia", d_mockContinent);
-        d_gameEngine.getContinents().putAll(l_mockContinents);
+        d_gameEngine.getContinentManager().getContinents().putAll(l_mockContinents);
 
         // Manually add the mock country
         d_gameEngine.getCountries().put("India", d_mockCountry);
@@ -86,7 +86,7 @@ class GameEngineTest {
         when(l_mockCountry.toMapString()).thenReturn("1 India Asia");
 
         // Add to game engine
-        d_gameEngine.getContinents().put("Asia", l_mockContinent);
+        d_gameEngine.getContinentManager().getContinents().put("Asia", l_mockContinent);
         d_gameEngine.getCountries().put("India", l_mockCountry);
 
         // Capture output

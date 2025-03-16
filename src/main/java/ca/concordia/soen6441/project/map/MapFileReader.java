@@ -93,7 +93,7 @@ public class MapFileReader {
                                 int l_bonus = Integer.parseInt(l_parts[1]);
                                 String l_color = l_parts[2];
                                 // Add a l_continent
-                                p_gameEngine.addContinent(l_continentID, l_name, l_bonus, l_color);
+                                p_gameEngine.getContinentManager().addContinent(l_continentID, l_name, l_bonus, l_color);
                                 l_continentID++;
                             }
                         }
@@ -112,7 +112,7 @@ public class MapFileReader {
                                 int l_x = Integer.parseInt(l_parts[3]);
                                 int l_y = Integer.parseInt(l_parts[4]);
 
-                                Continent l_continent = p_gameEngine.getContinentByNumericID(l_continentNumericID);
+                                Continent l_continent = p_gameEngine.getContinentManager().getContinentByNumericID(l_continentNumericID);
                                 p_gameEngine.addCountry(l_id, l_name, l_continent.getID(), l_x, l_y);
                             }
                         }

@@ -69,7 +69,7 @@ public class AssignReinforcements extends MainPlay {
     public void execute() {
         for (int l_i = 0; l_i < d_gameEngine.getPlayers().size(); l_i++) {
             Player l_player = d_gameEngine.getPlayer(l_i);
-            Map<String, Continent> l_continents = d_gameEngine.getContinents();
+            Map<String, Continent> l_continents = d_gameEngine.getContinentManager().getContinents();
 
             int l_territoriesOwned = l_player.getOwnedCountries().size();
             int l_continentBonus = calculateContinentBonus(l_player, l_continents);
