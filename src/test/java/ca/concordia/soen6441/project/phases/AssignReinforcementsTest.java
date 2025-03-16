@@ -1,6 +1,9 @@
 package ca.concordia.soen6441.project.phases;
 
-import ca.concordia.soen6441.project.GameEngine;
+import ca.concordia.soen6441.project.context.ContinentManager;
+import ca.concordia.soen6441.project.context.CountryManager;
+import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.context.PlayerManager;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
@@ -24,7 +27,7 @@ class AssignReinforcementsTest {
     private AssignReinforcements d_assignReinforcements;
     private Player d_mockPlayer;
     private Continent d_mockAsia, d_mockEurope;
-    private Map<String, Country> d_mockCountries;
+    private SortedMap<String, Country> d_mockCountries;
 
     /**
      * Sets up the test environment before each test case.
@@ -37,6 +40,11 @@ class AssignReinforcementsTest {
     void setUp() {
 
         d_gameEngine = mock(GameEngine.class);
+        CountryManager l_mockCountryManager = mock(CountryManager.class);
+        when(d_gameEngine.getCountryManager()).thenReturn(l_mockCountryManager);
+        PlayerManager l_mockPlayerManager = mock(PlayerManager.class);
+        when(d_gameEngine.getPlayerManager()).thenReturn(l_mockPlayerManager);
+
         d_assignReinforcements = new AssignReinforcements(d_gameEngine);
 
         d_mockPlayer = mock(Player.class);
@@ -52,16 +60,18 @@ class AssignReinforcementsTest {
 
         Map<String, Player> l_mockPlayers = new HashMap<>();
         l_mockPlayers.put(d_mockPlayer.getName(), d_mockPlayer);
-        when(d_gameEngine.getPlayers()).thenReturn(l_mockPlayers);
+        when(d_gameEngine.getPlayerManager().getPlayers()).thenReturn(l_mockPlayers);
 
-        when(d_gameEngine.getPlayer(anyInt())).thenReturn(d_mockPlayer);
+        when(d_gameEngine.getPlayerManager().getPlayer(anyInt())).thenReturn(d_mockPlayer);
 
-        Map<String, Continent> l_mockContinents = new HashMap<>();
+        SortedMap<String, Continent> l_mockContinents = new TreeMap<>();
         l_mockContinents.put("Asia", d_mockAsia);
         l_mockContinents.put("Europe", d_mockEurope);
-        when(d_gameEngine.getContinents()).thenReturn(l_mockContinents);
+        ContinentManager l_mockContinentManager = mock(ContinentManager.class);
+        when(d_gameEngine.getContinentManager()).thenReturn(l_mockContinentManager);
+        when(d_gameEngine.getContinentManager().getContinents()).thenReturn(l_mockContinents);
 
-        d_mockCountries = new HashMap<>();
+        d_mockCountries = new TreeMap<>();
     }
 
     /**
@@ -87,7 +97,7 @@ class AssignReinforcementsTest {
             d_mockCountries.put(l_countryId, l_country);
         }
 
-        when(d_gameEngine.getCountries()).thenReturn(d_mockCountries);
+        when(d_gameEngine.getCountryManager().getCountries()).thenReturn(d_mockCountries);
 
         d_assignReinforcements.execute();
         System.out.println("Expected: 15 | Actual: " + d_mockPlayer.getReinforcements());

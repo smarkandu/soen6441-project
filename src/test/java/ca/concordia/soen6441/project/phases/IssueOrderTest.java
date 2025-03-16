@@ -2,7 +2,9 @@ package ca.concordia.soen6441.project.phases;
 
 import static org.mockito.Mockito.*;
 
-import ca.concordia.soen6441.project.GameEngine;
+import ca.concordia.soen6441.project.context.CountryManager;
+import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.context.PlayerManager;
 import ca.concordia.soen6441.project.gameplay.orders.Deploy;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
@@ -28,16 +30,21 @@ class IssueOrderTest {
     void setUp() {
         // Mock dependencies required for "deploy" method
         GameEngine l_gameEngine = mock(GameEngine.class);
+        CountryManager l_mockCountryManager = mock(CountryManager.class);
+        when(l_gameEngine.getCountryManager()).thenReturn(l_mockCountryManager);
+        PlayerManager l_mockPlayerManager = mock(PlayerManager.class);
+        when(l_gameEngine.getPlayerManager()).thenReturn(l_mockPlayerManager);
+
         d_player = mock(Player.class);
         d_country = mock(Country.class);
 
         // Mock country map in game engine
         TreeMap<String, Country> l_countries = new TreeMap<>();
         l_countries.put("Country1", d_country);
-        when(l_gameEngine.getCountries()).thenReturn(l_countries);
+        when(l_gameEngine.getCountryManager().getCountries()).thenReturn(l_countries);
 
         // Mock player behavior
-        when(l_gameEngine.getPlayer(0)).thenReturn(d_player);
+        when(l_gameEngine.getPlayerManager().getPlayer(0)).thenReturn(d_player);
 
         // Initialize IssueOrder instance
         d_issueOrder = new IssueOrder(l_gameEngine, 0);

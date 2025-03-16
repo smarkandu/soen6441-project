@@ -1,6 +1,6 @@
 package ca.concordia.soen6441.project.phases;
 
-import ca.concordia.soen6441.project.GameEngine;
+import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
@@ -67,9 +67,9 @@ public class AssignReinforcements extends MainPlay {
      * based on the number of territories they own and continent control bonuses.
      */
     public void execute() {
-        for (int l_i = 0; l_i < d_gameEngine.getPlayers().size(); l_i++) {
-            Player l_player = d_gameEngine.getPlayer(l_i);
-            Map<String, Continent> l_continents = d_gameEngine.getContinents();
+        for (int l_i = 0; l_i < d_gameEngine.getPlayerManager().getPlayers().size(); l_i++) {
+            Player l_player = d_gameEngine.getPlayerManager().getPlayer(l_i);
+            Map<String, Continent> l_continents = d_gameEngine.getContinentManager().getContinents();
 
             int l_territoriesOwned = l_player.getOwnedCountries().size();
             int l_continentBonus = calculateContinentBonus(l_player, l_continents);
@@ -97,7 +97,7 @@ public class AssignReinforcements extends MainPlay {
         for (Continent l_continent : p_continents.values()) { // loop through all the continents
             boolean l_ownsAll = true;
             int l_countriesInContinent = 0;
-            for (Country l_country : d_gameEngine.getCountries().values()) { // loop through all the countries
+            for (Country l_country : d_gameEngine.getCountryManager().getCountries().values()) { // loop through all the countries
 
                 if (l_country.getContinent() == l_continent) { // if country is part of continent
                     l_countriesInContinent++;

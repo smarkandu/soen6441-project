@@ -1,6 +1,6 @@
 package ca.concordia.soen6441.project.phases;
 
-import ca.concordia.soen6441.project.GameEngine;
+import ca.concordia.soen6441.project.context.GameEngine;
 
 /**
  * The Edit class represents an abstract phase where the game can be modified.

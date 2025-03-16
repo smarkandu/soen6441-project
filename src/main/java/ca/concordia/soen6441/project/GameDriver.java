@@ -1,5 +1,7 @@
 package ca.concordia.soen6441.project;
 
+import ca.concordia.soen6441.project.context.GameEngine;
+
 /**
  * The GameDriver class serves as the entry point for the game.
  * It initializes and starts the game engine.

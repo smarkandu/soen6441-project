@@ -1,15 +1,19 @@
 next
 editcontinent -add Asia 7
+editcountry -add Japan Asia
 editcontinent -add Europe 5
-editcontinent -add NorthAmerica 5
 editcontinent -add SouthAmerica 2
 editcontinent -add Africa 3
 editcontinent -add Australia 2
+
+editcontinent -add NorthAmerica 5
 editcountry -add Canada NorthAmerica
 editcountry -add UnitedStates NorthAmerica
-editcountry -add Japan Asia
 editneighbor -add Canada UnitedStates
+validatemap
+savemap northamerica.map
 next
+loadmap northamerica.map
 gameplayer -add Steve
 gameplayer -add Marc
 assigncountries
