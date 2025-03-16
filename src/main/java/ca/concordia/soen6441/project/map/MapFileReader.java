@@ -113,7 +113,7 @@ public class MapFileReader {
                                 int l_y = Integer.parseInt(l_parts[4]);
 
                                 Continent l_continent = p_gameEngine.getContinentManager().getContinentByNumericID(l_continentNumericID);
-                                p_gameEngine.addCountry(l_id, l_name, l_continent.getID(), l_x, l_y);
+                                p_gameEngine.getCountryManager().addCountry(l_id, l_name, l_continent.getID(), l_x, l_y);
                             }
                         }
                         break;
@@ -125,11 +125,11 @@ public class MapFileReader {
                                 l_mapIsValid = false; //VALIDATION
                             } else {
                                 int l_countryId = Integer.parseInt(l_parts[0]);
-                                Country l_country = p_gameEngine.getCountryByNumericID(l_countryId);
+                                Country l_country = p_gameEngine.getCountryManager().getCountryByNumericID(l_countryId);
 
                                 for (int l_i = 1; l_i < l_parts.length; l_i++) {
                                     int l_neighborId = Integer.parseInt(l_parts[l_i]);
-                                    Country l_neighbor = p_gameEngine.getCountryByNumericID(l_neighborId);
+                                    Country l_neighbor = p_gameEngine.getCountryManager().getCountryByNumericID(l_neighborId);
                                     if (l_country != null && l_neighbor != null) {
                                         l_country.addNeighbor(l_neighbor);
                                     }

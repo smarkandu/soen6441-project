@@ -97,7 +97,7 @@ public class AssignReinforcements extends MainPlay {
         for (Continent l_continent : p_continents.values()) { // loop through all the continents
             boolean l_ownsAll = true;
             int l_countriesInContinent = 0;
-            for (Country l_country : d_gameEngine.getCountries().values()) { // loop through all the countries
+            for (Country l_country : d_gameEngine.getCountryManager().getCountries().values()) { // loop through all the countries
 
                 if (l_country.getContinent() == l_continent) { // if country is part of continent
                     l_countriesInContinent++;
