@@ -7,7 +7,7 @@
     <module name="TreeWalker">
         <!-- Enforce Javadoc for classes -->
         <module name="MissingJavadocType">
-            <property name="excludeScope" value="interface"/>
+            <property name="tokens" value="CLASS_DEF"/>
             <property name="severity" value="error"/>
         </module>
 
