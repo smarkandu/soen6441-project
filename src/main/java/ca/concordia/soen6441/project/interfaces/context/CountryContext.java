@@ -12,8 +12,6 @@ public interface CountryContext {
     void removeCountry(String p_countryID);
 
     // Extra
-    Continent getContinentByNumericID(int p_numericIDOfContinent);
-    Continent getContinent(String p_continentID);
     Country getCountryByNumericID(int p_numericIDOfCountry);
     List<Country> getCountriesOfContinent(String p_continentID);
 }

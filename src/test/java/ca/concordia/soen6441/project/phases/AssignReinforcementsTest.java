@@ -1,5 +1,6 @@
 package ca.concordia.soen6441.project.phases;
 
+import ca.concordia.soen6441.project.context.ContinentManager;
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.Continent;
@@ -56,10 +57,12 @@ class AssignReinforcementsTest {
 
         when(d_gameEngine.getPlayer(anyInt())).thenReturn(d_mockPlayer);
 
-        Map<String, Continent> l_mockContinents = new HashMap<>();
+        SortedMap<String, Continent> l_mockContinents = new TreeMap<>();
         l_mockContinents.put("Asia", d_mockAsia);
         l_mockContinents.put("Europe", d_mockEurope);
-        when(d_gameEngine.getContinents()).thenReturn(l_mockContinents);
+        ContinentManager l_mockContinentManager = mock(ContinentManager.class);
+        when(d_gameEngine.getContinentManager()).thenReturn(l_mockContinentManager);
+        when(d_gameEngine.getContinentManager().getContinents()).thenReturn(l_mockContinents);
 
         d_mockCountries = new HashMap<>();
     }

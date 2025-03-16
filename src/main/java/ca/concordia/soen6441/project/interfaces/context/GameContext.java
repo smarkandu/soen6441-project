@@ -1,4 +1,7 @@
 package ca.concordia.soen6441.project.interfaces.context;
 
-public interface GameContext extends ContinentContext, CountryContext, NeighborContext, PlayerContext {
+import ca.concordia.soen6441.project.context.ContinentManager;
+
+public interface GameContext extends CountryContext, NeighborContext, PlayerContext {
+    public ContinentManager getContinentManager();
 }
