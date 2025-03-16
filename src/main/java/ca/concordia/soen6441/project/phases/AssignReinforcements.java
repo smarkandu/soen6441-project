@@ -67,8 +67,8 @@ public class AssignReinforcements extends MainPlay {
      * based on the number of territories they own and continent control bonuses.
      */
     public void execute() {
-        for (int l_i = 0; l_i < d_gameEngine.getPlayers().size(); l_i++) {
-            Player l_player = d_gameEngine.getPlayer(l_i);
+        for (int l_i = 0; l_i < d_gameEngine.getPlayerManager().getPlayers().size(); l_i++) {
+            Player l_player = d_gameEngine.getPlayerManager().getPlayer(l_i);
             Map<String, Continent> l_continents = d_gameEngine.getContinentManager().getContinents();
 
             int l_territoriesOwned = l_player.getOwnedCountries().size();
