@@ -43,7 +43,7 @@ public class IssueOrder extends MainPlay {
      */
     @Override
     public void deploy(String p_countryID, int p_toDeploy) {
-        Country l_country = d_gameEngine.getCountries().get(p_countryID);
+        Country l_country = d_gameEngine.getCountryManager().getCountries().get(p_countryID);
         Player l_player = d_gameEngine.getPlayer(d_currentPlayIndex);
 
         if (l_player.equals(l_country.getOwner())) {

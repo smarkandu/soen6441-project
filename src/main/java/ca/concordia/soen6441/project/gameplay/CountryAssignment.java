@@ -29,7 +29,7 @@ public class CountryAssignment {
      * If there are fewer countries than players, a warning is displayed.
      */
     public void assignCountries() {
-        List<Country> l_availableCountries = new ArrayList<>(d_gameEngine.getCountries().values());
+        List<Country> l_availableCountries = new ArrayList<>(d_gameEngine.getCountryManager().getCountries().values());
         List<Player> l_players = new ArrayList<>(d_gameEngine.getPlayers().values());
 
         if (l_players.isEmpty() || l_availableCountries.isEmpty()) {

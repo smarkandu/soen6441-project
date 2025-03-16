@@ -1,9 +1,9 @@
 package ca.concordia.soen6441.project.interfaces.context;
 
-import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
 
 import java.util.List;
+import java.util.SortedMap;
 
 public interface CountryContext {
     // Required
@@ -14,4 +14,5 @@ public interface CountryContext {
     // Extra
     Country getCountryByNumericID(int p_numericIDOfCountry);
     List<Country> getCountriesOfContinent(String p_continentID);
+    SortedMap<String, Country> getCountries();
 }

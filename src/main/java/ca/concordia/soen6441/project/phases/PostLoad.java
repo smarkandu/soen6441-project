@@ -82,21 +82,21 @@ public class PostLoad extends Edit {
 
     @Override
     public void editCountryAdd(String p_countryID, String p_continentID) {
-        d_gameEngine.addCountry(p_countryID, p_continentID);
+        d_gameEngine.getCountryManager().addCountry(p_countryID, p_continentID);
     }
 
     @Override
     public void editCountryRemove(String p_countryID) {
-        d_gameEngine.removeCountry(p_countryID);
+        d_gameEngine.getCountryManager().removeCountry(p_countryID);
     }
 
     @Override
     public void editNeighborAdd(String p_countryID, String p_neighborCountryID) {
-        d_gameEngine.addNeighbor(p_countryID, p_neighborCountryID);
+        d_gameEngine.getNeighborManager().addNeighbor(p_countryID, p_neighborCountryID);
     }
 
     @Override
     public void editNeighborRemove(String p_countryID, String p_neighborCountryID) {
-        d_gameEngine.removeNeighbor(p_countryID, p_neighborCountryID);
+        d_gameEngine.getNeighborManager().removeNeighbor(p_countryID, p_neighborCountryID);
     }
 }

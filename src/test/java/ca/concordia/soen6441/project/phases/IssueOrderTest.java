@@ -2,6 +2,7 @@ package ca.concordia.soen6441.project.phases;
 
 import static org.mockito.Mockito.*;
 
+import ca.concordia.soen6441.project.context.CountryManager;
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.gameplay.orders.Deploy;
 import ca.concordia.soen6441.project.interfaces.Country;
@@ -34,7 +35,9 @@ class IssueOrderTest {
         // Mock country map in game engine
         TreeMap<String, Country> l_countries = new TreeMap<>();
         l_countries.put("Country1", d_country);
-        when(l_gameEngine.getCountries()).thenReturn(l_countries);
+        CountryManager l_mockCountryManager = mock(CountryManager.class);
+        when(l_gameEngine.getCountryManager()).thenReturn(l_mockCountryManager);
+        when(l_gameEngine.getCountryManager().getCountries()).thenReturn(l_countries);
 
         // Mock player behavior
         when(l_gameEngine.getPlayer(0)).thenReturn(d_player);
