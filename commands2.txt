@@ -1,0 +1,11 @@
+loadmap F:\Github\soen6441-project\sample_maps\valid\europass.txt
+next
+validatemap
+next
+loadmap F:\Github\soen6441-project\sample_maps\valid\europass.txt
+gameplayer -add Steve
+gameplayer -add Marc
+assigncountries
+showmap
+
+
