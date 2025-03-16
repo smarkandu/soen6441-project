@@ -1,6 +1,6 @@
 package ca.concordia.soen6441.project.phases;
 
-import ca.concordia.soen6441.project.GameEngine;
+import ca.concordia.soen6441.project.context.GameEngine;
 
 /**
  * The Phase class represents the abstract base class for different phases in the game.
