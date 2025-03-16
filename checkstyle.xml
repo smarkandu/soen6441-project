@@ -6,14 +6,12 @@
 <module name="Checker">
     <module name="TreeWalker">
         <!-- Enforce Javadoc for classes -->
-        <module name="JavadocType">
+        <module name="MissingJavadocType">
             <property name="severity" value="error"/>
         </module>
 
         <!-- Enforce Javadoc for all methods -->
-        <module name="JavadocMethod">
-            <property name="allowMissingParamTags" value="false"/>
-            <property name="allowMissingReturnTag" value="false"/>
+        <module name="MissingJavadocMethod">
             <property name="severity" value="error"/>
         </module>
 
