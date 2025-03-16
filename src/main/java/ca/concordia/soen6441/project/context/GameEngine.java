@@ -33,6 +33,7 @@ public class GameEngine implements GameContext, MapComponent {
         d_ContinentManager = new ContinentManager();
         d_CountryManager = new CountryManager(this);
         d_NeighborManager = new NeighborManager(this);
+        d_PlayerManager = new PlayerManager();
         d_validateMapImpl = new ValidateMapImpl(d_CountryManager.getCountries(), d_ContinentManager.getContinents());
     }
 
