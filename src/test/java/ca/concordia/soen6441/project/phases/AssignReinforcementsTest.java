@@ -7,6 +7,7 @@ import ca.concordia.soen6441.project.context.PlayerManager;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
+import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +24,7 @@ import static org.mockito.Mockito.*;
  */
 class AssignReinforcementsTest {
 
-    private GameEngine d_gameEngine;
+    private GameContext d_gameEngine;
     private AssignReinforcements d_assignReinforcements;
     private Player d_mockPlayer;
     private Continent d_mockAsia, d_mockEurope;

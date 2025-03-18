@@ -4,6 +4,7 @@ import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
+import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class AssignReinforcements extends MainPlay {
      *
      * @param p_gameEngine The game engine instance controlling the game state.
      */
-    public AssignReinforcements(GameEngine p_gameEngine) {
+    public AssignReinforcements(GameContext p_gameEngine) {
         super(p_gameEngine);
     }
 
