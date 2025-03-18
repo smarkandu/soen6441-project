@@ -1,6 +1,7 @@
 package ca.concordia.soen6441.project.phases;
 
 import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
 /**
  * The End class represents the phase where the game ends.
@@ -13,7 +14,7 @@ public class End extends Phase {
      *
      * @param p_gameEngine The game engine instance controlling the game state.
      */
-    public End(GameEngine p_gameEngine) {
+    public End(GameContext p_gameEngine) {
         super(p_gameEngine);
     }
 
