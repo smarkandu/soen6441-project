@@ -1,20 +1,21 @@
 package ca.concordia.soen6441.project.phases;
 
-import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.interfaces.context.GameContext;
+import ca.concordia.soen6441.project.interfaces.phases.State;
 
 /**
  * The Phase class represents the abstract base class for different phases in the game.
  * Each phase defines specific behaviors for game actions.
  */
-public abstract class Phase {
-    protected GameEngine d_gameEngine;
+public abstract class Phase implements State {
+    protected GameContext d_gameEngine;
 
     /**
      * Constructs a Phase instance.
      *
      * @param p_gameEngine The game engine instance controlling the game state.
      */
-    public Phase(GameEngine p_gameEngine) {
+    public Phase(GameContext p_gameEngine) {
         this.d_gameEngine = p_gameEngine;
     }
 
@@ -34,14 +35,11 @@ public abstract class Phase {
 
     // play state behavior
     // game setup state behavior
-
-    // ToDO: (Marc) Delete setPlayers and uncomment the "new" methods
-    // below (gamePlayerAdd, gamePlayerRemove).  You'll need to implement them in the child classes where setPlayers was
-    // previously implemented
     abstract public void gamePlayerAdd(String p_playerName);
     abstract public void gamePlayerRemove(String p_playerName);
     abstract public void assignCountries();
 
+    // Gameplay behaviour
     abstract public void deploy(String p_countryID, int p_toDeploy);
     abstract public void endGame();
 
