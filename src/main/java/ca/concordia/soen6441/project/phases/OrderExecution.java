@@ -3,6 +3,7 @@ package ca.concordia.soen6441.project.phases;
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
+import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
 /**
  * The OrderExecution class represents the phase where issued orders are executed.
@@ -15,7 +16,7 @@ public class OrderExecution extends MainPlay {
      *
      * @param p_gameEngine The game engine instance controlling the game state.
      */
-    public OrderExecution(GameEngine p_gameEngine) {
+    public OrderExecution(GameContext p_gameEngine) {
         super(p_gameEngine);
     }
 

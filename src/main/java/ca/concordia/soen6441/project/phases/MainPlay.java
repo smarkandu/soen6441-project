@@ -1,6 +1,7 @@
 package ca.concordia.soen6441.project.phases;
 
 import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
 /**
  * The MainPlay class represents the abstract base class for main gameplay phases.
@@ -13,7 +14,7 @@ public abstract class MainPlay extends Play {
      *
      * @param p_gameEngine The game engine instance controlling the game state.
      */
-    public MainPlay(GameEngine p_gameEngine) {
+    public MainPlay(GameContext p_gameEngine) {
         super(p_gameEngine);
     }
 

@@ -1,6 +1,7 @@
 package ca.concordia.soen6441.project.phases;
 
 import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
 /**
  * The Edit class represents an abstract phase where the game can be modified.
@@ -13,7 +14,7 @@ public abstract class Edit extends Phase {
      *
      * @param p_gameEngine The game engine instance controlling the game state.
      */
-    public Edit(GameEngine p_gameEngine) {
+    public Edit(GameContext p_gameEngine) {
         super(p_gameEngine);
     }
 

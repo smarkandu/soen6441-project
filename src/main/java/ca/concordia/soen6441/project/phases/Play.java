@@ -1,6 +1,7 @@
 package ca.concordia.soen6441.project.phases;
 
 import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
 // State of the State pattern
 /**
@@ -14,7 +15,7 @@ public abstract class Play extends Phase {
      *
      * @param p_gameEngine The game engine instance controlling the game state.
      */
-    public Play(GameEngine p_gameEngine) {
+    public Play(GameContext p_gameEngine) {
         super(p_gameEngine);
     }
 
