@@ -4,6 +4,7 @@ import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.gameplay.orders.Deploy;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
+import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
 /**
  * The IssueOrder class represents the phase where players issue their orders.
@@ -18,7 +19,7 @@ public class IssueOrder extends MainPlay {
      * @param p_gameEngine      The game engine instance controlling the game state.
      * @param p_currentPlayIndex The index of the current player issuing orders.
      */
-    public IssueOrder(GameEngine p_gameEngine, int p_currentPlayIndex) {
+    public IssueOrder(GameContext p_gameEngine, int p_currentPlayIndex) {
         super(p_gameEngine);
         d_currentPlayIndex = p_currentPlayIndex;
     }

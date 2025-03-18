@@ -1,5 +1,6 @@
 package ca.concordia.soen6441.project.phases;
 import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -15,7 +16,7 @@ public class PostLoad extends Edit {
      *
      * @param p_gameEngine The game engine instance controlling the game state.
      */
-    public PostLoad(GameEngine p_gameEngine) {
+    public PostLoad(GameContext p_gameEngine) {
         super(p_gameEngine);
     }
 

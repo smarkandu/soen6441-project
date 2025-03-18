@@ -1,6 +1,7 @@
 package ca.concordia.soen6441.project.phases;
 
 import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.map.InvalidMapFileException;
 
 import java.io.FileNotFoundException;
@@ -16,7 +17,7 @@ public class PreLoad extends Edit {
      *
      * @param p_gameEngine The game engine instance controlling the game state.
      */
-    public PreLoad(GameEngine p_gameEngine) {
+    public PreLoad(GameContext p_gameEngine) {
         super(p_gameEngine);
     }
 
