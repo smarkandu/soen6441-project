@@ -52,7 +52,7 @@ public class IssueOrder extends MainPlay {
     public void deploy(String p_countryID, int p_toDeploy) {
         Country l_country = d_gameEngine.getCountryManager().getCountries().get(p_countryID);
         Player l_player = d_gameEngine.getPlayerManager().getPlayer(d_currentPlayIndex);
-        String message = "";
+        String l_message = "";
 
         d_logEntryBuffer.notifyObservers(l_player.getName() + " issued order to deploy " + p_toDeploy + " to " + p_countryID);
 
@@ -62,14 +62,14 @@ public class IssueOrder extends MainPlay {
                 l_player.issue_order(new Deploy(l_player, l_country, p_toDeploy));
                 d_logEntryBuffer.notifyObservers(l_player.getName() + " issued order to deploy to " + p_countryID + " granted");
             } else {
-                message = "Only " + l_numberOfTroopsLeftToDeploy + " left to deploy!";
-                System.out.println(message);
-                d_logEntryBuffer.notifyObservers("Order not issued: " + message);
+                l_message = "Only " + l_numberOfTroopsLeftToDeploy + " left to deploy!";
+                System.out.println(l_message);
+                d_logEntryBuffer.notifyObservers("Order not issued: " + l_message);
             }
         } else {
-            message = "Player " + l_player.getName() + " doesn't own this country!";
-            System.out.println(message);
-            d_logEntryBuffer.notifyObservers("Order not issued: " + message);
+            l_message = "Player " + l_player.getName() + " doesn't own this country!";
+            System.out.println(l_message);
+            d_logEntryBuffer.notifyObservers("Order not issued: " + l_message);
         }
     }
 
