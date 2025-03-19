@@ -1,17 +1,12 @@
 package ca.concordia.soen6441.project.context;
 
-import ca.concordia.soen6441.project.OverallFactory;
-import ca.concordia.soen6441.project.gameplay.PlayerImpl;
 import ca.concordia.soen6441.project.interfaces.*;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
+import ca.concordia.soen6441.project.interfaces.context.*;
+import ca.concordia.soen6441.project.interfaces.phases.State;
 import ca.concordia.soen6441.project.map.*;
 import ca.concordia.soen6441.project.phases.Phase;
-import ca.concordia.soen6441.project.phases.PreLoad;
-
 import java.io.FileNotFoundException;
 import java.util.stream.Collectors;
-
-
 import java.util.*;
 
 /**
@@ -37,6 +32,10 @@ public class GameEngine implements GameContext, MapComponent {
         d_validateMapImpl = new ValidateMapImpl(d_CountryManager.getCountries(), d_ContinentManager.getContinents());
     }
 
+    public State getPhase() {
+        return d_gamePhase;
+    }
+
     /**
      * Sets the current phase of the game.
      *
@@ -45,114 +44,6 @@ public class GameEngine implements GameContext, MapComponent {
     public void setPhase(Phase p_phase) {
         d_gamePhase = p_phase;
     }
-
-    /**
-     * Starts the game execution loop, handling player commands.
-     */
-    public void start() {
-        // Can change the state of the Context (GameEngine) object, e.g.
-        setPhase(new PreLoad(this));
-        boolean l_continuePlaying = true;
-        Scanner l_scanner = new Scanner(System.in);
-
-        while (l_continuePlaying) {
-            System.out.print(d_gamePhase.getPhaseName() + ">");
-            String[] l_args = l_scanner.nextLine().split(" ");
-            String l_action = l_args[0].toLowerCase();
-            String l_operation = l_args.length > 1 ? l_args[1].toLowerCase() : null;
-
-            switch (l_action) {
-                case "editcontinent":
-                    if ("-add".equals(l_operation) && l_args.length == 4) {
-                        String l_continentID = l_args[2].replace("\"", "");
-                        int l_continentValue = Integer.parseInt(l_args[3]);
-                        d_gamePhase.editContinentAdd(l_continentID, l_continentValue);
-                    } else if ("-remove".equals(l_operation) && l_args.length == 3) {
-                        String l_continentID = l_args[2].replace("\"", "");
-                        d_gamePhase.editContinentRemove(l_continentID);
-                    } else {
-                        System.out.println("Operation not recognized");
-                    }
-                    break;
-                case "editcountry":
-                    if ("-add".equals(l_operation) && l_args.length == 4) {
-                        String l_countryID = l_args[2].replace("\"", "");
-                        String l_continentID = l_args[3].replace("\"", "");
-                        d_gamePhase.editCountryAdd(l_countryID, l_continentID);
-                    } else if ("-remove".equals(l_operation) && l_args.length == 3) {
-                        String l_countryID = l_args[2].replace("\"", "");
-                        d_gamePhase.editCountryRemove(l_countryID);
-                    } else {
-                        System.out.println("Operation not recognized");
-                    }
-                    break;
-                case "editneighbor":
-                    if ("-add".equals(l_operation) && l_args.length == 4) {
-                        String l_countryID = l_args[2].replace("\"", "");
-                        String l_neighborCountryID = l_args[3].replace("\"", "");
-                        d_gamePhase.editNeighborAdd(l_countryID, l_neighborCountryID);
-                    } else if ("-remove".equals(l_operation) && l_args.length == 4) {
-                        String l_countryID = l_args[2].replace("\"", "");
-                        String l_neighborCountryID = l_args[3].replace("\"", "");
-                        d_gamePhase.editNeighborRemove(l_countryID, l_neighborCountryID);
-                    } else {
-                        System.out.println("Operation not recognized");
-                    }
-                    break;
-                case "showmap":
-                    d_gamePhase.showMap();
-                    break;
-                case "savemap":
-                    d_gamePhase.saveMap(l_args[1]);
-                    break;
-                case "assigncountries":
-                    d_gamePhase.assignCountries();
-                    break;
-                case "deploy":
-                    String l_countryID = l_args[1].replace("\"", "");
-                    int l_toDeploy = Integer.parseInt(l_args[2]);
-                    d_gamePhase.deploy(l_countryID, l_toDeploy);
-                    break;
-                case "gameplayer":
-                    // TODO (Marc) You'll need to look for the add/remove flag
-                    // (similar to commands above)
-                    // Also we'll need to change setPlayers to something else
-                    // (See notes in "Phase")
-                    String l_playername = l_args[2];
-                    if ("-add".equals(l_operation) && l_args.length == 3) {
-                        d_gamePhase.gamePlayerAdd(l_playername);
-                    }
-                    if ("-remove".equals(l_operation) && l_args.length == 3) {
-                        d_gamePhase.gamePlayerRemove(l_playername);
-                    }
-                    break;
-                case "loadmap":
-                    d_gamePhase.loadMap(l_args[1]);
-                    break;
-                case "validatemap":
-                    if (l_args.length == 1) {
-                        d_gamePhase.validateMap();
-                    }
-                    break;
-                case "next":
-                    d_gamePhase.next();
-                    break;
-                case "exit":
-                    d_gamePhase.endGame();
-                    l_continuePlaying = false;
-                    break;
-                case "":
-                    // Do Nothing
-                    break;
-                default:
-                    System.out.println("Command not recognized");
-                    break;
-            }
-        }
-    }
-
-
-
 
 
     /**
@@ -307,19 +198,23 @@ public class GameEngine implements GameContext, MapComponent {
         return d_validateMapImpl.isMapValid();
     }
 
-    public ContinentManager getContinentManager() {
+    @Override
+    public ContinentContext getContinentManager() {
         return d_ContinentManager;
     }
 
-    public CountryManager getCountryManager() {
+    @Override
+    public CountryContext getCountryManager() {
         return d_CountryManager;
     }
 
-    public NeighborManager getNeighborManager() {
+    @Override
+    public NeighborContext getNeighborManager() {
         return d_NeighborManager;
     }
 
-    public PlayerManager getPlayerManager() {
+    @Override
+    public PlayerContext getPlayerManager() {
         return d_PlayerManager;
     }
 
