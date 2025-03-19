@@ -14,6 +14,7 @@ public class LogWriter implements Observer {
         LogEntryBuffer l_logEntryBuffer = (LogEntryBuffer) p_observable;
         try (FileWriter writer = new FileWriter("log.txt")) {
             writer.write(((LogEntryBuffer) p_observable).getLogInfo().toString());
+            writer.write(System.lineSeparator());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
