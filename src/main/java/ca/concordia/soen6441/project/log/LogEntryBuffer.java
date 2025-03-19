@@ -17,16 +17,12 @@ public class LogEntryBuffer extends Observable {
     }
 
     public void notifyObservers(String p_appendedLogMessage) {
-        d_logInfo.append(p_appendedLogMessage);
+        d_logInfo.append(p_appendedLogMessage).append(System.lineSeparator());
         notifyObservers(this);
     }
 
     public StringBuilder getLogInfo() {
         return d_logInfo;
-    }
-
-    public void appendLogInfo(String p_logInfo) {
-        d_logInfo.append(p_logInfo);
     }
 
 }
