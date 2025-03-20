@@ -77,11 +77,19 @@ public class GameDriver {
                 case "assigncountries":
                     d_gameEngine.getPhase().assignCountries();
                     break;
-                case "deploy":
+                case "deploy": {
                     String l_countryID = l_args[1].replace("\"", "");
                     int l_toDeploy = Integer.parseInt(l_args[2]);
                     d_gameEngine.getPhase().deploy(l_countryID, l_toDeploy);
                     break;
+                }
+                case "advance": {
+                    String l_countryNameFrom = l_args[1].replace("\"", "");
+                    String l_countryNameTo = l_args[2].replace("\"", "");
+                    int l_toAdvance = Integer.parseInt(l_args[3]);
+                    d_gameEngine.getPhase().advance(l_countryNameFrom, l_countryNameTo, l_toAdvance);
+                    break;
+                }
                 case "gameplayer":
                     // TODO (Marc) You'll need to look for the add/remove flag
                     // (similar to commands above)

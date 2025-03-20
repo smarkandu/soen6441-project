@@ -153,6 +153,11 @@ public class End extends Phase {
         printInvalidCommandMessage();
     }
 
+    @Override
+    public void advance(String p_countryNameFrom, String p_countryNameTo, int p_toAdvance) {
+        printInvalidCommandMessage();
+    }
+
     /**
      * Ends the game by exiting the application.
      */

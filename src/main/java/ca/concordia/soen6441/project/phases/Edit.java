@@ -49,6 +49,11 @@ public abstract class Edit extends Phase {
         printInvalidCommandMessage();
     }
 
+    public void advance(String p_countryNameFrom, String p_countryNameTo, int p_toAdvance)
+    {
+        printInvalidCommandMessage();
+    }
+
     /**
      * Invalid command for this phase.
      */

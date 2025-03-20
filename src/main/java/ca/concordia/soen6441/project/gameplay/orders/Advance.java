@@ -132,4 +132,27 @@ public class Advance implements Order {
     {
         return Math.min(p_toAdvance, d_sourceTerritory.getTroops());
     }
+
+    public Country getSourceTerritory() {
+        return d_sourceTerritory;
+    }
+
+    public Country getTargetTerritory() {
+        return d_targetTerritory;
+    }
+
+    public int getToAdvance() {
+        return d_toAdvance;
+    }
+
+    public Player getInitiator() {
+        return d_initiator;
+    }
+
+    @Override
+    public String toString() {
+        return "Advance " + d_sourceTerritory +
+                " " + d_targetTerritory +
+                " " + d_toAdvance;
+    }
 }

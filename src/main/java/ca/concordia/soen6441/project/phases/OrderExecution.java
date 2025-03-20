@@ -43,6 +43,11 @@ public class OrderExecution extends MainPlay {
         printInvalidCommandMessage();
     }
 
+    @Override
+    public void advance(String p_countryNameFrom, String p_countryNameTo, int p_toAdvance) {
+        printInvalidCommandMessage();
+    }
+
     /**
      * Executes all player orders in a round-robin fashion until all orders are completed.
      */

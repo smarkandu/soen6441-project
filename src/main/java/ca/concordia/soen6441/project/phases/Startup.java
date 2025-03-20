@@ -63,6 +63,11 @@ public class Startup extends Play {
         printInvalidCommandMessage();
     }
 
+    @Override
+    public void advance(String p_countryNameFrom, String p_countryNameTo, int p_toAdvance) {
+        printInvalidCommandMessage();
+    }
+
     /**
      * Adds a new player to the game.
      *

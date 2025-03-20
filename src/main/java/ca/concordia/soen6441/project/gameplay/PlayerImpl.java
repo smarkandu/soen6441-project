@@ -1,5 +1,6 @@
 package ca.concordia.soen6441.project.gameplay;
 
+import ca.concordia.soen6441.project.gameplay.orders.Advance;
 import ca.concordia.soen6441.project.gameplay.orders.Deploy;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Order;
@@ -139,6 +140,21 @@ public class PlayerImpl implements Player {
             if (d_Orders.get(l_i).getClass().getSimpleName().equals("Deploy")) {
                 Deploy l_deployOrder = (Deploy) d_Orders.get(l_i);
                 l_returnValue += l_deployOrder.get_to_deploy();
+            }
+        }
+        return l_returnValue;
+    }
+
+    public int getNumberOfTroopsOrderedToAdvance(Country countryFrom)
+    {
+        int l_returnValue = 0;
+        for (int l_i = 0; l_i < d_Orders.size(); l_i++) {
+            if (d_Orders.get(l_i).getClass().getSimpleName().equals("Advance")) {
+                Advance l_advanceOrder = (Advance) d_Orders.get(l_i);
+                if (l_advanceOrder.getSourceTerritory().getID() == countryFrom.getID())
+                {
+                    l_returnValue += l_advanceOrder.getToAdvance();
+                }
             }
         }
         return l_returnValue;

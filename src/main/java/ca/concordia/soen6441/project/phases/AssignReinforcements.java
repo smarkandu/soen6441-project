@@ -55,6 +55,11 @@ public class AssignReinforcements extends MainPlay {
         printInvalidCommandMessage();
     }
 
+    @Override
+    public void advance(String p_countryNameFrom, String p_countryNameTo, int p_toAdvance) {
+        printInvalidCommandMessage();
+    }
+
     /**
      * Invalid command for this phase.
      */

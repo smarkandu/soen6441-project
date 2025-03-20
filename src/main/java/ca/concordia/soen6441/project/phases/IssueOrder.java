@@ -1,6 +1,7 @@
 package ca.concordia.soen6441.project.phases;
 
 import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.gameplay.orders.Advance;
 import ca.concordia.soen6441.project.gameplay.orders.Deploy;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
@@ -56,6 +57,27 @@ public class IssueOrder extends MainPlay {
             }
         } else {
             System.out.println("Player " + l_player.getName() + " doesn't own this country!");
+        }
+    }
+
+    @Override
+    public void advance(String p_countryNameFrom, String p_countryNameTo, int p_toAdvance) {
+        Country l_countryFrom = d_gameEngine.getCountryManager().getCountries().get(p_countryNameFrom);
+        Country l_countryTo = d_gameEngine.getCountryManager().getCountries().get(p_countryNameTo);
+        Player l_player = d_gameEngine.getPlayerManager().getPlayer(d_currentPlayIndex);
+
+        if (l_player.equals(l_countryFrom.getOwner()))
+        {
+            int l_numberOfTroopsLeftToAdvance = l_countryFrom.getTroops() - l_player.getNumberOfTroopsOrderedToAdvance(l_countryFrom);
+            if (l_numberOfTroopsLeftToAdvance >= p_toAdvance) {
+                l_player.issue_order(new Advance(l_countryFrom, l_countryTo, p_toAdvance, l_player));
+            } else {
+                System.out.println("Only " + l_numberOfTroopsLeftToAdvance + " left to advance!");
+            }
+        }
+        else
+        {
+            System.out.println("Player " + l_player.getName() + " doesn't own origin country!");
         }
     }
 
