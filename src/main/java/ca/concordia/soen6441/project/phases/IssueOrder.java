@@ -64,12 +64,12 @@ public class IssueOrder extends MainPlay {
             } else {
                 l_message = "Only " + l_numberOfTroopsLeftToDeploy + " left to deploy!";
                 System.out.println(l_message);
-                d_logEntryBuffer.notifyObservers("Order not issued: " + l_message);
+                d_logEntryBuffer.notifyObservers("ERROR(): Order not issued " + l_message);
             }
         } else {
             l_message = "Player " + l_player.getName() + " doesn't own this country!";
             System.out.println(l_message);
-            d_logEntryBuffer.notifyObservers("Order not issued: " + l_message);
+            d_logEntryBuffer.notifyObservers("ERROR(): Order not issued: " + l_message);
         }
     }
 
