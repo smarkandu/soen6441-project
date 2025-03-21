@@ -1,11 +1,18 @@
-loadmap F:\Github\soen6441-project\sample_maps\valid\europass.txt
+next
+loadmap F:\Github\soen6441-project\sample_maps\valid\northamerica.map
 next
 validatemap
 next
-loadmap F:\Github\soen6441-project\sample_maps\valid\europass.txt
+loadmap F:\Github\soen6441-project\sample_maps\valid\northamerica.map
 gameplayer -add Steve
 gameplayer -add Marc
 assigncountries
 showmap
+
+deploy UnitedStates 3
+advance UnitedStates Canada 3
+
+deploy Canada 3
+advance Canada UnitedStates 3
 
 
