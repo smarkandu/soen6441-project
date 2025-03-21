@@ -14,7 +14,6 @@ import ca.concordia.soen6441.project.log.LogWriter;
  */
 public class IssueOrder extends MainPlay {
     private int d_currentPlayIndex;
-    private LogEntryBuffer d_logEntryBuffer;
     private LogWriter d_logWriter;
 
     /**
@@ -26,8 +25,7 @@ public class IssueOrder extends MainPlay {
     public IssueOrder(GameContext p_gameEngine, int p_currentPlayIndex) {
         super(p_gameEngine);
         d_currentPlayIndex = p_currentPlayIndex;
-        d_logEntryBuffer = LogEntryBuffer.getInstance();
-        d_logWriter = new LogWriter(d_logEntryBuffer);
+        d_logWriter = new LogWriter(LogEntryBuffer.getInstance());
     }
 
     /**
@@ -54,22 +52,22 @@ public class IssueOrder extends MainPlay {
         Player l_player = d_gameEngine.getPlayerManager().getPlayer(d_currentPlayIndex);
         String l_message = "";
 
-        d_logEntryBuffer.notifyObservers(l_player.getName() + " issued order to deploy " + p_toDeploy + " to " + p_countryID);
+        LogEntryBuffer.getInstance().notifyObservers(l_player.getName() + " issued order to deploy " + p_toDeploy + " to " + p_countryID);
 
         if (l_player.equals(l_country.getOwner())) {
             int l_numberOfTroopsLeftToDeploy = l_player.getReinforcements() - l_player.getNumberOfTroopsOrderedToDeploy();
             if (l_numberOfTroopsLeftToDeploy >= p_toDeploy) {
                 l_player.issue_order(new Deploy(l_player, l_country, p_toDeploy));
-                d_logEntryBuffer.notifyObservers(l_player.getName() + " issued order to deploy to " + p_countryID + " granted");
+                LogEntryBuffer.getInstance().notifyObservers(l_player.getName() + " issued order to deploy to " + p_countryID + " granted");
             } else {
                 l_message = "Only " + l_numberOfTroopsLeftToDeploy + " left to deploy!";
                 System.out.println(l_message);
-                d_logEntryBuffer.notifyObservers("ERROR(): Order not issued " + l_message);
+                LogEntryBuffer.getInstance().notifyObservers("ERROR(): Order not issued " + l_message);
             }
         } else {
             l_message = "Player " + l_player.getName() + " doesn't own this country!";
             System.out.println(l_message);
-            d_logEntryBuffer.notifyObservers("ERROR(): Order not issued: " + l_message);
+            LogEntryBuffer.getInstance().notifyObservers("ERROR(): Order not issued: " + l_message);
         }
     }
 
