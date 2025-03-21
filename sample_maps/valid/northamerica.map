@@ -1,0 +1,10 @@
+[continents]
+NorthAmerica 5 yellow
+
+[countries]
+1 Canada 1 0 0
+2 UnitedStates 1 0 0
+
+[borders]
+1 2
+2 1
