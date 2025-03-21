@@ -1,5 +1,7 @@
 package ca.concordia.soen6441.project.log;
 
+import ca.concordia.soen6441.project.interfaces.log.Observer;
+
 import java.util.ArrayList;
 import java.util.List;
 
