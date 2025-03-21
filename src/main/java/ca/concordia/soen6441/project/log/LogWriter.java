@@ -14,7 +14,6 @@ public class LogWriter implements Observer {
 
     @Override
     public void update(Observable p_observable) {
-        LogEntryBuffer l_logEntryBuffer = (LogEntryBuffer) p_observable;
         try (FileWriter writer = new FileWriter(d_logFilename)) {
             writer.write(((LogEntryBuffer) p_observable).getLogInfo().toString());
             writer.write(System.lineSeparator());
