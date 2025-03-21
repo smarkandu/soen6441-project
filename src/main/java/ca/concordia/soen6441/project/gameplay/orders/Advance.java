@@ -4,8 +4,6 @@ import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 public class Advance implements Order {
@@ -35,8 +33,17 @@ public class Advance implements Order {
     public void execute() {
         int actualTroopsAdvance = getActualTroopsAdvance(d_toAdvance);
         this.d_sourceTerritory.setTroops(this.d_sourceTerritory.getTroops() - actualTroopsAdvance);
-        System.out.println(actualTroopsAdvance + " troops of " + d_initiator.getName() + "'s army have advanced from" + d_sourceTerritory + " to "
-                + d_targetTerritory);
+
+        if (actualTroopsAdvance == 0)
+        {
+            System.out.println("No troops exist anymore in " + d_sourceTerritory.getID() + " for " + d_initiator.getName()
+            + " to advance.  Command cancelled.");
+            return;
+        }
+
+        System.out.println(d_initiator.getName() + "'s army have advanced " + actualTroopsAdvance + " troops from "
+                + d_sourceTerritory.getID() + " to "
+                + d_targetTerritory.getID());
 
         if (d_targetTerritory.getTroops() == 0) {
             // Unoccupied, user takes control without difficulty
@@ -46,6 +53,11 @@ public class Advance implements Order {
             if (d_targetTerritory.getOwner() != null)
             {
                 d_targetTerritory.setOwner(d_initiator);
+                System.out.println(d_targetTerritory.getOwner().getName() + " conquers undefended " + d_targetTerritory.getID());
+            }
+            else
+            {
+                System.out.println(d_targetTerritory.getOwner().getName() + " conquers unowned " + d_targetTerritory.getID()); // Now unowned
             }
         }
         else if (d_targetTerritory.getOwner() == d_initiator)
@@ -54,7 +66,7 @@ public class Advance implements Order {
         }
         else // Presently owned, battle occurs
         {
-            System.out.println("Country " + d_targetTerritory + " currently owned by " + d_targetTerritory.getOwner()
+            System.out.println("Country " + d_targetTerritory.getID() + " currently owned by " + d_targetTerritory.getOwner().getName()
             + ".  A battle commences!");
 
             // Determines who wins the battle
@@ -65,14 +77,18 @@ public class Advance implements Order {
             if (troopsLeftOfWinner == 0)
             {
                 d_targetTerritory.setOwner(null); // Now unowned
+                d_targetTerritory.setTroops(0);
+                System.out.println("No troops survived.  Country " + d_targetTerritory.getID() + " is now neutral");
             }
             else if (playerWon)
             {
                 d_targetTerritory.setOwner(d_initiator); // Now unowned
                 d_targetTerritory.setTroops(troopsLeftOfWinner);
+                System.out.println(d_targetTerritory.getOwner().getName() + " wins the battle and now owns " + d_targetTerritory.getID() + "!\nRemaining survivors: " + d_targetTerritory.getTroops()); // Now unowned
             }
             else
             {
+                System.out.println(d_targetTerritory.getOwner().getName() + " fends of attacker at " + d_targetTerritory.getID() + " and wins the battle!\nRemaining survivors: " + d_targetTerritory.getTroops()); // Now unowned
                 d_targetTerritory.setTroops(troopsLeftOfWinner);
             }
         }
@@ -151,8 +167,8 @@ public class Advance implements Order {
 
     @Override
     public String toString() {
-        return "Advance " + d_sourceTerritory +
-                " " + d_targetTerritory +
-                " " + d_toAdvance;
+        return "{Advance " + d_sourceTerritory.getID() +
+                " " + d_targetTerritory.getID() +
+                " " + d_toAdvance + "}";
     }
 }

@@ -54,6 +54,26 @@ public abstract class Edit extends Phase {
         printInvalidCommandMessage();
     }
 
+    @Override
+    public void bomb(String p_countryID) {
+        printInvalidCommandMessage();
+    }
+
+    @Override
+    public void blockade(String p_countryID) {
+        printInvalidCommandMessage();
+    }
+
+    @Override
+    public void airlift(String p_sourceCountryID, String p_targetCountryID, int p_numArmies) {
+        printInvalidCommandMessage();
+    }
+
+    @Override
+    public void negotiate(String p_playerID) {
+        printInvalidCommandMessage();
+    }
+
     /**
      * Invalid command for this phase.
      */
@@ -66,8 +86,6 @@ public abstract class Edit extends Phase {
      * Prints whether the map is valid or not.
      */
     public void validateMap() {
-        // TODO #5
-        // Edit as needed
         if (d_gameEngine.isMapValid()) {
             System.out.println("Map is valid");
         } else {

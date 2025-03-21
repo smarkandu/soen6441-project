@@ -94,7 +94,6 @@ public class PlayerImpl implements Player {
     @Override
     public int getTotalNumberOfReinforcementsPerTurn() {
         int l_returnValue = 5;
-        // TODO: Get Bonuses if any continents are fully owned
         return l_returnValue;
     }
 

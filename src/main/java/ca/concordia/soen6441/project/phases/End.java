@@ -158,6 +158,26 @@ public class End extends Phase {
         printInvalidCommandMessage();
     }
 
+    @Override
+    public void bomb(String p_countryID) {
+        printInvalidCommandMessage();
+    }
+
+    @Override
+    public void blockade(String p_countryID) {
+        printInvalidCommandMessage();
+    }
+
+    @Override
+    public void airlift(String p_sourceCountryID, String p_targetCountryID, int p_numArmies) {
+        printInvalidCommandMessage();
+    }
+
+    @Override
+    public void negotiate(String p_playerID) {
+        printInvalidCommandMessage();
+    }
+
     /**
      * Ends the game by exiting the application.
      */

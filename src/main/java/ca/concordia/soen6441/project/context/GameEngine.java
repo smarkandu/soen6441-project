@@ -192,9 +192,6 @@ public class GameEngine implements GameContext, MapComponent {
     }
 
     public boolean isMapValid() {
-        // TODO #5
-        // remove hardcoded "true" value and check the conditions for validity
-        // For any issues, use a print to specify what you found wrong
         return d_validateMapImpl.isMapValid();
     }
 

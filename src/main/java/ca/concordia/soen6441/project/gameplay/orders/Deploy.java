@@ -34,8 +34,8 @@ public class Deploy implements Order {
     public void execute() {
         if (valid()) {
             this.d_targetTerritory.setTroops(this.d_targetTerritory.getTroops() + d_toDeploy);
-            System.out.println(d_toDeploy + " troops of " + d_initiator.getName() + "'s army have deployed to "
-                    + d_targetTerritory);
+            System.out.println(d_initiator.getName() + "'s army have deployed " + d_toDeploy + " troops to "
+                    + d_targetTerritory.getID());
         }
     }
 
