@@ -10,7 +10,7 @@ public class LogWriter implements Observer {
     public LogWriter(LogEntryBuffer p_logEntryBuffer) {
         p_logEntryBuffer.attach(this);
     }
-    private String d_logFilename = "log.txt";
+    private final String d_logFilename = "log.txt";
 
     @Override
     public void update(Observable p_observable) {
