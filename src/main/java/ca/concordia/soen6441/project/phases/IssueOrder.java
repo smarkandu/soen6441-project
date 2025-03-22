@@ -14,6 +14,7 @@ import ca.concordia.soen6441.project.log.LogWriter;
  */
 public class IssueOrder extends MainPlay {
     private int d_currentPlayIndex;
+    private LogWriter d_logWriter;
 
     /**
      * Constructs an IssueOrder phase.
@@ -24,7 +25,7 @@ public class IssueOrder extends MainPlay {
     public IssueOrder(GameContext p_gameEngine, int p_currentPlayIndex) {
         super(p_gameEngine);
         d_currentPlayIndex = p_currentPlayIndex;
-        LogWriter l_logWriter = new LogWriter(LogEntryBuffer.getInstance());
+        d_logWriter = new LogWriter(LogEntryBuffer.getInstance());
     }
 
     /**
