@@ -1,6 +1,5 @@
 package ca.concordia.soen6441.project.phases;
 
-import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.gameplay.orders.Deploy;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
@@ -52,22 +51,22 @@ public class IssueOrder extends MainPlay {
         Player l_player = d_gameEngine.getPlayerManager().getPlayer(d_currentPlayIndex);
         String l_message = "";
 
-        LogEntryBuffer.getInstance().notifyObservers(l_player.getName() + " issued order to deploy " + p_toDeploy + " to " + p_countryID);
+        LogEntryBuffer.getInstance().appendToBuffer(l_player.getName() + " issued order to deploy " + p_toDeploy + " to " + p_countryID);
 
         if (l_player.equals(l_country.getOwner())) {
             int l_numberOfTroopsLeftToDeploy = l_player.getReinforcements() - l_player.getNumberOfTroopsOrderedToDeploy();
             if (l_numberOfTroopsLeftToDeploy >= p_toDeploy) {
                 l_player.issue_order(new Deploy(l_player, l_country, p_toDeploy));
-                LogEntryBuffer.getInstance().notifyObservers(l_player.getName() + " issued order to deploy to " + p_countryID + " granted");
+                LogEntryBuffer.getInstance().appendToBuffer(l_player.getName() + " issued order to deploy to " + p_countryID + " granted");
             } else {
                 l_message = "Only " + l_numberOfTroopsLeftToDeploy + " left to deploy!";
                 System.out.println(l_message);
-                LogEntryBuffer.getInstance().notifyObservers("ERROR(): Order not issued " + l_message);
+                LogEntryBuffer.getInstance().appendToBuffer("ERROR(): Order not issued " + l_message);
             }
         } else {
             l_message = "Player " + l_player.getName() + " doesn't own this country!";
             System.out.println(l_message);
-            LogEntryBuffer.getInstance().notifyObservers("ERROR(): Order not issued: " + l_message);
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR(): Order not issued: " + l_message);
         }
     }
 
