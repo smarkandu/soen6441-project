@@ -81,6 +81,7 @@ public class OrderExecution extends MainPlay {
             }
 
             l_currentPlayerIndex = (l_currentPlayerIndex + 1) % d_gameEngine.getPlayerManager().getPlayers().size();
+            showMap();
         }
 
         AssignReinforcements l_assignReinforcements = new AssignReinforcements(d_gameEngine);

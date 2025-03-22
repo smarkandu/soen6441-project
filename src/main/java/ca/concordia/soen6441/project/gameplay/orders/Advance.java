@@ -11,14 +11,24 @@ public class Advance implements Order {
     private Country d_targetTerritory;
     private int d_toAdvance;
     private Player d_initiator;
+    private Random d_random;
+
     private class BattleResult
     {
-        private boolean d_battleWonByPlayer;
-        private int d_troopsLeftOfWinner;
+        private final int d_playersTroops;
+        private final int d_opponentsTroops;
 
-        public BattleResult(boolean p_battleWonByPlayer, int p_troopsLeftOfWinner) {
-            this.d_battleWonByPlayer = p_battleWonByPlayer;
-            this.d_troopsLeftOfWinner = p_troopsLeftOfWinner;
+        public BattleResult(int p_playersTroops, int p_opponentsTroops) {
+            this.d_playersTroops = p_playersTroops;
+            this.d_opponentsTroops = p_opponentsTroops;
+        }
+
+        public int getPlayersTroops() {
+            return d_playersTroops;
+        }
+
+        public int getOpponentsTroops() {
+            return d_opponentsTroops;
         }
     }
 
@@ -27,6 +37,7 @@ public class Advance implements Order {
         this.d_targetTerritory = p_targetTerritory;
         this.d_toAdvance = p_toAdvance;
         this.d_initiator = p_initiator;
+        this.d_random = new Random();
     }
 
     @Override
@@ -66,67 +77,77 @@ public class Advance implements Order {
         }
         else // Presently owned, battle occurs
         {
-            System.out.println("Country " + d_targetTerritory.getID() + " currently owned by " + d_targetTerritory.getOwner().getName()
-            + ".  A battle commences!");
-
             // Determines who wins the battle
             BattleResult l_battleResult = calculateBattle(l_actualTroopsAdvance, d_targetTerritory.getTroops());
-            boolean l_playerWon = l_battleResult.d_battleWonByPlayer;
-            int l_troopsLeftOfWinner = l_battleResult.d_troopsLeftOfWinner;
 
-            if (l_troopsLeftOfWinner == 0)
-            {
-                d_targetTerritory.setOwner(null); // Now unowned
-                d_targetTerritory.setTroops(0);
-                System.out.println("No troops survived.  Country " + d_targetTerritory.getID() + " is now neutral");
-            }
-            else if (l_playerWon)
+            if (l_battleResult.d_playersTroops > 0)
             {
                 d_targetTerritory.setOwner(d_initiator); // Now unowned
-                d_targetTerritory.setTroops(l_troopsLeftOfWinner);
+                d_targetTerritory.setTroops(l_battleResult.d_playersTroops);
                 System.out.println(d_targetTerritory.getOwner().getName() + " wins the battle and now owns " + d_targetTerritory.getID() + "!\nRemaining survivors: " + d_targetTerritory.getTroops()); // Now unowned
             }
-            else
+            else if (l_battleResult.d_opponentsTroops > 0)
             {
+                d_targetTerritory.setTroops(l_battleResult.d_opponentsTroops);
                 System.out.println(d_targetTerritory.getOwner().getName() + " fends of attacker at " + d_targetTerritory.getID() + " and wins the battle!\nRemaining survivors: " + d_targetTerritory.getTroops()); // Now unowned
-                d_targetTerritory.setTroops(l_troopsLeftOfWinner);
             }
         }
     }
 
-    private boolean calculateBattleWon(int p_troopsInvading, int p_troopsDefending)
+    private boolean calculateBattleWon(boolean isInvader)
     {
-        double l_probabilityOfWinning = (double )p_troopsInvading / (p_troopsInvading + p_troopsDefending);
-        Random l_random = new Random();
-        return l_random.nextDouble() < l_probabilityOfWinning;
+        double l_probabilityOfWinning = 0.60;
+        if (!isInvader)
+        {
+            l_probabilityOfWinning = 0.70;
+        }
+
+        return d_random.nextDouble() < l_probabilityOfWinning;
     }
+
 
     private BattleResult calculateBattle(int p_playersTroops, int p_opponentsTroops)
     {
+        System.out.print("Country " + d_targetTerritory.getID() + " currently owned by " + d_targetTerritory.getOwner().getName()
+                + ".  A battle commences!");
+        System.out.println(" (" + d_initiator.getName() + ": " + p_playersTroops + ";"
+                + d_targetTerritory.getOwner().getName() + ": " + p_opponentsTroops + ")");
+
+        boolean isInvader = true; // Invader goes first
         while (Math.min(p_playersTroops, p_opponentsTroops) > 0)
         {
-            if (calculateBattleWon(p_playersTroops, p_opponentsTroops))
+            if (isInvader)
             {
-                p_opponentsTroops -= 1;
+                System.out.print(d_initiator.getName() + " attacks and ");
+                if (calculateBattleWon(isInvader))
+                {
+                    p_opponentsTroops -= 1;
+                    System.out.print("kills 1 defender!");
+                }
+                else
+                {
+                    System.out.print("misses!");
+                }
             }
             else
             {
-                p_playersTroops -= 1;
+                System.out.print(d_targetTerritory.getOwner().getName() + " retaliates and ");
+                if (calculateBattleWon(isInvader))
+                {
+                    p_playersTroops -= 1;
+                    System.out.print("kills 1 defender!");
+                }
+                else
+                {
+                    System.out.print("misses!");
+                }
             }
+            System.out.println(" (" + d_initiator.getName() + ": " + p_playersTroops + ";"
+                    + d_targetTerritory.getOwner().getName() + ": " + p_opponentsTroops + ")");
+            isInvader = !isInvader; // Alternate between each side
         }
 
-        if (p_playersTroops > 0)
-        {
-            return new BattleResult(true, p_playersTroops);
-        }
-        else if (p_opponentsTroops > 0)
-        {
-            return new BattleResult(false, p_playersTroops);
-        }
-        else
-        {
-            return new BattleResult(true, 0);
-        }
+        return new BattleResult(p_playersTroops, p_opponentsTroops);
     }
 
     private int getActualTroopsAdvance(int p_toAdvance)
