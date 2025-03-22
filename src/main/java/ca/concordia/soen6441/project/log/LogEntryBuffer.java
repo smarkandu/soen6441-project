@@ -16,7 +16,7 @@ public class LogEntryBuffer extends Observable {
         return Instance;
     }
 
-    public void notifyObservers(String p_appendedLogMessage) {
+    public void appendToBuffer(String p_appendedLogMessage) {
         d_logInfo.append(p_appendedLogMessage).append(System.lineSeparator());
         notifyObservers(this);
     }
