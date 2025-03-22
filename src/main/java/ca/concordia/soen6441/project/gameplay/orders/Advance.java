@@ -31,23 +31,23 @@ public class Advance implements Order {
 
     @Override
     public void execute() {
-        int actualTroopsAdvance = getActualTroopsAdvance(d_toAdvance);
-        this.d_sourceTerritory.setTroops(this.d_sourceTerritory.getTroops() - actualTroopsAdvance);
+        int l_actualTroopsAdvance = getActualTroopsAdvance(d_toAdvance);
+        this.d_sourceTerritory.setTroops(this.d_sourceTerritory.getTroops() - l_actualTroopsAdvance);
 
-        if (actualTroopsAdvance == 0)
+        if (l_actualTroopsAdvance == 0)
         {
             System.out.println("No troops exist anymore in " + d_sourceTerritory.getID() + " for " + d_initiator.getName()
             + " to advance.  Command cancelled.");
             return;
         }
 
-        System.out.println(d_initiator.getName() + "'s army have advanced " + actualTroopsAdvance + " troops from "
+        System.out.println(d_initiator.getName() + "'s army have advanced " + l_actualTroopsAdvance + " troops from "
                 + d_sourceTerritory.getID() + " to "
                 + d_targetTerritory.getID());
 
         if (d_targetTerritory.getTroops() == 0) {
             // Unoccupied, user takes control without difficulty
-            this.d_targetTerritory.setTroops(actualTroopsAdvance);
+            this.d_targetTerritory.setTroops(l_actualTroopsAdvance);
 
             // If country was owned, change owner to player
             if (d_targetTerritory.getOwner() != null)
@@ -62,7 +62,7 @@ public class Advance implements Order {
         }
         else if (d_targetTerritory.getOwner() == d_initiator)
         {
-            this.d_targetTerritory.setTroops(d_targetTerritory.getTroops() + actualTroopsAdvance);
+            this.d_targetTerritory.setTroops(d_targetTerritory.getTroops() + l_actualTroopsAdvance);
         }
         else // Presently owned, battle occurs
         {
@@ -70,26 +70,26 @@ public class Advance implements Order {
             + ".  A battle commences!");
 
             // Determines who wins the battle
-            BattleResult battleResult = calculateBattle(actualTroopsAdvance, d_targetTerritory.getTroops());
-            boolean playerWon = battleResult.d_battleWonByPlayer;
-            int troopsLeftOfWinner = battleResult.d_troopsLeftOfWinner;
+            BattleResult l_battleResult = calculateBattle(l_actualTroopsAdvance, d_targetTerritory.getTroops());
+            boolean l_playerWon = l_battleResult.d_battleWonByPlayer;
+            int l_troopsLeftOfWinner = l_battleResult.d_troopsLeftOfWinner;
 
-            if (troopsLeftOfWinner == 0)
+            if (l_troopsLeftOfWinner == 0)
             {
                 d_targetTerritory.setOwner(null); // Now unowned
                 d_targetTerritory.setTroops(0);
                 System.out.println("No troops survived.  Country " + d_targetTerritory.getID() + " is now neutral");
             }
-            else if (playerWon)
+            else if (l_playerWon)
             {
                 d_targetTerritory.setOwner(d_initiator); // Now unowned
-                d_targetTerritory.setTroops(troopsLeftOfWinner);
+                d_targetTerritory.setTroops(l_troopsLeftOfWinner);
                 System.out.println(d_targetTerritory.getOwner().getName() + " wins the battle and now owns " + d_targetTerritory.getID() + "!\nRemaining survivors: " + d_targetTerritory.getTroops()); // Now unowned
             }
             else
             {
                 System.out.println(d_targetTerritory.getOwner().getName() + " fends of attacker at " + d_targetTerritory.getID() + " and wins the battle!\nRemaining survivors: " + d_targetTerritory.getTroops()); // Now unowned
-                d_targetTerritory.setTroops(troopsLeftOfWinner);
+                d_targetTerritory.setTroops(l_troopsLeftOfWinner);
             }
         }
     }
@@ -112,31 +112,31 @@ public class Advance implements Order {
     private boolean calculateBattleWon(int p_troopsInvading, int p_troopsDefending)
     {
         double l_probabilityOfWinning = (double )p_troopsInvading / (p_troopsInvading + p_troopsDefending);
-        Random random = new Random();
-        return random.nextDouble() < l_probabilityOfWinning;
+        Random l_random = new Random();
+        return l_random.nextDouble() < l_probabilityOfWinning;
     }
 
-    private BattleResult calculateBattle(int playersTroops, int opponentsTroops)
+    private BattleResult calculateBattle(int p_playersTroops, int p_opponentsTroops)
     {
-        while (Math.min(playersTroops, opponentsTroops) > 0)
+        while (Math.min(p_playersTroops, p_opponentsTroops) > 0)
         {
-            if (calculateBattleWon(playersTroops, opponentsTroops))
+            if (calculateBattleWon(p_playersTroops, p_opponentsTroops))
             {
-                opponentsTroops -= 1;
+                p_opponentsTroops -= 1;
             }
             else
             {
-                playersTroops -= 1;
+                p_playersTroops -= 1;
             }
         }
 
-        if (playersTroops > 0)
+        if (p_playersTroops > 0)
         {
-            return new BattleResult(true, playersTroops);
+            return new BattleResult(true, p_playersTroops);
         }
-        else if (opponentsTroops > 0)
+        else if (p_opponentsTroops > 0)
         {
-            return new BattleResult(false, playersTroops);
+            return new BattleResult(false, p_playersTroops);
         }
         else
         {

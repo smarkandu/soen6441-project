@@ -7,6 +7,7 @@ import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The PlayerImpl class represents a player in the game, implementing the Player interface.
@@ -144,13 +145,13 @@ public class PlayerImpl implements Player {
         return l_returnValue;
     }
 
-    public int getNumberOfTroopsOrderedToAdvance(Country countryFrom)
+    public int getNumberOfTroopsOrderedToAdvance(Country p_countryFrom)
     {
         int l_returnValue = 0;
         for (int l_i = 0; l_i < d_Orders.size(); l_i++) {
             if (d_Orders.get(l_i).getClass().getSimpleName().equals("Advance")) {
                 Advance l_advanceOrder = (Advance) d_Orders.get(l_i);
-                if (l_advanceOrder.getSourceTerritory().getID() == countryFrom.getID())
+                if (Objects.equals(l_advanceOrder.getSourceTerritory().getID(), p_countryFrom.getID()))
                 {
                     l_returnValue += l_advanceOrder.getToAdvance();
                 }

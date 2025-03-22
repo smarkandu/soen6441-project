@@ -12,5 +12,5 @@ public interface Player {
     int getReinforcements();
     void setReinforcements(int p_reinforcements);
     int getNumberOfTroopsOrderedToDeploy();
-    int getNumberOfTroopsOrderedToAdvance(Country countryFrom);
+    int getNumberOfTroopsOrderedToAdvance(Country p_countryFrom);
 }
