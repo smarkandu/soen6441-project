@@ -24,7 +24,7 @@ public class IssueOrder extends MainPlay {
     public IssueOrder(GameContext p_gameEngine, int p_currentPlayIndex) {
         super(p_gameEngine);
         d_currentPlayIndex = p_currentPlayIndex;
-        LogWriter d_logWriter = new LogWriter(LogEntryBuffer.getInstance());
+        LogWriter l_logWriter = new LogWriter(LogEntryBuffer.getInstance());
     }
 
     /**
