@@ -94,21 +94,6 @@ public class Advance implements Order {
         }
     }
 
-    /**
-     * Validates whether the deploy order can be executed.
-     *
-     * @return true if the order is valid (i.e., the player owns the target territory), otherwise false.
-     */
-    public boolean valid() {
-        if (d_targetTerritory.getOwner().equals(d_initiator)) {
-            // The target territory must belong to the player that created the order
-            return true;
-        } else {
-            System.out.println("invalid order");
-            return false;
-        }
-    }
-
     private boolean calculateBattleWon(int p_troopsInvading, int p_troopsDefending)
     {
         double l_probabilityOfWinning = (double )p_troopsInvading / (p_troopsInvading + p_troopsDefending);
