@@ -102,8 +102,8 @@ public class Advance implements Order {
 
     private BattleResult calculateBattle(int p_playersTroops, int p_opponentsTroops)
     {
-        final double PROBABILITY_WINNING_ATTACKER = 0.60;
-        final double PROBABILITY_WINNING_DEFENDER = 0.70;
+        final double l_probability_winning_attacker = 0.60;
+        final double l_probability_winning_defender = 0.70;
 
         System.out.print("*** Country " + d_targetTerritory.getID() + " currently owned by " + d_targetTerritory.getOwner().getName()
                 + ".  A battle commences! ***");
@@ -116,7 +116,7 @@ public class Advance implements Order {
             if (l_isInvader)
             {
                 System.out.print(d_initiator.getName() + " attacks and ");
-                if (calculateBattleWon(PROBABILITY_WINNING_ATTACKER))
+                if (calculateBattleWon(l_probability_winning_attacker))
                 {
                     p_opponentsTroops -= 1;
                     System.out.print("kills 1 defender!");
@@ -129,7 +129,7 @@ public class Advance implements Order {
             else
             {
                 System.out.print(d_targetTerritory.getOwner().getName() + " retaliates and ");
-                if (calculateBattleWon(PROBABILITY_WINNING_DEFENDER))
+                if (calculateBattleWon(l_probability_winning_defender))
                 {
                     p_playersTroops -= 1;
                     System.out.print("kills 1 defender!");
