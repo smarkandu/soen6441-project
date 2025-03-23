@@ -12,64 +12,85 @@ import java.util.ArrayList;
 
 public class HandOfCardsManager implements HandOfCardsContext {
     private Player d_player;
-    private ArrayList<Card> d_handOfCards;
+    private ArrayList<AirliftCard> d_airLiftCards;
+    private ArrayList<BlockadeCard> d_blockadeCards;
+    private ArrayList<BombCard> d_bombCards;
+    private ArrayList<DiplomacyCard> d_diplomacyCards;
 
     public HandOfCardsManager(Player d_player) {
         this.d_player = d_player;
-        d_handOfCards = new ArrayList<Card>();
+        d_airLiftCards = new ArrayList<AirliftCard>();
+        d_blockadeCards = new ArrayList<BlockadeCard>();
+        d_bombCards = new ArrayList<BombCard>();
+        d_diplomacyCards = new ArrayList<DiplomacyCard>();
     }
 
     @Override
     public void addCard(Card p_card) {
-        d_handOfCards.add(p_card);
+        if (p_card instanceof AirliftCard)
+        {
+            d_airLiftCards.add((AirliftCard) p_card);
+        }
+        else if (p_card instanceof BlockadeCard)
+        {
+            d_blockadeCards.add((BlockadeCard) p_card);
+        }
+        else if (p_card instanceof BombCard)
+        {
+            d_bombCards.add((BombCard) p_card);
+        }
+        else if (p_card instanceof DiplomacyCard)
+        {
+            d_diplomacyCards.add((DiplomacyCard) p_card);
+        }
+        else
+        {
+            System.out.println("Unrecognized card found!");
+        }
     }
 
     @Override
     public void removeCard(Card p_card) {
-        d_handOfCards.remove(p_card);
+        if (hasAirliftCard() && p_card instanceof AirliftCard)
+        {
+            d_airLiftCards.remove(p_card);
+        }
+        else if (hasBlockadeCard() && p_card instanceof BlockadeCard)
+        {
+            d_blockadeCards.remove(p_card);
+        }
+        else if (hasBombCard() && p_card instanceof BombCard)
+        {
+            d_bombCards.remove(p_card);
+        }
+        else if (hasDiplomacyCard() && p_card instanceof DiplomacyCard)
+        {
+            d_diplomacyCards.remove(p_card);
+        }
+        else
+        {
+            System.out.println("Unrecognized card found!");
+        }
     }
 
     @Override
-    public boolean hasBombCard() {
-        for (Card a : d_handOfCards) {
-            if (a instanceof BombCard) {
-                return true;
-            }
-        }
-
-        return false;
+    public boolean hasBombCard()
+    {
+        return !d_bombCards.isEmpty();
     }
 
     @Override
     public boolean hasBlockadeCard() {
-        for (Card a : d_handOfCards) {
-            if (a instanceof BlockadeCard) {
-                return true;
-            }
-        }
-
-        return false;
+        return !d_blockadeCards.isEmpty();
     }
 
     @Override
     public boolean hasAirliftCard() {
-        for (Card a : d_handOfCards) {
-            if (a instanceof AirliftCard) {
-                return true;
-            }
-        }
-
-        return false;
+        return !d_airLiftCards.isEmpty();
     }
 
     @Override
     public boolean hasDiplomacyCard() {
-        for (Card a : d_handOfCards) {
-            if (a instanceof DiplomacyCard) {
-                return true;
-            }
-        }
-
-        return false;
+        return !d_diplomacyCards.isEmpty();
     }
 }
