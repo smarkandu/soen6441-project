@@ -1,0 +1,7 @@
+null issued order to deploy 4 to Country1
+ERROR(): Order not issued Only 2 left to deploy!
+null issued order to deploy 5 to Country1
+ERROR(): Order not issued: Player null doesn't own this country!
+null issued order to deploy 5 to Country1
+null issued order to deploy to Country1 granted
+
