@@ -1,5 +1,7 @@
 package ca.concordia.soen6441.project.interfaces;
 
+import ca.concordia.soen6441.project.interfaces.context.HandOfCardsContext;
+
 import java.util.List;
 public interface Player {
     List<String> getOwnedCountries();
@@ -13,4 +15,5 @@ public interface Player {
     void setReinforcements(int p_reinforcements);
     int getNumberOfTroopsOrderedToDeploy();
     int getNumberOfTroopsOrderedToAdvance(Country p_countryFrom);
+    HandOfCardsContext getHandOfCardsManager();
 }

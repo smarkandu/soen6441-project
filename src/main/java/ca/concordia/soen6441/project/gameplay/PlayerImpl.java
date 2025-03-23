@@ -1,10 +1,13 @@
 package ca.concordia.soen6441.project.gameplay;
 
+import ca.concordia.soen6441.project.context.HandOfCardsManager;
 import ca.concordia.soen6441.project.gameplay.orders.Advance;
 import ca.concordia.soen6441.project.gameplay.orders.Deploy;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
+import ca.concordia.soen6441.project.interfaces.context.HandOfCardsContext;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -17,6 +20,7 @@ public class PlayerImpl implements Player {
     private String d_name;
     private ArrayList<String> d_ownedCountries;
     private ArrayList<Order> d_Orders;
+    private HandOfCardsContext d_HandsOfCardsManager;
     int d_Reinforcements;
 
     /**
@@ -31,6 +35,7 @@ public class PlayerImpl implements Player {
         this.d_ownedCountries = p_ownedCountries;
         this.d_Orders = p_Orders;
         this.d_Reinforcements = 0;
+        this.d_HandsOfCardsManager = new HandOfCardsManager(this);
     }
 
     /**
@@ -158,5 +163,10 @@ public class PlayerImpl implements Player {
             }
         }
         return l_returnValue;
+    }
+
+    @Override
+    public HandOfCardsContext getHandOfCardsManager() {
+        return d_HandsOfCardsManager;
     }
 }

@@ -107,22 +107,34 @@ public class IssueOrder extends MainPlay {
 
     @Override
     public void bomb(String p_countryID) {
+        if (getCurrentPlayer().getHandOfCardsManager().hasBombCard())
+        {
 
+        }
     }
 
     @Override
     public void blockade(String p_countryID) {
+        if (getCurrentPlayer().getHandOfCardsManager().hasBlockadeCard())
+        {
 
+        }
     }
 
     @Override
     public void airlift(String p_sourceCountryID, String p_targetCountryID, int p_numArmies) {
+        if (getCurrentPlayer().getHandOfCardsManager().hasAirliftCard())
+        {
 
+        }
     }
 
     @Override
     public void negotiate(String p_playerID) {
+        if (getCurrentPlayer().getHandOfCardsManager().hasDiplomacyCard())
+        {
 
+        }
     }
 
     /**
