@@ -54,24 +54,22 @@ public class IssueOrder extends MainPlay {
         int l_numberOfTroopsLeftToDeploy = l_player.getReinforcements() - l_player.getNumberOfTroopsOrderedToDeploy();
 
         LogEntryBuffer.getInstance().appendToBuffer(l_player.getName() + " issued order to deploy " + p_toDeploy
-                + " to " + p_countryID);
+                + " to " + p_countryID, false);
 
         if (!l_player.equals(l_country.getOwner())) {
             String l_message = "Player " + l_player.getName() + " doesn't own this country!";
-            System.out.println(l_message);
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Order not issued: " + l_message);
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: " + l_message, true);
         }
         else if (l_numberOfTroopsLeftToDeploy < p_toDeploy)
         {
             String l_message = "Only " + l_numberOfTroopsLeftToDeploy + " left to deploy!";
-            System.out.println(l_message);
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Order not issued " + l_message);
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: " + l_message, true);
         }
         else
         {
             l_player.issue_order(new Deploy(l_player, l_country, p_toDeploy));
             LogEntryBuffer.getInstance().appendToBuffer(l_player.getName() +
-                    " issued order to deploy to " + p_countryID + " granted");
+                    " issued order to deploy to " + p_countryID + " granted", false);
         }
     }
 
@@ -80,25 +78,30 @@ public class IssueOrder extends MainPlay {
         Country l_countryFrom = d_gameEngine.getCountryManager().getCountries().get(p_countryNameFrom);
         Country l_countryTo = d_gameEngine.getCountryManager().getCountries().get(p_countryNameTo);
 
+        LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to advance "
+                        + p_toAdvance + " from " + p_countryNameFrom + " to " + p_countryNameTo, false);
+
         if (getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) > 0) // Can only do after all troops are deployed
         {
-            System.out.println("You still have " + getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) + " left to deploy!");
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: You still have " + getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) + " left to deploy!", true);
         }
         else if (!getCurrentPlayer().equals(l_countryFrom.getOwner())) // Player must own origin country
         {
-            System.out.println("Player " + getCurrentPlayer().getName() + " doesn't own origin country!");
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player " + getCurrentPlayer().getName() + " doesn't own origin country!", true);
         }
         else if (p_toAdvance > getNumberOfTroopsLeftToAdvance(getCurrentPlayer(), l_countryFrom)) // Player have sufficient troops available to advance
         {
-            System.out.println("Only " + getNumberOfTroopsLeftToAdvance(getCurrentPlayer(), l_countryFrom) + " left to advance!");
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Only " + getNumberOfTroopsLeftToAdvance(getCurrentPlayer(), l_countryFrom) + " left to advance!", true);
         }
         else if (!l_countryFrom.getNeighborIDs().contains(l_countryTo.getID())) // Destination country must be a neighbor to origin country
         {
-            System.out.println(l_countryTo.getID() + "is not a neighbor of " + l_countryFrom.getID() + "!");
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: " + l_countryTo.getID() + "is not a neighbor of " + l_countryFrom.getID() + "!", true);
         }
         else
         {
             getCurrentPlayer().issue_order(new Advance(l_countryFrom, l_countryTo, p_toAdvance, getCurrentPlayer()));
+            LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to advance "
+                    + p_toAdvance + " from " + p_countryNameFrom + " to " + p_countryNameTo +  " granted", false);
         }
     }
 

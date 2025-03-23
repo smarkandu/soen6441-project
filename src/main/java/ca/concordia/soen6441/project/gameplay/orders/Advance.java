@@ -3,6 +3,7 @@ package ca.concordia.soen6441.project.gameplay.orders;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
+import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
 import java.util.Random;
 
@@ -47,14 +48,14 @@ public class Advance implements Order {
 
         if (l_actualTroopsAdvance == 0)
         {
-            System.out.println("No troops exist anymore in " + d_sourceTerritory.getID() + " for " + d_initiator.getName()
-            + " to advance.  Command cancelled.");
+            LogEntryBuffer.getInstance().appendToBuffer("No troops exist anymore in " + d_sourceTerritory.getID() + " for " + d_initiator.getName()
+            + " to advance.  Command cancelled.", true);
             return;
         }
 
-        System.out.println(d_initiator.getName() + "'s army have advanced " + l_actualTroopsAdvance + " troops from "
+        LogEntryBuffer.getInstance().appendToBuffer(d_initiator.getName() + "'s army have advanced " + l_actualTroopsAdvance + " troops from "
                 + d_sourceTerritory.getID() + " to "
-                + d_targetTerritory.getID());
+                + d_targetTerritory.getID(), true);
 
         if (d_targetTerritory.getTroops() == 0) {
             // Unoccupied, user takes control without difficulty
@@ -64,11 +65,11 @@ public class Advance implements Order {
             if (d_targetTerritory.getOwner() != null)
             {
                 d_targetTerritory.setOwner(d_initiator);
-                System.out.println(d_targetTerritory.getOwner().getName() + " conquers undefended " + d_targetTerritory.getID());
+                LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName() + " conquers undefended " + d_targetTerritory.getID(), true);
             }
             else
             {
-                System.out.println(d_targetTerritory.getOwner().getName() + " conquers unowned " + d_targetTerritory.getID()); // Now unowned
+                LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName() + " conquers unowned " + d_targetTerritory.getID(), true); // Now unowned
             }
         }
         else if (d_targetTerritory.getOwner() == d_initiator)
@@ -84,12 +85,12 @@ public class Advance implements Order {
             {
                 d_targetTerritory.setOwner(d_initiator); // Now unowned
                 d_targetTerritory.setTroops(l_battleResult.d_playersTroops);
-                System.out.println(d_targetTerritory.getOwner().getName() + " wins the battle and now owns " + d_targetTerritory.getID() + "!\nRemaining survivors: " + d_targetTerritory.getTroops()); // Now unowned
+                LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName() + " wins the battle and now owns " + d_targetTerritory.getID() + "!\nRemaining survivors: " + d_targetTerritory.getTroops(), true); // Now unowned
             }
             else if (l_battleResult.d_opponentsTroops > 0)
             {
                 d_targetTerritory.setTroops(l_battleResult.d_opponentsTroops);
-                System.out.println(d_targetTerritory.getOwner().getName() + " fends of attacker at " + d_targetTerritory.getID() + " and wins the battle!\nRemaining survivors: " + d_targetTerritory.getTroops()); // Now unowned
+                LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName() + " fends of attacker at " + d_targetTerritory.getID() + " and wins the battle!\nRemaining survivors: " + d_targetTerritory.getTroops(), true); // Now unowned
             }
         }
     }
@@ -105,42 +106,43 @@ public class Advance implements Order {
         final double l_probability_winning_attacker = 0.60;
         final double l_probability_winning_defender = 0.70;
 
-        System.out.print("*** Country " + d_targetTerritory.getID() + " currently owned by " + d_targetTerritory.getOwner().getName()
-                + ".  A battle commences! ***");
-        System.out.println(" (" + d_initiator.getName() + ": " + p_playersTroops + ";"
-                + d_targetTerritory.getOwner().getName() + ": " + p_opponentsTroops + ")");
+        String l_battle_message = "*** Country " + d_targetTerritory.getID() + " currently owned by " + d_targetTerritory.getOwner().getName()
+                + ".  A battle commences! ***";
+        LogEntryBuffer.getInstance().appendToBuffer(l_battle_message + " " + getTroopStatsInfo(p_playersTroops, p_opponentsTroops), true);
 
         boolean l_isInvader = true; // Invader goes first
         while (Math.min(p_playersTroops, p_opponentsTroops) > 0)
         {
+            String l_message = "";
             if (l_isInvader)
             {
-                System.out.print(d_initiator.getName() + " attacks and ");
+                l_message = d_initiator.getName() + " attacks and ";
                 if (calculateBattleWon(l_probability_winning_attacker))
                 {
                     p_opponentsTroops -= 1;
-                    System.out.print("kills 1 soldier of " + d_targetTerritory.getOwner().getName() + "!");
+                    l_message += "kills 1 soldier of " + d_targetTerritory.getOwner().getName() + "!";
                 }
                 else
                 {
-                    System.out.print("misses!");
+                    l_message += "misses!";
                 }
             }
             else
             {
-                System.out.print(d_targetTerritory.getOwner().getName() + " retaliates and ");
+                l_message = d_targetTerritory.getOwner().getName() + " retaliates and ";
                 if (calculateBattleWon(l_probability_winning_defender))
                 {
                     p_playersTroops -= 1;
-                    System.out.print("kills 1 soldier of " + d_initiator.getName() + "!");
+                    l_message += "kills 1 soldier of " + d_initiator.getName() + "!";
                 }
                 else
                 {
-                    System.out.print("misses!");
+                    l_message += "misses!";
                 }
             }
-            System.out.println(" (" + d_initiator.getName() + ": " + p_playersTroops + ";"
-                    + d_targetTerritory.getOwner().getName() + ": " + p_opponentsTroops + ")");
+
+            l_message += " " + getTroopStatsInfo(p_playersTroops, p_opponentsTroops);
+            LogEntryBuffer.getInstance().appendToBuffer(l_message, true);
             l_isInvader = !l_isInvader; // Alternate between each side
         }
 
@@ -166,6 +168,13 @@ public class Advance implements Order {
 
     public Player getInitiator() {
         return d_initiator;
+    }
+
+    public String getTroopStatsInfo(int p_playersTroops, int p_opponentsTroops)
+    {
+
+        return "(" + d_initiator.getName() + ": " + p_playersTroops + ";"
+                + d_targetTerritory.getOwner().getName() + ": " + p_opponentsTroops + ")";
     }
 
     @Override
