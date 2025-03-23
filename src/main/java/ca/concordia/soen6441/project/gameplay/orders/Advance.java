@@ -94,10 +94,10 @@ public class Advance implements Order {
         }
     }
 
-    private boolean calculateBattleWon(boolean isInvader)
+    private boolean calculateBattleWon(boolean p_isInvader)
     {
         double l_probabilityOfWinning = 0.60;
-        if (!isInvader)
+        if (!p_isInvader)
         {
             l_probabilityOfWinning = 0.70;
         }
@@ -113,13 +113,13 @@ public class Advance implements Order {
         System.out.println(" (" + d_initiator.getName() + ": " + p_playersTroops + ";"
                 + d_targetTerritory.getOwner().getName() + ": " + p_opponentsTroops + ")");
 
-        boolean isInvader = true; // Invader goes first
+        boolean l_isInvader = true; // Invader goes first
         while (Math.min(p_playersTroops, p_opponentsTroops) > 0)
         {
-            if (isInvader)
+            if (l_isInvader)
             {
                 System.out.print(d_initiator.getName() + " attacks and ");
-                if (calculateBattleWon(isInvader))
+                if (calculateBattleWon(l_isInvader))
                 {
                     p_opponentsTroops -= 1;
                     System.out.print("kills 1 defender!");
@@ -132,7 +132,7 @@ public class Advance implements Order {
             else
             {
                 System.out.print(d_targetTerritory.getOwner().getName() + " retaliates and ");
-                if (calculateBattleWon(isInvader))
+                if (calculateBattleWon(l_isInvader))
                 {
                     p_playersTroops -= 1;
                     System.out.print("kills 1 defender!");
@@ -144,7 +144,7 @@ public class Advance implements Order {
             }
             System.out.println(" (" + d_initiator.getName() + ": " + p_playersTroops + ";"
                     + d_targetTerritory.getOwner().getName() + ": " + p_opponentsTroops + ")");
-            isInvader = !isInvader; // Alternate between each side
+            l_isInvader = !l_isInvader; // Alternate between each side
         }
 
         return new BattleResult(p_playersTroops, p_opponentsTroops);
