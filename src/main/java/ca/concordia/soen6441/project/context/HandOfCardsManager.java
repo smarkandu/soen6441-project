@@ -21,12 +21,12 @@ public class HandOfCardsManager implements HandOfCardsContext {
 
     @Override
     public void addCard(Card p_card) {
-
+        d_handOfCards.add(p_card);
     }
 
     @Override
     public void removeCard(Card p_card) {
-
+        d_handOfCards.remove(p_card);
     }
 
     @Override
