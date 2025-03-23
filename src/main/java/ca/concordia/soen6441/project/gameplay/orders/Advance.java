@@ -94,22 +94,19 @@ public class Advance implements Order {
         }
     }
 
-    private boolean calculateBattleWon(boolean p_isInvader)
+    private boolean calculateBattleWon(double p_probabilityOfWinning)
     {
-        double l_probabilityOfWinning = 0.60;
-        if (!p_isInvader)
-        {
-            l_probabilityOfWinning = 0.70;
-        }
-
-        return d_random.nextDouble() < l_probabilityOfWinning;
+        return d_random.nextDouble() < p_probabilityOfWinning;
     }
 
 
     private BattleResult calculateBattle(int p_playersTroops, int p_opponentsTroops)
     {
-        System.out.print("Country " + d_targetTerritory.getID() + " currently owned by " + d_targetTerritory.getOwner().getName()
-                + ".  A battle commences!");
+        final double PROBABILITY_WINNING_ATTACKER = 0.60;
+        final double PROBABILITY_WINNING_DEFENDER = 0.70;
+
+        System.out.print("*** Country " + d_targetTerritory.getID() + " currently owned by " + d_targetTerritory.getOwner().getName()
+                + ".  A battle commences! ***");
         System.out.println(" (" + d_initiator.getName() + ": " + p_playersTroops + ";"
                 + d_targetTerritory.getOwner().getName() + ": " + p_opponentsTroops + ")");
 
@@ -119,7 +116,7 @@ public class Advance implements Order {
             if (l_isInvader)
             {
                 System.out.print(d_initiator.getName() + " attacks and ");
-                if (calculateBattleWon(l_isInvader))
+                if (calculateBattleWon(PROBABILITY_WINNING_ATTACKER))
                 {
                     p_opponentsTroops -= 1;
                     System.out.print("kills 1 defender!");
@@ -132,7 +129,7 @@ public class Advance implements Order {
             else
             {
                 System.out.print(d_targetTerritory.getOwner().getName() + " retaliates and ");
-                if (calculateBattleWon(l_isInvader))
+                if (calculateBattleWon(PROBABILITY_WINNING_DEFENDER))
                 {
                     p_playersTroops -= 1;
                     System.out.print("kills 1 defender!");

@@ -9,10 +9,12 @@ gameplayer -add Marc
 assigncountries
 showmap
 
+next
 deploy UnitedStates 3
 advance UnitedStates Canada 3
+next
 
 deploy Canada 3
 advance Canada UnitedStates 3
-
+next
 
