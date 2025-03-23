@@ -6,6 +6,8 @@ import ca.concordia.soen6441.project.gameplay.orders.Deploy;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
+import ca.concordia.soen6441.project.log.LogEntryBuffer;
+import ca.concordia.soen6441.project.log.LogWriter;
 
 /**
  * The IssueOrder class represents the phase where players issue their orders.
@@ -13,6 +15,7 @@ import ca.concordia.soen6441.project.interfaces.context.GameContext;
  */
 public class IssueOrder extends MainPlay {
     private int d_currentPlayIndex;
+    private LogWriter d_logWriter;
 
     /**
      * Constructs an IssueOrder phase.
@@ -23,6 +26,7 @@ public class IssueOrder extends MainPlay {
     public IssueOrder(GameContext p_gameEngine, int p_currentPlayIndex) {
         super(p_gameEngine);
         d_currentPlayIndex = p_currentPlayIndex;
+        d_logWriter = new LogWriter(LogEntryBuffer.getInstance());
     }
 
     /**
@@ -47,17 +51,27 @@ public class IssueOrder extends MainPlay {
     public void deploy(String p_countryID, int p_toDeploy) {
         Country l_country = d_gameEngine.getCountryManager().getCountries().get(p_countryID);
         Player l_player = d_gameEngine.getPlayerManager().getPlayer(d_currentPlayIndex);
+        int l_numberOfTroopsLeftToDeploy = l_player.getReinforcements() - l_player.getNumberOfTroopsOrderedToDeploy();
+
+        LogEntryBuffer.getInstance().appendToBuffer(l_player.getName() + " issued order to deploy " + p_toDeploy
+                + " to " + p_countryID);
 
         if (!l_player.equals(l_country.getOwner())) {
-            System.out.println("Player " + l_player.getName() + " doesn't own this country!");
+            String l_message = "Player " + l_player.getName() + " doesn't own this country!";
+            System.out.println(l_message);
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Order not issued: " + l_message);
         }
-        else {
-            int l_numberOfTroopsLeftToDeploy = l_player.getReinforcements() - l_player.getNumberOfTroopsOrderedToDeploy();
-            if (l_numberOfTroopsLeftToDeploy >= p_toDeploy) {
-                l_player.issue_order(new Deploy(l_player, l_country, p_toDeploy));
-            } else {
-                System.out.println("Only " + l_numberOfTroopsLeftToDeploy + " left to deploy!");
-            }
+        else if (l_numberOfTroopsLeftToDeploy < p_toDeploy)
+        {
+            String l_message = "Only " + l_numberOfTroopsLeftToDeploy + " left to deploy!";
+            System.out.println(l_message);
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Order not issued " + l_message);
+        }
+        else
+        {
+            l_player.issue_order(new Deploy(l_player, l_country, p_toDeploy));
+            LogEntryBuffer.getInstance().appendToBuffer(l_player.getName() +
+                    " issued order to deploy to " + p_countryID + " granted");
         }
     }
 
