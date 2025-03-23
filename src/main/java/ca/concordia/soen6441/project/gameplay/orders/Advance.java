@@ -106,9 +106,9 @@ public class Advance implements Order {
         final double l_probability_winning_attacker = 0.60;
         final double l_probability_winning_defender = 0.70;
 
-        String l_battle_message = "*** Country " + d_targetTerritory.getID() + " currently owned by " + d_targetTerritory.getOwner().getName()
+        String l_battleMessage = "*** Country " + d_targetTerritory.getID() + " currently owned by " + d_targetTerritory.getOwner().getName()
                 + ".  A battle commences! ***";
-        LogEntryBuffer.getInstance().appendToBuffer(l_battle_message + " " + getTroopStatsInfo(p_playersTroops, p_opponentsTroops), true);
+        LogEntryBuffer.getInstance().appendToBuffer(l_battleMessage + " " + getTroopStatsInfo(p_playersTroops, p_opponentsTroops), true);
 
         boolean l_isInvader = true; // Invader goes first
         while (Math.min(p_playersTroops, p_opponentsTroops) > 0)
