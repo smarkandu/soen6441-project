@@ -17,8 +17,8 @@ public class HandOfCardsManager implements HandOfCardsContext {
     private ArrayList<BombCard> d_bombCards;
     private ArrayList<DiplomacyCard> d_diplomacyCards;
 
-    public HandOfCardsManager(Player d_player) {
-        this.d_player = d_player;
+    public HandOfCardsManager(Player p_player) {
+        this.d_player = p_player;
         d_airLiftCards = new ArrayList<AirliftCard>();
         d_blockadeCards = new ArrayList<BlockadeCard>();
         d_bombCards = new ArrayList<BombCard>();
