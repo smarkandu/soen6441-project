@@ -119,7 +119,7 @@ public class Advance implements Order {
                 if (calculateBattleWon(l_probability_winning_attacker))
                 {
                     p_opponentsTroops -= 1;
-                    System.out.print("kills 1 defender!");
+                    System.out.print("kills 1 soldier of " + d_targetTerritory.getOwner().getName() + "!");
                 }
                 else
                 {
@@ -132,7 +132,7 @@ public class Advance implements Order {
                 if (calculateBattleWon(l_probability_winning_defender))
                 {
                     p_playersTroops -= 1;
-                    System.out.print("kills 1 defender!");
+                    System.out.print("kills 1 soldier of " + d_initiator.getName() + "!");
                 }
                 else
                 {
