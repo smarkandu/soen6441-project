@@ -33,11 +33,11 @@ showmap
 
 
 next
-deploy UnitedStates 2
-deploy Mexico 1
-advance UnitedStates Canada 1
+deploy Mexico 3
+advance Mexico Canada 1
 next
 
-deploy Canada 3
-advance Canada UnitedStates 1
+deploy UnitedStates 3
+advance UnitedStates Canada 3
 next
+
