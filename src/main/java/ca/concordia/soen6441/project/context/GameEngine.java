@@ -20,6 +20,7 @@ public class GameEngine implements GameContext, MapComponent {
     private CountryManager d_CountryManager;
     private NeighborManager d_NeighborManager;
     private PlayerManager d_PlayerManager;
+    private DeckOfCards d_DeckOfCards;
 
     /**
      * Constructs a new GameEngine instance and initializes game data structures.
@@ -30,6 +31,7 @@ public class GameEngine implements GameContext, MapComponent {
         d_NeighborManager = new NeighborManager(this);
         d_PlayerManager = new PlayerManager();
         d_validateMapImpl = new ValidateMapImpl(d_CountryManager.getCountries(), d_ContinentManager.getContinents());
+        d_DeckOfCards = new DeckOfCards();
     }
 
     public State getPhase() {
@@ -222,5 +224,9 @@ public class GameEngine implements GameContext, MapComponent {
      */
     public boolean isMapEmpty() {
         return d_ContinentManager.getContinents().isEmpty() && d_CountryManager.getCountries().isEmpty();
+    }
+
+    public DeckOfCards getDeckOfCards() {
+        return d_DeckOfCards;
     }
 }

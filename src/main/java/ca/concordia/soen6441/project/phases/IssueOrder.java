@@ -168,7 +168,8 @@ public class IssueOrder extends MainPlay {
     public String getPhaseName() {
         Player l_currentPlayer = d_gameEngine.getPlayerManager().getPlayer(d_currentPlayIndex);
         String l_currentOrders = l_currentPlayer.getOrders().toString();
-        return l_currentOrders + "\n" + getClass().getSimpleName() + " ["
+        String l_currentCards = l_currentPlayer.getHandOfCardsManager().toString();
+        return l_currentOrders + "\n" + l_currentCards + "\n" + getClass().getSimpleName() + " ["
                 + l_currentPlayer.getName() + "]";
     }
 

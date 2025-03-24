@@ -8,12 +8,6 @@ import ca.concordia.soen6441.project.log.LogEntryBuffer;
 import java.util.Random;
 
 public class Advance implements Order {
-    private Country d_sourceTerritory;
-    private Country d_targetTerritory;
-    private int d_toAdvance;
-    private Player d_initiator;
-    private Random d_random;
-
     private class BattleResult
     {
         private final int d_playersTroops;
@@ -33,12 +27,22 @@ public class Advance implements Order {
         }
     }
 
+
+    private Country d_sourceTerritory;
+    private Country d_targetTerritory;
+    private int d_toAdvance;
+    private Player d_initiator;
+    private Random d_random;
+    private boolean d_conquersTerritory;
+
+
     public Advance(Country p_sourceTerritory, Country p_targetTerritory, int p_toAdvance, Player p_initiator) {
         this.d_sourceTerritory = p_sourceTerritory;
         this.d_targetTerritory = p_targetTerritory;
         this.d_toAdvance = p_toAdvance;
         this.d_initiator = p_initiator;
         this.d_random = new Random();
+        this.d_conquersTerritory = false;
     }
 
     @Override
@@ -66,10 +70,12 @@ public class Advance implements Order {
             {
                 d_targetTerritory.setOwner(d_initiator);
                 LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName() + " conquers undefended " + d_targetTerritory.getID(), true);
+                d_conquersTerritory = true;
             }
             else
             {
                 LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName() + " conquers unowned " + d_targetTerritory.getID(), true); // Now unowned
+                d_conquersTerritory = true;
             }
         }
         else if (d_targetTerritory.getOwner() == d_initiator)
@@ -85,12 +91,17 @@ public class Advance implements Order {
             {
                 d_targetTerritory.setOwner(d_initiator); // Now unowned
                 d_targetTerritory.setTroops(l_battleResult.d_playersTroops);
-                LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName() + " wins the battle and now owns " + d_targetTerritory.getID() + "!\nRemaining survivors: " + d_targetTerritory.getTroops(), true); // Now unowned
+                LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName()
+                        + " wins the battle and conquers " + d_targetTerritory.getID() + "!\nRemaining survivors: "
+                        + d_targetTerritory.getTroops(), true);
+                d_conquersTerritory = true;
             }
             else if (l_battleResult.d_opponentsTroops > 0)
             {
                 d_targetTerritory.setTroops(l_battleResult.d_opponentsTroops);
-                LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName() + " fends of attacker at " + d_targetTerritory.getID() + " and wins the battle!\nRemaining survivors: " + d_targetTerritory.getTroops(), true); // Now unowned
+                LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName()
+                        + " fends of attacker at " + d_targetTerritory.getID() + " and wins the battle!\nRemaining survivors: "
+                        + d_targetTerritory.getTroops(), true);
             }
         }
     }
@@ -182,5 +193,9 @@ public class Advance implements Order {
         return "{Advance " + d_sourceTerritory.getID() +
                 " " + d_targetTerritory.getID() +
                 " " + d_toAdvance + "}";
+    }
+
+    public boolean conquersTerritory() {
+        return d_conquersTerritory;
     }
 }
