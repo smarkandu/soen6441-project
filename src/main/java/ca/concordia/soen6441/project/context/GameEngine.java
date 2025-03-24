@@ -76,19 +76,22 @@ public class GameEngine implements GameContext, MapComponent {
             for (Country l_country : l_countries) {
                 // Start constructing the country info string
                 StringBuilder l_countryInfo = new StringBuilder("  - " + l_country.getID());
+                List<String> l_neighbors = l_country.getNeighborIDs();
 
                 // If detailed view is enabled, append owner, army count, and neighboring countries
                 if (p_isDetailed) {
                     Player l_owner = l_country.getOwner(); // Get the country owner
                     int l_armyCount = l_country.getTroops(); // Get the number of troops in the country
-                    List<String> l_neighbors = l_country.getNeighborIDs(); // Get list of neighboring country IDs
-
+                    
                     // Append detailed information about the country
                     l_countryInfo.append(" | Owner: ").append(l_owner != null ? l_owner.getName() : "Neutral") // Owner's name or "Neutral"
-                            .append(" | Armies: ").append(l_armyCount) // Number of armies stationed
-                            .append(" | Neighbors: ").append(String.join(", ", l_neighbors)); // List of neighboring countries
+                            .append(" | Armies: ").append(l_armyCount); // Number of armies stationed
+                            
                 }
 
+                l_countryInfo.append(" | Neighbors: ")
+                         .append(String.join(", ", l_neighbors));
+                         
                 // Print the formatted country information
                 System.out.println(l_countryInfo);
             }
