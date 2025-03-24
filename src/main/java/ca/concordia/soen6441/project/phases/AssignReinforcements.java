@@ -55,6 +55,31 @@ public class AssignReinforcements extends MainPlay {
         printInvalidCommandMessage();
     }
 
+    @Override
+    public void advance(String p_countryNameFrom, String p_countryNameTo, int p_toAdvance) {
+        printInvalidCommandMessage();
+    }
+
+    @Override
+    public void bomb(String p_countryID) {
+        printInvalidCommandMessage();
+    }
+
+    @Override
+    public void blockade(String p_countryID) {
+        printInvalidCommandMessage();
+    }
+
+    @Override
+    public void airlift(String p_sourceCountryID, String p_targetCountryID, int p_numArmies) {
+        printInvalidCommandMessage();
+    }
+
+    @Override
+    public void negotiate(String p_playerID) {
+        printInvalidCommandMessage();
+    }
+
     /**
      * Invalid command for this phase.
      */

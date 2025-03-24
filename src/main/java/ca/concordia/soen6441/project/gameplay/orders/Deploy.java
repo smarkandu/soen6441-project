@@ -3,6 +3,7 @@ package ca.concordia.soen6441.project.gameplay.orders;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
+import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
 /**
  * The Deploy class represents a deploy order where a player moves a specific number of troops
@@ -34,8 +35,8 @@ public class Deploy implements Order {
     public void execute() {
         if (valid()) {
             this.d_targetTerritory.setTroops(this.d_targetTerritory.getTroops() + d_toDeploy);
-            System.out.println(d_toDeploy + " troops of " + d_initiator.getName() + "'s army have deployed to "
-                    + d_targetTerritory);
+            LogEntryBuffer.getInstance().appendToBuffer(d_initiator.getName() + "'s army have deployed " + d_toDeploy + " troops to "
+                    + d_targetTerritory.getID(), true);
         }
     }
 

@@ -22,6 +22,7 @@ public interface State {
 
     // Gameplay behaviour
     void deploy(String p_countryID, int p_toDeploy);
+    void advance(String p_countryNameFrom, String p_countryNameTo, int p_toAdvance);
     void endGame();
 
     // Phase Related

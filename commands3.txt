@@ -1,0 +1,43 @@
+next
+editcontinent -add NorthAmerica 5
+editcontinent -add SouthAmerica 4
+
+editcountry -add Canada NorthAmerica
+editcountry -add UnitedStates NorthAmerica
+editcountry -add Mexico SouthAmerica
+
+editneighbor -add Canada UnitedStates
+editneighbor -add Canada Mexico
+editneighbor -add UnitedStates Mexico
+
+validatemap
+savemap ./sample_maps/valid/america.map
+next
+loadmap ./sample_maps/valid/america.map
+gameplayer -add Steve
+gameplayer -add Marc
+assigncountries
+
+
+===================================================================================================
+next
+loadmap F:\Github\soen6441-project\sample_maps\valid\america.map
+next
+validatemap
+next
+loadmap F:\Github\soen6441-project\sample_maps\valid\america.map
+gameplayer -add Steve
+gameplayer -add Marc
+assigncountries
+showmap
+
+
+next
+deploy Mexico 3
+advance Mexico Canada 1
+next
+
+deploy UnitedStates 3
+advance UnitedStates Canada 3
+next
+

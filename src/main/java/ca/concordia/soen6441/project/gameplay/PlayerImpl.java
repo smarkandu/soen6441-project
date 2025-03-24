@@ -1,11 +1,16 @@
 package ca.concordia.soen6441.project.gameplay;
 
+import ca.concordia.soen6441.project.context.HandOfCardsManager;
+import ca.concordia.soen6441.project.gameplay.orders.Advance;
 import ca.concordia.soen6441.project.gameplay.orders.Deploy;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
+import ca.concordia.soen6441.project.interfaces.context.HandOfCardsContext;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The PlayerImpl class represents a player in the game, implementing the Player interface.
@@ -15,6 +20,7 @@ public class PlayerImpl implements Player {
     private String d_name;
     private ArrayList<String> d_ownedCountries;
     private ArrayList<Order> d_Orders;
+    private HandOfCardsContext d_HandsOfCardsManager;
     int d_Reinforcements;
 
     /**
@@ -29,6 +35,7 @@ public class PlayerImpl implements Player {
         this.d_ownedCountries = p_ownedCountries;
         this.d_Orders = p_Orders;
         this.d_Reinforcements = 0;
+        this.d_HandsOfCardsManager = new HandOfCardsManager(this);
     }
 
     /**
@@ -93,7 +100,6 @@ public class PlayerImpl implements Player {
     @Override
     public int getTotalNumberOfReinforcementsPerTurn() {
         int l_returnValue = 5;
-        // TODO: Get Bonuses if any continents are fully owned
         return l_returnValue;
     }
 
@@ -142,5 +148,25 @@ public class PlayerImpl implements Player {
             }
         }
         return l_returnValue;
+    }
+
+    public int getNumberOfTroopsOrderedToAdvance(Country p_countryFrom)
+    {
+        int l_returnValue = 0;
+        for (int l_i = 0; l_i < d_Orders.size(); l_i++) {
+            if (d_Orders.get(l_i).getClass().getSimpleName().equals("Advance")) {
+                Advance l_advanceOrder = (Advance) d_Orders.get(l_i);
+                if (Objects.equals(l_advanceOrder.getSourceTerritory().getID(), p_countryFrom.getID()))
+                {
+                    l_returnValue += l_advanceOrder.getToAdvance();
+                }
+            }
+        }
+        return l_returnValue;
+    }
+
+    @Override
+    public HandOfCardsContext getHandOfCardsManager() {
+        return d_HandsOfCardsManager;
     }
 }

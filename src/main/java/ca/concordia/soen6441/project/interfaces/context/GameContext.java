@@ -1,5 +1,6 @@
 package ca.concordia.soen6441.project.interfaces.context;
 
+import ca.concordia.soen6441.project.context.DeckOfCards;
 import ca.concordia.soen6441.project.interfaces.phases.State;
 import ca.concordia.soen6441.project.map.InvalidMapFileException;
 import ca.concordia.soen6441.project.phases.Phase;
@@ -19,4 +20,5 @@ public interface GameContext {
     CountryContext getCountryManager();
     NeighborContext getNeighborManager();
     PlayerContext getPlayerManager();
+    DeckOfCards getDeckOfCards();
 }
