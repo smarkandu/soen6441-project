@@ -20,6 +20,7 @@ public class GameEngine implements GameContext, MapComponent {
     private CountryManager d_CountryManager;
     private NeighborManager d_NeighborManager;
     private PlayerManager d_PlayerManager;
+    private DeckOfCards d_DeckOfCards;
 
     /**
      * Constructs a new GameEngine instance and initializes game data structures.
@@ -30,6 +31,7 @@ public class GameEngine implements GameContext, MapComponent {
         d_NeighborManager = new NeighborManager(this);
         d_PlayerManager = new PlayerManager();
         d_validateMapImpl = new ValidateMapImpl(d_CountryManager.getCountries(), d_ContinentManager.getContinents());
+        d_DeckOfCards = new DeckOfCards();
     }
 
     public State getPhase() {
@@ -74,20 +76,19 @@ public class GameEngine implements GameContext, MapComponent {
             for (Country l_country : l_countries) {
                 // Start constructing the country info string
                 StringBuilder l_countryInfo = new StringBuilder("  - " + l_country.getID());
-                List<String> l_neighbors = l_country.getNeighborIDs();
 
                 // If detailed view is enabled, append owner, army count, and neighboring countries
                 if (p_isDetailed) {
                     Player l_owner = l_country.getOwner(); // Get the country owner
                     int l_armyCount = l_country.getTroops(); // Get the number of troops in the country
+                    List<String> l_neighbors = l_country.getNeighborIDs(); // Get list of neighboring country IDs
 
                     // Append detailed information about the country
                     l_countryInfo.append(" | Owner: ").append(l_owner != null ? l_owner.getName() : "Neutral") // Owner's name or "Neutral"
-                            .append(" | Armies: ").append(l_armyCount); // Number of armies stationed        
+                            .append(" | Armies: ").append(l_armyCount) // Number of armies stationed
+                            .append(" | Neighbors: ").append(String.join(", ", l_neighbors)); // List of neighboring countries
                 }
 
-                     l_countryInfo.append(" | Neighbors: ")
-                         .append(String.join(", ", l_neighbors));
                 // Print the formatted country information
                 System.out.println(l_countryInfo);
             }
@@ -193,9 +194,6 @@ public class GameEngine implements GameContext, MapComponent {
     }
 
     public boolean isMapValid() {
-        // TODO #5
-        // remove hardcoded "true" value and check the conditions for validity
-        // For any issues, use a print to specify what you found wrong
         return d_validateMapImpl.isMapValid();
     }
 
@@ -226,5 +224,9 @@ public class GameEngine implements GameContext, MapComponent {
      */
     public boolean isMapEmpty() {
         return d_ContinentManager.getContinents().isEmpty() && d_CountryManager.getCountries().isEmpty();
+    }
+
+    public DeckOfCards getDeckOfCards() {
+        return d_DeckOfCards;
     }
 }

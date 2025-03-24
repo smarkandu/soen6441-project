@@ -41,6 +41,12 @@ public abstract class Phase implements State {
 
     // Gameplay behaviour
     abstract public void deploy(String p_countryID, int p_toDeploy);
+    abstract public void advance(String p_countryNameFrom, String p_countryNameTo, int p_toAdvance);
+    abstract public void bomb(String p_countryID);
+    abstract public void blockade(String p_countryID);
+    abstract public void airlift(String p_sourceCountryID, String p_targetCountryID, int p_numArmies);
+    abstract public void negotiate(String p_playerID);
+
     abstract public void endGame();
 
     // go to next phase

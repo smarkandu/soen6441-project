@@ -11,9 +11,9 @@ editcountry -add Canada NorthAmerica
 editcountry -add UnitedStates NorthAmerica
 editneighbor -add Canada UnitedStates
 validatemap
-savemap northamerica.map
+savemap ./sample_maps/valid/northamerica.map
 next
-loadmap northamerica.map
+loadmap ./sample_maps/valid/northamerica.map
 gameplayer -add Steve
 gameplayer -add Marc
 assigncountries
