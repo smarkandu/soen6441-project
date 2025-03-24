@@ -8,6 +8,7 @@ import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 import ca.concordia.soen6441.project.log.LogWriter;
+import ca.concordia.soen6441.project.gameplay.orders.Diplomacy;
 
 /**
  * The IssueOrder class represents the phase where players issue their orders.
@@ -131,15 +132,60 @@ public class IssueOrder extends MainPlay {
 
         }
     }
-
+    /**
+     * Issues a diplomacy order to negotiate with another player.
+     * The current player must have a diplomacy card in hand to perform this action.
+     * If successful, a Diplomacy order is added to the player's order queue.
+     *
+     * @param p_playerID The ID of the player with whom diplomacy is requested.
+     */
     @Override
     public void negotiate(String p_playerID) {
-        // TODO #70
-        if (getCurrentPlayer().getHandOfCardsManager().hasDiplomacyCard())
-        {
 
-        }
+    Player l_currentPlayer = getCurrentPlayer();
+    Player l_targetPlayer = d_gameEngine.getPlayerManager()
+        .getPlayers()
+        .values()
+        .stream()
+        .filter(p -> p.getName().equals(p_playerID))
+        .findFirst()
+        .orElse(null);
+
+    // Step 1: Validate that player has diplomacy card, target exists, and not self
+    if (l_currentPlayer.getHandOfCardsManager().hasDiplomacyCard()
+            && l_targetPlayer != null
+            && !l_currentPlayer.equals(l_targetPlayer)) {
+
+        LogEntryBuffer.getInstance().appendToBuffer(
+            l_currentPlayer.getName() + " issued a diplomacy order to negotiate with " + p_playerID,
+            true
+        );
+
+        // Step 2: Add the Diplomacy order to the player’s order list
+        l_currentPlayer.issue_order(new Diplomacy());
     }
+    // Error: No diplomacy card
+    else if (!l_currentPlayer.getHandOfCardsManager().hasDiplomacyCard()) {
+        LogEntryBuffer.getInstance().appendToBuffer(
+            "ERROR: " + l_currentPlayer.getName() + " does not have a diplomacy card!",
+            true
+        );
+    }
+    // Error: Target player doesn't exist
+    else if (l_targetPlayer == null) {
+        LogEntryBuffer.getInstance().appendToBuffer(
+            "ERROR: Player " + p_playerID + " does not exist!",
+            true
+        );
+    }
+    // Error: Trying to negotiate with self
+    else {
+        LogEntryBuffer.getInstance().appendToBuffer(
+            "ERROR: You cannot negotiate with yourself!",
+            true
+        );
+    }
+}
 
     /**
      * Moves to the next phase in the game.
