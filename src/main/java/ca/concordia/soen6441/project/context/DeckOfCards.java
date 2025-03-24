@@ -17,22 +17,22 @@ public class DeckOfCards {
 
     public Card getCardFromDeck()
     {
-        int randomNumber = d_rand.nextInt(4);  // get a value from 0 to 3
+        int l_randomNumber = d_rand.nextInt(4);  // get a value from 0 to 3
 
-        Card returnValue = null;
-        switch (randomNumber)
+        Card l_returnValue = null;
+        switch (l_randomNumber)
         {
             case 0:
-                returnValue = new AirliftCard();
+                l_returnValue = new AirliftCard();
                 break;
             case 1:
-                returnValue = new BlockadeCard();
+                l_returnValue = new BlockadeCard();
                 break;
             case 2:
-                returnValue = new BombCard();
+                l_returnValue = new BombCard();
                 break;
             case 3:
-                returnValue = new DiplomacyCard();
+                l_returnValue = new DiplomacyCard();
                 break;
             default:
                 System.out.println("Not supposed to be here!");
@@ -40,6 +40,6 @@ public class DeckOfCards {
 
         }
 
-        return returnValue;
+        return l_returnValue;
     }
 }

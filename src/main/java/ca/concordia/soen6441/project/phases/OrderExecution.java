@@ -76,7 +76,7 @@ public class OrderExecution extends MainPlay {
      */
     public void execute() {
         int l_currentPlayerIndex = 0;
-        int[] playerWins = new int[d_gameEngine.getPlayerManager().getPlayers().size()];
+        int[] l_playerWins = new int[d_gameEngine.getPlayerManager().getPlayers().size()];
         while (!allPlayersFinishedExecutingOrders()) {
             Player l_player = d_gameEngine.getPlayerManager().getPlayer(l_currentPlayerIndex);
             if (!l_player.getOrders().isEmpty()) {
@@ -88,7 +88,7 @@ public class OrderExecution extends MainPlay {
                     Advance l_advance = (Advance) l_order;
                     if (l_advance.conquersTerritory())
                     {
-                        playerWins[l_currentPlayerIndex]++;
+                        l_playerWins[l_currentPlayerIndex]++;
                     }
                 }
             }
@@ -98,18 +98,18 @@ public class OrderExecution extends MainPlay {
         } // end while
 
         // Add cards to Players that conquered a country
-        for (int i = 0; i < playerWins.length; i++)
+        for (int l_i = 0; l_i < l_playerWins.length; l_i++)
         {
-            if (playerWins[i] > 0)
+            if (l_playerWins[l_i] > 0)
             {
 
-                Card cardDrawn = d_gameEngine.getDeckOfCards().getCardFromDeck();
-                if (cardDrawn != null)
+                Card l_cardDrawn = d_gameEngine.getDeckOfCards().getCardFromDeck();
+                if (l_cardDrawn != null)
                 {
-                    d_gameEngine.getPlayerManager().getPlayer(i).getHandOfCardsManager().addCard(cardDrawn);
-                    String message = d_gameEngine.getPlayerManager().getPlayer(i).getName() + " conquered " + playerWins[i]
-                            + " countries this round! Awarded a " + cardDrawn + " card!";
-                    LogEntryBuffer.getInstance().appendToBuffer(message, true);
+                    d_gameEngine.getPlayerManager().getPlayer(l_i).getHandOfCardsManager().addCard(l_cardDrawn);
+                    String l_message = d_gameEngine.getPlayerManager().getPlayer(l_i).getName() + " conquered " + l_playerWins[l_i]
+                            + " countries this round! Awarded a " + l_cardDrawn + " card!";
+                    LogEntryBuffer.getInstance().appendToBuffer(l_message, true);
                 }
             }
         }
