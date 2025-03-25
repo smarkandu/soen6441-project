@@ -136,35 +136,41 @@ public class IssueOrder extends MainPlay {
 
     /**
      * Processes a "negotiate" command issued by a player.
+     * <p>
+     * Steps:
+     * 1. Resets all players' diplomacy lists if populated.
+     * 2. Validates that the target player exists and the initiating player has a diplomacy card.
+     * 3. If valid, issues a Diplomacy order and logs the result.
      *
      * @param p_playerID The ID of the player to negotiate with.
      */
     @Override
     public void negotiate(String p_playerID) {
-        // Reset diplomacy for all players at the beginning of the phase (if applicable)
+        // Step 1: Reset diplomacy for all players at the beginning of the phase (if applicable)
         for (Player l_player : d_gameEngine.getPlayerManager().getPlayers().values()) {
-        if (!((PlayerImpl) l_player).getNegotiatedPlayers().isEmpty()) {
-            ((PlayerImpl) l_player).resetNegotiatedPlayers();
-            LogEntryBuffer.getInstance().appendToBuffer("Diplomacy list reset for player: " + l_player.getName(), true);
+            if (!((PlayerImpl) l_player).getNegotiatedPlayers().isEmpty()) {
+                ((PlayerImpl) l_player).resetNegotiatedPlayers();
+                LogEntryBuffer.getInstance().appendToBuffer("Diplomacy list reset for player: " + l_player.getName(), true);
+            }
         }
-    }
-    Player l_currentPlayer = d_gameEngine.getPlayerManager().getPlayer(d_currentPlayIndex);
-    Player l_targetPlayer = d_gameEngine.getPlayerManager().getPlayers().get(p_playerID);
+        // Step 2: Validate the target player
+        Player l_currentPlayer = d_gameEngine.getPlayerManager().getPlayer(d_currentPlayIndex);
+        Player l_targetPlayer = d_gameEngine.getPlayerManager().getPlayers().get(p_playerID);
 
-    if (l_targetPlayer == null) {
-        LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player with ID '" + p_playerID + "' does not exist.", true);
-        return;
-    }
+        if (l_targetPlayer == null) {
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player with ID '" + p_playerID + "' does not exist.", true);
+            return;
+        }
 
-    if (!l_currentPlayer.getHandOfCardsManager().hasDiplomacyCard()) {
-        LogEntryBuffer.getInstance().appendToBuffer("ERROR: You don't have a diplomacy card!", true);
-        return;
-    }
+        if (!l_currentPlayer.getHandOfCardsManager().hasDiplomacyCard()) {
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: You don't have a diplomacy card!", true);
+            return;
+        }
 
-    
-    l_currentPlayer.issue_order(new Diplomacy(l_currentPlayer, l_targetPlayer));
-    LogEntryBuffer.getInstance().appendToBuffer("Diplomacy order issued to negotiate with " + l_targetPlayer.getName(), false);
-}
+        // Step 3: Issue Diplomacy order
+        l_currentPlayer.issue_order(new Diplomacy(l_currentPlayer, l_targetPlayer));
+        LogEntryBuffer.getInstance().appendToBuffer("Diplomacy order issued to negotiate with " + l_targetPlayer.getName(), false);
+    }
 
 
     /**

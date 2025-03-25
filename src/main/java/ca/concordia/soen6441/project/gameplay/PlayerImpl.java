@@ -173,24 +173,40 @@ public class PlayerImpl implements Player {
         return d_HandsOfCardsManager;
     }
 
-    // Diplomacy-related methods
+/**
+ * Adds a player to the list of players this player has negotiated with.
+ *
+ * @param p_player The player to add to the negotiated list.
+ */
     @Override
     public void addNegotiatedPlayer(Player p_player) {
         if (!d_negotiatedPlayers.contains(p_player)) {
             d_negotiatedPlayers.add(p_player);
         }
     }
-
+/**
+ * Checks if this player has a diplomacy pact with the given player.
+ *
+ * @param p_player The player to check against.
+ * @return true if a diplomacy pact exists, false otherwise.
+ */
     @Override
     public boolean hasNegotiatedWith(Player p_player) {
         return d_negotiatedPlayers.contains(p_player);
     }
-
+/**
+ * Clears all existing diplomacy pacts for this player.
+ * Typically called at the beginning of a new round.
+ */
     @Override
     public void resetNegotiatedPlayers() {
         d_negotiatedPlayers.clear();
     }
-
+/**
+ * Returns the current list of negotiated players.
+ *
+ * @return A list of players this player cannot attack this turn.
+ */
     @Override
 public List<Player> getNegotiatedPlayers() {
     return d_negotiatedPlayers;

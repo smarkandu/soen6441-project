@@ -94,6 +94,16 @@ public class HandOfCardsManager implements HandOfCardsContext {
         return !d_diplomacyCards.isEmpty();
     }
 
+    /**
+     * Removes one Diplomacy card from the player's hand after it's used.
+     */
+    @Override
+    public void useDiplomacyCard() {
+        if (!d_diplomacyCards.isEmpty()) {
+            d_diplomacyCards.remove(0);
+        }
+    }
+
     @Override
     public String toString() {
         String l_airLiftCardsStr = "AirLift: " + d_airLiftCards.size();
