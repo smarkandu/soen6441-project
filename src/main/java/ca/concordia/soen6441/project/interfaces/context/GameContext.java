@@ -34,7 +34,7 @@ public interface GameContext {
     /**
      * Checks the validity fo the map based on conditions like connectivity, accessibility, etc.
      *
-     * @returs true if the map is valid, false otherwise.
+     * @return true if the map is valid, false otherwise.
      */
     boolean isMapValid();
 
