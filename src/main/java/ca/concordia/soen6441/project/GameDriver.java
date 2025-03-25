@@ -92,6 +92,12 @@ public class GameDriver {
                         d_gameEngine.getPhase().advance(l_countryNameFrom, l_countryNameTo, l_toAdvance);
                         break;
                     }
+                    case "bomb": {
+                        String l_countryID = l_args[1].replace("\"", "");
+                        System.out.println("Bomb " + l_countryID);
+                        d_gameEngine.getPhase().bomb(l_countryID);
+                        break;
+                    }
                     case "gameplayer":
                         String l_playername = l_args[2];
                         if ("-add".equals(l_operation) && l_args.length == 3) {
