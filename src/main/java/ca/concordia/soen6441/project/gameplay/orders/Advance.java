@@ -65,11 +65,11 @@ public class Advance implements Order {
         int l_actualTroopsAdvance = getActualTroopsAdvance(d_toAdvance);
         this.d_sourceTerritory.setTroops(this.d_sourceTerritory.getTroops() - l_actualTroopsAdvance);
 
-        String errorMsg = null;
-        if ((errorMsg = validate()) != null)
+        String l_errorMsg = null;
+        if ((l_errorMsg = validate()) != null)
         {
             // Error found, write to screen and add to log
-            LogEntryBuffer.getInstance().appendToBuffer(errorMsg, true);
+            LogEntryBuffer.getInstance().appendToBuffer(l_errorMsg, true);
         }
         else
         {

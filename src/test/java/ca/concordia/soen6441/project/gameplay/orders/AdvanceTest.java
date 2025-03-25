@@ -33,10 +33,10 @@ class AdvanceTest {
         when(d_sourceTerritory.getOwner()).thenReturn(d_initiator);
         String l_temp = d_targetTerritory.getID();
         Mockito.when(d_sourceTerritory.getNeighborIDs()).thenReturn(Arrays.asList(l_temp));
-        int l_number_of_troops_order = 5;
-        Mockito.when(d_sourceTerritory.getTroops()).thenReturn(l_number_of_troops_order);
+        int l_numberOfTroops = 5;
+        Mockito.when(d_sourceTerritory.getTroops()).thenReturn(l_numberOfTroops);
 
-        Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, l_number_of_troops_order, d_initiator);
+        Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, l_numberOfTroops, d_initiator);
         assertEquals(null, l_advanceOrder.validate(), "Valid advance order should pass validation.");
     }
 
@@ -64,10 +64,10 @@ class AdvanceTest {
         when(d_sourceTerritory.getOwner()).thenReturn(d_initiator);
         String l_temp = d_targetTerritory.getID();
         Mockito.when(d_sourceTerritory.getNeighborIDs()).thenReturn(Arrays.asList(l_temp));
-        int l_number_of_troops_order = 5;
-        Mockito.when(d_sourceTerritory.getTroops()).thenReturn(l_number_of_troops_order -1);
+        int l_numberOfTroops = 5;
+        Mockito.when(d_sourceTerritory.getTroops()).thenReturn(l_numberOfTroops -1);
 
-        Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, l_number_of_troops_order,
+        Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, l_numberOfTroops,
                 d_initiator);
         assertEquals("Error: No longer enough troops in the source territory.", l_advanceOrder.validate(),
                 "Validation should fail due to not enough troops.");
