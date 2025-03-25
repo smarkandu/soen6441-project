@@ -16,4 +16,8 @@ public interface Player {
     int getNumberOfTroopsOrderedToDeploy();
     int getNumberOfTroopsOrderedToAdvance(Country p_countryFrom);
     HandOfCardsContext getHandOfCardsManager();
+    void addNegotiatedPlayer(Player p_player);
+    boolean hasNegotiatedWith(Player p_player);
+    void resetNegotiatedPlayers();
+
 }

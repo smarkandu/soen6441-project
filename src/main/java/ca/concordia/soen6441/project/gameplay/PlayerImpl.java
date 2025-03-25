@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+
 /**
  * The PlayerImpl class represents a player in the game, implementing the Player interface.
  * It manages player properties, owned countries, orders, and reinforcements.
@@ -22,6 +23,8 @@ public class PlayerImpl implements Player {
     private ArrayList<Order> d_Orders;
     private HandOfCardsContext d_HandsOfCardsManager;
     int d_Reinforcements;
+    private List<Player> d_negotiatedPlayers = new ArrayList<>();
+
 
     /**
      * Constructs a PlayerImpl instance.
@@ -168,5 +171,23 @@ public class PlayerImpl implements Player {
     @Override
     public HandOfCardsContext getHandOfCardsManager() {
         return d_HandsOfCardsManager;
+    }
+
+    // Diplomacy-related methods
+    @Override
+    public void addNegotiatedPlayer(Player p_player) {
+        if (!d_negotiatedPlayers.contains(p_player)) {
+            d_negotiatedPlayers.add(p_player);
+        }
+    }
+
+    @Override
+    public boolean hasNegotiatedWith(Player p_player) {
+        return d_negotiatedPlayers.contains(p_player);
+    }
+
+    @Override
+    public void resetNegotiatedPlayers() {
+        d_negotiatedPlayers.clear();
     }
 }
