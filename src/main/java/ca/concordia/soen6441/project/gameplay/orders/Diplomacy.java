@@ -38,15 +38,12 @@ public class Diplomacy implements Order {
 
     /**
      * Executes the Diplomacy order.
-     * <p>
+     * 
      * Steps:
-     *     <ul>
-     *         <li>Validates the order using {@code validate()} method.</li>
-     *         <li>If valid, adds each player to the other's list of negotiated players.</li>
-     *         <li>Consumes the diplomacy card using {@code useDiplomacyCard()}.</li>
-     *         <li>Logs the event to the log buffer.</li>
-     *     </ul>
-     * </p>
+     *         Validates the order using {@code validate()} method.
+     *         If valid, adds each player to the other's list of negotiated players.
+     *         Consumes the diplomacy card using {@code useDiplomacyCard()}.
+     *         Logs the event to the log buffer.
      */
     @Override
     public void execute() {
