@@ -225,8 +225,8 @@ public class IssueOrder extends MainPlay {
      * @return boolean true if one of the neighbor's countries to be bombed belongs to the player
      */
     private boolean isTerritoryAdjacent(String p_player, Country p_countryToBomb) {
-        for(String country : p_countryToBomb.getNeighborIDs()) {
-            Country l_country = d_gameEngine.getCountryManager().getCountries().get(country);
+        for(String l_neighbourCountry : p_countryToBomb.getNeighborIDs()) {
+            Country l_country = d_gameEngine.getCountryManager().getCountries().get(l_neighbourCountry);
             if(l_country.getOwner().getName().equals(p_player)){
                 return true;
             }
