@@ -19,5 +19,5 @@ public interface Player {
     void addNegotiatedPlayer(Player p_player);
     boolean hasNegotiatedWith(Player p_player);
     void resetNegotiatedPlayers();
-
+    List<Player> getNegotiatedPlayers();  // needed for reset check
 }

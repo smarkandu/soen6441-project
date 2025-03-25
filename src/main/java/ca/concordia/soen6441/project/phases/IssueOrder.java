@@ -141,6 +141,13 @@ public class IssueOrder extends MainPlay {
      */
     @Override
     public void negotiate(String p_playerID) {
+        // Reset diplomacy for all players at the beginning of the phase (if applicable)
+        for (Player l_player : d_gameEngine.getPlayerManager().getPlayers().values()) {
+        if (!((PlayerImpl) l_player).getNegotiatedPlayers().isEmpty()) {
+            ((PlayerImpl) l_player).resetNegotiatedPlayers();
+            LogEntryBuffer.getInstance().appendToBuffer("Diplomacy list reset for player: " + l_player.getName(), true);
+        }
+    }
     Player l_currentPlayer = d_gameEngine.getPlayerManager().getPlayer(d_currentPlayIndex);
     Player l_targetPlayer = d_gameEngine.getPlayerManager().getPlayers().get(p_playerID);
 

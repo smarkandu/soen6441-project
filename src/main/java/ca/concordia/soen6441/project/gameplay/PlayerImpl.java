@@ -190,4 +190,9 @@ public class PlayerImpl implements Player {
     public void resetNegotiatedPlayers() {
         d_negotiatedPlayers.clear();
     }
+
+    @Override
+public List<Player> getNegotiatedPlayers() {
+    return d_negotiatedPlayers;
+}
 }
