@@ -8,7 +8,7 @@ import ca.concordia.soen6441.project.log.LogEntryBuffer;
 import java.util.Random;
 
 public class Advance implements Order {
-    protected Country sourceCountry;
+    protected Country d_sourceCountry;
 
     private class BattleResult
     {
