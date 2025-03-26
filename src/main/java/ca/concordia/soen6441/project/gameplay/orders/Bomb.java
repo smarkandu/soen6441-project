@@ -25,4 +25,9 @@ public class Bomb implements Order {
         // does not change the ownership of the territory
         d_targetTerritory.setTroops((int)(Math.floor(d_targetTerritory.getTroops()/2.0)));
     }
+
+    @Override
+    public String toString() {
+        return "{Bomb " + d_targetTerritory.getID() + "}";
+    }
 }
