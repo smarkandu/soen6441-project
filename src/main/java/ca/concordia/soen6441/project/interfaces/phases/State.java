@@ -139,5 +139,5 @@ public interface State {
      */
     void printInvalidCommandMessage();
 
-    void airlift(String lSourceCountryID, String lTargetCountryID, int lNumArmies);
+    void airlift(String p_lSourceCountryID, String p_lTargetCountryID, int p_lNumArmies);
 }
