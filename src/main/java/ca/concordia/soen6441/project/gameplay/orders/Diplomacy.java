@@ -12,7 +12,8 @@ package ca.concordia.soen6441.project.gameplay.orders;
 import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 import ca.concordia.soen6441.project.interfaces.Player;
-import ca.concordia.soen6441.project.context.HandOfCardsManager;
+import ca.concordia.soen6441.project.gameplay.cards.DiplomacyCard;
+
 
 public class Diplomacy implements Order {
 
@@ -56,7 +57,7 @@ public class Diplomacy implements Order {
         d_initiator.addNegotiatedPlayer(d_target);
         d_target.addNegotiatedPlayer(d_initiator);
 
-        ((HandOfCardsManager) d_initiator.getHandOfCardsManager()).useDiplomacyCard();
+        d_initiator.getHandOfCardsManager().removeCard(new DiplomacyCard());
 
         LogEntryBuffer.getInstance().appendToBuffer(
                 d_initiator.getName() + " has negotiated a non-aggression pact with " + d_target.getName() + ".",

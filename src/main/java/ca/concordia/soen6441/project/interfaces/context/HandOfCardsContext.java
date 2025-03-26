@@ -9,5 +9,4 @@ public interface HandOfCardsContext {
     boolean hasBlockadeCard();
     boolean hasAirliftCard();
     boolean hasDiplomacyCard();
-    void useDiplomacyCard();
 }
