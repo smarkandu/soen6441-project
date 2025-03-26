@@ -130,6 +130,7 @@ public class IssueOrder extends MainPlay {
         else
         {
             getCurrentPlayer().issue_order(new Blockade(l_country, getCurrentPlayer(), d_gameEngine));
+            getCurrentPlayer().getHandOfCardsManager().getBlockadeCardManager().removeCard();
             LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to blockade " +
                     p_countryID +  " granted", false);
         }
