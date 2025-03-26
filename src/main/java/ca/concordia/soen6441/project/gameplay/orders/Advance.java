@@ -8,8 +8,6 @@ import ca.concordia.soen6441.project.log.LogEntryBuffer;
 import java.util.Random;
 
 public class Advance implements Order {
-    protected Country sourceCountry;
-
     private class BattleResult
     {
         private final int d_playersTroops;
@@ -55,7 +53,7 @@ public class Advance implements Order {
         if (l_actualTroopsAdvance == 0)
         {
             LogEntryBuffer.getInstance().appendToBuffer("No troops exist anymore in " + d_sourceTerritory.getID() + " for " + d_initiator.getName()
-            + " to advance.  Command cancelled.", true);
+                    + " to advance.  Command cancelled.", true);
             return;
         }
 

@@ -9,7 +9,9 @@ import ca.concordia.soen6441.project.interfaces.Player;
  */
 public class Airlift extends Advance {
     private final Player d_player;
-    private final int d_numArmies; // Store numArmies locally
+    private final int d_numArmies;
+    private final Country d_sourceCountry;
+    private final Country d_targetCountry;
 
     /**
      * Constructor for Airlift order.
@@ -22,6 +24,8 @@ public class Airlift extends Advance {
         super(p_sourceCountry, p_targetCountry, p_numArmies, p_player);
         this.d_player = p_player;
         this.d_numArmies = p_numArmies; // Store the value
+        this.d_sourceCountry = p_sourceCountry; // Explicitly store source country
+        this.d_targetCountry = p_targetCountry; // Explicitly store target country
     }
 
     /**
@@ -29,13 +33,12 @@ public class Airlift extends Advance {
      * @return true if valid, false otherwise.
      */
     public boolean validate() {
-        if (!d_player.equals(super.sourceCountry.getOwner())) {
+        if (!d_player.equals(d_sourceCountry.getOwner())) { // Use local variable
             System.out.println("ERROR: Player does not own the source country!");
             return false;
         }
 
-
-        if (getNumArmies() > super.sourceCountry.getTroops()) { // Using local getter method
+        if (getNumArmies() > d_sourceCountry.getTroops()) { // Use local variable
             System.out.println("ERROR: Not enough troops to airlift.");
             return false;
         }
