@@ -74,6 +74,7 @@ public class Advance implements Order {
             }
             else
             {
+                d_targetTerritory.setOwner(d_initiator);
                 LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName() + " conquers unowned " + d_targetTerritory.getID(), true); // Now unowned
                 d_conquersTerritory = true;
             }

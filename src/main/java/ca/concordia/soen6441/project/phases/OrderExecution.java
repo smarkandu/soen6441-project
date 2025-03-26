@@ -3,10 +3,13 @@ package ca.concordia.soen6441.project.phases;
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.gameplay.orders.Advance;
 import ca.concordia.soen6441.project.interfaces.Card;
+import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
+
+import java.util.ArrayList;
 
 /**
  * The OrderExecution class represents the phase where issued orders are executed.
@@ -94,7 +97,6 @@ public class OrderExecution extends MainPlay {
             }
 
             l_currentPlayerIndex = (l_currentPlayerIndex + 1) % d_gameEngine.getPlayerManager().getPlayers().size();
-            showMap();
         } // end while
 
         // Add cards to Players that conquered a country
@@ -114,8 +116,19 @@ public class OrderExecution extends MainPlay {
             }
         }
 
-        AssignReinforcements l_assignReinforcements = new AssignReinforcements(d_gameEngine);
-        l_assignReinforcements.execute();
+        validatePlayers();
+        String playerWhoWon = null;
+        if ((playerWhoWon = gameWonBy()) != null)
+        {
+            System.out.println("Game won by " + playerWhoWon + ": congratulations!");
+            End l_end = new End(d_gameEngine);
+            l_end.endGame();
+        }
+        else
+        {
+            AssignReinforcements l_assignReinforcements = new AssignReinforcements(d_gameEngine);
+            l_assignReinforcements.execute();
+        }
     }
 
     /**
@@ -141,5 +154,32 @@ public class OrderExecution extends MainPlay {
     @Override
     public void next() {
         printInvalidCommandMessage();
+    }
+
+    public String gameWonBy() {
+        ArrayList<Country> listOfCountries = new ArrayList<>(d_gameEngine.getCountryManager().getCountries().values());
+        Player l_player = listOfCountries.get(0).getOwner();
+
+        for (Country l_country : listOfCountries) {
+            if (l_country.getOwner() == null || l_country.getOwner() != l_player) {
+                return null;
+            }
+        }
+
+        return l_player.getName();
+    }
+
+    public void validatePlayers()
+    {
+        ArrayList<Player> l_players = new ArrayList<>(d_gameEngine.getPlayerManager().getPlayers().values());
+        for (int l_i = 0; l_i < l_players.size() ; l_i++)
+        {
+            if (l_players.get(l_i) == null || l_players.get(l_i).getOwnedCountries().isEmpty())
+            {
+                LogEntryBuffer.getInstance().appendToBuffer("Player " + l_players.get(l_i).getName() +
+                        " no longer owns any countries and is no longer part of the game!", true);
+                d_gameEngine.getPlayerManager().removePlayer(l_players.get(l_i).getName());
+            }
+        }
     }
 }
