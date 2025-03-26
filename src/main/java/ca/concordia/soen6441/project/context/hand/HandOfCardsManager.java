@@ -68,4 +68,13 @@ public class HandOfCardsManager implements HandOfCardsContext {
     public CardManager<DiplomacyCard> getDiplomacyCardManager() {
         return d_diplomacyCardManager;
     }
+
+    @Override
+    public String toString() {
+        String l_airLiftCardsStr = "AirLift: " + d_airLiftCardManager.size();
+        String l_blockadeCardsStr= "Blockade: " + d_blockadeCardManager.size();
+        String l_bombCardsStr = "Bomb: " + d_bombCardManager.size();
+        String l_diplomacyCardsStr = "Diplomacy: " + d_diplomacyCardManager.size();
+        return String.format("[%s; %s; %s; %s]", l_airLiftCardsStr, l_blockadeCardsStr, l_bombCardsStr, l_diplomacyCardsStr);
+    }
 }

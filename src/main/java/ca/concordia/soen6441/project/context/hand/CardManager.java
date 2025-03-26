@@ -32,4 +32,9 @@ public class CardManager<T> {
 
         return null;
     }
+
+    public int size()
+    {
+        return d_cards.size();
+    }
 }
