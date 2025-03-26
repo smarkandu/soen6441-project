@@ -51,11 +51,19 @@ public interface Player {
     int getTotalNumberOfReinforcementsPerTurn();
 
     /**
-     * Assigns a country to the player.
+     * Adds owned country to the player.
      *
-     * @param p_country The country to be assigned.
+     * @param p_country The country to be added
      */
-    void assignCountry(Country p_country);
+    void addOwnedCountry(Country p_country);
+
+
+    /**
+     * Removes owner country to the player.
+     *
+     * @param p_country The country to be removed
+     */
+    void removeOwnedCountry(Country p_country);
 
     /**
      * Gets the current number of reinforcements available to the player.

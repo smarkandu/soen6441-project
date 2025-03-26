@@ -101,7 +101,7 @@ public class IssueOrder extends MainPlay {
         }
         else
         {
-            getCurrentPlayer().issue_order(new Advance(l_countryFrom, l_countryTo, p_toAdvance, getCurrentPlayer()));
+            getCurrentPlayer().issue_order(new Advance(l_countryFrom, l_countryTo, p_toAdvance, getCurrentPlayer(), d_gameEngine));
             LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to advance "
                     + p_toAdvance + " from " + p_countryNameFrom + " to " + p_countryNameTo +  " granted", false);
         }
@@ -110,7 +110,7 @@ public class IssueOrder extends MainPlay {
     @Override
     public void bomb(String p_countryID) {
         // TODO #67
-        if (getCurrentPlayer().getHandOfCardsManager().hasBombCard())
+        if (getCurrentPlayer().getHandOfCardsManager().getBombCardManager().hasCard())
         {
 
         }
@@ -119,7 +119,7 @@ public class IssueOrder extends MainPlay {
     @Override
     public void blockade(String p_countryID) {
         // TODO #68
-        if (getCurrentPlayer().getHandOfCardsManager().hasBlockadeCard())
+        if (getCurrentPlayer().getHandOfCardsManager().getBlockadeCardManager().hasCard())
         {
 
         }
@@ -128,7 +128,7 @@ public class IssueOrder extends MainPlay {
     @Override
     public void airlift(String p_sourceCountryID, String p_targetCountryID, int p_numArmies) {
         // TODO #69
-        if (getCurrentPlayer().getHandOfCardsManager().hasAirliftCard())
+        if (getCurrentPlayer().getHandOfCardsManager().getAirLiftCardManager().hasCard())
         {
 
         }
@@ -146,12 +146,10 @@ public class IssueOrder extends MainPlay {
      */
     @Override
     public void negotiate(String p_playerID) {
-        // Step 1: Reset diplomacy for all players at the beginning of the phase (if applicable)
-        for (Player l_player : d_gameEngine.getPlayerManager().getPlayers().values()) {
-            if (!((PlayerImpl) l_player).getNegotiatedPlayers().isEmpty()) {
-                ((PlayerImpl) l_player).resetNegotiatedPlayers();
-                LogEntryBuffer.getInstance().appendToBuffer("Diplomacy list reset for player: " + l_player.getName(), true);
-            }
+        // TODO #70
+        if (getCurrentPlayer().getHandOfCardsManager().getDiplomacyCardManager().hasCard())
+        {
+
         }
         
         // Step 2: Fetch current player
