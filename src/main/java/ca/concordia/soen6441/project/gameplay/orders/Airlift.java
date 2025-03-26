@@ -42,8 +42,8 @@ public class Airlift extends Advance {
      */
     @Override
     public String validate() {
-        HandOfCardsContext cardManager = d_player.getHandOfCardsManager();
-        CardManager<AirliftCard> airliftCardManager = cardManager.getAirLiftCardManager();
+        HandOfCardsContext l_cardManager = d_player.getHandOfCardsManager();
+        CardManager<AirliftCard> l_airliftCardManager = l_cardManager.getAirLiftCardManager();
 
         if (!d_player.equals(d_sourceCountry.getOwner())) {
             return "ERROR: Player does not own the source country!";
@@ -57,7 +57,7 @@ public class Airlift extends Advance {
             return "ERROR: Not enough troops to airlift.";
         }
 
-        if (airliftCardManager == null || !airliftCardManager.hasCard()) {
+        if (l_airliftCardManager == null || !l_airliftCardManager.hasCard()) {
             return "ERROR: Player does not have an Airlift card!";
         }
 
@@ -69,9 +69,9 @@ public class Airlift extends Advance {
      */
     @Override
     public void execute() {
-        String validationError = validate();
-        if (validationError != null) {
-            LogEntryBuffer.getInstance().appendToBuffer(validationError, true);
+        String l_validationError = validate();
+        if (l_validationError != null) {
+            LogEntryBuffer.getInstance().appendToBuffer(l_validationError, true);
             return;
         }
 
