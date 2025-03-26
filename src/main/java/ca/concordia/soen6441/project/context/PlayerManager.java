@@ -11,11 +11,11 @@ import java.util.TreeMap;
 
 public class PlayerManager implements PlayerContext {
     private SortedMap<String, Player> d_players;
-    private Player neutralPlayer;
+    private Player d_neutralPlayer;
 
     public PlayerManager() {
         d_players = new TreeMap<String, Player>();
-        neutralPlayer = new PlayerImpl("Neutral", new ArrayList<>(), new ArrayList<>()); // Will always exist
+        d_neutralPlayer = new PlayerImpl("Neutral", new ArrayList<>(), new ArrayList<>()); // Will always exist
     }
 
     /**
@@ -64,6 +64,6 @@ public class PlayerManager implements PlayerContext {
      */
     @Override
     public Player getNeutralPlayer() {
-        return neutralPlayer;
+        return d_neutralPlayer;
     }
 }

@@ -13,10 +13,10 @@ public class Blockade implements Order {
     private Player d_initiator;
     private GameContext d_gameEngine;
 
-    public Blockade(Country d_territory, Player d_initiator, GameContext d_gameEngine) {
-        this.d_territory = d_territory;
-        this.d_initiator = d_initiator;
-        this.d_gameEngine = d_gameEngine;
+    public Blockade(Country p_territory, Player p_initiator, GameContext p_gameEngine) {
+        this.d_territory = p_territory;
+        this.d_initiator = p_initiator;
+        this.d_gameEngine = p_gameEngine;
     }
 
     @Override
@@ -32,11 +32,11 @@ public class Blockade implements Order {
             d_gameEngine.assignCountryToPlayer(d_territory, d_gameEngine.getPlayerManager().getNeutralPlayer());
 
             // Change number of troops to new amount, per specs
-            int oldTroopNumber = d_territory.getTroops();
-            d_territory.setTroops(oldTroopNumber * 3);
+            int l_oldTroopNumber = d_territory.getTroops();
+            d_territory.setTroops(l_oldTroopNumber * 3);
 
             LogEntryBuffer.getInstance().appendToBuffer("Blockade created in " + d_territory.getID() + " by " + d_initiator.getName()
-                    + ".  Country becomes neutral and troops have increased from " + oldTroopNumber + " to " + d_territory.getTroops(), true);
+                    + ".  Country becomes neutral and troops have increased from " + l_oldTroopNumber + " to " + d_territory.getTroops(), true);
         }
     }
 
