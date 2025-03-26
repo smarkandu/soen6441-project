@@ -1,7 +1,7 @@
 package ca.concordia.soen6441.project.phases;
 
-import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.gameplay.orders.Advance;
+import ca.concordia.soen6441.project.gameplay.orders.Airlift;
 import ca.concordia.soen6441.project.gameplay.orders.Deploy;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
@@ -125,12 +125,31 @@ public class IssueOrder extends MainPlay {
 
     @Override
     public void airlift(String p_sourceCountryID, String p_targetCountryID, int p_numArmies) {
-        // TODO #69
-        if (getCurrentPlayer().getHandOfCardsManager().hasAirliftCard())
-        {
+        Player l_currentPlayer = getCurrentPlayer();
 
+        if (!l_currentPlayer.getHandOfCardsManager().hasAirliftCard()) {
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player does not have an Airlift card!", true);
+            return;
         }
+
+        Country l_sourceCountry = d_gameEngine.getCountryManager().getCountries().get(p_sourceCountryID);
+        Country l_targetCountry = d_gameEngine.getCountryManager().getCountries().get(p_targetCountryID);
+
+        if (!l_currentPlayer.equals(l_sourceCountry.getOwner())) {
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player does not own source country!", true);
+            return;
+        }
+
+        if (p_numArmies > l_sourceCountry.getTroops()) {
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Not enough troops to airlift!", true);
+            return;
+        }
+
+        l_currentPlayer.issue_order(new Airlift(l_sourceCountry, l_targetCountry, p_numArmies, l_currentPlayer));
+        LogEntryBuffer.getInstance().appendToBuffer("Airlift order issued by " + l_currentPlayer.getName()
+                + " moving " + p_numArmies + " troops from " + p_sourceCountryID + " to " + p_targetCountryID, false);
     }
+
 
     @Override
     public void negotiate(String p_playerID) {
