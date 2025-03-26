@@ -108,7 +108,7 @@ public class IssueOrder extends MainPlay {
     @Override
     public void bomb(String p_countryID) {
         // TODO #67
-        if (getCurrentPlayer().getHandOfCardsManager().hasBombCard())
+        if (getCurrentPlayer().getHandOfCardsManager().getBombCardManager().hasCard())
         {
 
         }
@@ -117,7 +117,7 @@ public class IssueOrder extends MainPlay {
     @Override
     public void blockade(String p_countryID) {
         // TODO #68
-        if (getCurrentPlayer().getHandOfCardsManager().hasBlockadeCard())
+        if (getCurrentPlayer().getHandOfCardsManager().getBlockadeCardManager().hasCard())
         {
 
         }
@@ -126,7 +126,7 @@ public class IssueOrder extends MainPlay {
     @Override
     public void airlift(String p_sourceCountryID, String p_targetCountryID, int p_numArmies) {
         // TODO #69
-        if (getCurrentPlayer().getHandOfCardsManager().hasAirliftCard())
+        if (getCurrentPlayer().getHandOfCardsManager().getAirLiftCardManager().hasCard())
         {
 
         }
@@ -135,7 +135,7 @@ public class IssueOrder extends MainPlay {
     @Override
     public void negotiate(String p_playerID) {
         // TODO #70
-        if (getCurrentPlayer().getHandOfCardsManager().hasDiplomacyCard())
+        if (getCurrentPlayer().getHandOfCardsManager().getDiplomacyCardManager().hasCard())
         {
 
         }

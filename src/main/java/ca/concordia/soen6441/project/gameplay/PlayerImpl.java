@@ -1,6 +1,6 @@
 package ca.concordia.soen6441.project.gameplay;
 
-import ca.concordia.soen6441.project.context.HandOfCardsManager;
+import ca.concordia.soen6441.project.context.hand.HandOfCardsManager;
 import ca.concordia.soen6441.project.gameplay.orders.Advance;
 import ca.concordia.soen6441.project.gameplay.orders.Deploy;
 import ca.concordia.soen6441.project.interfaces.Country;
