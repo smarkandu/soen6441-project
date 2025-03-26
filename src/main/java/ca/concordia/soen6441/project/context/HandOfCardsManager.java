@@ -99,7 +99,7 @@ public class HandOfCardsManager implements HandOfCardsContext {
         String l_airLiftCardsStr = "AirLift: " + d_airLiftCards.size();
         String l_blockadeCardsStr= "Blockade: " + d_blockadeCards.size();
         String l_bombCardsStr = "Bomb: " + d_bombCards.size();
-        String l_diplomacyCardsStr = "Diplomacy: " + d_airLiftCards.size();
+        String l_diplomacyCardsStr = "Diplomacy: " + d_diplomacyCards.size();
         return String.format("[%s; %s; %s; %s]", l_airLiftCardsStr, l_blockadeCardsStr, l_bombCardsStr, l_diplomacyCardsStr);
     }
 }
