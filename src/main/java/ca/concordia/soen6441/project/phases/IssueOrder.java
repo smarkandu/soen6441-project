@@ -127,6 +127,7 @@ public class IssueOrder extends MainPlay {
     public void airlift(String p_sourceCountryID, String p_targetCountryID, int p_numArmies) {
         Player l_currentPlayer = getCurrentPlayer();
 
+
         if (!l_currentPlayer.getHandOfCardsManager().hasAirliftCard()) {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player does not have an Airlift card!", true);
             return;
@@ -135,17 +136,41 @@ public class IssueOrder extends MainPlay {
         Country l_sourceCountry = d_gameEngine.getCountryManager().getCountries().get(p_sourceCountryID);
         Country l_targetCountry = d_gameEngine.getCountryManager().getCountries().get(p_targetCountryID);
 
+
+        if (l_sourceCountry == null) {
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Invalid source country ID!", true);
+            return;
+        }
+
+
+        if (l_targetCountry == null) {
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Invalid target country ID!", true);
+            return;
+        }
+
+
         if (!l_currentPlayer.equals(l_sourceCountry.getOwner())) {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player does not own source country!", true);
             return;
         }
+
 
         if (p_numArmies > l_sourceCountry.getTroops()) {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: Not enough troops to airlift!", true);
             return;
         }
 
-        l_currentPlayer.issue_order(new Airlift(l_sourceCountry, l_targetCountry, p_numArmies, l_currentPlayer));
+
+        Airlift l_airliftOrder = new Airlift(l_sourceCountry, l_targetCountry, p_numArmies, l_currentPlayer);
+
+        if (!l_airliftOrder.validate()) {
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Airlift validation failed!", true);
+            return;
+        }
+
+
+        l_airliftOrder.execute();
+
         LogEntryBuffer.getInstance().appendToBuffer("Airlift order issued by " + l_currentPlayer.getName()
                 + " moving " + p_numArmies + " troops from " + p_sourceCountryID + " to " + p_targetCountryID, false);
     }
