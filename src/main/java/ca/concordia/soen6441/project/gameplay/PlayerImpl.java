@@ -211,4 +211,14 @@ public class PlayerImpl implements Player {
 public List<Player> getNegotiatedPlayers() {
     return d_negotiatedPlayers;
 }
+
+/**
+ * Removes a specific player from the list of negotiated players.
+ *
+ * @param p_player The player to remove from the diplomacy pact.
+ */
+@Override
+public void removeNegotiatedPlayer(Player p_player) {
+    d_negotiatedPlayers.remove(p_player);
+}
 }
