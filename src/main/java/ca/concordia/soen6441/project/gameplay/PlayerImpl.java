@@ -1,6 +1,7 @@
 package ca.concordia.soen6441.project.gameplay;
 
 import ca.concordia.soen6441.project.context.hand.HandOfCardsManager;
+import ca.concordia.soen6441.project.gameplay.cards.BlockadeCard;
 import ca.concordia.soen6441.project.gameplay.orders.Advance;
 import ca.concordia.soen6441.project.gameplay.orders.Deploy;
 import ca.concordia.soen6441.project.interfaces.Country;
@@ -36,6 +37,7 @@ public class PlayerImpl implements Player {
         this.d_Orders = p_Orders;
         this.d_Reinforcements = 0;
         this.d_HandsOfCardsManager = new HandOfCardsManager(this);
+        d_HandsOfCardsManager.addCard(new BlockadeCard());
     }
 
     /**
