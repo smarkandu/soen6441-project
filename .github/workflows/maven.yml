@@ -53,7 +53,7 @@ jobs:
       run: mvn -B package --file pom.xml
 
     - name: Generate Javadoc
-      run: mvn javadoc:javadoc
+      run: mvn -X javadoc:javadoc
 
     - name: Upload Javadocs as artifact
       uses: actions/upload-artifact@v4
