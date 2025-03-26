@@ -13,7 +13,8 @@ import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.gameplay.cards.DiplomacyCard;
-
+import ca.concordia.soen6441.project.interfaces.Card;
+import ca.concordia.soen6441.project.context.HandOfCardsManager;
 
 public class Diplomacy implements Order {
 
@@ -56,15 +57,14 @@ public class Diplomacy implements Order {
 
         d_initiator.addNegotiatedPlayer(d_target);
         d_target.addNegotiatedPlayer(d_initiator);
-
+ 
+        // Remove the used DiplomacyCard
         d_initiator.getHandOfCardsManager().removeCard(new DiplomacyCard());
 
         LogEntryBuffer.getInstance().appendToBuffer(
                 d_initiator.getName() + " has negotiated a non-aggression pact with " + d_target.getName() + ".",
                 true
         );
-
-
     }
 
     /**
@@ -81,6 +81,9 @@ public class Diplomacy implements Order {
         }
         if (!d_initiator.getHandOfCardsManager().hasDiplomacyCard()) {
             return "Error: " + d_initiator.getName() + " does not have a diplomacy card.";
+        }
+        if (d_initiator.getReinforcements() > 0) {
+        return "Error: You must deploy all reinforcements before using Diplomacy.";
         }
         return null;
     }
