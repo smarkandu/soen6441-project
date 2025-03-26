@@ -30,4 +30,11 @@ public interface State {
     void next();
 
     void printInvalidCommandMessage();
+
+    /**
+    * Issues a Diplomacy order to negotiate with another player.
+    *
+    * @param p_playerID ID of the player to negotiate with.
+    */
+    void negotiate(String p_playerID);
 }
