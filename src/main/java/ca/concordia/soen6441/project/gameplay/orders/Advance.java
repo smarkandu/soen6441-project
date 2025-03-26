@@ -268,9 +268,10 @@ public class Advance implements Order {
 
     /**
      * Used to validate whether there are any issues prior to executing an Order
+     *
      * @return A string if an error occurs, null otherwise.
      */
-    public String validate() {
+    public boolean validate() {
         if (d_sourceTerritory.equals(d_targetTerritory)) {
             return "Error: Source and target territories cannot be the same.";
         }

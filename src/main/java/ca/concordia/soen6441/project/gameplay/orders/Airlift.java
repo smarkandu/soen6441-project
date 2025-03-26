@@ -2,9 +2,9 @@ package ca.concordia.soen6441.project.gameplay.orders;
 
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
+import ca.concordia.soen6441.project.interfaces.context.HandOfCardsContext;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
-import ca.concordia.soen6441.project.gameplay.cards.AirliftCard;
-
+import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
 /**
  * The Airlift order allows moving troops from one country to another,
@@ -23,9 +23,10 @@ public class Airlift extends Advance {
      * @param p_targetCountry The target country for airlift.
      * @param p_numArmies The number of armies to move.
      * @param p_player The player issuing the airlift.
+     * @param p_gameContext The game context.
      */
-    public Airlift(Country p_sourceCountry, Country p_targetCountry, int p_numArmies, Player p_player) {
-        super(p_sourceCountry, p_targetCountry, p_numArmies, p_player);
+    public Airlift(Country p_sourceCountry, Country p_targetCountry, int p_numArmies, Player p_player, GameContext p_gameContext) {
+        super(p_sourceCountry, p_targetCountry, p_numArmies, p_player, p_gameContext);
         this.d_player = p_player;
         this.d_sourceCountry = p_sourceCountry;
         this.d_targetCountry = p_targetCountry;
@@ -37,24 +38,29 @@ public class Airlift extends Advance {
      *
      * @return true if valid, false otherwise.
      */
+    @Override
     public boolean validate() {
+        HandOfCardsContext cardManager = d_player.getHandOfCardsManager();
+
         if (!d_player.equals(d_sourceCountry.getOwner())) {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player does not own the source country!", true);
             return false;
         }
 
-        if (d_numArmies > d_targetCountry.getTroops()) {
+        if (d_numArmies > d_sourceCountry.getTroops()) {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: Not enough troops to airlift.", true);
             return false;
         }
 
-        if (!d_player.getHandOfCardsManager().hasAirliftCard()) {
+        if (!cardManager.getAirLiftCardManager().hasCard()) {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player does not have an Airlift card!", true);
             return false;
         }
 
         return true;
     }
+
+
 
     /**
      * Executes the Airlift order by moving troops from the source country to the target country.
@@ -80,6 +86,6 @@ public class Airlift extends Advance {
         d_targetCountry.setTroops(d_targetCountry.getTroops() + l_actualTroopsAirlift);
 
         // Remove the Airlift card from the player's hand
-        d_player.getHandOfCardsManager().removeCard(new AirliftCard());
+        d_player.getHandOfCardsManager().getAirLiftCardManager().removeCard();
     }
 }
