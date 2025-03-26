@@ -2,6 +2,7 @@ package ca.concordia.soen6441.project.phases;
 
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.gameplay.orders.Advance;
+import ca.concordia.soen6441.project.gameplay.orders.Blockade;
 import ca.concordia.soen6441.project.gameplay.orders.Deploy;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
@@ -116,10 +117,21 @@ public class IssueOrder extends MainPlay {
 
     @Override
     public void blockade(String p_countryID) {
-        // TODO #68
-        if (getCurrentPlayer().getHandOfCardsManager().getBlockadeCardManager().hasCard())
-        {
+        Country l_country = d_gameEngine.getCountryManager().getCountries().get(p_countryID);
 
+        if (getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) > 0) // Can only do after all troops are deployed
+        {
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: You still have " + getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) + " left to deploy!", true);
+        }
+        else if (!getCurrentPlayer().equals(l_country.getOwner())) // Player must initially own country to initiate blockade
+        {
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player " + getCurrentPlayer().getName() + " doesn't own country for blockade!", true);
+        }
+        else
+        {
+            getCurrentPlayer().issue_order(new Blockade(l_country, getCurrentPlayer(), d_gameEngine));
+            LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to blockade " +
+                    p_countryID +  " granted", false);
         }
     }
 

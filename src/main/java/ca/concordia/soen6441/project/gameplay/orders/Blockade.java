@@ -22,7 +22,7 @@ public class Blockade implements Order {
     @Override
     public void execute() {
         // Assign Country as Neutral
-        d_gameEngine.assignCountryToPlayer(d_territory, null);
+        d_gameEngine.assignCountryToPlayer(d_territory, d_gameEngine.getPlayerManager().getNeutralPlayer());
 
         // Change number of troops to new amount, per specs
         int oldTroopNumber = d_territory.getTroops();
