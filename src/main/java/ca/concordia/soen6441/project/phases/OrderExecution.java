@@ -117,10 +117,10 @@ public class OrderExecution extends MainPlay {
         }
 
         validatePlayers();
-        String playerWhoWon = null;
-        if ((playerWhoWon = gameWonBy()) != null)
+        String l_playerWhoWon = null;
+        if ((l_playerWhoWon = gameWonBy()) != null)
         {
-            System.out.println("Game won by " + playerWhoWon + ": congratulations!");
+            System.out.println("Game won by " + l_playerWhoWon + ": congratulations!");
             End l_end = new End(d_gameEngine);
             l_end.endGame();
         }
@@ -157,10 +157,10 @@ public class OrderExecution extends MainPlay {
     }
 
     public String gameWonBy() {
-        ArrayList<Country> listOfCountries = new ArrayList<>(d_gameEngine.getCountryManager().getCountries().values());
-        Player l_player = listOfCountries.get(0).getOwner();
+        ArrayList<Country> l_listOfCountries = new ArrayList<>(d_gameEngine.getCountryManager().getCountries().values());
+        Player l_player = l_listOfCountries.get(0).getOwner();
 
-        for (Country l_country : listOfCountries) {
+        for (Country l_country : l_listOfCountries) {
             if (l_country.getOwner() == null || l_country.getOwner() != l_player) {
                 return null;
             }
