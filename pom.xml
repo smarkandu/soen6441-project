@@ -51,6 +51,26 @@
                         <goals>
                             <goal>javadoc</goal>
                         </goals>
+                        <configuration>
+                            <!-- Specify the output directory for the Javadoc -->
+                            <destDir>${project.build.directory}/apidocs</destDir>
+                            <!-- Optionally include private members if needed -->
+                            <show>private</show>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- This plugin is used to create the Javadoc JAR -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar</goal> <!-- Creates a JAR of the Javadoc -->
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
