@@ -111,7 +111,6 @@ public class IssueOrder extends MainPlay {
     public void bomb(String p_countryID) {
         // TODO #67
         // pre-requisite:
-        // Bombs take place after deployments, but before attacks (and also before abandons/airlifts).
         // Bomb Card allows you to target an enemy or neutral territory
         Country l_countryToBomb = d_gameEngine.getCountryManager().getCountries().get(p_countryID);
         String l_playerName = getCurrentPlayer().getName();
@@ -119,7 +118,11 @@ public class IssueOrder extends MainPlay {
         LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to bomb "
                 + p_countryID , false);
 
-        if (!getCurrentPlayer().getHandOfCardsManager().hasBombCard())
+        if (getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) > 0) // Can only do after all troops are deployed
+        {
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: You still have " + getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) + " left to deploy!", true);
+        }
+        else if (!getCurrentPlayer().getHandOfCardsManager().hasBombCard())
         {
             // The player must have a bomb card
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player " + getCurrentPlayer().getName() + " doesn't have a bomb card", true);

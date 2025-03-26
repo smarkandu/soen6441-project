@@ -94,7 +94,6 @@ public class GameDriver {
                     }
                     case "bomb": {
                         String l_countryID = l_args[1].replace("\"", "");
-                        System.out.println("Bomb " + l_countryID);
                         d_gameEngine.getPhase().bomb(l_countryID);
                         break;
                     }
