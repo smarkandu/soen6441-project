@@ -1,6 +1,7 @@
 package ca.concordia.soen6441.project.phases;
 
 import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.gameplay.cards.BombCard;
 import ca.concordia.soen6441.project.gameplay.orders.Advance;
 import ca.concordia.soen6441.project.gameplay.orders.Bomb;
 import ca.concordia.soen6441.project.gameplay.orders.Deploy;
@@ -136,6 +137,7 @@ public class IssueOrder extends MainPlay {
         else
         {
             getCurrentPlayer().issue_order(new Bomb(l_countryToBomb));
+            getCurrentPlayer().getHandOfCardsManager().removeCard(new BombCard());
             LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to bomb "
                     + p_countryID + " granted", false);
         }
