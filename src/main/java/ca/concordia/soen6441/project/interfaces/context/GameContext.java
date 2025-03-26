@@ -1,6 +1,8 @@
 package ca.concordia.soen6441.project.interfaces.context;
 
 import ca.concordia.soen6441.project.context.DeckOfCards;
+import ca.concordia.soen6441.project.interfaces.Country;
+import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.phases.State;
 import ca.concordia.soen6441.project.map.InvalidMapFileException;
 import ca.concordia.soen6441.project.phases.Phase;
@@ -93,4 +95,18 @@ public interface GameContext {
      * @return object of DeckOfCards
      */
     DeckOfCards getDeckOfCards();
+
+
+    /**
+     * Sets metadata for ownership for both player (if not null) and country
+     * @param p_country the Country object to be owned
+     * @param p_player the Player object to own the country.  Null if unowned
+     */
+    void assignCountryToPlayer(Country p_country, Player p_player);
+
+    /**
+     * Removes ownership metadata from both player and country
+     * @param p_country the Country object to be set to unowned
+     */
+    void unassignCountryFromPlayer(Country p_country);
 }
