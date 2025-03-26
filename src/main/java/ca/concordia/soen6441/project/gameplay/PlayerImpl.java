@@ -104,13 +104,23 @@ public class PlayerImpl implements Player {
     }
 
     /**
-     * Assigns a country to the player.
+     * Adds owned country to the player.
      *
-     * @param p_country The country to be assigned.
+     * @param p_country The country to be added
      */
     @Override
-    public void assignCountry(Country p_country) {
+    public void addOwnedCountry(Country p_country) {
         d_ownedCountries.add(p_country.getID());
+    }
+
+    /**
+     * Removes owner country to the player.
+     *
+     * @param p_country The country to be removed
+     */
+    @Override
+    public void removeOwnedCountry(Country p_country) {
+        d_ownedCountries.remove(p_country.getID());
     }
 
     /**

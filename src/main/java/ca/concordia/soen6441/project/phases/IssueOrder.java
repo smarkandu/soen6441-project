@@ -99,7 +99,7 @@ public class IssueOrder extends MainPlay {
         }
         else
         {
-            getCurrentPlayer().issue_order(new Advance(l_countryFrom, l_countryTo, p_toAdvance, getCurrentPlayer()));
+            getCurrentPlayer().issue_order(new Advance(l_countryFrom, l_countryTo, p_toAdvance, getCurrentPlayer(), d_gameEngine));
             LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to advance "
                     + p_toAdvance + " from " + p_countryNameFrom + " to " + p_countryNameTo +  " granted", false);
         }
