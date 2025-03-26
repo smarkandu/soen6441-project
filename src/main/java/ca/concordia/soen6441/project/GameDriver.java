@@ -92,6 +92,11 @@ public class GameDriver {
                         d_gameEngine.getPhase().advance(l_countryNameFrom, l_countryNameTo, l_toAdvance);
                         break;
                     }
+                    case "blockade": {
+                        String l_countryNameToBlockade = l_args[1].replace("\"", "");
+                        d_gameEngine.getPhase().blockade(l_countryNameToBlockade);
+                        break;
+                    }
                     case "gameplayer":
                         String l_playername = l_args[2];
                         if ("-add".equals(l_operation) && l_args.length == 3) {

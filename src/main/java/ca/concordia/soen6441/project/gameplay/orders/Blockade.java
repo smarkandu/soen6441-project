@@ -35,7 +35,7 @@ public class Blockade implements Order {
             int oldTroopNumber = d_territory.getTroops();
             d_territory.setTroops(oldTroopNumber * 3);
 
-            LogEntryBuffer.getInstance().appendToBuffer("Blockade created in " + d_territory.getID() + " by " + d_initiator
+            LogEntryBuffer.getInstance().appendToBuffer("Blockade created in " + d_territory.getID() + " by " + d_initiator.getName()
                     + ".  Country becomes neutral and troops have increased from " + oldTroopNumber + " to " + d_territory.getTroops(), true);
         }
     }
@@ -51,5 +51,14 @@ public class Blockade implements Order {
         }
 
         return null;
+    }
+
+    /**
+     * Get a String Representation representing this object
+     * @return A String value
+     */
+    @Override
+    public String toString() {
+        return "{Blockade " + d_territory.getID() + "}";
     }
 }
