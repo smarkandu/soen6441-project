@@ -239,6 +239,12 @@ public class GameEngine implements GameContext, MapComponent {
     @Override
     public void assignCountryToPlayer(Country p_country, Player p_player)
     {
+        if (p_country == null)
+        {
+            System.out.println("ERROR: null value set for assignCountryToPlayer for p_country.  Operation cancelled.");
+            return;
+        }
+
         p_country.setOwner(p_player);
         if (p_player != null)
         {

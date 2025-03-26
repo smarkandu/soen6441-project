@@ -109,7 +109,7 @@ public class Advance implements Order {
 
                 if (l_battleResult.d_playersTroops > 0)
                 {
-                    d_gameEngine.assignCountryToPlayer(d_targetTerritory, null);
+                    d_gameEngine.assignCountryToPlayer(d_targetTerritory, d_initiator);
                     d_targetTerritory.setTroops(l_battleResult.d_playersTroops);
                     LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName()
                             + " wins the battle and conquers " + d_targetTerritory.getID() + "!\nRemaining survivors: "
