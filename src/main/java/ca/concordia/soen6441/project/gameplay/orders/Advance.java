@@ -82,17 +82,15 @@ public class Advance implements Order {
                 this.d_targetTerritory.setTroops(l_actualTroopsAdvance);
 
                 // If country was owned, change owner to player
+                d_targetTerritory.setOwner(d_initiator);
+                d_conquersTerritory = true;
                 if (d_targetTerritory.getOwner() != null)
                 {
-                    d_targetTerritory.setOwner(d_initiator);
                     LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName() + " conquers undefended " + d_targetTerritory.getID(), true);
-                    d_conquersTerritory = true;
                 }
                 else
                 {
-                    d_targetTerritory.setOwner(d_initiator);
-                    LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName() + " conquers unowned " + d_targetTerritory.getID(), true); // Now unowned
-                    d_conquersTerritory = true;
+                    LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName() + " conquers unowned " + d_targetTerritory.getID(), true);
                 }
             }
             else if (d_targetTerritory.getOwner() == d_initiator)
