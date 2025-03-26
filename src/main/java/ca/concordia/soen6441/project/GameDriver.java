@@ -92,6 +92,13 @@ public class GameDriver {
                         d_gameEngine.getPhase().advance(l_countryNameFrom, l_countryNameTo, l_toAdvance);
                         break;
                     }
+                    case "airlift": { 
+                        String l_sourceCountryID = l_args[1].replace("\"", "");
+                        String l_targetCountryID = l_args[2].replace("\"", "");
+                        int l_numArmies = Integer.parseInt(l_args[3]);
+                        d_gameEngine.getPhase().airlift(l_sourceCountryID, l_targetCountryID, l_numArmies);
+                        break;
+                    }
                     case "gameplayer":
                         String l_playername = l_args[2];
                         if ("-add".equals(l_operation) && l_args.length == 3) {

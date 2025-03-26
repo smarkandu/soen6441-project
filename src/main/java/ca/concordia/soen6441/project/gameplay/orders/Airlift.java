@@ -43,7 +43,7 @@ public class Airlift extends Advance {
             return false;
         }
 
-        if (d_numArmies > d_sourceCountry.getTroops()) {
+        if (d_numArmies > d_targetCountry.getTroops()) {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: Not enough troops to airlift.", true);
             return false;
         }
@@ -65,15 +65,13 @@ public class Airlift extends Advance {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: Airlift execution failed due to invalid conditions.", true);
             return;
         }
-
         int l_actualTroopsAirlift = Math.min(d_numArmies, d_sourceCountry.getTroops());
-        d_sourceCountry.setTroops(d_sourceCountry.getTroops() - l_actualTroopsAirlift);
-
         if (l_actualTroopsAirlift == 0) {
             LogEntryBuffer.getInstance().appendToBuffer("No troops exist in " + d_sourceCountry.getID() +
                     " for " + d_player.getName() + " to airlift. Command cancelled.", true);
             return;
         }
+        d_sourceCountry.setTroops(d_sourceCountry.getTroops() - l_actualTroopsAirlift);
 
         LogEntryBuffer.getInstance().appendToBuffer(d_player.getName() + " airlifted " + l_actualTroopsAirlift +
                 " troops from " + d_sourceCountry.getID() + " to " + d_targetCountry.getID(), true);
@@ -83,14 +81,5 @@ public class Airlift extends Advance {
 
         // Remove the Airlift card from the player's hand
         d_player.getHandOfCardsManager().removeCard(new AirliftCard());
-    }
-
-    /**
-     * Gets the number of armies being airlifted.
-     *
-     * @return The number of armies.
-     */
-    public int getNumArmies() {
-        return d_numArmies;
     }
 }

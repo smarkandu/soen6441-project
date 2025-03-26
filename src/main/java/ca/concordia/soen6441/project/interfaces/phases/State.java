@@ -138,4 +138,6 @@ public interface State {
      * for the current game phase.
      */
     void printInvalidCommandMessage();
+
+    void airlift(String lSourceCountryID, String lTargetCountryID, int lNumArmies);
 }
