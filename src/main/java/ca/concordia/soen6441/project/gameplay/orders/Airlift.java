@@ -4,6 +4,8 @@ import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.context.HandOfCardsContext;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
+import ca.concordia.soen6441.project.gameplay.cards.AirliftCard;
+import ca.concordia.soen6441.project.context.hand.CardManager;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
 /**
@@ -36,54 +38,56 @@ public class Airlift extends Advance {
     /**
      * Validates whether the airlift command can be executed.
      *
-     * @return true if valid, false otherwise.
+     * @return Error message if invalid, or null if valid.
      */
     @Override
-    public boolean validate() {
+    public String validate() {
         HandOfCardsContext cardManager = d_player.getHandOfCardsManager();
+        CardManager<AirliftCard> airliftCardManager = cardManager.getAirLiftCardManager();
 
         if (!d_player.equals(d_sourceCountry.getOwner())) {
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player does not own the source country!", true);
-            return false;
+            return "ERROR: Player does not own the source country!";
+        }
+
+        if (!d_player.equals(d_targetCountry.getOwner())) {
+            return "ERROR: Player does not own the target country!";
         }
 
         if (d_numArmies > d_sourceCountry.getTroops()) {
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Not enough troops to airlift.", true);
-            return false;
+            return "ERROR: Not enough troops to airlift.";
         }
 
-        if (!cardManager.getAirLiftCardManager().hasCard()) {
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player does not have an Airlift card!", true);
-            return false;
+        if (airliftCardManager == null || !airliftCardManager.hasCard()) {
+            return "ERROR: Player does not have an Airlift card!";
         }
 
-        return true;
+        return null; // No errors, validation successful
     }
-
-
 
     /**
      * Executes the Airlift order by moving troops from the source country to the target country.
      */
     @Override
     public void execute() {
-        if (!validate()) {
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Airlift execution failed due to invalid conditions.", true);
+        String validationError = validate();
+        if (validationError != null) {
+            LogEntryBuffer.getInstance().appendToBuffer(validationError, true);
             return;
         }
+
         int l_actualTroopsAirlift = Math.min(d_numArmies, d_sourceCountry.getTroops());
         if (l_actualTroopsAirlift == 0) {
             LogEntryBuffer.getInstance().appendToBuffer("No troops exist in " + d_sourceCountry.getID() +
                     " for " + d_player.getName() + " to airlift. Command cancelled.", true);
             return;
         }
+
+        // Move troops from source to target
         d_sourceCountry.setTroops(d_sourceCountry.getTroops() - l_actualTroopsAirlift);
+        d_targetCountry.setTroops(d_targetCountry.getTroops() + l_actualTroopsAirlift);
 
         LogEntryBuffer.getInstance().appendToBuffer(d_player.getName() + " airlifted " + l_actualTroopsAirlift +
                 " troops from " + d_sourceCountry.getID() + " to " + d_targetCountry.getID(), true);
-
-        // Move troops to the target country
-        d_targetCountry.setTroops(d_targetCountry.getTroops() + l_actualTroopsAirlift);
 
         // Remove the Airlift card from the player's hand
         d_player.getHandOfCardsManager().getAirLiftCardManager().removeCard();
