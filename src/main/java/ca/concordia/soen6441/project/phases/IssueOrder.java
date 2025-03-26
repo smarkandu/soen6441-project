@@ -134,6 +134,7 @@ public class IssueOrder extends MainPlay {
         }
     }
 
+
     /**
      * Processes a "negotiate" command issued by a player.
      * <p>
@@ -146,21 +147,23 @@ public class IssueOrder extends MainPlay {
      */
     @Override
     public void negotiate(String p_playerID) {
-        // TODO #70
-        if (getCurrentPlayer().getHandOfCardsManager().getDiplomacyCardManager().hasCard())
-        {
-
+        // Step 1: Reset diplomacy for all players at the beginning of the phase (if applicable)
+        for (Player l_player : d_gameEngine.getPlayerManager().getPlayers().values()) {
+            if (!((PlayerImpl) l_player).getNegotiatedPlayers().isEmpty()) {
+                ((PlayerImpl) l_player).resetNegotiatedPlayers();
+                LogEntryBuffer.getInstance().appendToBuffer("Diplomacy list reset for player: " + l_player.getName(), true);
+            }
         }
-        
+
         // Step 2: Fetch current player
         Player l_currentPlayer = d_gameEngine.getPlayerManager().getPlayer(d_currentPlayIndex);
 
-        // Step 2: Ensure all reinforcements are deployed before diplomacy
+        // Step 3: Ensure all reinforcements are deployed before diplomacy
         if (l_currentPlayer.getReinforcements() > 0) {
-        LogEntryBuffer.getInstance().appendToBuffer("ERROR: You must deploy all your armies before using a Diplomacy card.", true);
-        return;
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: You must deploy all your armies before using a Diplomacy card.", true);
+            return;
         }
-        
+
         // Step 4: Validate the target player
         Player l_targetPlayer = d_gameEngine.getPlayerManager().getPlayers().get(p_playerID);
 
@@ -169,15 +172,17 @@ public class IssueOrder extends MainPlay {
             return;
         }
 
-        if (!l_currentPlayer.getHandOfCardsManager().hasDiplomacyCard()) {
+        // Step 5: Check if diplomacy card is available (new API)
+        if (l_currentPlayer.getHandOfCardsManager().getDiplomacyCardManager().size() == 0) {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: You don't have a diplomacy card!", true);
             return;
         }
 
-        // Step 4: Issue Diplomacy order
+        // Step 6: Issue Diplomacy order
         l_currentPlayer.issue_order(new Diplomacy(l_currentPlayer, l_targetPlayer));
         LogEntryBuffer.getInstance().appendToBuffer("Diplomacy order issued to negotiate with " + l_targetPlayer.getName(), false);
     }
+
 
 
     /**
