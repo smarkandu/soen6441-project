@@ -1,7 +1,7 @@
 package ca.concordia.soen6441.project.phases;
 
+import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.gameplay.orders.Advance;
-import ca.concordia.soen6441.project.gameplay.orders.Airlift;
 import ca.concordia.soen6441.project.gameplay.orders.Deploy;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
@@ -99,7 +99,7 @@ public class IssueOrder extends MainPlay {
         }
         else
         {
-            getCurrentPlayer().issue_order(new Advance(l_countryFrom, l_countryTo, p_toAdvance, getCurrentPlayer()));
+            getCurrentPlayer().issue_order(new Advance(l_countryFrom, l_countryTo, p_toAdvance, getCurrentPlayer(), d_gameEngine));
             LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to advance "
                     + p_toAdvance + " from " + p_countryNameFrom + " to " + p_countryNameTo +  " granted", false);
         }
@@ -108,7 +108,7 @@ public class IssueOrder extends MainPlay {
     @Override
     public void bomb(String p_countryID) {
         // TODO #67
-        if (getCurrentPlayer().getHandOfCardsManager().hasBombCard())
+        if (getCurrentPlayer().getHandOfCardsManager().getBombCardManager().hasCard())
         {
 
         }
@@ -117,7 +117,7 @@ public class IssueOrder extends MainPlay {
     @Override
     public void blockade(String p_countryID) {
         // TODO #68
-        if (getCurrentPlayer().getHandOfCardsManager().hasBlockadeCard())
+        if (getCurrentPlayer().getHandOfCardsManager().getBlockadeCardManager().hasCard())
         {
 
         }
@@ -125,41 +125,17 @@ public class IssueOrder extends MainPlay {
 
     @Override
     public void airlift(String p_sourceCountryID, String p_targetCountryID, int p_numArmies) {
-        Country l_sourceCountry = d_gameEngine.getCountryManager().getCountries().get(p_sourceCountryID);
-        Country l_targetCountry = d_gameEngine.getCountryManager().getCountries().get(p_targetCountryID);
+        // TODO #69
+        if (getCurrentPlayer().getHandOfCardsManager().getAirLiftCardManager().hasCard())
+        {
 
-        LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to airlift "
-                + p_numArmies + " from " + p_sourceCountryID + " to " + p_targetCountryID, false);
-
-        if (getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) > 0) // Can only airlift after all troops are deployed
-        {
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: You still have " + getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) + " left to deploy!", true);
-        }
-        else if (!getCurrentPlayer().equals(l_sourceCountry.getOwner())) // Player must own the source country
-        {
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player " + getCurrentPlayer().getName() + " doesn't own source country!", true);
-        }
-        else if (!getCurrentPlayer().getHandOfCardsManager().hasAirliftCard()) // Player must have an Airlift card
-        {
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player " + getCurrentPlayer().getName() + " does not have an Airlift card!", true);
-        }
-        else if (p_numArmies > l_sourceCountry.getTroops()) // Player must have enough troops
-        {
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Not enough troops to airlift!", true);
-        }
-        else
-        {
-            getCurrentPlayer().issue_order(new Airlift(l_sourceCountry, l_targetCountry, p_numArmies, getCurrentPlayer()));
-            LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to airlift "
-                    + p_numArmies + " from " + p_sourceCountryID + " to " + p_targetCountryID + " granted", false);
         }
     }
-
 
     @Override
     public void negotiate(String p_playerID) {
         // TODO #70
-        if (getCurrentPlayer().getHandOfCardsManager().hasDiplomacyCard())
+        if (getCurrentPlayer().getHandOfCardsManager().getDiplomacyCardManager().hasCard())
         {
 
         }
