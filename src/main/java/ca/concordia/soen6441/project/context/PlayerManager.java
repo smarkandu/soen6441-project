@@ -11,9 +11,11 @@ import java.util.TreeMap;
 
 public class PlayerManager implements PlayerContext {
     private SortedMap<String, Player> d_players;
+    private Player neutralPlayer;
 
     public PlayerManager() {
         d_players = new TreeMap<String, Player>();
+        neutralPlayer = new PlayerImpl("Neutral", new ArrayList<>(), new ArrayList<>()); // Will always exist
     }
 
     /**
@@ -22,8 +24,15 @@ public class PlayerManager implements PlayerContext {
      * @param p_playername The name of the player to be added.
      */
     public void addPlayer(String p_playername) {
-        d_players.put(p_playername, new PlayerImpl(p_playername, new ArrayList<>(), new ArrayList<>()));
-        System.out.println("Player added: " + d_players.get(p_playername).getName());
+        if (p_playername.equalsIgnoreCase("neutral"))
+        {
+            System.out.println("Unable to create player due to restricted name: " + p_playername);
+        }
+        else
+        {
+            d_players.put(p_playername, new PlayerImpl(p_playername, new ArrayList<>(), new ArrayList<>()));
+            System.out.println("Player added: " + d_players.get(p_playername).getName());
+        }
     }
 
     /**
@@ -48,5 +57,13 @@ public class PlayerManager implements PlayerContext {
     @Override
     public Map<String, Player> getPlayers() {
         return d_players;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Player getNeutralPlayer() {
+        return neutralPlayer;
     }
 }
