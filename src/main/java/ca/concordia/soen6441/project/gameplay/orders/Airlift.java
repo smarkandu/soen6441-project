@@ -102,7 +102,7 @@ public class Airlift implements Order {
      */
     @Override
     public String toString() {
-        return "Airlift Order: Move " + d_numArmies + " troops from "
-                + d_sourceCountry.getID() + " to " + d_targetCountry.getID();
+        return "{Airlift " + d_sourceCountry.getID() + " " + d_targetCountry.getID() + " " + d_numArmies + "}";
     }
+
 }
