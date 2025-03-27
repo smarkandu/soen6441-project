@@ -7,6 +7,7 @@ import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.context.HandOfCardsContext;
+import ca.concordia.soen6441.project.gameplay.cards.DiplomacyCard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public class PlayerImpl implements Player {
         this.d_Orders = p_Orders;
         this.d_Reinforcements = 0;
         this.d_HandsOfCardsManager = new HandOfCardsManager(this);
+        d_HandsOfCardsManager.addCard(new DiplomacyCard());
     }
 
     /**

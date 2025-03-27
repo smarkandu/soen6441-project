@@ -159,8 +159,11 @@ public class IssueOrder extends MainPlay {
         Player l_currentPlayer = d_gameEngine.getPlayerManager().getPlayer(d_currentPlayIndex);
 
         // Step 3: Ensure all reinforcements are deployed before diplomacy
-        if (l_currentPlayer.getReinforcements() > 0) {
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: You must deploy all your armies before using a Diplomacy card.", true);
+        if (getNumberOfTroopsLeftToDeploy(l_currentPlayer) > 0) {
+            LogEntryBuffer.getInstance().appendToBuffer(
+                    "ERROR: You still have " + getNumberOfTroopsLeftToDeploy(l_currentPlayer) + " left to deploy before using a Diplomacy card!",
+                    true
+            );
             return;
         }
 

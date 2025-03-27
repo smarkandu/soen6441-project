@@ -70,21 +70,18 @@ public class Diplomacy implements Order {
      *
      * @return Null if valid; otherwise, an error message string.
      */
-    public String validate() {
-        if (d_target == null) {
-            return "Error: Target player does not exist.";
+        public String validate() {
+            if (d_target == null) {
+                return "Error: Target player does not exist.";
+            }
+            if (d_initiator.equals(d_target)) {
+                return "Error: Cannot negotiate with yourself.";
+            }
+            if (d_initiator.getHandOfCardsManager().getDiplomacyCardManager().size() == 0) {
+                return "Error: " + d_initiator.getName() + " does not have a diplomacy card.";
+            }
+            return null;
         }
-        if (d_initiator.equals(d_target)) {
-            return "Error: Cannot negotiate with yourself.";
-        }
-        if (d_initiator.getHandOfCardsManager().getDiplomacyCardManager().size() == 0) {
-            return "Error: " + d_initiator.getName() + " does not have a diplomacy card.";
-        }
-        if (d_initiator.getReinforcements() > 0) {
-        return "Error: You must deploy all reinforcements before using Diplomacy.";
-        }
-        return null;
-    }
 
     /**
      * Returns a readable string representation of the Diplomacy order.
