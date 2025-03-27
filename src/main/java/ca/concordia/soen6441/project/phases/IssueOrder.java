@@ -132,7 +132,7 @@ public class IssueOrder extends MainPlay {
         else if (getCurrentPlayer().getOwnedCountries().contains(p_countryID))
         {
             // The player should not own the country
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player " + getCurrentPlayer().getName() + " owned " + p_countryID, true);
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player " + getCurrentPlayer().getName() + " owns " + p_countryID, true);
         }
         else if (!isTerritoryAdjacent(l_playerName, l_countryToBomb))
         {

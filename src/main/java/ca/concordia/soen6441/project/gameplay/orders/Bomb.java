@@ -32,7 +32,13 @@ public class Bomb implements Order {
             LogEntryBuffer.getInstance().appendToBuffer(l_errorMsg, true);
         }
         else {
+            int originalNumberOfTroops = d_targetTerritory.getTroops();
             d_targetTerritory.setTroops((int)(Math.floor(d_targetTerritory.getTroops()/2.0)));
+            String resultMessage = d_initiator.getName() + " just dropped a bomb in " + d_targetTerritory.getID() + "! " +
+                    d_targetTerritory.getOwner().getName() + "'s soldiers fell from " + originalNumberOfTroops + " to " +
+                    d_targetTerritory.getTroops();
+
+            LogEntryBuffer.getInstance().appendToBuffer( resultMessage, true);
         }
     }
 
