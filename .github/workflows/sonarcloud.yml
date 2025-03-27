@@ -2,12 +2,12 @@ name: SonarCloud
 on:
   push:
     branches:
-      - main  # Adjust based on your main branch
+      - master
     tags:
       - '*'   # Run for all tagged builds
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   sonarcloud:
