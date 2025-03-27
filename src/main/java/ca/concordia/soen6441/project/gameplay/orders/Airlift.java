@@ -60,10 +60,6 @@ public class Airlift implements Order {
             return "ERROR: Not enough troops to airlift.";
         }
 
-        if (l_airliftCardManager == null || !l_airliftCardManager.hasCard()) {
-            return "ERROR: Player does not have an Airlift card!";
-        }
-
         return null;
     }
 
@@ -91,8 +87,6 @@ public class Airlift implements Order {
         LogEntryBuffer.getInstance().appendToBuffer(d_player.getName()
                 + " airlifted " + l_troopsToMove + " troops from "
                 + d_sourceCountry.getID() + " to " + d_targetCountry.getID(), true);
-
-        d_player.getHandOfCardsManager().getAirLiftCardManager().removeCard();
     }
 
     /**
