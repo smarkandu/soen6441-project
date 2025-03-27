@@ -1,46 +1,49 @@
 package ca.concordia.soen6441.project.gameplay.orders;
 
+import ca.concordia.soen6441.project.context.hand.CardManager;
+import ca.concordia.soen6441.project.gameplay.cards.AirliftCard;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
-import ca.concordia.soen6441.project.interfaces.context.HandOfCardsContext;
-import ca.concordia.soen6441.project.log.LogEntryBuffer;
-import ca.concordia.soen6441.project.gameplay.cards.AirliftCard;
-import ca.concordia.soen6441.project.context.hand.CardManager;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
+import ca.concordia.soen6441.project.interfaces.context.HandOfCardsContext;
+import ca.concordia.soen6441.project.interfaces.Order;
+import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
 /**
  * The Airlift order allows moving troops from one country to another,
- * even if they are not adjacent. It extends Advance but removes neighbor restrictions.
+ * even if they are not adjacent.
  */
-public class Airlift extends Advance {
-    private Player d_player = null;
-    private Country d_sourceCountry = null;
-    private Country d_targetCountry = null;
+public class Airlift implements Order {
+
+    private Player d_player;
+    private Country d_sourceCountry;
+    private Country d_targetCountry;
     private int d_numArmies;
+    private GameContext d_gameContext;
 
     /**
      * Constructor for Airlift order.
      *
-     * @param p_sourceCountry The source country for airlift.
-     * @param p_targetCountry The target country for airlift.
-     * @param p_numArmies The number of armies to move.
-     * @param p_player The player issuing the airlift.
-     * @param p_gameContext The game context.
+     * @param p_sourceCountry the country from which to move troops
+     * @param p_targetCountry the country to which to move troops
+     * @param p_numArmies     the number of troops to move
+     * @param p_player        the player issuing the order
+     * @param p_gameContext   the current game context
      */
-    public Airlift(Country p_sourceCountry, Country p_targetCountry, int p_numArmies, Player p_player, GameContext p_gameContext) {
-        super(p_sourceCountry, p_targetCountry, p_numArmies, p_player, p_gameContext);
-        this.d_player = p_player;
+    public Airlift(Country p_sourceCountry, Country p_targetCountry, int p_numArmies,
+                   Player p_player, GameContext p_gameContext) {
         this.d_sourceCountry = p_sourceCountry;
         this.d_targetCountry = p_targetCountry;
         this.d_numArmies = p_numArmies;
+        this.d_player = p_player;
+        this.d_gameContext = p_gameContext;
     }
 
     /**
-     * Validates whether the airlift command can be executed.
+     * Validates whether the airlift command is valid.
      *
-     * @return Error message if invalid, or null if valid.
+     * @return error message if invalid, otherwise null
      */
-    @Override
     public String validate() {
         HandOfCardsContext l_cardManager = d_player.getHandOfCardsManager();
         CardManager<AirliftCard> l_airliftCardManager = l_cardManager.getAirLiftCardManager();
@@ -61,35 +64,45 @@ public class Airlift extends Advance {
             return "ERROR: Player does not have an Airlift card!";
         }
 
-        return null; // No errors, validation successful
+        return null;
     }
 
     /**
-     * Executes the Airlift order by moving troops from the source country to the target country.
+     * Executes the Airlift order.
      */
     @Override
     public void execute() {
-        String l_validationError = validate();
-        if (l_validationError != null) {
-            LogEntryBuffer.getInstance().appendToBuffer(l_validationError, true);
+        String l_error = validate();
+        if (l_error != null) {
+            LogEntryBuffer.getInstance().appendToBuffer(l_error, true);
             return;
         }
 
-        int l_actualTroopsAirlift = Math.min(d_numArmies, d_sourceCountry.getTroops());
-        if (l_actualTroopsAirlift == 0) {
-            LogEntryBuffer.getInstance().appendToBuffer("No troops exist in " + d_sourceCountry.getID() +
-                    " for " + d_player.getName() + " to airlift. Command cancelled.", true);
+        int l_troopsToMove = Math.min(d_numArmies, d_sourceCountry.getTroops());
+
+        if (l_troopsToMove <= 0) {
+            LogEntryBuffer.getInstance().appendToBuffer("No troops available to airlift.", true);
             return;
         }
 
-        // Move troops from source to target
-        d_sourceCountry.setTroops(d_sourceCountry.getTroops() - l_actualTroopsAirlift);
-        d_targetCountry.setTroops(d_targetCountry.getTroops() + l_actualTroopsAirlift);
+        d_sourceCountry.setTroops(d_sourceCountry.getTroops() - l_troopsToMove);
+        d_targetCountry.setTroops(d_targetCountry.getTroops() + l_troopsToMove);
 
-        LogEntryBuffer.getInstance().appendToBuffer(d_player.getName() + " airlifted " + l_actualTroopsAirlift +
-                " troops from " + d_sourceCountry.getID() + " to " + d_targetCountry.getID(), true);
+        LogEntryBuffer.getInstance().appendToBuffer(d_player.getName()
+                + " airlifted " + l_troopsToMove + " troops from "
+                + d_sourceCountry.getID() + " to " + d_targetCountry.getID(), true);
 
-        // Remove the Airlift card from the player's hand
         d_player.getHandOfCardsManager().getAirLiftCardManager().removeCard();
+    }
+
+    /**
+     * Returns a string representation of the Airlift order.
+     *
+     * @return string describing the order
+     */
+    @Override
+    public String toString() {
+        return "Airlift Order: Move " + d_numArmies + " troops from "
+                + d_sourceCountry.getID() + " to " + d_targetCountry.getID();
     }
 }

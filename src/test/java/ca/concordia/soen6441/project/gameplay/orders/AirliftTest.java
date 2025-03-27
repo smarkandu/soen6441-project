@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 public class AirliftTest {
@@ -45,26 +46,21 @@ public class AirliftTest {
         lenient().when(d_mockSourceCountry.getOwner()).thenReturn(d_mockPlayer);
         lenient().when(d_mockTargetCountry.getOwner()).thenReturn(d_mockPlayer);
         lenient().when(d_mockSourceCountry.getTroops()).thenReturn(10);
-        lenient().when(d_mockTargetCountry.getTroops()).thenReturn(10); // Needed for execute()
+        lenient().when(d_mockTargetCountry.getTroops()).thenReturn(10); // for execute()
 
         d_airlift = new Airlift(d_mockSourceCountry, d_mockTargetCountry, 5, d_mockPlayer, d_mockGameContext);
     }
 
     @Test
     void testAirliftValid() {
-        assertTrue(d_airlift.validate(), "Airlift should be valid when all conditions are met.");
-    }
-
-    private void assertTrue(String p_validate, String p_s) {
+        assertNull(d_airlift.validate(), "Airlift should be valid when all conditions are met.");
     }
 
     @Test
     void testAirliftNoCard() {
         when(d_mockAirliftCardManager.hasCard()).thenReturn(false);
-        assertFalse(d_airlift.validate(), "Airlift should fail when player has no Airlift card.");
-    }
-
-    private void assertFalse(String p_validate, String p_s) {
+        String validationResult = d_airlift.validate();
+        assertEquals("ERROR: Player does not have an Airlift card!", validationResult);
     }
 
     @Test
