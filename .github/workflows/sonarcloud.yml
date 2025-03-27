@@ -36,7 +36,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           mvn verify sonar:sonar \
-            -Dsonar.projectKey=your_project_key \
+            -Dsonar.projectKey=smarkandu_soen6441-project \
             -Dsonar.organization=your_organization \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.branch.name=${{ github.ref_name }}
