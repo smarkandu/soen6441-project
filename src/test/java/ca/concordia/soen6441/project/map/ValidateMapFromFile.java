@@ -13,105 +13,105 @@ import static org.mockito.Mockito.*;
 
 public class ValidateMapFromFile {
     static class ContinentStub implements Continent {
-        private String id;
-        private int value;
-        private int numericId;
+        private String d_id;
+        private int d_value;
+        private int d_numericId;
 
-        public ContinentStub(String id, int value, int numericId) {
-            this.id = id;
-            this.value = value;
-            this.numericId = numericId;
+        public ContinentStub(String p_id, int p_value, int p_numericId) {
+            this.d_id = p_id;
+            this.d_value = p_value;
+            this.d_numericId = p_numericId;
         }
 
         @Override
         public String getID() {
-            return id;
+            return d_id;
         }
 
         @Override
         public int getValue() {
-            return value;
+            return d_value;
         }
 
         @Override
         public int getNumericID() {
-            return numericId;
+            return d_numericId;
         }
 
         @Override
         public String toMapString() {
-            return id + " " + value;
+            return d_id + " " + d_value;
         }
     }
     static class CountryStub implements Country {
-        private String id;
-        private List<String> neighborIDs = new ArrayList<>();
-        private int numericId;
-        private int troops;
-        private Player owner;
-        private Continent continent;
+        private String d_id;
+        private List<String> d_neighborIDs = new ArrayList<>();
+        private int d_numericId;
+        private int d_troops;
+        private Player d_owner;
+        private Continent d_continent;
 
-        public CountryStub(String id, int numericId, Continent continent) {
-            this.id = id;
-            this.numericId = numericId;
-            this.continent = continent;
+        public CountryStub(String p_id, int p_numericId, Continent p_continent) {
+            this.d_id = p_id;
+            this.d_numericId = p_numericId;
+            this.d_continent = p_continent;
         }
 
         @Override
         public String getID() {
-            return id;
+            return d_id;
         }
 
         @Override
         public List<String> getNeighborIDs() {
-            return neighborIDs;
+            return d_neighborIDs;
         }
 
         @Override
         public void addNeighbor(Country p_Neighbor) {
-            if (!neighborIDs.contains(p_Neighbor.getID())) {
-                neighborIDs.add(p_Neighbor.getID());
+            if (!d_neighborIDs.contains(p_Neighbor.getID())) {
+                d_neighborIDs.add(p_Neighbor.getID());
             }
         }
 
         @Override
         public void removeNeighbor(String p_NeighborID) {
-            neighborIDs.remove(p_NeighborID);
+            d_neighborIDs.remove(p_NeighborID);
         }
 
         @Override
         public int getNumericID() {
-            return numericId;
+            return d_numericId;
         }
 
         @Override
         public String toMapString() {
-            return id;
+            return d_id;
         }
 
         @Override
         public int getTroops() {
-            return troops;
+            return d_troops;
         }
 
         @Override
         public void setTroops(int p_troops) {
-            troops = p_troops;
+            d_troops = p_troops;
         }
 
         @Override
         public Player getOwner() {
-            return owner;
+            return d_owner;
         }
 
         @Override
         public void setOwner(Player p_owner) {
-            owner = p_owner;
+            d_owner = p_owner;
         }
 
         @Override
         public Continent getContinent() {
-            return continent;
+            return d_continent;
         }
     }
     private Player d_mockPlayer;
