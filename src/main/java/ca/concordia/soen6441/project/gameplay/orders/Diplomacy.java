@@ -38,12 +38,12 @@ public class Diplomacy implements Order {
 
     /**
      * Executes the Diplomacy order.
-     * 
+     * <p>
      * Steps:
-     *         Validates the order using {@code validate()} method.
-     *         If valid, adds each player to the other's list of negotiated players.
-     *         Consumes the diplomacy card using {@code useDiplomacyCard()}.
-     *         Logs the event to the log buffer.
+     * Validates the order using {@code validate()} method.
+     * If valid, adds each player to the other's list of negotiated players.
+     * Consumes the diplomacy card using {@code useDiplomacyCard()}.
+     * Logs the event to the log buffer.
      */
     @Override
     public void execute() {
@@ -55,7 +55,7 @@ public class Diplomacy implements Order {
 
         d_initiator.addNegotiatedPlayer(d_target);
         d_target.addNegotiatedPlayer(d_initiator);
- 
+
         // Remove the used DiplomacyCard
         d_initiator.getHandOfCardsManager().getDiplomacyCardManager().removeCard();
 
@@ -70,18 +70,18 @@ public class Diplomacy implements Order {
      *
      * @return Null if valid; otherwise, an error message string.
      */
-        public String validate() {
-            if (d_target == null) {
-                return "Error: Target player does not exist.";
-            }
-            if (d_initiator.equals(d_target)) {
-                return "Error: Cannot negotiate with yourself.";
-            }
-            if (d_initiator.getHandOfCardsManager().getDiplomacyCardManager().size() == 0) {
-                return "Error: " + d_initiator.getName() + " does not have a diplomacy card.";
-            }
-            return null;
+    public String validate() {
+        if (d_target == null) {
+            return "Error: Target player does not exist.";
         }
+        if (d_initiator.equals(d_target)) {
+            return "Error: Cannot negotiate with yourself.";
+        }
+        if (d_initiator.getHandOfCardsManager().getDiplomacyCardManager().size() == 0) {
+            return "Error: " + d_initiator.getName() + " does not have a diplomacy card.";
+        }
+        return null;
+    }
 
     /**
      * Returns a readable string representation of the Diplomacy order.
