@@ -152,5 +152,6 @@ public interface State {
      */
     void bomb(String p_countryNameToBomb);
 //    void bomb(String p_player, String p_countryNameToBomb);
+    void airlift(String p_lSourceCountryID, String p_lTargetCountryID, int p_lNumArmies);
 
 }
