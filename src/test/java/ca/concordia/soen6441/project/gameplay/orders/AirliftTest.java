@@ -59,8 +59,8 @@ public class AirliftTest {
     @Test
     void testAirliftNoCard() {
         when(d_mockAirliftCardManager.hasCard()).thenReturn(false);
-        String validationResult = d_airlift.validate();
-        assertEquals("ERROR: Player does not have an Airlift card!", validationResult);
+        String l_validationResult = d_airlift.validate();
+        assertEquals("ERROR: Player does not have an Airlift card!", l_validationResult);
     }
 
     @Test
