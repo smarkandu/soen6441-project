@@ -4,12 +4,13 @@ import ca.concordia.soen6441.project.context.ContinentManager;
 import ca.concordia.soen6441.project.context.CountryManager;
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.context.PlayerManager;
-import ca.concordia.soen6441.project.interfaces.Player;
+import ca.concordia.soen6441.project.gameplay.PlayerImpl;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
+import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -18,29 +19,18 @@ import static org.mockito.Mockito.*;
 
 /**
  * Unit tests for the {@link AssignReinforcements} class.
- * <p>
- * This test suite ensures that reinforcement allocation is correctly computed
- * based on the number of owned territories and continent bonuses.
- * </p>
  */
 class AssignReinforcementsTest {
 
     private GameContext d_gameEngine;
     private AssignReinforcements d_assignReinforcements;
-    private Player d_mockPlayer;
     private Continent d_mockAsia, d_mockEurope;
     private SortedMap<String, Country> d_mockCountries;
+    private PlayerImpl d_realPlayer;
 
-    /**
-     * Sets up the test environment before each test case.
-     * <p>
-     * Mocks the {@link GameEngine}, {@link Player}, {@link Continent}, and {@link Country}
-     * objects to simulate the behavior of the game state.
-     * </p>
-     */
     @BeforeEach
     void setUp() {
-
+        d_mockCountries = new TreeMap<>();
         d_gameEngine = mock(GameEngine.class);
         CountryManager l_mockCountryManager = mock(CountryManager.class);
         when(d_gameEngine.getCountryManager()).thenReturn(l_mockCountryManager);
@@ -49,45 +39,36 @@ class AssignReinforcementsTest {
 
         d_assignReinforcements = new AssignReinforcements(d_gameEngine);
 
-        d_mockPlayer = mock(Player.class);
-        when(d_mockPlayer.getName()).thenReturn("Tharun");
-
-        d_mockAsia = mock(Continent.class);
-        when(d_mockAsia.getID()).thenReturn("Asia");
-        when(d_mockAsia.getValue()).thenReturn(7);
-
-        d_mockEurope = mock(Continent.class);
-        when(d_mockEurope.getID()).thenReturn("Europe");
-        when(d_mockEurope.getValue()).thenReturn(5); // Bonus for controlling Europe
-
-        Map<String, Player> l_mockPlayers = new HashMap<>();
-        l_mockPlayers.put(d_mockPlayer.getName(), d_mockPlayer);
-        when(d_gameEngine.getPlayerManager().getPlayers()).thenReturn(l_mockPlayers);
-
-        when(d_gameEngine.getPlayerManager().getPlayer(anyInt())).thenReturn(d_mockPlayer);
-
         SortedMap<String, Continent> l_mockContinents = new TreeMap<>();
-        l_mockContinents.put("Asia", d_mockAsia);
-        l_mockContinents.put("Europe", d_mockEurope);
+
+        Continent l_realAsia = mock(Continent.class);
+        when(l_realAsia.getID()).thenReturn("Asia");
+        when(l_realAsia.getValue()).thenReturn(7);
+
+        Continent l_realEurope = mock(Continent.class);
+        when(l_realEurope.getID()).thenReturn("Europe");
+        when(l_realEurope.getValue()).thenReturn(5);
+
+        l_mockContinents.put("Asia", l_realAsia);
+        l_mockContinents.put("Europe", l_realEurope);
+
+        d_mockAsia = l_mockContinents.get("Asia");
+        d_mockEurope = l_mockContinents.get("Europe");
+
         ContinentManager l_mockContinentManager = mock(ContinentManager.class);
         when(d_gameEngine.getContinentManager()).thenReturn(l_mockContinentManager);
         when(d_gameEngine.getContinentManager().getContinents()).thenReturn(l_mockContinents);
-
-        d_mockCountries = new TreeMap<>();
     }
 
-    /**
-     * Tests reinforcement allocation when a player owns multiple territories and entire continents.
-     * <p>
-     * The player owns 9 territories, including all of Asia (bonus: 7) and all of Europe (bonus: 5).
-     * Expected reinforcements: (9/3) + 7 + 5 = 15.
-     * </p>
-     */
     @Test
-    @Disabled("This test is disabled for now")
     void testReinforcementArmyCalculation() {
         List<String> l_ownedCountries = Arrays.asList("A1", "A2", "A3", "A4", "A5", "E1", "E2", "E3", "E4");
-        when(d_mockPlayer.getOwnedCountries()).thenReturn(l_ownedCountries);
+
+        d_realPlayer = new PlayerImpl("Tharun", new ArrayList<>(l_ownedCountries), new ArrayList<>());
+        Map<String, Player> l_mockPlayers = new HashMap<>();
+        l_mockPlayers.put(d_realPlayer.getName(), d_realPlayer);
+        when(d_gameEngine.getPlayerManager().getPlayers()).thenReturn(l_mockPlayers);
+        when(d_gameEngine.getPlayerManager().getPlayer(anyInt())).thenReturn(d_realPlayer);
 
         for (String l_countryId : l_ownedCountries) {
             Country l_country = mock(Country.class);
@@ -103,66 +84,83 @@ class AssignReinforcementsTest {
         when(d_gameEngine.getCountryManager().getCountries()).thenReturn(d_mockCountries);
 
         d_assignReinforcements.execute();
-        System.out.println("Expected: 15 | Actual: " + d_mockPlayer.getReinforcements());
 
-        verify(d_mockPlayer).setReinforcements(15);
+        assertEquals(15, d_realPlayer.getReinforcements());
     }
 
-    /**
-     * Tests reinforcement allocation when a player owns 6 territories distributed across two continents.
-     * <p>
-     * Since the player does not own all territories in either continent, no continent bonus is applied.
-     * Expected reinforcements: max(3, (6/3)) = 3.
-     * </p>
-     */
     @Test
-    @Disabled("This test is disabled for now")
     void testReinforcementWithoutContinentBonus() {
-        List<String> l_ownedCountries = Arrays.asList("C1", "C2", "C3", "C4", "C5", "C6");
-        when(d_mockPlayer.getOwnedCountries()).thenReturn(l_ownedCountries);
+        d_mockCountries = new TreeMap<>();
+        List<String> l_ownedCountries = Arrays.asList("A1", "A2", "A3", "E1", "E2", "E3");
 
-        for (int l_i = 0; l_i < l_ownedCountries.size(); l_i++) {
+        d_realPlayer = new PlayerImpl("Tharun", new ArrayList<>(l_ownedCountries), new ArrayList<>());
+        Map<String, Player> l_mockPlayers = new HashMap<>();
+        l_mockPlayers.put(d_realPlayer.getName(), d_realPlayer);
+        when(d_gameEngine.getPlayerManager().getPlayers()).thenReturn(l_mockPlayers);
+        when(d_gameEngine.getPlayerManager().getPlayer(anyInt())).thenReturn(d_realPlayer);
+
+        for (int i = 0; i < l_ownedCountries.size(); i++) {
             Country l_country = mock(Country.class);
-            when(l_country.getID()).thenReturn(l_ownedCountries.get(l_i));
-
-            if (l_i < 3) {
+            when(l_country.getID()).thenReturn(l_ownedCountries.get(i));
+            if (i < 3) {
                 when(l_country.getContinent()).thenReturn(d_mockAsia);
             } else {
                 when(l_country.getContinent()).thenReturn(d_mockEurope);
             }
-
-            d_mockCountries.put(l_ownedCountries.get(l_i), l_country);
+            d_mockCountries.put(l_ownedCountries.get(i), l_country);
         }
 
-        d_assignReinforcements.execute();
-        System.out.println("Expected: 3 | Actual: " + d_mockPlayer.getReinforcements());
+        // Dummy unowned countries
+        Country dummyAsia = mock(Country.class);
+        when(dummyAsia.getID()).thenReturn("A_X");
+        when(dummyAsia.getContinent()).thenReturn(d_mockAsia);
+        d_mockCountries.put("A_X", dummyAsia);
 
-        verify(d_mockPlayer).setReinforcements(3);
+        Country dummyEurope = mock(Country.class);
+        when(dummyEurope.getID()).thenReturn("E_X");
+        when(dummyEurope.getContinent()).thenReturn(d_mockEurope);
+        d_mockCountries.put("E_X", dummyEurope);
+
+        when(d_gameEngine.getCountryManager().getCountries()).thenReturn(d_mockCountries);
+
+        d_assignReinforcements.execute();
+
+        assertEquals(3, d_realPlayer.getReinforcements());
     }
 
-    /**
-     * Tests reinforcement allocation when a player owns fewer than 3 territories.
-     * <p>
-     * The reinforcement allocation rule specifies that a player should receive at least 3 reinforcements per turn.
-     * Expected reinforcements: 3 (minimum allocation).
-     * </p>
-     */
     @Test
-    @Disabled("This test is disabled for now")
     void testMinimumReinforcementAllocation() {
-        List<String> l_ownedCountries = Arrays.asList("C1", "C2");
-        when(d_mockPlayer.getOwnedCountries()).thenReturn(l_ownedCountries);
+        d_mockCountries = new TreeMap<>();
+        List<String> l_ownedCountries = Arrays.asList("A1", "E1");
+
+        d_realPlayer = new PlayerImpl("Tharun", new ArrayList<>(l_ownedCountries), new ArrayList<>());
+        Map<String, Player> l_mockPlayers = new HashMap<>();
+        l_mockPlayers.put(d_realPlayer.getName(), d_realPlayer);
+        when(d_gameEngine.getPlayerManager().getPlayers()).thenReturn(l_mockPlayers);
+        when(d_gameEngine.getPlayerManager().getPlayer(anyInt())).thenReturn(d_realPlayer);
 
         for (String l_countryId : l_ownedCountries) {
             Country l_country = mock(Country.class);
             when(l_country.getID()).thenReturn(l_countryId);
-            when(l_country.getContinent()).thenReturn(d_mockAsia);
+            when(l_country.getContinent()).thenReturn(l_countryId.startsWith("A") ? d_mockAsia : d_mockEurope);
             d_mockCountries.put(l_countryId, l_country);
         }
 
-        d_assignReinforcements.execute();
-        System.out.println("Expected: 3 | Actual: " + d_mockPlayer.getReinforcements());
+        // Dummy unowned countries
+        Country dummyAsia = mock(Country.class);
+        when(dummyAsia.getID()).thenReturn("A_X");
+        when(dummyAsia.getContinent()).thenReturn(d_mockAsia);
+        d_mockCountries.put("A_X", dummyAsia);
 
-        verify(d_mockPlayer).setReinforcements(3);
+        Country dummyEurope = mock(Country.class);
+        when(dummyEurope.getID()).thenReturn("E_X");
+        when(dummyEurope.getContinent()).thenReturn(d_mockEurope);
+        d_mockCountries.put("E_X", dummyEurope);
+
+        when(d_gameEngine.getCountryManager().getCountries()).thenReturn(d_mockCountries);
+
+        d_assignReinforcements.execute();
+
+        assertEquals(3, d_realPlayer.getReinforcements());
     }
 }
