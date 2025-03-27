@@ -130,30 +130,34 @@ public class IssueOrder extends MainPlay {
         Country l_targetCountry = d_gameEngine.getCountryManager().getCountries().get(p_targetCountryID);
 
         // Correct method call for checking Airlift Card
-        if (!l_currentPlayer.getHandOfCardsManager().getAirLiftCardManager().hasCard()) {
+        if (getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) > 0) // Can only do after all troops are deployed
+        {
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: You still have " + getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) + " left to deploy!", true);
+        }
+        else if (!l_currentPlayer.getHandOfCardsManager().getAirLiftCardManager().hasCard()) {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player does not have an Airlift card!", true);
             return;
         }
 
-        if (!l_currentPlayer.equals(l_sourceCountry.getOwner())) {
+        else if (!l_currentPlayer.equals(l_sourceCountry.getOwner())) {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player does not own source country!", true);
             return;
         }
 
-        if (!l_currentPlayer.equals(l_targetCountry.getOwner())) {
+        else if (!l_currentPlayer.equals(l_targetCountry.getOwner())) {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player does not own target country!", true);
             return;
         }
 
-        if (p_numArmies > l_sourceCountry.getTroops()) {
+        else if (p_numArmies > l_sourceCountry.getTroops()) {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: Not enough troops to airlift!", true);
             return;
         }
 
-        // Issue the Airlift order with the GameContext parameter if needed
+
         l_currentPlayer.issue_order(new Airlift(l_sourceCountry, l_targetCountry, p_numArmies, l_currentPlayer, d_gameEngine));
 
-        // Correct removal of the Airlift card
+
         l_currentPlayer.getHandOfCardsManager().getAirLiftCardManager().removeCard();
 
         LogEntryBuffer.getInstance().appendToBuffer("Airlift order issued by " + l_currentPlayer.getName()
