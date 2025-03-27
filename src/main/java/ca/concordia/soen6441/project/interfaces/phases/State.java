@@ -146,5 +146,11 @@ public interface State {
      */
     void printInvalidCommandMessage();
 
-    void airlift(String p_lSourceCountryID, String p_lTargetCountryID, int p_lNumArmies);
+    /**
+     * Bomb a the country of an enemy
+     * @param p_countryNameToBomb string reprensent the name of the country to be bombed.
+     */
+    void bomb(String p_countryNameToBomb);
+//    void bomb(String p_player, String p_countryNameToBomb);
+
 }

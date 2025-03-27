@@ -92,11 +92,9 @@ public class GameDriver {
                         d_gameEngine.getPhase().advance(l_countryNameFrom, l_countryNameTo, l_toAdvance);
                         break;
                     }
-                    case "airlift": {
-                        String l_sourceCountryID = l_args[1].replace("\"", "");
-                        String l_targetCountryID = l_args[2].replace("\"", "");
-                        int l_numArmies = Integer.parseInt(l_args[3]);
-                        d_gameEngine.getPhase().airlift(l_sourceCountryID, l_targetCountryID, l_numArmies);
+                    case "bomb": {
+                        String l_countryNameToBomb = l_args[1].replace("\"", "");
+                        d_gameEngine.getPhase().bomb(l_countryNameToBomb);
                         break;
                     }
                     case "blockade": {
