@@ -41,7 +41,6 @@ public class PlayerImpl implements Player {
         this.d_Orders = p_Orders;
         this.d_Reinforcements = 0;
         this.d_HandsOfCardsManager = new HandOfCardsManager(this);
-        d_HandsOfCardsManager.addCard(new DiplomacyCard());
     }
 
     /**
