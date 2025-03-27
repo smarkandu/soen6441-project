@@ -116,10 +116,11 @@ public interface State {
     void advance(String p_countryNameFrom, String p_countryNameTo, int p_toAdvance);
 
     /**
-     * Bomb a the country of an enemy
-     * @param p_countryID
+     * The target territory’s army units count is tripled, and the territory becomes
+     * neutral.
+     * @param p_countryID String representing the country name to issue the blockade
      */
-    void bomb(String p_countryID);
+    void blockade(String p_countryID);
 
     /**
      * Ends the game.

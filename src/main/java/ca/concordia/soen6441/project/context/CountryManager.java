@@ -24,13 +24,18 @@ public class CountryManager implements CountryContext {
      */
     @Override
     public void addCountry(int p_numericID, String p_CountryID, String p_continentID, int p_xCoord, int p_yCoord) {
-        Country l_country = OverallFactory.getInstance().CreateCountry(p_numericID, p_CountryID, d_GameEngine.getContinentManager().getContinents().get(p_continentID), p_xCoord, p_yCoord);
+        Country l_country = OverallFactory.getInstance().CreateCountry(p_numericID, p_CountryID,
+                d_GameEngine.getContinentManager().getContinents().get(p_continentID),
+                p_xCoord, p_yCoord, d_GameEngine.getPlayerManager().getNeutralPlayer()); // neutral army by default
+        l_country.setTroops(2); // Default value for neutral armies
         d_Countries.put(p_CountryID, l_country);
         System.out.println("Country added: " + d_Countries.get(l_country.getID()));
     }
 
     public void addCountry(String p_CountryID, String p_continentID) {
-        Country l_country = OverallFactory.getInstance().CreateCountry(p_CountryID, d_GameEngine.getContinentManager().getContinents().get(p_continentID));
+        Country l_country = OverallFactory.getInstance().CreateCountry(p_CountryID, d_GameEngine.getContinentManager().getContinents().get(p_continentID),
+                d_GameEngine.getPlayerManager().getNeutralPlayer()); // neutral army by default
+        l_country.setTroops(2); // Default value for neutral armies
         d_Countries.put(p_CountryID, l_country);
         System.out.println("Country added: " + d_Countries.get(l_country.getID()));
     }

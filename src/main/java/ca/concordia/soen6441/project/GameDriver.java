@@ -93,8 +93,13 @@ public class GameDriver {
                         break;
                     }
                     case "bomb": {
-                        String l_countryID = l_args[1].replace("\"", "");
-                        d_gameEngine.getPhase().bomb(l_countryID);
+                        String l_countryNameToBomb = l_args[1].replace("\"", "");
+                        d_gameEngine.getPhase().bomb(l_countryNameToBomb);
+                        break;
+                    }
+                    case "blockade": {
+                        String l_countryNameToBlockade = l_args[1].replace("\"", "");
+                        d_gameEngine.getPhase().blockade(l_countryNameToBlockade);
                         break;
                     }
                     case "gameplayer":

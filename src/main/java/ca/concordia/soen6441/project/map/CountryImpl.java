@@ -34,7 +34,7 @@ public class CountryImpl implements Country, MapComponent {
      * @param p_xCoord    X coordinate of the country.
      * @param p_yCoord    Y coordinate of the country.
      */
-    public CountryImpl(int p_numericID, String p_ID, Continent p_Continent, int p_xCoord, int p_yCoord) {
+    public CountryImpl(int p_numericID, String p_ID, Continent p_Continent, int p_xCoord, int p_yCoord, Player p_owner) {
         this.d_ID = p_ID;
         this.d_xCoord = p_xCoord;
         this.d_yCoord = p_yCoord;
@@ -44,7 +44,7 @@ public class CountryImpl implements Country, MapComponent {
         if (p_numericID > d_Counter) {
             d_Counter = p_numericID;
         }
-        d_owner = null;
+        this.d_owner = p_owner;
     }
 
     /**
@@ -53,14 +53,14 @@ public class CountryImpl implements Country, MapComponent {
      * @param p_ID        String ID of the country.
      * @param p_Continent Continent to which the country belongs.
      */
-    public CountryImpl(String p_ID, Continent p_Continent) {
+    public CountryImpl(String p_ID, Continent p_Continent, Player p_owner) {
         this.d_ID = p_ID;
         this.d_xCoord = 0; // Hardcoded
         this.d_yCoord = 0; // Hardcoded
         d_Continent = p_Continent;
         d_Neighbors = new TreeMap<String, Country>();
         this.d_numericID = ++d_Counter;
-        d_owner = null;
+        d_owner = p_owner;
     }
 
     /**
