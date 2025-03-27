@@ -196,6 +196,8 @@ public class IssueOrder extends MainPlay {
 
         // Step 6: Issue Diplomacy order
         l_currentPlayer.issue_order(new Diplomacy(l_currentPlayer, l_targetPlayer));
+        // Remove the used DiplomacyCard
+        l_currentPlayer.getHandOfCardsManager().getDiplomacyCardManager().removeCard();
         LogEntryBuffer.getInstance().appendToBuffer("Diplomacy order issued to negotiate with " + l_targetPlayer.getName(), false);
     }
 

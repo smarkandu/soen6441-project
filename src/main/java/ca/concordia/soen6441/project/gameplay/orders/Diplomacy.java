@@ -56,9 +56,6 @@ public class Diplomacy implements Order {
         d_initiator.addNegotiatedPlayer(d_target);
         d_target.addNegotiatedPlayer(d_initiator);
 
-        // Remove the used DiplomacyCard
-        d_initiator.getHandOfCardsManager().getDiplomacyCardManager().removeCard();
-
         LogEntryBuffer.getInstance().appendToBuffer(
                 d_initiator.getName() + " has negotiated a non-aggression pact with " + d_target.getName() + ".",
                 true
@@ -77,9 +74,7 @@ public class Diplomacy implements Order {
         if (d_initiator.equals(d_target)) {
             return "Error: Cannot negotiate with yourself.";
         }
-        if (d_initiator.getHandOfCardsManager().getDiplomacyCardManager().size() == 0) {
-            return "Error: " + d_initiator.getName() + " does not have a diplomacy card.";
-        }
+
         return null;
     }
 
