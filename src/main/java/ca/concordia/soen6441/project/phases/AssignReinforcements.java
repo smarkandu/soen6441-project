@@ -1,10 +1,12 @@
 package ca.concordia.soen6441.project.phases;
 
 import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.gameplay.PlayerImpl;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
+import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
 import java.util.Map;
 
@@ -95,6 +97,13 @@ public class AssignReinforcements extends MainPlay {
     public void execute() {
         for (int l_i = 0; l_i < d_gameEngine.getPlayerManager().getPlayers().size(); l_i++) {
             Player l_player = d_gameEngine.getPlayerManager().getPlayer(l_i);
+
+            // Reset diplomacy for all players at the beginning of the phase (if applicable)
+            if (!((PlayerImpl) l_player).getNegotiatedPlayers().isEmpty()) {
+                ((PlayerImpl) l_player).resetNegotiatedPlayers();
+                LogEntryBuffer.getInstance().appendToBuffer("Diplomacy list reset for player: " + l_player.getName(), true);
+            }
+
             Map<String, Continent> l_continents = d_gameEngine.getContinentManager().getContinents();
 
             int l_territoriesOwned = l_player.getOwnedCountries().size();

@@ -99,4 +99,9 @@ public interface Player {
      * @return HandsOfCardsManager object for the current player
      */
     HandOfCardsContext getHandOfCardsManager();
+    void addNegotiatedPlayer(Player p_player);
+    boolean hasNegotiatedWith(Player p_player);
+    void resetNegotiatedPlayers();
+    List<Player> getNegotiatedPlayers();  // needed for reset check
+    void removeNegotiatedPlayer(Player p_player);
 }

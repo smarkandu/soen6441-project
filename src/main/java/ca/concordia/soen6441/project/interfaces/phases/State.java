@@ -121,7 +121,7 @@ public interface State {
      * @param p_countryID String representing the country name to issue the blockade
      */
     void blockade(String p_countryID);
-
+    
     /**
      * Ends the game.
      */
@@ -154,4 +154,10 @@ public interface State {
 //    void bomb(String p_player, String p_countryNameToBomb);
     void airlift(String p_lSourceCountryID, String p_lTargetCountryID, int p_lNumArmies);
 
+   /**
+    * Issues a Diplomacy order to negotiate with another player.
+    *
+    * @param p_playerID ID of the player to negotiate with.
+    */
+    void negotiate(String p_playerID);
 }

@@ -5,13 +5,14 @@ import ca.concordia.soen6441.project.gameplay.cards.BombCard;
 import ca.concordia.soen6441.project.gameplay.orders.Advance;
 import ca.concordia.soen6441.project.gameplay.orders.Bomb;
 import ca.concordia.soen6441.project.gameplay.orders.Blockade;
-import ca.concordia.soen6441.project.gameplay.orders.Airlift;
 import ca.concordia.soen6441.project.gameplay.orders.Deploy;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 import ca.concordia.soen6441.project.log.LogWriter;
+import ca.concordia.soen6441.project.gameplay.orders.Diplomacy;
+import ca.concordia.soen6441.project.gameplay.PlayerImpl;
 
 /**
  * The IssueOrder class represents the phase where players issue their orders.
@@ -177,55 +178,60 @@ public class IssueOrder extends MainPlay {
 
     @Override
     public void airlift(String p_sourceCountryID, String p_targetCountryID, int p_numArmies) {
-        Country l_sourceCountry = d_gameEngine.getCountryManager().getCountries().get(p_sourceCountryID);
-        Country l_targetCountry = d_gameEngine.getCountryManager().getCountries().get(p_targetCountryID);
-
-        LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to airlift "
-                + p_numArmies + " from " + p_sourceCountryID + " to " + p_targetCountryID, false);
-
-        if (getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) > 0) {
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: You still have " +
-                    getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) + " left to deploy!", true);
-        }
-        else if (!getCurrentPlayer().equals(l_sourceCountry.getOwner())) {
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player " + getCurrentPlayer().getName() +
-                    " doesn't own source country for airlift!", true);
-        }
-        else if (!getCurrentPlayer().equals(l_targetCountry.getOwner())) {
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player " + getCurrentPlayer().getName() +
-                    " doesn't own target country for airlift!", true);
-        }
-        else if (p_numArmies > getNumberOfTroopsLeftToAdvance(getCurrentPlayer(), l_sourceCountry)) {
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Only " +
-                    getNumberOfTroopsLeftToAdvance(getCurrentPlayer(), l_sourceCountry) + " left to airlift!", true);
-        }
-        else if (!getCurrentPlayer().getHandOfCardsManager().getAirLiftCardManager().hasCard()) {
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: You do not have an Airlift card!", true);
-        }
-        else {
-            getCurrentPlayer().issue_order(new Airlift(
-                    l_sourceCountry,
-                    l_targetCountry,
-                    p_numArmies,
-                    getCurrentPlayer(),
-                    d_gameEngine
-            ));
-            getCurrentPlayer().getHandOfCardsManager().getAirLiftCardManager().removeCard();
-
-            LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to airlift " +
-                    p_numArmies + " from " + p_sourceCountryID + " to " + p_targetCountryID + " granted", false);
-        }
-    }
-
-
-    @Override
-    public void negotiate(String p_playerID) {
-        // TODO #70
-        if (getCurrentPlayer().getHandOfCardsManager().getDiplomacyCardManager().hasCard())
+        // TODO #69
+        if (getCurrentPlayer().getHandOfCardsManager().getAirLiftCardManager().hasCard())
         {
 
         }
     }
+
+
+    /**
+     * Processes a "negotiate" command issued by a player.
+     * <p>
+     * Steps:
+     * 1. Resets all players' diplomacy lists if populated.
+     * 2. Validates that the target player exists and the initiating player has a diplomacy card.
+     * 3. If valid, issues a Diplomacy order and logs the result.
+     *
+     * @param p_playerID The ID of the player to negotiate with.
+     */
+    @Override
+    public void negotiate(String p_playerID) {
+        // Step 1: Fetch current player
+        Player l_currentPlayer = d_gameEngine.getPlayerManager().getPlayer(d_currentPlayIndex);
+
+        // Step 2: Ensure all reinforcements are deployed before diplomacy
+        if (getNumberOfTroopsLeftToDeploy(l_currentPlayer) > 0) {
+            LogEntryBuffer.getInstance().appendToBuffer(
+                    "ERROR: You still have " + getNumberOfTroopsLeftToDeploy(l_currentPlayer) + " left to deploy before using a Diplomacy card!",
+                    true
+            );
+            return;
+        }
+
+        // Step 3: Validate the target player
+        Player l_targetPlayer = d_gameEngine.getPlayerManager().getPlayers().get(p_playerID);
+
+        if (l_targetPlayer == null) {
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player with ID '" + p_playerID + "' does not exist.", true);
+            return;
+        }
+
+        // Step 4: Check if diplomacy card is available (new API)
+        if (l_currentPlayer.getHandOfCardsManager().getDiplomacyCardManager().size() == 0) {
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: You don't have a diplomacy card!", true);
+            return;
+        }
+
+        // Step 5: Issue Diplomacy order
+        l_currentPlayer.issue_order(new Diplomacy(l_currentPlayer, l_targetPlayer));
+        // Remove the used DiplomacyCard
+        l_currentPlayer.getHandOfCardsManager().getDiplomacyCardManager().removeCard();
+        LogEntryBuffer.getInstance().appendToBuffer("Diplomacy order issued to negotiate with " + l_targetPlayer.getName(), false);
+    }
+
+
 
     /**
      * Moves to the next phase in the game.
