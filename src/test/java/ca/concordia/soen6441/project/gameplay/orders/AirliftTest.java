@@ -13,67 +13,66 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 public class AirliftTest {
 
     @Mock
-    private Player mockPlayer;
+    private Player d_mockPlayer;
 
     @Mock
-    private GameContext mockGameContext;
+    private GameContext d_mockGameContext;
 
     @Mock
-    private Country mockSourceCountry;
+    private Country d_mockSourceCountry;
 
     @Mock
-    private Country mockTargetCountry;
+    private Country d_mockTargetCountry;
 
     @Mock
-    private HandOfCardsContext mockHandOfCardsManager;
+    private HandOfCardsContext d_mockHandOfCardsManager;
 
     @Mock
-    private CardManager<AirliftCard> mockAirliftCardManager;
+    private CardManager<AirliftCard> d_mockAirliftCardManager;
 
-    private Airlift airlift;
+    private Airlift d_airlift;
 
     @BeforeEach
     void setUp() {
-        lenient().when(mockPlayer.getHandOfCardsManager()).thenReturn(mockHandOfCardsManager);
-        lenient().when(mockHandOfCardsManager.getAirLiftCardManager()).thenReturn(mockAirliftCardManager);
-        lenient().when(mockAirliftCardManager.hasCard()).thenReturn(true);
-        lenient().when(mockSourceCountry.getOwner()).thenReturn(mockPlayer);
-        lenient().when(mockTargetCountry.getOwner()).thenReturn(mockPlayer);
-        lenient().when(mockSourceCountry.getTroops()).thenReturn(10);
-        lenient().when(mockTargetCountry.getTroops()).thenReturn(10); // Needed for execute()
+        lenient().when(d_mockPlayer.getHandOfCardsManager()).thenReturn(d_mockHandOfCardsManager);
+        lenient().when(d_mockHandOfCardsManager.getAirLiftCardManager()).thenReturn(d_mockAirliftCardManager);
+        lenient().when(d_mockAirliftCardManager.hasCard()).thenReturn(true);
+        lenient().when(d_mockSourceCountry.getOwner()).thenReturn(d_mockPlayer);
+        lenient().when(d_mockTargetCountry.getOwner()).thenReturn(d_mockPlayer);
+        lenient().when(d_mockSourceCountry.getTroops()).thenReturn(10);
+        lenient().when(d_mockTargetCountry.getTroops()).thenReturn(10); // Needed for execute()
 
-        airlift = new Airlift(mockSourceCountry, mockTargetCountry, 5, mockPlayer, mockGameContext);
+        d_airlift = new Airlift(d_mockSourceCountry, d_mockTargetCountry, 5, d_mockPlayer, d_mockGameContext);
     }
 
     @Test
     void testAirliftValid() {
-        assertTrue(airlift.validate(), "Airlift should be valid when all conditions are met.");
+        assertTrue(d_airlift.validate(), "Airlift should be valid when all conditions are met.");
     }
 
-    private void assertTrue(String validate, String s) {
+    private void assertTrue(String p_validate, String p_s) {
     }
 
     @Test
     void testAirliftNoCard() {
-        when(mockAirliftCardManager.hasCard()).thenReturn(false);
-        assertFalse(airlift.validate(), "Airlift should fail when player has no Airlift card.");
+        when(d_mockAirliftCardManager.hasCard()).thenReturn(false);
+        assertFalse(d_airlift.validate(), "Airlift should fail when player has no Airlift card.");
     }
 
-    private void assertFalse(String validate, String s) {
+    private void assertFalse(String p_validate, String p_s) {
     }
 
     @Test
     void testAirliftExecution() {
-        airlift.execute();
+        d_airlift.execute();
 
-        verify(mockSourceCountry).setTroops(5);   // 10 - 5
-        verify(mockTargetCountry).setTroops(15);  // 10 + 5
-        verify(mockAirliftCardManager).removeCard();
+        verify(d_mockSourceCountry).setTroops(5);   // 10 - 5
+        verify(d_mockTargetCountry).setTroops(15);  // 10 + 5
+        verify(d_mockAirliftCardManager).removeCard();
     }
 }

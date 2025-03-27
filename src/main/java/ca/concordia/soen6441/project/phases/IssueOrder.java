@@ -1,6 +1,5 @@
 package ca.concordia.soen6441.project.phases;
 
-import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.gameplay.orders.Advance;
 import ca.concordia.soen6441.project.gameplay.orders.Airlift;
 import ca.concordia.soen6441.project.gameplay.orders.Deploy;
@@ -126,38 +125,38 @@ public class IssueOrder extends MainPlay {
 
     @Override
     public void airlift(String p_sourceCountryID, String p_targetCountryID, int p_numArmies) {
-        Player currentPlayer = getCurrentPlayer();
-        Country sourceCountry = d_gameEngine.getCountryManager().getCountries().get(p_sourceCountryID);
-        Country targetCountry = d_gameEngine.getCountryManager().getCountries().get(p_targetCountryID);
+        Player l_currentPlayer = getCurrentPlayer();
+        Country l_sourceCountry = d_gameEngine.getCountryManager().getCountries().get(p_sourceCountryID);
+        Country l_targetCountry = d_gameEngine.getCountryManager().getCountries().get(p_targetCountryID);
 
         // Correct method call for checking Airlift Card
-        if (!currentPlayer.getHandOfCardsManager().getAirLiftCardManager().hasCard()) {
+        if (!l_currentPlayer.getHandOfCardsManager().getAirLiftCardManager().hasCard()) {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player does not have an Airlift card!", true);
             return;
         }
 
-        if (!currentPlayer.equals(sourceCountry.getOwner())) {
+        if (!l_currentPlayer.equals(l_sourceCountry.getOwner())) {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player does not own source country!", true);
             return;
         }
 
-        if (!currentPlayer.equals(targetCountry.getOwner())) {
+        if (!l_currentPlayer.equals(l_targetCountry.getOwner())) {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player does not own target country!", true);
             return;
         }
 
-        if (p_numArmies > sourceCountry.getTroops()) {
+        if (p_numArmies > l_sourceCountry.getTroops()) {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: Not enough troops to airlift!", true);
             return;
         }
 
         // Issue the Airlift order with the GameContext parameter if needed
-        currentPlayer.issue_order(new Airlift(sourceCountry, targetCountry, p_numArmies, currentPlayer, d_gameEngine));
+        l_currentPlayer.issue_order(new Airlift(l_sourceCountry, l_targetCountry, p_numArmies, l_currentPlayer, d_gameEngine));
 
         // Correct removal of the Airlift card
-        currentPlayer.getHandOfCardsManager().getAirLiftCardManager().removeCard();
+        l_currentPlayer.getHandOfCardsManager().getAirLiftCardManager().removeCard();
 
-        LogEntryBuffer.getInstance().appendToBuffer("Airlift order issued by " + currentPlayer.getName()
+        LogEntryBuffer.getInstance().appendToBuffer("Airlift order issued by " + l_currentPlayer.getName()
                 + " moving " + p_numArmies + " troops from " + p_sourceCountryID + " to " + p_targetCountryID, false);
     }
 
