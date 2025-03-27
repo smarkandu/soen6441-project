@@ -127,11 +127,6 @@ public class IssueOrder extends MainPlay {
             // The player must have a bomb card
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player " + getCurrentPlayer().getName() + " doesn't have a bomb card", true);
         }
-        else if (l_countryToBomb == null)
-        {
-            // The country name should exist
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player " + getCurrentPlayer().getName() + " try to bomb a that doesn't exist", true);
-        }
         else if (getCurrentPlayer().getOwnedCountries().contains(p_countryID))
         {
             // The player should not own the country
@@ -140,7 +135,7 @@ public class IssueOrder extends MainPlay {
         else if (!isTerritoryAdjacent(l_playerName, l_countryToBomb))
         {
             // The enemy's country should be adjacent to one of the player countries
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: The country" + p_countryID + " is not adjacent to any player " + getCurrentPlayer().getName() + " countries", true);
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: The country " + p_countryID + " is not adjacent to any player " + getCurrentPlayer().getName() + " countries", true);
         }
         else if (l_countryToBomb.getTroops() == 0)
         {
@@ -151,7 +146,6 @@ public class IssueOrder extends MainPlay {
         {
             getCurrentPlayer().issue_order(new Bomb(l_countryToBomb));
             getCurrentPlayer().getHandOfCardsManager().getBombCardManager().removeCard();
-            getCurrentPlayer().getHandOfCardsManager().getBlockadeCardManager().removeCard();
             LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to bomb "
                     + p_countryID + " granted", true);
         }
@@ -242,8 +236,7 @@ public class IssueOrder extends MainPlay {
      */
     private boolean isTerritoryAdjacent(String p_player, Country p_countryToBomb) {
         for(String l_neighbourCountry : p_countryToBomb.getNeighborIDs()) {
-            Country l_country = d_gameEngine.getCountryManager().getCountries().get(l_neighbourCountry);
-            if(l_country.getOwner().getName().equals(p_player)){
+            if(getCurrentPlayer().getOwnedCountries().contains(l_neighbourCountry)) {
                 return true;
             }
         }
