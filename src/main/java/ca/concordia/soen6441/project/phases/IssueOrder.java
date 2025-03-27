@@ -160,18 +160,10 @@ public class IssueOrder extends MainPlay {
      */
     @Override
     public void negotiate(String p_playerID) {
-        // Step 1: Reset diplomacy for all players at the beginning of the phase (if applicable)
-        for (Player l_player : d_gameEngine.getPlayerManager().getPlayers().values()) {
-            if (!((PlayerImpl) l_player).getNegotiatedPlayers().isEmpty()) {
-                ((PlayerImpl) l_player).resetNegotiatedPlayers();
-                LogEntryBuffer.getInstance().appendToBuffer("Diplomacy list reset for player: " + l_player.getName(), true);
-            }
-        }
-
-        // Step 2: Fetch current player
+        // Step 1: Fetch current player
         Player l_currentPlayer = d_gameEngine.getPlayerManager().getPlayer(d_currentPlayIndex);
 
-        // Step 3: Ensure all reinforcements are deployed before diplomacy
+        // Step 2: Ensure all reinforcements are deployed before diplomacy
         if (getNumberOfTroopsLeftToDeploy(l_currentPlayer) > 0) {
             LogEntryBuffer.getInstance().appendToBuffer(
                     "ERROR: You still have " + getNumberOfTroopsLeftToDeploy(l_currentPlayer) + " left to deploy before using a Diplomacy card!",
@@ -180,7 +172,7 @@ public class IssueOrder extends MainPlay {
             return;
         }
 
-        // Step 4: Validate the target player
+        // Step 3: Validate the target player
         Player l_targetPlayer = d_gameEngine.getPlayerManager().getPlayers().get(p_playerID);
 
         if (l_targetPlayer == null) {
@@ -188,13 +180,13 @@ public class IssueOrder extends MainPlay {
             return;
         }
 
-        // Step 5: Check if diplomacy card is available (new API)
+        // Step 4: Check if diplomacy card is available (new API)
         if (l_currentPlayer.getHandOfCardsManager().getDiplomacyCardManager().size() == 0) {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: You don't have a diplomacy card!", true);
             return;
         }
 
-        // Step 6: Issue Diplomacy order
+        // Step 5: Issue Diplomacy order
         l_currentPlayer.issue_order(new Diplomacy(l_currentPlayer, l_targetPlayer));
         // Remove the used DiplomacyCard
         l_currentPlayer.getHandOfCardsManager().getDiplomacyCardManager().removeCard();
