@@ -142,14 +142,14 @@ public class ValidateMapFromFile {
     @Test
     public void testIsMapValid_validMap() {
         // Create Continents.
-        SortedMap<String, Continent> d_continents = new TreeMap<>();
+        SortedMap<String, Continent> l_continents = new TreeMap<>();
         Continent l_northAmerica = new ContinentStub("NorthAmerica", 5,1);
         Continent l_southAmerica = new ContinentStub("SouthAmerica", 4, 2);
-        d_continents.put(l_northAmerica.getID(), l_northAmerica);
-        d_continents.put(l_southAmerica.getID(), l_southAmerica);
+        l_continents.put(l_northAmerica.getID(), l_northAmerica);
+        l_continents.put(l_southAmerica.getID(), l_southAmerica);
 
         // Create Countries.
-        SortedMap<String, Country> countries = new TreeMap<>();
+        SortedMap<String, Country> l_countries = new TreeMap<>();
         CountryStub l_canada = new CountryStub("Canada", 1, l_northAmerica);
         CountryStub l_unitedStates = new CountryStub("UnitedStates", 2, l_northAmerica);
         CountryStub l_mexico = new CountryStub("Mexico", 3, l_southAmerica);
@@ -168,12 +168,12 @@ public class ValidateMapFromFile {
         l_mexico.addNeighbor(l_unitedStates);
 
         // Since neighbor relationships are bidirectional, the reverse is also set up.
-        countries.put(l_canada.getID(), l_canada);
-        countries.put(l_unitedStates.getID(), l_unitedStates);
-        countries.put(l_mexico.getID(), l_mexico);
+        l_countries.put(l_canada.getID(), l_canada);
+        l_countries.put(l_unitedStates.getID(), l_unitedStates);
+        l_countries.put(l_mexico.getID(), l_mexico);
 
         // Create an instance of ValidateMapImpl with the simulated valid map data.
-        ValidateMapImpl l_validator = new ValidateMapImpl(countries, d_continents);
+        ValidateMapImpl l_validator = new ValidateMapImpl(l_countries, l_continents);
 
         // Assert that the map is valid.
         assertTrue(l_validator.isMapValid(), "The system failed to identify the validity of map");
