@@ -13,9 +13,9 @@ import ca.concordia.soen6441.project.interfaces.context.GameContext;
  * even if they are not adjacent. It extends Advance but removes neighbor restrictions.
  */
 public class Airlift extends Advance {
-    private final Player d_player;
-    private final Country d_sourceCountry;
-    private final Country d_targetCountry;
+    private Player d_player = null;
+    private Country d_sourceCountry = null;
+    private Country d_targetCountry = null;
     private int d_numArmies;
 
     /**
