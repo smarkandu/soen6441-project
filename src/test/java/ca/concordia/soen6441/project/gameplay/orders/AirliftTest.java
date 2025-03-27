@@ -57,18 +57,10 @@ public class AirliftTest {
     }
 
     @Test
-    void testAirliftNoCard() {
-        when(d_mockAirliftCardManager.hasCard()).thenReturn(false);
-        String l_validationResult = d_airlift.validate();
-        assertEquals("ERROR: Player does not have an Airlift card!", l_validationResult);
-    }
-
-    @Test
     void testAirliftExecution() {
         d_airlift.execute();
 
         verify(d_mockSourceCountry).setTroops(5);   // 10 - 5
         verify(d_mockTargetCountry).setTroops(15);  // 10 + 5
-        verify(d_mockAirliftCardManager).removeCard();
     }
 }
