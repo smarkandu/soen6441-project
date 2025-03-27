@@ -84,7 +84,7 @@ public class GameEngine implements GameContext, MapComponent {
                     int l_armyCount = l_country.getTroops(); // Get the number of troops in the country
                     
                     // Append detailed information about the country
-                    l_countryInfo.append(" | Owner: ").append(l_owner != null ? l_owner.getName() : "Neutral") // Owner's name or "Neutral"
+                    l_countryInfo.append(" | Owner: ").append(l_owner.getName()) // Owner's name
                             .append(" | Armies: ").append(l_armyCount); // Number of armies stationed
                             
                 }
@@ -244,10 +244,14 @@ public class GameEngine implements GameContext, MapComponent {
             System.out.println("ERROR: null value set for assignCountryToPlayer for p_country.  Operation cancelled.");
             return;
         }
-
-        p_country.setOwner(p_player);
-        if (p_player != null)
+        else if (p_player == null)
         {
+            System.out.println("ERROR: null value set for assignCountryToPlayer for p_player.  Operation cancelled.");
+            return;
+        }
+        else
+        {
+            p_country.setOwner(p_player);
             p_player.addOwnedCountry(p_country);
         }
     }
@@ -262,6 +266,6 @@ public class GameEngine implements GameContext, MapComponent {
             p_country.getOwner().removeOwnedCountry(p_country);
         }
 
-        p_country.setOwner(null);
+        p_country.setOwner(d_PlayerManager.getNeutralPlayer()); // Becomes Neutral
     }
 }
