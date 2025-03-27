@@ -69,6 +69,13 @@ public class Advance implements Order {
         int l_actualTroopsAdvance = getActualTroopsAdvance(d_toAdvance);
         this.d_sourceTerritory.setTroops(this.d_sourceTerritory.getTroops() - l_actualTroopsAdvance);
 
+        // Cancel attack if diplomacy pact exists
+        if (d_targetTerritory.getOwner() != null && d_initiator.hasNegotiatedWith(d_targetTerritory.getOwner())) {
+            LogEntryBuffer.getInstance().appendToBuffer("Attack canceled due to diplomacy pact between "
+                + d_initiator.getName() + " and " + d_targetTerritory.getOwner().getName(), true);
+            return;
+        }
+
         String l_errorMsg = null;
         if ((l_errorMsg = validate()) != null)
         {

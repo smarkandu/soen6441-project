@@ -8,10 +8,12 @@ import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.context.HandOfCardsContext;
+import ca.concordia.soen6441.project.gameplay.cards.DiplomacyCard;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 
 /**
  * The PlayerImpl class represents a player in the game, implementing the Player interface.
@@ -23,6 +25,8 @@ public class PlayerImpl implements Player {
     private ArrayList<Order> d_Orders;
     private HandOfCardsContext d_HandsOfCardsManager;
     int d_Reinforcements;
+    private List<Player> d_negotiatedPlayers = new ArrayList<>();
+
 
     /**
      * Constructs a PlayerImpl instance.
@@ -180,4 +184,53 @@ public class PlayerImpl implements Player {
     public HandOfCardsContext getHandOfCardsManager() {
         return d_HandsOfCardsManager;
     }
+
+/**
+ * Adds a player to the list of players this player has negotiated with.
+ *
+ * @param p_player The player to add to the negotiated list.
+ */
+    @Override
+    public void addNegotiatedPlayer(Player p_player) {
+        if (!d_negotiatedPlayers.contains(p_player)) {
+            d_negotiatedPlayers.add(p_player);
+        }
+    }
+/**
+ * Checks if this player has a diplomacy pact with the given player.
+ *
+ * @param p_player The player to check against.
+ * @return true if a diplomacy pact exists, false otherwise.
+ */
+    @Override
+    public boolean hasNegotiatedWith(Player p_player) {
+        return d_negotiatedPlayers.contains(p_player);
+    }
+/**
+ * Clears all existing diplomacy pacts for this player.
+ * Typically called at the beginning of a new round.
+ */
+    @Override
+    public void resetNegotiatedPlayers() {
+        d_negotiatedPlayers.clear();
+    }
+/**
+ * Returns the current list of negotiated players.
+ *
+ * @return A list of players this player cannot attack this turn.
+ */
+    @Override
+public List<Player> getNegotiatedPlayers() {
+    return d_negotiatedPlayers;
+}
+
+/**
+ * Removes a specific player from the list of negotiated players.
+ *
+ * @param p_player The player to remove from the diplomacy pact.
+ */
+@Override
+public void removeNegotiatedPlayer(Player p_player) {
+    d_negotiatedPlayers.remove(p_player);
+}
 }
