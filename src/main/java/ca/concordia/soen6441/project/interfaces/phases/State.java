@@ -145,4 +145,12 @@ public interface State {
      * for the current game phase.
      */
     void printInvalidCommandMessage();
+
+    /**
+     * Bomb a the country of an enemy
+     * @param p_countryNameToBomb string reprensent the name of the country to be bombed.
+     */
+    void bomb(String p_countryNameToBomb);
+//    void bomb(String p_player, String p_countryNameToBomb);
+
 }
