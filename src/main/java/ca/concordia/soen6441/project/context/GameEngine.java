@@ -232,4 +232,36 @@ public class GameEngine implements GameContext, MapComponent {
     public DeckOfCards getDeckOfCards() {
         return d_DeckOfCards;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void assignCountryToPlayer(Country p_country, Player p_player)
+    {
+        if (p_country == null)
+        {
+            System.out.println("ERROR: null value set for assignCountryToPlayer for p_country.  Operation cancelled.");
+            return;
+        }
+
+        p_country.setOwner(p_player);
+        if (p_player != null)
+        {
+            p_player.addOwnedCountry(p_country);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void unassignCountryFromPlayer(Country p_country)
+    {
+        if (p_country.getOwner() != null) {
+            p_country.getOwner().removeOwnedCountry(p_country);
+        }
+
+        p_country.setOwner(null);
+    }
 }

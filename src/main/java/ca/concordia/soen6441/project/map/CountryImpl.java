@@ -166,6 +166,10 @@ public class CountryImpl implements Country, MapComponent {
      */
     @Override
     public void setOwner(Player p_owner) {
+        if (d_owner != null)
+        {
+            d_owner.getOwnedCountries().remove(this.getID());
+        }
         d_owner = p_owner;
     }
 

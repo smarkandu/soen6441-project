@@ -101,7 +101,7 @@ public class IssueOrder extends MainPlay {
         }
         else
         {
-            getCurrentPlayer().issue_order(new Advance(l_countryFrom, l_countryTo, p_toAdvance, getCurrentPlayer()));
+            getCurrentPlayer().issue_order(new Advance(l_countryFrom, l_countryTo, p_toAdvance, getCurrentPlayer(), d_gameEngine));
             LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to advance "
                     + p_toAdvance + " from " + p_countryNameFrom + " to " + p_countryNameTo +  " granted", false);
         }
@@ -122,7 +122,7 @@ public class IssueOrder extends MainPlay {
         {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: You still have " + getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) + " left to deploy!", true);
         }
-        else if (!getCurrentPlayer().getHandOfCardsManager().hasBombCard())
+        else if (!getCurrentPlayer().getHandOfCardsManager().getBombCardManager().hasCard())
         {
             // The player must have a bomb card
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player " + getCurrentPlayer().getName() + " doesn't have a bomb card", true);
@@ -150,7 +150,8 @@ public class IssueOrder extends MainPlay {
         else
         {
             getCurrentPlayer().issue_order(new Bomb(l_countryToBomb));
-            getCurrentPlayer().getHandOfCardsManager().removeCard(new BombCard());
+            getCurrentPlayer().getHandOfCardsManager().getBombCardManager().removeCard();
+            getCurrentPlayer().getHandOfCardsManager().getBlockadeCardManager().removeCard();
             LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to bomb "
                     + p_countryID + " granted", true);
         }
@@ -159,7 +160,7 @@ public class IssueOrder extends MainPlay {
     @Override
     public void blockade(String p_countryID) {
         // TODO #68
-        if (getCurrentPlayer().getHandOfCardsManager().hasBlockadeCard())
+        if (getCurrentPlayer().getHandOfCardsManager().getBlockadeCardManager().hasCard())
         {
 
         }
@@ -168,7 +169,7 @@ public class IssueOrder extends MainPlay {
     @Override
     public void airlift(String p_sourceCountryID, String p_targetCountryID, int p_numArmies) {
         // TODO #69
-        if (getCurrentPlayer().getHandOfCardsManager().hasAirliftCard())
+        if (getCurrentPlayer().getHandOfCardsManager().getAirLiftCardManager().hasCard())
         {
 
         }
@@ -177,7 +178,7 @@ public class IssueOrder extends MainPlay {
     @Override
     public void negotiate(String p_playerID) {
         // TODO #70
-        if (getCurrentPlayer().getHandOfCardsManager().hasDiplomacyCard())
+        if (getCurrentPlayer().getHandOfCardsManager().getDiplomacyCardManager().hasCard())
         {
 
         }

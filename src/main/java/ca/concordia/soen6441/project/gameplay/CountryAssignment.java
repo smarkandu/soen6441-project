@@ -49,8 +49,7 @@ public class CountryAssignment {
             }
 
             Country l_assignedCountry = l_availableCountries.get(l_i);
-            l_players.get(l_i).assignCountry(l_assignedCountry);
-            l_assignedCountry.setOwner(l_players.get(l_i));
+            d_gameEngine.assignCountryToPlayer(l_assignedCountry, l_players.get(l_i));
             l_assignedCountry.setTroops(3); // Assign 3 troops per requirement
 
             System.out.println(l_players.get(l_i).getName() + " assigned to " + l_assignedCountry.getID() + " with 3 troops.");
