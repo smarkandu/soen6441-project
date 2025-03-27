@@ -82,7 +82,11 @@ public class IssueOrder extends MainPlay {
         LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to advance "
                         + p_toAdvance + " from " + p_countryNameFrom + " to " + p_countryNameTo, false);
 
-        if (getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) > 0) // Can only do after all troops are deployed
+        if (l_countryFrom.equals(l_countryTo))
+        {
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Source and target territories cannot be the same.", true);
+        }
+        else if (getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) > 0) // Can only do after all troops are deployed
         {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: You still have " + getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) + " left to deploy!", true);
         }
@@ -180,7 +184,11 @@ public class IssueOrder extends MainPlay {
         LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to airlift "
                 + p_numArmies + " from " + p_sourceCountryID + " to " + p_targetCountryID, false);
 
-        if (getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) > 0) {
+        if (l_sourceCountry.equals(l_targetCountry))
+        {
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Source and target countries cannot be the same.", true);
+        }
+        else if (getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) > 0) {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: You still have " +
                     getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) + " left to deploy!", true);
         }
