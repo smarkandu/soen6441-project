@@ -110,9 +110,6 @@ public class IssueOrder extends MainPlay {
 
     @Override
     public void bomb(String p_countryID) {
-        // TODO #67
-        // pre-requisite:
-        // Bomb Card allows you to target an enemy or neutral territory
         Country l_countryToBomb = d_gameEngine.getCountryManager().getCountries().get(p_countryID);
         String l_playerName = getCurrentPlayer().getName();
 
@@ -122,6 +119,10 @@ public class IssueOrder extends MainPlay {
         if (getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) > 0) // Can only do after all troops are deployed
         {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: You still have " + getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) + " left to deploy!", true);
+        }
+        else if (l_countryToBomb == null)
+        {
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player " + getCurrentPlayer().getName() + " target a country who doesn't exist", true);
         }
         else if (!getCurrentPlayer().getHandOfCardsManager().getBombCardManager().hasCard())
         {
@@ -145,7 +146,7 @@ public class IssueOrder extends MainPlay {
         }
         else
         {
-            getCurrentPlayer().issue_order(new Bomb(l_countryToBomb));
+            getCurrentPlayer().issue_order(new Bomb(getCurrentPlayer(), l_countryToBomb));
             getCurrentPlayer().getHandOfCardsManager().getBombCardManager().removeCard();
             LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to bomb "
                     + p_countryID + " granted", true);
