@@ -1,7 +1,9 @@
 package ca.concordia.soen6441.project.phases;
 
 import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.gameplay.cards.BombCard;
 import ca.concordia.soen6441.project.gameplay.orders.Advance;
+import ca.concordia.soen6441.project.gameplay.orders.Bomb;
 import ca.concordia.soen6441.project.gameplay.orders.Blockade;
 import ca.concordia.soen6441.project.gameplay.orders.Deploy;
 import ca.concordia.soen6441.project.interfaces.Country;
@@ -110,10 +112,46 @@ public class IssueOrder extends MainPlay {
 
     @Override
     public void bomb(String p_countryID) {
-        // TODO #67
-        if (getCurrentPlayer().getHandOfCardsManager().getBombCardManager().hasCard())
-        {
+        Country l_countryToBomb = d_gameEngine.getCountryManager().getCountries().get(p_countryID);
+        String l_playerName = getCurrentPlayer().getName();
 
+        LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to bomb "
+                + p_countryID , false);
+
+        if (getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) > 0) // Can only do after all troops are deployed
+        {
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: You still have " + getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) + " left to deploy!", true);
+        }
+        else if (l_countryToBomb == null)
+        {
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player " + getCurrentPlayer().getName() + " target a country who doesn't exist", true);
+        }
+        else if (!getCurrentPlayer().getHandOfCardsManager().getBombCardManager().hasCard())
+        {
+            // The player must have a bomb card
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player " + getCurrentPlayer().getName() + " doesn't have a bomb card", true);
+        }
+        else if (getCurrentPlayer().getOwnedCountries().contains(p_countryID))
+        {
+            // The player should not own the country
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player " + getCurrentPlayer().getName() + " owns " + p_countryID, true);
+        }
+        else if (!isTerritoryAdjacent(l_playerName, l_countryToBomb))
+        {
+            // The enemy's country should be adjacent to one of the player countries
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: The country " + p_countryID + " is not adjacent to any player " + getCurrentPlayer().getName() + " countries", true);
+        }
+        else if (l_countryToBomb.getTroops() == 0)
+        {
+            // The player tries to bomb a territory that contains any army troop
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player " + getCurrentPlayer().getName() + " try to bomb an country that contains any army troops", true);
+        }
+        else
+        {
+            getCurrentPlayer().issue_order(new Bomb(getCurrentPlayer(), l_countryToBomb));
+            getCurrentPlayer().getHandOfCardsManager().getBombCardManager().removeCard();
+            LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to bomb "
+                    + p_countryID + " granted", true);
         }
     }
 
@@ -240,5 +278,23 @@ public class IssueOrder extends MainPlay {
     private int getNumberOfTroopsLeftToAdvance(Player p_player, Country p_countryFrom)
     {
         return p_countryFrom.getTroops() - p_player.getNumberOfTroopsOrderedToAdvance(p_countryFrom);
+    }
+
+
+
+    /**
+     * Verify if one of the neighbors' countries belong to a particular player
+     *
+     * @param p_player string name of the player
+     * @param p_countryToBomb country to be bombed
+     * @return boolean true if one of the neighbor's countries to be bombed belongs to the player
+     */
+    private boolean isTerritoryAdjacent(String p_player, Country p_countryToBomb) {
+        for(String l_neighbourCountry : p_countryToBomb.getNeighborIDs()) {
+            if(getCurrentPlayer().getOwnedCountries().contains(l_neighbourCountry)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
