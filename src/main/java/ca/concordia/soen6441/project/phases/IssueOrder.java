@@ -1,7 +1,8 @@
 package ca.concordia.soen6441.project.phases;
 
+import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.gameplay.orders.Advance;
-import ca.concordia.soen6441.project.gameplay.orders.Airlift;
+import ca.concordia.soen6441.project.gameplay.orders.Blockade;
 import ca.concordia.soen6441.project.gameplay.orders.Deploy;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
@@ -116,54 +117,33 @@ public class IssueOrder extends MainPlay {
 
     @Override
     public void blockade(String p_countryID) {
-        // TODO #68
-        if (getCurrentPlayer().getHandOfCardsManager().getBlockadeCardManager().hasCard())
-        {
+        Country l_country = d_gameEngine.getCountryManager().getCountries().get(p_countryID);
 
+        if (getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) > 0) // Can only do after all troops are deployed
+        {
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: You still have " + getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) + " left to deploy!", true);
+        }
+        else if (!getCurrentPlayer().equals(l_country.getOwner())) // Player must initially own country to initiate blockade
+        {
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player " + getCurrentPlayer().getName() + " doesn't own country for blockade!", true);
+        }
+        else
+        {
+            getCurrentPlayer().issue_order(new Blockade(l_country, getCurrentPlayer(), d_gameEngine));
+            getCurrentPlayer().getHandOfCardsManager().getBlockadeCardManager().removeCard();
+            LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to blockade " +
+                    p_countryID +  " granted", false);
         }
     }
 
     @Override
     public void airlift(String p_sourceCountryID, String p_targetCountryID, int p_numArmies) {
-        Player l_currentPlayer = getCurrentPlayer();
-        Country l_sourceCountry = d_gameEngine.getCountryManager().getCountries().get(p_sourceCountryID);
-        Country l_targetCountry = d_gameEngine.getCountryManager().getCountries().get(p_targetCountryID);
-
-        // Correct method call for checking Airlift Card
-        if (getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) > 0) // Can only do after all troops are deployed
+        // TODO #69
+        if (getCurrentPlayer().getHandOfCardsManager().getAirLiftCardManager().hasCard())
         {
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: You still have " + getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) + " left to deploy!", true);
+
         }
-        else if (!l_currentPlayer.getHandOfCardsManager().getAirLiftCardManager().hasCard()) {
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player does not have an Airlift card!", true);
-            return;
-        }
-
-        else if (!l_currentPlayer.equals(l_sourceCountry.getOwner())) {
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player does not own source country!", true);
-            return;
-        }
-
-        else if (!l_currentPlayer.equals(l_targetCountry.getOwner())) {
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player does not own target country!", true);
-            return;
-        }
-
-        else if (p_numArmies > l_sourceCountry.getTroops()) {
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: Not enough troops to airlift!", true);
-            return;
-        }
-
-
-        l_currentPlayer.issue_order(new Airlift(l_sourceCountry, l_targetCountry, p_numArmies, l_currentPlayer, d_gameEngine));
-
-
-        l_currentPlayer.getHandOfCardsManager().getAirLiftCardManager().removeCard();
-
-        LogEntryBuffer.getInstance().appendToBuffer("Airlift order issued by " + l_currentPlayer.getName()
-                + " moving " + p_numArmies + " troops from " + p_sourceCountryID + " to " + p_targetCountryID, false);
     }
-
 
     @Override
     public void negotiate(String p_playerID) {

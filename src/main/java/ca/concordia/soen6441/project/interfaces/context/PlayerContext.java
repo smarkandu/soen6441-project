@@ -36,4 +36,9 @@ public interface PlayerContext {
      * @return Player names and their objects.
      */
     Map<String, Player> getPlayers();
+
+    /**
+     * Returns the Neutral player
+     */
+    Player getNeutralPlayer();
 }

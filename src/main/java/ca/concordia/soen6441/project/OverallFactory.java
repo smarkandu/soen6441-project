@@ -2,6 +2,7 @@ package ca.concordia.soen6441.project;
 
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
+import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.map.ContinentImpl;
 import ca.concordia.soen6441.project.map.CountryImpl;
 
@@ -64,8 +65,8 @@ public class OverallFactory {
      * @param p_yCoord    Y coordinate of the country.
      * @return A new Country instance.
      */
-    public Country CreateCountry(int p_numericID, String p_ID, Continent p_Continent, int p_xCoord, int p_yCoord) {
-        return new CountryImpl(p_numericID, p_ID, p_Continent, p_xCoord, p_yCoord);
+    public Country CreateCountry(int p_numericID, String p_ID, Continent p_Continent, int p_xCoord, int p_yCoord, Player p_owner) {
+        return new CountryImpl(p_numericID, p_ID, p_Continent, p_xCoord, p_yCoord, p_owner);
     }
 
     /**
@@ -75,7 +76,7 @@ public class OverallFactory {
      * @param p_Continent Continent to which the country belongs.
      * @return A new Country instance.
      */
-    public Country CreateCountry(String p_ID, Continent p_Continent) {
-        return new CountryImpl(p_ID, p_Continent);
+    public Country CreateCountry(String p_ID, Continent p_Continent, Player p_owner) {
+        return new CountryImpl(p_ID, p_Continent, p_owner);
     }
 }

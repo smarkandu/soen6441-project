@@ -1,0 +1,43 @@
+name: SonarCloud
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - '*'   # Run for all tagged builds
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  sonarcloud:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensures full Git history for analysis
+
+      - name: Set up JDK (for Java projects)
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '19'  # Change this if needed
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Run SonarCloud Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          mvn verify sonar:sonar \
+            -Dsonar.projectKey=smarkandu_soen6441-project \
+            -Dsonar.organization=copperchair27 \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.branch.name=${{ github.ref_name }}
+          continue-on-error: true
