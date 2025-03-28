@@ -31,11 +31,17 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
+      - name: Run tests with JaCoCo
+        run: mvn clean test -Pcoverage
+
+      - name: Generate JaCoCo coverage report
+        run: mvn jacoco:report -Pcoverage
+
       - name: Run SonarCloud Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          mvn verify sonar:sonar \
+          mvn verify sonar:sonar -Pcoverage \
             -Dsonar.projectKey=smarkandu_soen6441-project \
             -Dsonar.organization=copperchair27 \
             -Dsonar.host.url=https://sonarcloud.io \
