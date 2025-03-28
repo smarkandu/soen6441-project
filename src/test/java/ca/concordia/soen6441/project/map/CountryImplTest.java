@@ -41,17 +41,17 @@ public class CountryImplTest {
 
     @Test
     public void testAddNeighbor() {
-        Country neighbor = new CountryImpl(2, "Country2", d_mockContinent, 15, 25, d_mockPlayer);
-        d_country.addNeighbor(neighbor);
-        List<String> neighbors = d_country.getNeighborIDs();
-        assertEquals(1, neighbors.size());
-        assertEquals("Country2", neighbors.get(0));
+        Country l_neighbor = new CountryImpl(2, "Country2", d_mockContinent, 15, 25, d_mockPlayer);
+        d_country.addNeighbor(l_neighbor);
+        List<String> l_neighbors = d_country.getNeighborIDs();
+        assertEquals(1, l_neighbors.size());
+        assertEquals("Country2", l_neighbors.get(0));
     }
 
     @Test
     public void testRemoveNeighbor() {
-        Country neighbor = new CountryImpl(2, "Country2", d_mockContinent, 15, 25, d_mockPlayer);
-        d_country.addNeighbor(neighbor);
+        Country l_neighbor = new CountryImpl(2, "Country2", d_mockContinent, 15, 25, d_mockPlayer);
+        d_country.addNeighbor(l_neighbor);
         d_country.removeNeighbor("Country2");
         assertTrue(d_country.getNeighborIDs().isEmpty());
     }
@@ -76,17 +76,17 @@ public class CountryImplTest {
     }
 
     static class MockContinent implements Continent {
-        private final String id;
-        private final int numericId;
+        private final String d_id;
+        private final int d_numericId;
 
-        public MockContinent(String id, int numericId) {
-            this.id = id;
-            this.numericId = numericId;
+        public MockContinent(String p_id, int p_numericId) {
+            this.d_id = p_id;
+            this.d_numericId = p_numericId;
         }
 
         @Override
         public String getID() {
-            return id;
+            return d_id;
         }
 
         @Override
@@ -96,7 +96,7 @@ public class CountryImplTest {
 
         @Override
         public int getNumericID() {
-            return numericId;
+            return d_numericId;
         }
 
         @Override
@@ -106,10 +106,10 @@ public class CountryImplTest {
     }
 
     static class MockPlayer implements Player {
-        private final String name;
+        private final String d_name;
 
-        public MockPlayer(String name) {
-            this.name = name;
+        public MockPlayer(String p_name) {
+            this.d_name = p_name;
         }
 
         @Override
@@ -134,7 +134,7 @@ public class CountryImplTest {
 
         @Override
         public String getName() {
-            return name;
+            return d_name;
         }
 
         @Override
