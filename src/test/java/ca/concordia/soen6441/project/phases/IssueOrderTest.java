@@ -210,4 +210,38 @@ class IssueOrderTest {
         verify(d_player, never()).issue_order(any(Advance.class));
         assertTrue(d_outContent.toString().contains("ERROR: Country2 is not a neighbor"));
     }
+    /**
+     * Tests airlift when the source and target countries are the same.
+     * Ensures that no order is issued.
+     */
+    @Test
+    void testAirlift_SourceAndTargetSame_NoOrderIssued() {
+        // Player owns the country and has no reinforcements to deploy
+        when(d_country.getOwner()).thenReturn(d_player);
+        when(d_player.getReinforcements()).thenReturn(0);
+        when(d_player.getNumberOfTroopsOrderedToDeploy()).thenReturn(0);
+
+        // Mock same source and target country
+        TreeMap<String, Country> l_countries = new TreeMap<>();
+        l_countries.put("Country1", d_country);
+
+        GameEngine l_gameEngine = mock(GameEngine.class);
+        CountryManager l_countryManager = mock(CountryManager.class);
+        PlayerManager l_playerManager = mock(PlayerManager.class);
+
+        when(l_gameEngine.getCountryManager()).thenReturn(l_countryManager);
+        when(l_gameEngine.getPlayerManager()).thenReturn(l_playerManager);
+        when(l_countryManager.getCountries()).thenReturn(l_countries);
+        when(l_playerManager.getPlayer(0)).thenReturn(d_player);
+
+        // Create IssueOrder instance
+        IssueOrder l_issueOrder = new IssueOrder(l_gameEngine, 0);
+
+        // Perform airlift with same source and target
+        l_issueOrder.airlift("Country1", "Country1", 5);
+
+        // Verify that no order was issued
+        verify(d_player, never()).issue_order(any());
+    }
+
 }
