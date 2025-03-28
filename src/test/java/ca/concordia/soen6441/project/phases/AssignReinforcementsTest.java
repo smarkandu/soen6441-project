@@ -99,27 +99,27 @@ class AssignReinforcementsTest {
         when(d_gameEngine.getPlayerManager().getPlayers()).thenReturn(l_mockPlayers);
         when(d_gameEngine.getPlayerManager().getPlayer(anyInt())).thenReturn(d_realPlayer);
 
-        for (int i = 0; i < l_ownedCountries.size(); i++) {
+        for (int l_i = 0; l_i < l_ownedCountries.size(); l_i++) {
             Country l_country = mock(Country.class);
-            when(l_country.getID()).thenReturn(l_ownedCountries.get(i));
-            if (i < 3) {
+            when(l_country.getID()).thenReturn(l_ownedCountries.get(l_i));
+            if (l_i < 3) {
                 when(l_country.getContinent()).thenReturn(d_mockAsia);
             } else {
                 when(l_country.getContinent()).thenReturn(d_mockEurope);
             }
-            d_mockCountries.put(l_ownedCountries.get(i), l_country);
+            d_mockCountries.put(l_ownedCountries.get(l_i), l_country);
         }
 
         // Dummy unowned countries
-        Country dummyAsia = mock(Country.class);
-        when(dummyAsia.getID()).thenReturn("A_X");
-        when(dummyAsia.getContinent()).thenReturn(d_mockAsia);
-        d_mockCountries.put("A_X", dummyAsia);
+        Country l_dummyAsia = mock(Country.class);
+        when(l_dummyAsia.getID()).thenReturn("A_X");
+        when(l_dummyAsia.getContinent()).thenReturn(d_mockAsia);
+        d_mockCountries.put("A_X", l_dummyAsia);
 
-        Country dummyEurope = mock(Country.class);
-        when(dummyEurope.getID()).thenReturn("E_X");
-        when(dummyEurope.getContinent()).thenReturn(d_mockEurope);
-        d_mockCountries.put("E_X", dummyEurope);
+        Country l_dummyEurope = mock(Country.class);
+        when(l_dummyEurope.getID()).thenReturn("E_X");
+        when(l_dummyEurope.getContinent()).thenReturn(d_mockEurope);
+        d_mockCountries.put("E_X", l_dummyEurope);
 
         when(d_gameEngine.getCountryManager().getCountries()).thenReturn(d_mockCountries);
 
@@ -147,12 +147,12 @@ class AssignReinforcementsTest {
         }
 
         // Dummy unowned countries
-        Country dummyAsia = mock(Country.class);
+        Country l_dummyAsia = mock(Country.class);
         when(dummyAsia.getID()).thenReturn("A_X");
         when(dummyAsia.getContinent()).thenReturn(d_mockAsia);
         d_mockCountries.put("A_X", dummyAsia);
 
-        Country dummyEurope = mock(Country.class);
+        Country l_dummyEurope = mock(Country.class);
         when(dummyEurope.getID()).thenReturn("E_X");
         when(dummyEurope.getContinent()).thenReturn(d_mockEurope);
         d_mockCountries.put("E_X", dummyEurope);
