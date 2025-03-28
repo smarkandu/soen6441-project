@@ -41,6 +41,12 @@ class IssueOrderTest {
     @Mock
     private Country d_countryTo;
 
+    @Mock
+    private ca.concordia.soen6441.project.interfaces.context.HandOfCardsContext d_mockHandOfCardsManager;
+
+    @Mock
+    private ca.concordia.soen6441.project.context.hand.CardManager<ca.concordia.soen6441.project.gameplay.cards.AirliftCard> d_mockAirliftCardManager;
+
     /**
      * Sets up mock dependencies before each test case execution.
      */
@@ -58,6 +64,11 @@ class IssueOrderTest {
         d_country = mock(Country.class);
         d_country2 = mock(Country.class);
 
+        // Setup mock AirliftCard manager for airlift tests
+        when(d_player.getHandOfCardsManager()).thenReturn(d_mockHandOfCardsManager);
+        when(d_mockHandOfCardsManager.getAirLiftCardManager()).thenReturn(d_mockAirliftCardManager);
+        when(d_mockAirliftCardManager.hasCard()).thenReturn(true);
+
         // Mock country map in game engine
         TreeMap<String, Country> l_countries = new TreeMap<>();
         l_countries.put("Country1", d_country);
@@ -74,67 +85,32 @@ class IssueOrderTest {
         System.setOut(new PrintStream(d_outContent));
     }
 
-    /**
-     * Tests the deploy method when the player owns the country and has enough reinforcements.
-     * Verifies that an order is issued successfully.
-     */
     @Test
     void testDeploy_SuccessfulDeployment() {
-        // Player owns the country and has enough reinforcements
         when(d_country.getOwner()).thenReturn(d_player);
-
-        // Mock scenario where # of troops available is sufficient for deployment requested (i.e. 10 - 3 > 5)
         when(d_player.getReinforcements()).thenReturn(10);
         when(d_player.getNumberOfTroopsOrderedToDeploy()).thenReturn(3);
-
-        // Call deploy method with an amount that is supported by the # of troops available
         d_issueOrder.deploy("Country1", 5);
-
-        // Verify that issue_order is called with the Deploy object
         verify(d_player, times(1)).issue_order(any(Deploy.class));
     }
 
-    /**
-     * Tests the deploy method when the player does not have enough reinforcements.
-     * Ensures that an order is NOT issued.
-     */
     @Test
     void testDeploy_NotEnoughTroopsAvailable() {
-        // Player owns the country but doesn't have enough reinforcements
         when(d_country.getOwner()).thenReturn(d_player);
-
-        // Mock scenario where # of troops available is not sufficient for deployment requested (i.e. 5 - 3 < 4)
         when(d_player.getReinforcements()).thenReturn(5);
         when(d_player.getNumberOfTroopsOrderedToDeploy()).thenReturn(3);
-
-        // Call deploy method with more troops than available
         d_issueOrder.deploy("Country1", 4);
-
-        // Ensure that issue_order is NOT called due to insufficient troops
         verify(d_player, never()).issue_order(any(Deploy.class));
     }
 
-    /**
-     * Tests the deploy method when the player does not own the target country.
-     * Ensures that an order is NOT issued.
-     */
     @Test
     void testDeploy_CountryNotOwned() {
-        // Mock when a Player does not own the country
         Player l_anotherPlayer = mock(Player.class);
         when(d_country.getOwner()).thenReturn(l_anotherPlayer);
-
-        // Call deploy method for a country not owned
         d_issueOrder.deploy("Country1", 5);
-
-        // Ensure that issue_order is NOT called because the player doesn't own the country
         verify(d_player, never()).issue_order(any(Deploy.class));
     }
 
-    /**
-     * Tests the advance method when the player chooses the source and target country as
-     * the same.  Should generate an error and not proceed with the advance
-     */
     @Test
     void testAdvance_Error_SameSourceAndTarget() {
         d_issueOrder.advance("Country1", "Country1", 5);
@@ -142,10 +118,6 @@ class IssueOrderTest {
         assertTrue(d_outContent.toString().contains("ERROR: Source and target territories cannot be the same."));
     }
 
-    /**
-     * Tests the advance method when the player chooses to advance when there are still
-     * troops left to deploy.  Should generate an error and not proceed with the advance
-     */
     @Test
     void testAdvance_Error_TroopsLeftToDeploy() {
         when(d_player.getReinforcements()).thenReturn(5);
@@ -161,10 +133,6 @@ class IssueOrderTest {
         assertTrue(d_outContent.toString().contains("ERROR: You still have 5 left to deploy!"));
     }
 
-    /**
-     * Tests the advance method when the player chooses to advance from a country he doesn't
-     * own.  Should generate an error and not proceed with the advance
-     */
     @Test
     void testAdvance_Error_PlayerDoesNotOwnCountry() {
         when(d_countryFrom.getOwner()).thenReturn(mock(Player.class));
@@ -173,31 +141,19 @@ class IssueOrderTest {
         assertTrue(d_outContent.toString().contains("ERROR: Player"));
     }
 
-    /**
-     * Tests the advance method when the player chooses to advance a certain number of troops
-     * they don't have at the source country.  Should generate an error and not proceed with the
-     * advance
-     */
     @Test
     void testAdvance_Error_NotEnoughTroops() {
         when(d_player.getNumberOfTroopsOrderedToAdvance(d_country)).thenReturn(0);
         when(d_country.getTroops()).thenReturn(3);
-
         when(d_country.getOwner()).thenReturn(d_player);
         List<String> l_neighbors = new ArrayList<>();
         l_neighbors.add("Country2");
         when(d_country.getNeighborIDs()).thenReturn(l_neighbors);
-
         d_issueOrder.advance("Country1", "Country2", 5);
         verify(d_player, never()).issue_order(any(Advance.class));
         assertTrue(d_outContent.toString().contains("ERROR: Only 3 left to advance!"));
     }
 
-    /**
-     * Tests the advance method when the player chooses to advance to a certain location that's
-     * not a neighboring country to the source location.  Should generate an error and not
-     * proceed with the advance
-     */
     @Test
     void testAdvance_Error_NotANeighbor() {
         when(d_country.getOwner()).thenReturn(d_player);
@@ -205,23 +161,17 @@ class IssueOrderTest {
         when(d_country.getNeighborIDs()).thenReturn(l_neighbors);
         when(d_player.getNumberOfTroopsOrderedToAdvance(d_country)).thenReturn(0);
         when(d_country.getTroops()).thenReturn(10);
-
         d_issueOrder.advance("Country1", "Country2", 5);
         verify(d_player, never()).issue_order(any(Advance.class));
         assertTrue(d_outContent.toString().contains("ERROR: Country2 is not a neighbor"));
     }
-    /**
-     * Tests airlift when the source and target countries are the same.
-     * Ensures that no order is issued.
-     */
+
     @Test
     void testAirlift_SourceAndTargetSame_NoOrderIssued() {
-        // Player owns the country and has no reinforcements to deploy
         when(d_country.getOwner()).thenReturn(d_player);
         when(d_player.getReinforcements()).thenReturn(0);
         when(d_player.getNumberOfTroopsOrderedToDeploy()).thenReturn(0);
 
-        // Mock same source and target country
         TreeMap<String, Country> l_countries = new TreeMap<>();
         l_countries.put("Country1", d_country);
 
@@ -234,14 +184,44 @@ class IssueOrderTest {
         when(l_countryManager.getCountries()).thenReturn(l_countries);
         when(l_playerManager.getPlayer(0)).thenReturn(d_player);
 
-        // Create IssueOrder instance
         IssueOrder l_issueOrder = new IssueOrder(l_gameEngine, 0);
-
-        // Perform airlift with same source and target
         l_issueOrder.airlift("Country1", "Country1", 5);
-
-        // Verify that no order was issued
         verify(d_player, never()).issue_order(any());
     }
 
+    /**
+     * Tests that airlift fails when the source country is not owned by the player.
+     */
+    @Test
+    void testAirlift_SourceNotOwnedByPlayer_NoOrderIssued() {
+        Player l_otherPlayer = mock(Player.class);
+        when(d_country.getOwner()).thenReturn(l_otherPlayer);
+        d_issueOrder.airlift("Country1", "Country2", 5);
+        verify(d_player, never()).issue_order(any());
+    }
+
+    /**
+     * Tests that airlift fails when the target country is not owned by the player.
+     */
+    @Test
+    void testAirlift_TargetNotOwnedByPlayer_NoOrderIssued() {
+        when(d_country.getOwner()).thenReturn(d_player);
+        when(d_country2.getOwner()).thenReturn(mock(Player.class));
+        d_issueOrder.airlift("Country1", "Country2", 5);
+        verify(d_player, never()).issue_order(any());
+    }
+
+    /**
+     * Tests the golden case where the player owns both countries and airlift is valid.
+     */
+    @Test
+    void testAirlift_ValidOrder_OrderIssued() {
+        when(d_country.getOwner()).thenReturn(d_player);
+        when(d_country2.getOwner()).thenReturn(d_player);
+        when(d_player.getReinforcements()).thenReturn(0);
+        when(d_player.getNumberOfTroopsOrderedToDeploy()).thenReturn(0);
+        when(d_country.getTroops()).thenReturn(10);
+        d_issueOrder.airlift("Country1", "Country2", 5);
+        verify(d_player, times(1)).issue_order(any());
+    }
 }
