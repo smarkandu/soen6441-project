@@ -100,7 +100,7 @@ public class IssueOrder extends MainPlay {
         }
         else if (!l_countryFrom.getNeighborIDs().contains(l_countryTo.getID())) // Destination country must be a neighbor to origin country
         {
-            LogEntryBuffer.getInstance().appendToBuffer("ERROR: " + l_countryTo.getID() + "is not a neighbor of " + l_countryFrom.getID() + "!", true);
+            LogEntryBuffer.getInstance().appendToBuffer("ERROR: " + l_countryTo.getID() + " is not a neighbor of " + l_countryFrom.getID() + "!", true);
         }
         else
         {
@@ -307,12 +307,12 @@ public class IssueOrder extends MainPlay {
         return d_gameEngine.getPlayerManager().getPlayer(d_currentPlayIndex);
     }
 
-    private int getNumberOfTroopsLeftToDeploy(Player p_player)
+    int getNumberOfTroopsLeftToDeploy(Player p_player)
     {
         return p_player.getReinforcements() - p_player.getNumberOfTroopsOrderedToDeploy();
     }
 
-    private int getNumberOfTroopsLeftToAdvance(Player p_player, Country p_countryFrom)
+    int getNumberOfTroopsLeftToAdvance(Player p_player, Country p_countryFrom)
     {
         return p_countryFrom.getTroops() - p_player.getNumberOfTroopsOrderedToAdvance(p_countryFrom);
     }

@@ -16,24 +16,6 @@ import java.util.Random;
  */
 public class Advance implements Order {
 
-    /**
-     * Internal class representing the results from a battle
-     */
-    private class BattleResult
-    {
-        private final int d_playersTroops;
-        private final int d_opponentsTroops;
-
-        /**
-         * Constructor For BattleResult
-         * @param p_playersTroops Number of troops the player has
-         * @param p_opponentsTroops Number of troops the opponent has
-         */
-        public BattleResult(int p_playersTroops, int p_opponentsTroops) {
-            this.d_playersTroops = p_playersTroops;
-            this.d_opponentsTroops = p_opponentsTroops;
-        }
-    }
 
     private Country d_sourceTerritory;
     private Country d_targetTerritory;
@@ -42,6 +24,9 @@ public class Advance implements Order {
     private Random d_random;
     private boolean d_conquersTerritory;
     private GameContext d_gameEngine;
+    private double d_probabilityWinningAttacker = 0.60;
+    private double d_probabilityWinningDefender = 0.70;
+
 
     /**
      * Constructor for Advance
@@ -59,6 +44,8 @@ public class Advance implements Order {
         this.d_random = new Random();
         this.d_conquersTerritory = false;
         d_gameEngine = p_gameEngine;
+        d_probabilityWinningAttacker = 0.60;
+        d_probabilityWinningDefender = 0.70;
     }
 
     /**
@@ -114,18 +101,18 @@ public class Advance implements Order {
                 // Determines who wins the battle
                 BattleResult l_battleResult = calculateBattle(l_actualTroopsAdvance, d_targetTerritory.getTroops());
 
-                if (l_battleResult.d_playersTroops > 0)
+                if (l_battleResult.getPlayersTroops() > 0)
                 {
                     d_gameEngine.assignCountryToPlayer(d_targetTerritory, d_initiator);
-                    d_targetTerritory.setTroops(l_battleResult.d_playersTroops);
+                    d_targetTerritory.setTroops(l_battleResult.getPlayersTroops());
                     LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName()
                             + " wins the battle and conquers " + d_targetTerritory.getID() + "!\nRemaining survivors: "
                             + d_targetTerritory.getTroops(), true);
                     d_conquersTerritory = true;
                 }
-                else if (l_battleResult.d_opponentsTroops > 0)
+                else if (l_battleResult.getOpponentsTroops() > 0)
                 {
-                    d_targetTerritory.setTroops(l_battleResult.d_opponentsTroops);
+                    d_targetTerritory.setTroops(l_battleResult.getOpponentsTroops());
                     LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName()
                             + " fends of attacker at " + d_targetTerritory.getID() + " and wins the battle!\nRemaining survivors: "
                             + d_targetTerritory.getTroops(), true);
@@ -152,9 +139,6 @@ public class Advance implements Order {
      */
     private BattleResult calculateBattle(int p_playersTroops, int p_opponentsTroops)
     {
-        final double l_probability_winning_attacker = 0.60;
-        final double l_probability_winning_defender = 0.70;
-
         String l_battleMessage = "*** Country " + d_targetTerritory.getID() + " currently owned by " + d_targetTerritory.getOwner().getName()
                 + ".  A battle commences! ***";
         LogEntryBuffer.getInstance().appendToBuffer(l_battleMessage + " " + getTroopStatsInfo(p_playersTroops, p_opponentsTroops), true);
@@ -166,7 +150,7 @@ public class Advance implements Order {
             if (l_isInvader)
             {
                 l_message = d_initiator.getName() + " attacks and ";
-                if (calculateBattleWon(l_probability_winning_attacker))
+                if (calculateBattleWon(d_probabilityWinningAttacker))
                 {
                     p_opponentsTroops -= 1;
                     l_message += "kills 1 soldier of " + d_targetTerritory.getOwner().getName() + "!";
@@ -179,7 +163,7 @@ public class Advance implements Order {
             else
             {
                 l_message = d_targetTerritory.getOwner().getName() + " retaliates and ";
-                if (calculateBattleWon(l_probability_winning_defender))
+                if (calculateBattleWon(d_probabilityWinningDefender))
                 {
                     p_playersTroops -= 1;
                     l_message += "kills 1 soldier of " + d_initiator.getName() + "!";
@@ -292,5 +276,35 @@ public class Advance implements Order {
         }
 
         return null;
+    }
+
+    /**
+     * Get probability for winning as an attacker
+     * @return double value
+     */
+    public double getProbabilityWinningAttacker() {
+        return d_probabilityWinningAttacker;
+    }
+
+    /**
+     * Get probability for winning as a defender
+     * @return double value
+     */
+    public double getProbabilityWinningDefender() {
+        return d_probabilityWinningDefender;
+    }
+
+    /**
+     * Set probability for winning as an attacker
+     */
+    public void setProbabilityWinningAttacker(double p_probabilityWinningAttacker) {
+        this.d_probabilityWinningAttacker = p_probabilityWinningAttacker;
+    }
+
+    /**
+     * Set probability for winning as a defender
+     */
+    public void setProbabilityWinningDefender(double p_probabilityWinningDefender) {
+        this.d_probabilityWinningDefender = p_probabilityWinningDefender;
     }
 }
