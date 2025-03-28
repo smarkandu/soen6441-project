@@ -30,7 +30,7 @@ class IssueOrderTest {
     private Country d_country;
     private Country d_country2;
 
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final ByteArrayOutputStream d_outContent = new ByteArrayOutputStream();
 
     @Mock
     private CountryManager d_countryManager;
@@ -71,7 +71,7 @@ class IssueOrderTest {
         // Initialize IssueOrder instance
         d_issueOrder = new IssueOrder(l_gameEngine, 0);
 
-        System.setOut(new PrintStream(outContent));
+        System.setOut(new PrintStream(d_outContent));
     }
 
     /**
@@ -135,7 +135,7 @@ class IssueOrderTest {
     void testAdvance_Error_SameSourceAndTarget() {
         d_issueOrder.advance("Country1", "Country1", 5);
         verify(d_player, never()).issue_order(any(Advance.class));
-        assertTrue(outContent.toString().contains("ERROR: Source and target territories cannot be the same."));
+        assertTrue(d_outContent.toString().contains("ERROR: Source and target territories cannot be the same."));
     }
 
     @Test
@@ -150,7 +150,7 @@ class IssueOrderTest {
         when(d_country.getNeighborIDs()).thenReturn(l_neighbors);
         d_issueOrder.advance("Country1", "Country2", 5);
         verify(d_player, never()).issue_order(any(Advance.class));
-        assertTrue(outContent.toString().contains("ERROR: You still have 5 left to deploy!"));
+        assertTrue(d_outContent.toString().contains("ERROR: You still have 5 left to deploy!"));
     }
 
     @Test
@@ -158,7 +158,7 @@ class IssueOrderTest {
         when(d_countryFrom.getOwner()).thenReturn(mock(Player.class));
         d_issueOrder.advance("Country1", "Country2", 5);
         verify(d_player, never()).issue_order(any(Advance.class));
-        assertTrue(outContent.toString().contains("ERROR: Player"));
+        assertTrue(d_outContent.toString().contains("ERROR: Player"));
     }
 
     @Test
@@ -173,7 +173,7 @@ class IssueOrderTest {
 
         d_issueOrder.advance("Country1", "Country2", 5);
         verify(d_player, never()).issue_order(any(Advance.class));
-        assertTrue(outContent.toString().contains("ERROR: Only 3 left to advance!"));
+        assertTrue(d_outContent.toString().contains("ERROR: Only 3 left to advance!"));
     }
 
     @Test
@@ -186,6 +186,6 @@ class IssueOrderTest {
 
         d_issueOrder.advance("Country1", "Country2", 5);
         verify(d_player, never()).issue_order(any(Advance.class));
-        assertTrue(outContent.toString().contains("ERROR: Country2 is not a neighbor"));
+        assertTrue(d_outContent.toString().contains("ERROR: Country2 is not a neighbor"));
     }
 }
