@@ -18,7 +18,7 @@ import java.util.TreeMap;
  * This class tests the behavior of the deploy method under different conditions
  * using mocked dependencies.
  */
-class IssueOrderTest {
+public class IssueOrderTest {
     private IssueOrder d_issueOrder;
     private Player d_player;
     private Country d_country;
