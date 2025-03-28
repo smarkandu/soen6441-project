@@ -8,8 +8,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -21,6 +23,7 @@ class AdvanceTest {
     private Country d_sourceTerritory;
     private Country d_targetTerritory;
     private Player d_initiator;
+    private Player d_defender;
     private GameContext d_GameEngine;
 
     /**
@@ -31,7 +34,8 @@ class AdvanceTest {
         d_sourceTerritory = mock(Country.class);
         d_targetTerritory = mock(Country.class);
         d_initiator = mock(Player.class);
-        d_GameEngine = mock(GameEngine.class);
+        d_defender = mock(Player.class);
+        d_GameEngine = mock(GameContext.class);
 
         when(d_sourceTerritory.getID()).thenReturn("A");
         when(d_targetTerritory.getID()).thenReturn("B");
@@ -88,7 +92,7 @@ class AdvanceTest {
         String l_temp = d_targetTerritory.getID();
         Mockito.when(d_sourceTerritory.getNeighborIDs()).thenReturn(Arrays.asList(l_temp));
         int l_numberOfTroops = 5;
-        Mockito.when(d_sourceTerritory.getTroops()).thenReturn(l_numberOfTroops -1);
+        Mockito.when(d_sourceTerritory.getTroops()).thenReturn(l_numberOfTroops - 1);
 
         Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, l_numberOfTroops,
                 d_initiator, d_GameEngine);
@@ -106,5 +110,63 @@ class AdvanceTest {
 
         Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, 5, d_initiator, d_GameEngine);
         assertEquals("Error: Source and target territories are not neighbors.", l_advanceOrder.validate(),
-                "Validation should fail since they are not neighbors");    }
+                "Validation should fail since they are not neighbors");
+    }
+
+    @Test
+    public void testConqueringUnownedTerritory() {
+        // Setup mock behaviors
+        when(d_initiator.getName()).thenReturn("Player1");
+        when(d_sourceTerritory.getOwner()).thenReturn(d_initiator);
+        when(d_sourceTerritory.getTroops()).thenReturn(10);
+        when(d_sourceTerritory.getTroops()).thenReturn(0);  // Unowned territory
+        when(d_sourceTerritory.getOwner()).thenReturn(null);
+        when(d_sourceTerritory.getID()).thenReturn("T1");
+
+        // Create Advance instance
+        Advance advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, 5, d_initiator, d_GameEngine);
+
+        // Execute the advance command
+        advanceOrder.execute();
+
+        // Verify conquest
+        verify(d_GameEngine).assignCountryToPlayer(d_targetTerritory, d_initiator);
+        assertTrue(advanceOrder.conquersTerritory(), "Player should conquer the territory.");
+    }
+
+    @Test
+    public void testConqueringOwnedTerritoryAndWinningBattle() {
+        // Setup mock behaviors
+        when(d_initiator.getName()).thenReturn("Player1");
+        when(d_defender.getName()).thenReturn("Player2");
+        when(d_sourceTerritory.getOwner()).thenReturn(d_initiator);
+        when(d_sourceTerritory.getTroops()).thenReturn(3);
+        when(d_targetTerritory.getOwner()).thenReturn(d_defender);
+        when(d_targetTerritory.getTroops()).thenReturn(5);
+        when(d_targetTerritory.getID()).thenReturn("Country2");
+        List<String> l_neighbors = new ArrayList<>();
+        l_neighbors.add("Country2");
+        when(d_sourceTerritory.getNeighborIDs()).thenReturn(l_neighbors);
+
+        // Create Advance instance
+        Advance advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, 3, d_initiator, d_GameEngine);
+
+        // Ensure that attacker always wins
+        advanceOrder.setProbability_winning_attacker(1.00);
+        advanceOrder.setProbability_winning_defender(0.00);
+
+        // Simulate battle
+        BattleResult mockBattleResult = mock(BattleResult.class);
+        when(mockBattleResult.getPlayersTroops()).thenReturn(3);  // Player1 wins with 3 troops remaining
+        when(mockBattleResult.getOpponentsTroops()).thenReturn(0); // Player2 loses all troops
+
+        // Simulate battle outcome
+        advanceOrder.execute();
+
+        // Verify conquest and troop count change
+//        when(d_targetTerritory.getOwner()).thenReturn(d_initiator);
+        verify(d_GameEngine).assignCountryToPlayer(d_targetTerritory, d_initiator);
+        assertTrue(advanceOrder.conquersTerritory(), "Player should conquer the territory.");
+        verify(d_targetTerritory).setTroops(3);  // Player1 should have 3 troops left after battle
+    }
 }

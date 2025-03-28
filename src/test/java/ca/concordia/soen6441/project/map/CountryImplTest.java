@@ -176,5 +176,30 @@ public class CountryImplTest {
         public HandOfCardsContext getHandOfCardsManager() {
             return null;
         }
+
+        @Override
+        public void addNegotiatedPlayer(Player p_player) {
+
+        }
+
+        @Override
+        public boolean hasNegotiatedWith(Player p_player) {
+            return false;
+        }
+
+        @Override
+        public void resetNegotiatedPlayers() {
+
+        }
+
+        @Override
+        public List<Player> getNegotiatedPlayers() {
+            return List.of();
+        }
+
+        @Override
+        public void removeNegotiatedPlayer(Player p_player) {
+
+        }
     }
 }
