@@ -19,10 +19,18 @@ public class BattleResult
         this.d_opponentsTroops = p_opponentsTroops;
     }
 
+    /**
+     * Gets number of troops left of the attacker
+     * @return Integer value
+     */
     public int getPlayersTroops() {
         return d_playersTroops;
     }
 
+    /**
+     * Gets number of troops left of the opponent
+     * @return Integer value
+     */
     public int getOpponentsTroops() {
         return d_opponentsTroops;
     }
