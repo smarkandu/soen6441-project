@@ -42,7 +42,7 @@ public class Bomb implements Order {
         }
     }
 
-    private String validate() {
+    public String validate() {
         if (d_initiator.getOwnedCountries().contains(d_targetTerritory.getID())) {
             return "Error: Player cannot bombeb his territory.";
         }
