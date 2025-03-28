@@ -148,14 +148,14 @@ class AssignReinforcementsTest {
 
         // Dummy unowned countries
         Country l_dummyAsia = mock(Country.class);
-        when(dummyAsia.getID()).thenReturn("A_X");
-        when(dummyAsia.getContinent()).thenReturn(d_mockAsia);
-        d_mockCountries.put("A_X", dummyAsia);
+        when(l_dummyAsia.getID()).thenReturn("A_X");
+        when(l_dummyAsia.getContinent()).thenReturn(d_mockAsia);
+        d_mockCountries.put("A_X", l_dummyAsia);
 
         Country l_dummyEurope = mock(Country.class);
-        when(dummyEurope.getID()).thenReturn("E_X");
-        when(dummyEurope.getContinent()).thenReturn(d_mockEurope);
-        d_mockCountries.put("E_X", dummyEurope);
+        when(l_dummyEurope.getID()).thenReturn("E_X");
+        when(l_dummyEurope.getContinent()).thenReturn(d_mockEurope);
+        d_mockCountries.put("E_X", l_dummyEurope);
 
         when(d_gameEngine.getCountryManager().getCountries()).thenReturn(d_mockCountries);
 
