@@ -278,18 +278,32 @@ public class Advance implements Order {
         return null;
     }
 
+    /**
+     * Get probability for winning as an attacker
+     * @return double value
+     */
     public double getProbabilityWinningAttacker() {
         return d_probabilityWinningAttacker;
     }
 
+    /**
+     * Get probability for winning as a defender
+     * @return double value
+     */
     public double getProbabilityWinningDefender() {
         return d_probabilityWinningDefender;
     }
 
+    /**
+     * Set probability for winning as an attacker
+     */
     public void setProbabilityWinningAttacker(double p_probabilityWinningAttacker) {
         this.d_probabilityWinningAttacker = p_probabilityWinningAttacker;
     }
 
+    /**
+     * Set probability for winning as a defender
+     */
     public void setProbabilityWinningDefender(double p_probabilityWinningDefender) {
         this.d_probabilityWinningDefender = p_probabilityWinningDefender;
     }
