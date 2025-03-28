@@ -53,7 +53,7 @@ public class BombTest {
 
         d_bombOrder = new Bomb(d_mockInitiator, d_enemyTerritoryToBomb);
 
-        assertEquals("Error: Player cannot bombeb his territory.", d_bombOrder.validate(),
+        assertEquals("Error: Player cannot bomb his territory.", d_bombOrder.validate(),
                 "Validation should fail because the player cannot bombed his own territory.");
     }
 
@@ -65,7 +65,7 @@ public class BombTest {
         d_bombOrder = new Bomb(d_mockInitiator, d_enemyTerritoryToBomb);
 
         assertEquals("Error: Player's territory is not adjacent to the target territory.", d_bombOrder.validate(),
-                "Validation should fail because the player should bombed an ajacent enemy territory.");
+                "Validation should fail because the player should bomb an adjacent enemy territory.");
     }
 
     @Test
@@ -78,7 +78,7 @@ public class BombTest {
 
         d_bombOrder = new Bomb(d_mockInitiator, d_enemyTerritoryToBomb);
 
-        assertEquals("Error: Player cannot bombed a territory without troop.", d_bombOrder.validate(),
+        assertEquals("Error: Player cannot bomb a territory without troop.", d_bombOrder.validate(),
                 "Validation should fail because the player should bombed an enemy territory containing troops.");
     }
 

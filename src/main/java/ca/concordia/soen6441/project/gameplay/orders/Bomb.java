@@ -44,7 +44,7 @@ public class Bomb implements Order {
 
     public String validate() {
         if (d_initiator.getOwnedCountries().contains(d_targetTerritory.getID())) {
-            return "Error: Player cannot bombeb his territory.";
+            return "Error: Player cannot bomb his territory.";
         }
         if (!isTerritoryAdjacent(d_initiator.getName(), d_targetTerritory)) {
             return "Error: Player's territory is not adjacent to the target territory.";
