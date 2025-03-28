@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.logging.*;
+import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
 
 import java.util.*;
@@ -76,24 +76,18 @@ void testAssignCountriesWithInsufficientCountries() {
     when(l_country.getTroops()).thenReturn(3);
     d_gameEngine.getCountryManager().getCountries().put("Country1", l_country);
 
-    // Set up logger capture
-    Logger l_logger = Logger.getLogger(CountryAssignment.class.getName());
-    ByteArrayOutputStream l_logOut = new ByteArrayOutputStream();
-    StreamHandler l_handler = new StreamHandler(l_logOut, new SimpleFormatter());
-    l_logger.addHandler(l_handler);
+    // Clear previous logs if needed
+    LogEntryBuffer.getInstance().getLogInfo().setLength(0);
 
-    // Run the test
+    // Run the actual code
     d_countryAssignment.assignCountries();
 
-    // Flush log output
-    l_handler.flush();
-
-    // Read captured logs
-    String l_logs = l_logOut.toString();
-    System.out.println("Captured Log Output:\n" + l_logs);
+    // Fetch the log output
+    String l_logs = LogEntryBuffer.getInstance().getLogInfo().toString();
 
     assertTrue(l_logs.contains("Warning: Not enough countries to assign one per player"),
             "Expected warning message not found in log.");
+
     }
 
 }
