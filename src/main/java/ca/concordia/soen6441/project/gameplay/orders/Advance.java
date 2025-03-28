@@ -24,8 +24,8 @@ public class Advance implements Order {
     private Random d_random;
     private boolean d_conquersTerritory;
     private GameContext d_gameEngine;
-    private double d_probability_winning_attacker = 0.60;
-    private double d_probability_winning_defender = 0.70;
+    private double d_probabilityWinningAttacker = 0.60;
+    private double d_probabilityWinningDefender = 0.70;
 
 
     /**
@@ -44,8 +44,8 @@ public class Advance implements Order {
         this.d_random = new Random();
         this.d_conquersTerritory = false;
         d_gameEngine = p_gameEngine;
-        d_probability_winning_attacker = 0.60;
-        d_probability_winning_defender = 0.70;
+        d_probabilityWinningAttacker = 0.60;
+        d_probabilityWinningDefender = 0.70;
     }
 
     /**
@@ -150,7 +150,7 @@ public class Advance implements Order {
             if (l_isInvader)
             {
                 l_message = d_initiator.getName() + " attacks and ";
-                if (calculateBattleWon(d_probability_winning_attacker))
+                if (calculateBattleWon(d_probabilityWinningAttacker))
                 {
                     p_opponentsTroops -= 1;
                     l_message += "kills 1 soldier of " + d_targetTerritory.getOwner().getName() + "!";
@@ -163,7 +163,7 @@ public class Advance implements Order {
             else
             {
                 l_message = d_targetTerritory.getOwner().getName() + " retaliates and ";
-                if (calculateBattleWon(d_probability_winning_defender))
+                if (calculateBattleWon(d_probabilityWinningDefender))
                 {
                     p_playersTroops -= 1;
                     l_message += "kills 1 soldier of " + d_initiator.getName() + "!";
@@ -279,18 +279,18 @@ public class Advance implements Order {
     }
 
     public double getProbability_winning_attacker() {
-        return d_probability_winning_attacker;
+        return d_probabilityWinningAttacker;
     }
 
     public double getProbability_winning_defender() {
-        return d_probability_winning_defender;
+        return d_probabilityWinningDefender;
     }
 
-    public void setProbability_winning_attacker(double p_probability_winning_attacker) {
-        this.d_probability_winning_attacker = p_probability_winning_attacker;
+    public void setProbability_winning_attacker(double p_probabilityWinningAttacker) {
+        this.d_probabilityWinningAttacker = p_probabilityWinningAttacker;
     }
 
-    public void setProbability_winning_defender(double p_probability_winning_defender) {
-        this.d_probability_winning_defender = p_probability_winning_defender;
+    public void setProbability_winning_defender(double p_probabilityWinningDefender) {
+        this.d_probabilityWinningDefender = p_probabilityWinningDefender;
     }
 }

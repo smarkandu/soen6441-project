@@ -65,14 +65,14 @@ public class CountryImplTest {
 
     @Test
     public void testToStringFormat() {
-        String expected = "Country1,10,20,Continent1";
-        assertTrue(d_country.toString().startsWith(expected));
+        String l_expected = "Country1,10,20,Continent1";
+        assertTrue(d_country.toString().startsWith(l_expected));
     }
 
     @Test
     public void testToMapStringFormat() {
-        String expected = "1 Country1 1 10 20";
-        assertEquals(expected, d_country.toMapString());
+        String l_expected = "1 Country1 1 10 20";
+        assertEquals(l_expected, d_country.toMapString());
     }
 
     static class MockContinent implements Continent {
