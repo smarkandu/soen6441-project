@@ -24,7 +24,7 @@ class StartupTest {
      * Tests that assignCountries proceeds to gameplay phase when setup is valid.
      */
     @Test
-    void assignCountries() {
+    void testSuccessfulStartup() {
         GameEngine l_gameEngine = spy(new GameEngine());
         Startup l_startup = new Startup(l_gameEngine);
 
@@ -63,5 +63,66 @@ class StartupTest {
         assertFalse(l_output.contains("at least two players"), "Unexpected player count error.");
         assertFalse(l_output.contains("Warning:"), "Unexpected warning message.");
     }
+
+    /**
+     * Tests that assignCountries prints a message when the map is invalid.
+     */
+    @Test
+    void testInvalidMap() {
+        GameEngine l_gameEngine = spy(new GameEngine());
+        Startup l_startup = new Startup(l_gameEngine);
+
+        // Add valid players
+        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>());
+        Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>());
+        l_gameEngine.getPlayerManager().getPlayers().put(l_player1.getName(), l_player1);
+        l_gameEngine.getPlayerManager().getPlayers().put(l_player2.getName(), l_player2);
+
+        // Simulate invalid map
+        doReturn(false).when(l_gameEngine).isMapValid();
+
+        // Capture output
+        ByteArrayOutputStream l_outContent = new ByteArrayOutputStream();
+        PrintStream l_originalOut = System.out;
+        System.setOut(new PrintStream(l_outContent));
+
+        l_startup.assignCountries();
+
+        System.setOut(l_originalOut);
+        String l_output = l_outContent.toString().trim();
+        System.out.println("Captured Output (Invalid Map):\n" + l_output);
+
+        assertTrue(l_output.contains("valid map must be loaded"), "Expected invalid map warning not found.");
+    }
+
+    /**
+     * Tests that assignCountries prints a message when there are less than 2 players.
+     */
+    @Test
+    void testNotEnoughPlayers() {
+        GameEngine l_gameEngine = spy(new GameEngine());
+        Startup l_startup = new Startup(l_gameEngine);
+
+        // Add only one player
+        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>());
+        l_gameEngine.getPlayerManager().getPlayers().put(l_player1.getName(), l_player1);
+
+        // Simulate valid map
+        doReturn(true).when(l_gameEngine).isMapValid();
+
+        // Capture output
+        ByteArrayOutputStream l_outContent = new ByteArrayOutputStream();
+        PrintStream l_originalOut = System.out;
+        System.setOut(new PrintStream(l_outContent));
+
+        l_startup.assignCountries();
+
+        System.setOut(l_originalOut);
+        String l_output = l_outContent.toString().trim();
+        System.out.println("Captured Output (Not Enough Players):\n" + l_output);
+
+        assertTrue(l_output.contains("at least two players"), "Expected player count warning not found.");
+    }
+
 }
 
