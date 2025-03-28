@@ -45,7 +45,7 @@ jobs:
             -Dsonar.projectKey=smarkandu_soen6441-project \
             -Dsonar.organization=copperchair27 \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.branch.name=${{ github.ref_name }}
-            -Dsonar-inclusions: '**/src/main/java/**'
-            -Dsonar-exclusions: '**/src/test/**'
+            -Dsonar.branch.name=${{ github.ref_name }} \
+            -Dsonar.inclusions="**/src/main/java/**" \
+            -Dsonar.exclusions="**/src/test/**"
         continue-on-error: true
