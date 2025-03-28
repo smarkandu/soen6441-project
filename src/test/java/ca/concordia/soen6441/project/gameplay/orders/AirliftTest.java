@@ -63,4 +63,15 @@ public class AirliftTest {
         verify(d_mockSourceCountry).setTroops(5);   // 10 - 5
         verify(d_mockTargetCountry).setTroops(15);  // 10 + 5
     }
+    @Test
+    void testValidate_ReturnsError_WhenPlayerDoesNotOwnSourceCountry() {
+        Player l_anotherMockPlayer = mock(Player.class);
+        when(d_mockSourceCountry.getOwner()).thenReturn(l_anotherMockPlayer);
+
+        Airlift l_invalidAirlift = new Airlift(d_mockSourceCountry, d_mockTargetCountry, 5, d_mockPlayer, d_mockGameContext);
+
+        String l_result = l_invalidAirlift.validate();
+
+        assertEquals("ERROR: Player does not own the source country!", l_result);
+    }
 }
