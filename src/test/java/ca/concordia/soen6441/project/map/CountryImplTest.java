@@ -108,98 +108,159 @@ public class CountryImplTest {
         }
     }
 
+    /**
+     * Mocked Class representing a Player
+     */
     static class MockPlayer implements Player {
         private final String d_name;
 
+        /**
+         * Constructor
+         * @param p_name Name of player
+         */
         public MockPlayer(String p_name) {
             this.d_name = p_name;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public List<String> getOwnedCountries() {
             return List.of();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public List<Order> getOrders() {
             return List.of();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void issue_order(Order p_order) {
 
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public Order next_order() {
             return null;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public String getName() {
             return d_name;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int getTotalNumberOfReinforcementsPerTurn() {
             return 0;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void addOwnedCountry(Country p_country) {
 
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void removeOwnedCountry(Country p_country) {
 
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int getReinforcements() {
             return 0;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void setReinforcements(int p_reinforcements) {
 
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int getNumberOfTroopsOrderedToDeploy() {
             return 0;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public int getNumberOfTroopsOrderedToAdvance(Country p_countryFrom) {
             return 0;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public HandOfCardsContext getHandOfCardsManager() {
             return null;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void addNegotiatedPlayer(Player p_player) {
 
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public boolean hasNegotiatedWith(Player p_player) {
             return false;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void resetNegotiatedPlayers() {
 
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public List<Player> getNegotiatedPlayers() {
             return List.of();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void removeNegotiatedPlayer(Player p_player) {
 
