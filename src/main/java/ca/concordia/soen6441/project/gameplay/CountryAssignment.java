@@ -8,11 +8,13 @@ import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Handles the assignment of countries to players in the game.
  */
 public class CountryAssignment {
+    private static final Logger LOGGER = Logger.getLogger(CountryAssignment.class.getName());
     private GameContext d_gameEngine;
 
     /**
@@ -34,7 +36,7 @@ public class CountryAssignment {
         List<Player> l_players = new ArrayList<>(d_gameEngine.getPlayerManager().getPlayers().values());
 
         if (l_players.isEmpty() || l_availableCountries.isEmpty()) {
-            System.out.println("Error: No players or no countries available for assignment.");
+            LOGGER.severe("Error: No players or no countries available for assignment.");
             return;
         }
 
@@ -44,7 +46,7 @@ public class CountryAssignment {
         // Assign one country per player
         for (int l_i = 0; l_i < l_players.size(); l_i++) {
             if (l_i >= l_availableCountries.size()) {
-                System.out.println("Warning: Not enough countries to assign one per player.");
+                LOGGER.warning("Warning: Not enough countries to assign one per player.");
                 break;
             }
 
@@ -52,7 +54,7 @@ public class CountryAssignment {
             d_gameEngine.assignCountryToPlayer(l_assignedCountry, l_players.get(l_i));
             l_assignedCountry.setTroops(3); // Assign 3 troops per requirement
 
-            System.out.println(l_players.get(l_i).getName() + " assigned to " + l_assignedCountry.getID() + " with 3 troops.");
+            LOGGER.info(l_players.get(l_i).getName() + " assigned to " + l_assignedCountry.getID() + " with 3 troops.");
         }
     }
 }

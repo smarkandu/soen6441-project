@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.logging.*;
 
 
 import java.util.*;
@@ -55,45 +56,45 @@ class CountryAssignmentTest {
      *
      * This confirms that the system correctly logs a message when not all players can be assigned a country.
      */
-    @Test
-    void testAssignCountriesWithInsufficientCountries() {
-        // Clear any existing players/countries from setup
-        d_gameEngine.getPlayerManager().getPlayers().clear();
-        d_gameEngine.getCountryManager().getCountries().clear();
+@Test
+void testAssignCountriesWithInsufficientCountries() {
+    // Clear existing players/countries
+    d_gameEngine.getPlayerManager().getPlayers().clear();
+    d_gameEngine.getCountryManager().getCountries().clear();
 
-        // Add 3 players
-        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>());
-        Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>());
-        Player l_player3 = new PlayerImpl("Player3", new ArrayList<>(), new ArrayList<>());
-        d_gameEngine.getPlayerManager().getPlayers().put(l_player1.getName(), l_player1);
-        d_gameEngine.getPlayerManager().getPlayers().put(l_player2.getName(), l_player2);
-        d_gameEngine.getPlayerManager().getPlayers().put(l_player3.getName(), l_player3);
+    // Add 3 players
+    Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>());
+    Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>());
+    Player l_player3 = new PlayerImpl("Player3", new ArrayList<>(), new ArrayList<>());
+    d_gameEngine.getPlayerManager().getPlayers().put(l_player1.getName(), l_player1);
+    d_gameEngine.getPlayerManager().getPlayers().put(l_player2.getName(), l_player2);
+    d_gameEngine.getPlayerManager().getPlayers().put(l_player3.getName(), l_player3);
 
-        // Add only 1 country
-        Country l_country = mock(Country.class);
-        when(l_country.getID()).thenReturn("Country1");
-        when(l_country.getTroops()).thenReturn(3);
-        d_gameEngine.getCountryManager().getCountries().put("Country1", l_country);
+    // Add only 1 country
+    Country l_country = mock(Country.class);
+    when(l_country.getID()).thenReturn("Country1");
+    when(l_country.getTroops()).thenReturn(3);
+    d_gameEngine.getCountryManager().getCountries().put("Country1", l_country);
 
-        // Capture console output
-        ByteArrayOutputStream l_outContent = new ByteArrayOutputStream();
-        PrintStream l_originalOut = System.out;
-        System.setOut(new PrintStream(l_outContent));
+    // Set up logger capture
+    Logger l_logger = Logger.getLogger(CountryAssignment.class.getName());
+    ByteArrayOutputStream l_logOut = new ByteArrayOutputStream();
+    StreamHandler l_handler = new StreamHandler(l_logOut, new SimpleFormatter());
+    l_logger.addHandler(l_handler);
 
-        // Execute assignment
-        d_countryAssignment.assignCountries();
+    // Run the test
+    d_countryAssignment.assignCountries();
 
-        // Restore original System.out
-        System.setOut(l_originalOut);
+    // Flush log output
+    l_handler.flush();
 
-        // Get and check output
-        String l_output = l_outContent.toString().trim();
-        System.out.println("Captured Output:\n" + l_output);
+    // Read captured logs
+    String l_logs = l_logOut.toString();
+    System.out.println("Captured Log Output:\n" + l_logs);
 
-        assertTrue(
-                l_output.contains("Warning: Not enough countries to assign one per player"),
-                "Expected warning message not found in output."
-        );
+    assertTrue(l_logs.contains("Warning: Not enough countries to assign one per player"),
+            "Expected warning message not found in log.");
     }
+
 }
 
