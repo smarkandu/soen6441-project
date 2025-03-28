@@ -134,8 +134,8 @@ class AdvanceTest {
         Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, 3, d_initiator, d_GameEngine);
 
         // Ensure that attacker always wins
-        l_advanceOrder.setProbability_winning_attacker(1.00);
-        l_advanceOrder.setProbability_winning_defender(0.00);
+        l_advanceOrder.setProbabilityWinningAttacker(1.00);
+        l_advanceOrder.setProbabilityWinningDefender(0.00);
 
         // Simulate battle
         BattleResult l_mockBattleResult = mock(BattleResult.class);
