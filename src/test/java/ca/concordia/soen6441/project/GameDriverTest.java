@@ -14,18 +14,18 @@ import static org.mockito.Mockito.*;
  * Test cases created for GameDriver class.
  */
 class GameDriverTest {
-    private GameContext mockGameEngine;
-    private Phase mockPhase;
+    private GameContext d_mockGameEngine;
+    private Phase d_mockPhase;
 
     /**
      * Setup method for each testcase
      */
     @BeforeEach
     void setUp() {
-        mockGameEngine = mock(GameEngine.class);
-        mockPhase = mock(Phase.class);
-        when(mockGameEngine.getPhase()).thenReturn(mockPhase);
-        GameDriver.d_gameEngine = mockGameEngine;
+        d_mockGameEngine = mock(GameEngine.class);
+        d_mockPhase = mock(Phase.class);
+        when(d_mockGameEngine.getPhase()).thenReturn(d_mockPhase);
+        GameDriver.d_gameEngine = d_mockGameEngine;
     }
 
     /**
@@ -35,7 +35,7 @@ class GameDriverTest {
     @Test
     void testEditContinentAdd() {
         simulateUserInput("editcontinent -add \"Asia\" 5\nexit\n");
-        verify(mockPhase, times(1)).editContinentAdd("Asia", 5);
+        verify(d_mockPhase, times(1)).editContinentAdd("Asia", 5);
     }
 
     /**
@@ -45,7 +45,7 @@ class GameDriverTest {
     @Test
     void testEditContinentRemove() {
         simulateUserInput("editcontinent -remove \"Asia\"\nexit\n");
-        verify(mockPhase, times(1)).editContinentRemove("Asia");
+        verify(d_mockPhase, times(1)).editContinentRemove("Asia");
     }
 
     /**
@@ -55,7 +55,7 @@ class GameDriverTest {
     @Test
     void testShowMap() {
         simulateUserInput("showmap\nexit\n");
-        verify(mockPhase, times(1)).showMap();
+        verify(d_mockPhase, times(1)).showMap();
     }
 
     /**
@@ -65,7 +65,7 @@ class GameDriverTest {
     @Test
     void testDeploy() {
         simulateUserInput("deploy \"France\" 10\nexit\n");
-        verify(mockPhase, times(1)).deploy("France", 10);
+        verify(d_mockPhase, times(1)).deploy("France", 10);
     }
 
     /**
@@ -75,7 +75,7 @@ class GameDriverTest {
     @Test
     void testAdvance() {
         simulateUserInput("advance \"Germany\" \"Belgium\" 5\nexit\n");
-        verify(mockPhase, times(1)).advance("Germany", "Belgium", 5);
+        verify(d_mockPhase, times(1)).advance("Germany", "Belgium", 5);
     }
 
     /**
@@ -85,7 +85,7 @@ class GameDriverTest {
     @Test
     void testExitCommand() {
         simulateUserInput("exit\n");
-        verify(mockPhase, times(1)).endGame();
+        verify(d_mockPhase, times(1)).endGame();
     }
 
     /**
