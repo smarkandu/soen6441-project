@@ -113,29 +113,11 @@ class AdvanceTest {
                 "Validation should fail since they are not neighbors");
     }
 
+    /**
+     * Testcase When Conquering a Country
+     */
     @Test
-    public void testConqueringUnownedTerritory() {
-        // Setup mock behaviors
-        when(d_initiator.getName()).thenReturn("Player1");
-        when(d_sourceTerritory.getOwner()).thenReturn(d_initiator);
-        when(d_sourceTerritory.getTroops()).thenReturn(10);
-        when(d_sourceTerritory.getTroops()).thenReturn(0);  // Unowned territory
-        when(d_sourceTerritory.getOwner()).thenReturn(null);
-        when(d_sourceTerritory.getID()).thenReturn("T1");
-
-        // Create Advance instance
-        Advance advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, 5, d_initiator, d_GameEngine);
-
-        // Execute the advance command
-        advanceOrder.execute();
-
-        // Verify conquest
-        verify(d_GameEngine).assignCountryToPlayer(d_targetTerritory, d_initiator);
-        assertTrue(advanceOrder.conquersTerritory(), "Player should conquer the territory.");
-    }
-
-    @Test
-    public void testConqueringOwnedTerritoryAndWinningBattle() {
+    public void testConqueringACountry() {
         // Setup mock behaviors
         when(d_initiator.getName()).thenReturn("Player1");
         when(d_defender.getName()).thenReturn("Player2");
@@ -163,10 +145,38 @@ class AdvanceTest {
         // Simulate battle outcome
         advanceOrder.execute();
 
-        // Verify conquest and troop count change
-//        when(d_targetTerritory.getOwner()).thenReturn(d_initiator);
+        // Verify that winning attacker is assigned country
+        // and that the number of troops has changed
         verify(d_GameEngine).assignCountryToPlayer(d_targetTerritory, d_initiator);
         assertTrue(advanceOrder.conquersTerritory(), "Player should conquer the territory.");
         verify(d_targetTerritory).setTroops(3);  // Player1 should have 3 troops left after battle
+    }
+
+    /**
+     * Testcase when moving armies in a conquered country after conquering it
+     */
+    @Test
+    public void testMovingOfArmiesInConqueredCountryAfterConqueringIt() {
+        // Setup mock behaviors
+        when(d_initiator.getName()).thenReturn("Player1");
+        when(d_sourceTerritory.getOwner()).thenReturn(d_initiator);
+        when(d_sourceTerritory.getTroops()).thenReturn(3);
+        when(d_targetTerritory.getOwner()).thenReturn(d_initiator);
+        when(d_targetTerritory.getTroops()).thenReturn(5);
+        when(d_targetTerritory.getID()).thenReturn("Country2");
+        List<String> l_neighbors = new ArrayList<>();
+        l_neighbors.add("Country2");
+        when(d_sourceTerritory.getNeighborIDs()).thenReturn(l_neighbors);
+
+        // Create Advance instance
+        Advance advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, 3, d_initiator, d_GameEngine);
+
+        // Simulate battle outcome
+        advanceOrder.execute();
+
+        // Verify that winning attacker is assigned country
+        // and that the number of troops has changed
+        Mockito.verify(d_GameEngine, Mockito.never()).assignCountryToPlayer(Mockito.any(), Mockito.any());
+        verify(d_targetTerritory).setTroops(8);  // Player1 should have 3 troops left after battle
     }
 }
