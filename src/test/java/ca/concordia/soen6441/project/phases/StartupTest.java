@@ -35,10 +35,10 @@ class StartupTest {
         l_gameEngine.getPlayerManager().getPlayers().put(l_player2.getName(), l_player2);
 
         // Add 2 mock countries
-        for (int i = 1; i <= 2; i++) {
+        for (int l_i = 1; l_i <= 2; l_i++) {
             Country l_country = mock(Country.class);
-            when(l_country.getID()).thenReturn("Country" + i);
-            l_gameEngine.getCountryManager().getCountries().put("Country" + i, l_country);
+            when(l_country.getID()).thenReturn("Country" + l_i);
+            l_gameEngine.getCountryManager().getCountries().put("Country" + l_i, l_country);
         }
 
         // Simulate valid map
