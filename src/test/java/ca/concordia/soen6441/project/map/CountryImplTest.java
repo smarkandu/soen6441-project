@@ -13,66 +13,66 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 
 public class CountryImplTest {
-    private CountryImpl country;
-    private Continent mockContinent;
-    private Player mockPlayer;
+    private CountryImpl d_country;
+    private Continent d_mockContinent;
+    private Player d_mockPlayer;
 
     @Before
     public void setUp() {
-        mockContinent = new MockContinent("Continent1", 1);
-        mockPlayer = new MockPlayer("Player1");
-        country = new CountryImpl(1, "Country1", mockContinent, 10, 20, mockPlayer);
+        d_mockContinent = new MockContinent("Continent1", 1);
+        d_mockPlayer = new MockPlayer("Player1");
+        d_country = new CountryImpl(1, "Country1", d_mockContinent, 10, 20, d_mockPlayer);
     }
 
     @Test
     public void testGetID() {
-        assertEquals("Country1", country.getID());
+        assertEquals("Country1", d_country.getID());
     }
 
     @Test
     public void testGetNumericID() {
-        assertEquals(1, country.getNumericID());
+        assertEquals(1, d_country.getNumericID());
     }
 
     @Test
     public void testGetNeighborIDsInitiallyEmpty() {
-        assertTrue(country.getNeighborIDs().isEmpty());
+        assertTrue(d_country.getNeighborIDs().isEmpty());
     }
 
     @Test
     public void testAddNeighbor() {
-        Country neighbor = new CountryImpl(2, "Country2", mockContinent, 15, 25, mockPlayer);
-        country.addNeighbor(neighbor);
-        List<String> neighbors = country.getNeighborIDs();
+        Country neighbor = new CountryImpl(2, "Country2", d_mockContinent, 15, 25, d_mockPlayer);
+        d_country.addNeighbor(neighbor);
+        List<String> neighbors = d_country.getNeighborIDs();
         assertEquals(1, neighbors.size());
         assertEquals("Country2", neighbors.get(0));
     }
 
     @Test
     public void testRemoveNeighbor() {
-        Country neighbor = new CountryImpl(2, "Country2", mockContinent, 15, 25, mockPlayer);
-        country.addNeighbor(neighbor);
-        country.removeNeighbor("Country2");
-        assertTrue(country.getNeighborIDs().isEmpty());
+        Country neighbor = new CountryImpl(2, "Country2", d_mockContinent, 15, 25, d_mockPlayer);
+        d_country.addNeighbor(neighbor);
+        d_country.removeNeighbor("Country2");
+        assertTrue(d_country.getNeighborIDs().isEmpty());
     }
 
     @Test
     public void testGetTroops() {
-        assertEquals(0, country.getTroops());
-        country.setTroops(10);
-        assertEquals(10, country.getTroops());
+        assertEquals(0, d_country.getTroops());
+        d_country.setTroops(10);
+        assertEquals(10, d_country.getTroops());
     }
 
     @Test
     public void testToStringFormat() {
         String expected = "Country1,10,20,Continent1";
-        assertTrue(country.toString().startsWith(expected));
+        assertTrue(d_country.toString().startsWith(expected));
     }
 
     @Test
     public void testToMapStringFormat() {
         String expected = "1 Country1 1 10 20";
-        assertEquals(expected, country.toMapString());
+        assertEquals(expected, d_country.toMapString());
     }
 
     static class MockContinent implements Continent {

@@ -90,22 +90,22 @@ class GameDriverTest {
 
     /**
      * Function created to simulate Scanner input
-     * @param input String normally entered for a scanner
+     * @param p_input String normally entered for a scanner
      */
-    private void simulateUserInput(String input) {
-        InputStream originalInput = System.in;
+    private void simulateUserInput(String p_input) {
+        InputStream l_originalInput = System.in;
         try {
             // Convert the String into binary (SetIn requires it)
-            ByteArrayInputStream testInput = new ByteArrayInputStream(input.getBytes());
+            ByteArrayInputStream l_testInput = new ByteArrayInputStream(p_input.getBytes());
 
             // Pass the binary stream to SetIn
             // Redirect Standard Input Stream to our ByteStream instead
-            System.setIn(testInput);
+            System.setIn(l_testInput);
 
             // Start GameDriver
             GameDriver.start();
         } finally {
-            System.setIn(originalInput);
+            System.setIn(l_originalInput);
         }
     }
 }

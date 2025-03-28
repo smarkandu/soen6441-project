@@ -131,24 +131,24 @@ class AdvanceTest {
         when(d_sourceTerritory.getNeighborIDs()).thenReturn(l_neighbors);
 
         // Create Advance instance
-        Advance advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, 3, d_initiator, d_GameEngine);
+        Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, 3, d_initiator, d_GameEngine);
 
         // Ensure that attacker always wins
-        advanceOrder.setProbability_winning_attacker(1.00);
-        advanceOrder.setProbability_winning_defender(0.00);
+        l_advanceOrder.setProbability_winning_attacker(1.00);
+        l_advanceOrder.setProbability_winning_defender(0.00);
 
         // Simulate battle
-        BattleResult mockBattleResult = mock(BattleResult.class);
-        when(mockBattleResult.getPlayersTroops()).thenReturn(3);  // Player1 wins with 3 troops remaining
-        when(mockBattleResult.getOpponentsTroops()).thenReturn(0); // Player2 loses all troops
+        BattleResult l_mockBattleResult = mock(BattleResult.class);
+        when(l_mockBattleResult.getPlayersTroops()).thenReturn(3);  // Player1 wins with 3 troops remaining
+        when(l_mockBattleResult.getOpponentsTroops()).thenReturn(0); // Player2 loses all troops
 
         // Simulate battle outcome
-        advanceOrder.execute();
+        l_advanceOrder.execute();
 
         // Verify that winning attacker is assigned country
         // and that the number of troops has changed
         verify(d_GameEngine).assignCountryToPlayer(d_targetTerritory, d_initiator);
-        assertTrue(advanceOrder.conquersTerritory(), "Player should conquer the territory.");
+        assertTrue(l_advanceOrder.conquersTerritory(), "Player should conquer the territory.");
         verify(d_targetTerritory).setTroops(3);  // Player1 should have 3 troops left after battle
     }
 
@@ -169,10 +169,10 @@ class AdvanceTest {
         when(d_sourceTerritory.getNeighborIDs()).thenReturn(l_neighbors);
 
         // Create Advance instance
-        Advance advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, 3, d_initiator, d_GameEngine);
+        Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, 3, d_initiator, d_GameEngine);
 
         // Simulate battle outcome
-        advanceOrder.execute();
+        l_advanceOrder.execute();
 
         // Verify that winning attacker is assigned country
         // and that the number of troops has changed
