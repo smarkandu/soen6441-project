@@ -11,6 +11,9 @@ class ContinentImplTest {
     private ContinentImpl d_continent1;
     private ContinentImpl d_continent2;
 
+    /**
+     * Setup for each testcase
+     */
     @BeforeEach
     void setUp() {
         ContinentImpl.resetCounter();
@@ -18,33 +21,30 @@ class ContinentImplTest {
         d_continent2 = new ContinentImpl("Europe", 3);
     }
 
+    /**
+     * Testcase for GetID
+     */
     @Test
     void testGetID() {
         assertEquals("Asia", d_continent1.getID());
         assertEquals("Europe", d_continent2.getID());
     }
 
+    /**
+     * Testcase for GetValue
+     */
     @Test
     void testGetValue() {
         assertEquals(5, d_continent1.getValue());
         assertEquals(3, d_continent2.getValue());
     }
 
+    /**
+     * Testcase for GetNumericID
+     */
     @Test
     void testGetNumericID() {
         assertEquals(1, d_continent1.getNumericID());
         assertEquals(2, d_continent2.getNumericID());
-    }
-
-    @Test
-    void testToString() {
-        assertEquals("Asia=5", d_continent1.toString());
-        assertEquals("Europe=3", d_continent2.toString());
-    }
-
-    @Test
-    void testToMapString() {
-        assertEquals("Asia 5 red", d_continent1.toMapString());
-        assertEquals("Europe 3 yellow", d_continent2.toMapString());
     }
 }

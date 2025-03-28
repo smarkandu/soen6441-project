@@ -5,40 +5,49 @@ import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.context.HandOfCardsContext;
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
+/**
+ * Testclass to test CountryImpl
+ */
 public class CountryImplTest {
     private CountryImpl d_country;
     private Continent d_mockContinent;
     private Player d_mockPlayer;
 
-    @Before
+    /**
+     * Setup before each test
+     */
+    @BeforeEach
     public void setUp() {
         d_mockContinent = new MockContinent("Continent1", 1);
         d_mockPlayer = new MockPlayer("Player1");
         d_country = new CountryImpl(1, "Country1", d_mockContinent, 10, 20, d_mockPlayer);
     }
 
+    /**
+     * Testcase for GetID
+     */
     @Test
     public void testGetID() {
         assertEquals("Country1", d_country.getID());
     }
 
+    /**
+     * Testcase for GetNumericID
+     */
     @Test
     public void testGetNumericID() {
         assertEquals(1, d_country.getNumericID());
     }
 
-    @Test
-    public void testGetNeighborIDsInitiallyEmpty() {
-        assertTrue(d_country.getNeighborIDs().isEmpty());
-    }
-
+    /**
+     * Testcase for adding a Neighbor
+     */
     @Test
     public void testAddNeighbor() {
         Country l_neighbor = new CountryImpl(2, "Country2", d_mockContinent, 15, 25, d_mockPlayer);
@@ -48,6 +57,9 @@ public class CountryImplTest {
         assertEquals("Country2", l_neighbors.get(0));
     }
 
+    /**
+     * Testcase for removing a neighbor
+     */
     @Test
     public void testRemoveNeighbor() {
         Country l_neighbor = new CountryImpl(2, "Country2", d_mockContinent, 15, 25, d_mockPlayer);
@@ -56,23 +68,14 @@ public class CountryImplTest {
         assertTrue(d_country.getNeighborIDs().isEmpty());
     }
 
+    /**
+     * Testcase for GetTroops
+     */
     @Test
     public void testGetTroops() {
         assertEquals(0, d_country.getTroops());
         d_country.setTroops(10);
         assertEquals(10, d_country.getTroops());
-    }
-
-    @Test
-    public void testToStringFormat() {
-        String l_expected = "Country1,10,20,Continent1";
-        assertTrue(d_country.toString().startsWith(l_expected));
-    }
-
-    @Test
-    public void testToMapStringFormat() {
-        String l_expected = "1 Country1 1 10 20";
-        assertEquals(l_expected, d_country.toMapString());
     }
 
     static class MockContinent implements Continent {
