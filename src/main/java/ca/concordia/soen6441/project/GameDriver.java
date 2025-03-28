@@ -21,7 +21,7 @@ public class GameDriver {
      * @param p_args Command-line arguments (not used).
      */
     public static void main(String[] p_args) {
-        CommandLineInterface commandLineInterface = new CommandLineInterface(d_gameEngine);
-        commandLineInterface.start();
+        CommandLineInterface l_commandLineInterface = new CommandLineInterface(d_gameEngine);
+        l_commandLineInterface.start();
     }
 }
