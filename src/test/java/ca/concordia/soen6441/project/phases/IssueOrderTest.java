@@ -21,7 +21,7 @@ import java.io.ByteArrayOutputStream;
 
 /**
  * Unit tests for the {@link IssueOrder} class.
- * This class tests the behavior of the deploy method under different conditions
+ * This class tests the behavior of the IssueOrder methods under different conditions
  * using mocked dependencies.
  */
 class IssueOrderTest {
@@ -131,6 +131,10 @@ class IssueOrderTest {
         verify(d_player, never()).issue_order(any(Deploy.class));
     }
 
+    /**
+     * Tests the advance method when the player chooses the source and target country as
+     * the same.  Should generate an error and not proceed with the advance
+     */
     @Test
     void testAdvance_Error_SameSourceAndTarget() {
         d_issueOrder.advance("Country1", "Country1", 5);
@@ -138,6 +142,10 @@ class IssueOrderTest {
         assertTrue(d_outContent.toString().contains("ERROR: Source and target territories cannot be the same."));
     }
 
+    /**
+     * Tests the advance method when the player chooses to advance when there are still
+     * troops left to deploy.  Should generate an error and not proceed with the advance
+     */
     @Test
     void testAdvance_Error_TroopsLeftToDeploy() {
         when(d_player.getReinforcements()).thenReturn(5);
@@ -153,6 +161,10 @@ class IssueOrderTest {
         assertTrue(d_outContent.toString().contains("ERROR: You still have 5 left to deploy!"));
     }
 
+    /**
+     * Tests the advance method when the player chooses to advance from a country he doesn't
+     * own.  Should generate an error and not proceed with the advance
+     */
     @Test
     void testAdvance_Error_PlayerDoesNotOwnCountry() {
         when(d_countryFrom.getOwner()).thenReturn(mock(Player.class));
@@ -161,6 +173,11 @@ class IssueOrderTest {
         assertTrue(d_outContent.toString().contains("ERROR: Player"));
     }
 
+    /**
+     * Tests the advance method when the player chooses to advance a certain number of troops
+     * they don't have at the source country.  Should generate an error and not proceed with the
+     * advance
+     */
     @Test
     void testAdvance_Error_NotEnoughTroops() {
         when(d_player.getNumberOfTroopsOrderedToAdvance(d_country)).thenReturn(0);
@@ -176,6 +193,11 @@ class IssueOrderTest {
         assertTrue(d_outContent.toString().contains("ERROR: Only 3 left to advance!"));
     }
 
+    /**
+     * Tests the advance method when the player chooses to advance to a certain location that's
+     * not a neighboring country to the source location.  Should generate an error and not
+     * proceed with the advance
+     */
     @Test
     void testAdvance_Error_NotANeighbor() {
         when(d_country.getOwner()).thenReturn(d_player);

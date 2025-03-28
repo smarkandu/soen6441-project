@@ -1,4 +1,4 @@
-package ca.concordia.soen6441.project;
+package ca.concordia.soen6441.project.ui;
 
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
@@ -13,9 +13,10 @@ import static org.mockito.Mockito.*;
 /**
  * Test cases created for GameDriver class.
  */
-class GameDriverTest {
+class CommandLineInterfaceTest {
     private GameContext d_mockGameEngine;
     private Phase d_mockPhase;
+    private CommandLineInterface d_commandLineInterface;
 
     /**
      * Setup method for each testcase
@@ -25,12 +26,12 @@ class GameDriverTest {
         d_mockGameEngine = mock(GameEngine.class);
         d_mockPhase = mock(Phase.class);
         when(d_mockGameEngine.getPhase()).thenReturn(d_mockPhase);
-        GameDriver.d_gameEngine = d_mockGameEngine;
+        d_commandLineInterface = new CommandLineInterface(d_mockGameEngine);
     }
 
     /**
      * Verifies that given an appropriate input, editContinentAdd will be called
-     * Exit command is run afterwards to exit loop
+     * Exit command is run afterward to exit loop
      */
     @Test
     void testEditContinentAdd() {
@@ -40,7 +41,7 @@ class GameDriverTest {
 
     /**
      * Verifies that given an appropriate input, editContinentRemove will be called
-     * Exit command is run afterwards to exit loop
+     * Exit command is run afterward to exit loop
      */
     @Test
     void testEditContinentRemove() {
@@ -50,7 +51,7 @@ class GameDriverTest {
 
     /**
      * Verifies that given an appropriate input, showMap will be called
-     * Exit command is run afterwards to exit loop
+     * Exit command is run afterward to exit loop
      */
     @Test
     void testShowMap() {
@@ -60,7 +61,7 @@ class GameDriverTest {
 
     /**
      * Verifies that given an appropriate input, deploy will be called
-     * Exit command is run afterwards to exit loop
+     * Exit command is run afterward to exit loop
      */
     @Test
     void testDeploy() {
@@ -70,7 +71,7 @@ class GameDriverTest {
 
     /**
      * Verifies that given an appropriate input, advance will be called
-     * Exit command is run afterwards to exit loop
+     * Exit command is run afterward to exit loop
      */
     @Test
     void testAdvance() {
@@ -80,7 +81,7 @@ class GameDriverTest {
 
     /**
      * Verifies that given an appropriate input, endGame will be called
-     * Exit command is run afterwards to exit loop
+     * Exit command is run afterward to exit loop
      */
     @Test
     void testExitCommand() {
@@ -103,7 +104,7 @@ class GameDriverTest {
             System.setIn(l_testInput);
 
             // Start GameDriver
-            GameDriver.start();
+            d_commandLineInterface.start();
         } finally {
             System.setIn(l_originalInput);
         }
