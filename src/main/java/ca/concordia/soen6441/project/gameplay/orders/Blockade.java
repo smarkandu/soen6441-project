@@ -6,19 +6,38 @@ import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
-import java.util.Random;
-
+/**
+ * Represents a Blockade order in the game.
+ * When executed, the territory's troops are tripled and the ownership is transferred to the neutral player.
+ */
 public class Blockade implements Order {
+
+    /** The country/territory where the blockade is applied. */
     private Country d_territory;
+
+    /** The player who issues the blockade order. */
     private Player d_initiator;
+
+    /** Reference to the game engine context. */
     private GameContext d_gameEngine;
 
+    /**
+     * Constructs a new Blockade order.
+     *
+     * @param p_territory The country where the blockade will be applied.
+     * @param p_initiator The player issuing the order.
+     * @param p_gameEngine The game context used to update the game state.
+     */
     public Blockade(Country p_territory, Player p_initiator, GameContext p_gameEngine) {
         this.d_territory = p_territory;
         this.d_initiator = p_initiator;
         this.d_gameEngine = p_gameEngine;
     }
 
+    /**
+     * Executes the Blockade order. If validation fails, logs an error message.
+     * Otherwise, the territory becomes neutral and its troop count is tripled.
+     */
     @Override
     public void execute() {
         String l_errorMsg = null;
@@ -41,21 +60,21 @@ public class Blockade implements Order {
     }
 
     /**
-     * Validates the Diplomacy order before execution.
+     * Validates the Blockade order before execution.
      *
-     * @return Null if valid; otherwise, an error message string.
+     * @return Null if the order is valid; otherwise, an error message.
      */
     public String validate() {
         if (!d_territory.getOwner().getName().equals(d_initiator.getName())) {
             return "Error: Player does not own the territory to create blockade on.";
         }
-
         return null;
     }
 
     /**
-     * Get a String Representation representing this object
-     * @return A String value
+     * Returns a string representation of the Blockade order.
+     *
+     * @return A string identifying the order and the target territory.
      */
     @Override
     public String toString() {
