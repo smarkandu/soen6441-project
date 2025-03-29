@@ -8,13 +8,23 @@ import ca.concordia.soen6441.project.interfaces.Card;
 
 import java.util.Random;
 
+/**
+ * Class for modelling a deck of cards
+ */
 public class DeckOfCards {
     Random d_rand;
 
+    /**
+     * Constructor
+     */
     public DeckOfCards() {
         this.d_rand = new Random();
     }
 
+    /**
+     * Function for obtaining a card from the deck
+     * @return a Card object
+     */
     public Card getCardFromDeck()
     {
         int l_randomNumber = d_rand.nextInt(4);  // get a value from 0 to 3
