@@ -12,6 +12,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
         import static org.mockito.Mockito.*;
 
+/**
+ * Test Class to test the Bomb Class
+ */
 public class BombTest {
 
     @Mock
@@ -42,10 +45,11 @@ public class BombTest {
 
         d_enemyTerritoryToBomb = mock(Country.class);
         d_enemyNeighborsCountries = new ArrayList<>();
-
-
     }
 
+    /**
+     * Testcase to verify that an error is generated when the player try to bomb its own territory.
+     */
     @Test
     public void testTargetTerritoryBelongsToPlayerInitiator() {
 
@@ -57,8 +61,11 @@ public class BombTest {
                 "Validation should fail because the player cannot bombed his own territory.");
     }
 
+    /**
+     * Testcase to verify that an error is generated when the player try to bomb a territory is not adjacent.
+     */
     @Test
-    public void testTargetTerritoryIsNotAjacent() {
+    public void testTargetTerritoryIsNotAdjacent() {
 
         when(d_enemyTerritoryToBomb.getID()).thenReturn("Canada");
 
@@ -68,6 +75,9 @@ public class BombTest {
                 "Validation should fail because the player should bomb an adjacent enemy territory.");
     }
 
+    /**
+     * Testcase to verify that an error is generated when the player try to bomb a territory that has no troop.
+     */
     @Test
     public void testTargetTerritoryHaveTroops() {
 
@@ -82,6 +92,9 @@ public class BombTest {
                 "Validation should fail because the player should bombed an enemy territory containing troops.");
     }
 
+    /**
+     * Testcase for verifying that an Order can be executed when it has correct input
+     */
     @Test
     public void testValidBombOrder() {
 
@@ -92,7 +105,7 @@ public class BombTest {
 
         d_bombOrder = new Bomb(d_mockInitiator, d_enemyTerritoryToBomb);
 
-        assertEquals(null, d_bombOrder.validate(), "Valid order order should pass validation.");
+        assertNull(d_bombOrder.validate(), "Valid order order should pass validation.");
 
     }
 
