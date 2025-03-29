@@ -62,7 +62,7 @@ public class Bomb implements Order {
      * Verify if one of the neighbors' countries belong to a particular player
      *
      * @param p_player string name of the player
-     * @param p_countryToBomb country to be bombed
+     * 
      * @return boolean true if one of the neighbor's countries to be bombed belongs to the player
      */
     private boolean isTerritoryAdjacent(Country p_countryToBomb) {
