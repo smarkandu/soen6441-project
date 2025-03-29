@@ -6,9 +6,16 @@ import ca.concordia.soen6441.project.interfaces.context.NeighborContext;
 
 import java.util.TreeMap;
 
+/**
+ * Manages all Neighbor operations
+ */
 public class NeighborManager implements NeighborContext {
     private GameContext d_GameEngine;
 
+    /**
+     * Constructor
+     * @param p_GameEngine GameContext object representing the GameEngine
+     */
     public NeighborManager(GameContext p_GameEngine) {
         d_GameEngine = p_GameEngine;
     }

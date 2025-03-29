@@ -32,7 +32,7 @@ public class CardManager<T> {
 
     /**
      * Checks if there is a T type object in hand
-     * @boolean if true, false otherwise
+     * @return true if card exists, false otherwise
      */
     public boolean hasCard() {
         return !d_cards.isEmpty();

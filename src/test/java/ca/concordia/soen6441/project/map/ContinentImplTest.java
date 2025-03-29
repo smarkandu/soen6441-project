@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Test cases for ContinentImpl class.
  */
-class ContinentImplTest {
+public class ContinentImplTest {
     private ContinentImpl d_continent1;
     private ContinentImpl d_continent2;
 

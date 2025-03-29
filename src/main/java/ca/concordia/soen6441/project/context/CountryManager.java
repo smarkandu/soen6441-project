@@ -7,10 +7,17 @@ import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
 import java.util.*;
 
+/**
+ * Class for managing the Country operations
+ */
 public class CountryManager implements CountryContext {
     private SortedMap<String, Country> d_Countries;
     private GameContext d_GameEngine;
 
+    /**
+     * Constructor
+     * @param p_GameEngine GameContext object representing the GameEngine
+     */
     public CountryManager(GameContext p_GameEngine) {
         d_Countries = new TreeMap<String, Country>();
         d_GameEngine = p_GameEngine;
@@ -32,6 +39,10 @@ public class CountryManager implements CountryContext {
         System.out.println("Country added: " + d_Countries.get(l_country.getID()));
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void addCountry(String p_CountryID, String p_continentID) {
         Country l_country = OverallFactory.getInstance().CreateCountry(p_CountryID, d_GameEngine.getContinentManager().getContinents().get(p_continentID),
                 d_GameEngine.getPlayerManager().getNeutralPlayer()); // neutral army by default
@@ -50,8 +61,10 @@ public class CountryManager implements CountryContext {
         d_Countries.remove(p_countryID);
     }
 
-    @Override
-    public Country getCountryByNumericID(int p_numericIDOfCountry) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override    public Country getCountryByNumericID(int p_numericIDOfCountry) {
 
         for (String l_key : d_Countries.keySet()) {
             if (d_Countries.get(l_key).getNumericID() == p_numericIDOfCountry) {
@@ -79,10 +92,17 @@ public class CountryManager implements CountryContext {
         return l_countries;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public SortedMap<String, Country> getCountries() {
         return d_Countries;
     }
 
+    /**
+     * Clears all Country contents
+     */
     public void clear()
     {
         d_Countries.clear();

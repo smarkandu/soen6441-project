@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 /**
  * Test Class to test the Advance Class
  */
-class AdvanceTest {
+public class AdvanceTest {
     private Country d_sourceTerritory;
     private Country d_targetTerritory;
     private Player d_initiator;
