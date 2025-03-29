@@ -115,6 +115,11 @@ public class CommandLineInterface {
         }
     }
 
+    /**
+     * Processes EditContinent Command line string
+     * @param p_args the string array of arguments passed
+     * @param p_operation the string representing the operation
+     */
     private void processEditContinent(String[] p_args, String p_operation)
     {
         if ("-add".equals(p_operation) && p_args.length == 4) {
@@ -129,6 +134,11 @@ public class CommandLineInterface {
         }
     }
 
+    /**
+     * Processes EditCountry Command line string
+     * @param p_args the string array of arguments passed
+     * @param p_operation the string representing the operation
+     */
     private void processEditCountry(String[] p_args, String p_operation)
     {
         if ("-add".equals(p_operation) && p_args.length == 4) {
@@ -143,6 +153,11 @@ public class CommandLineInterface {
         }
     }
 
+    /**
+     * Processes EditNeighbor Command line string
+     * @param p_args the string array of arguments passed
+     * @param p_operation the string representing the operation
+     */
     private void processEditNeighbor(String[] p_args, String p_operation)
     {
         if ("-add".equals(p_operation) && p_args.length == 4) {
@@ -158,6 +173,10 @@ public class CommandLineInterface {
         }
     }
 
+    /**
+     * Processes Deploy Command line string
+     * @param p_args the string array of arguments passed
+     */
     private void processDeploy(String[] p_args)
     {
         String l_countryID = p_args[1].replace("\"", "");
@@ -165,6 +184,10 @@ public class CommandLineInterface {
         d_gameEngine.getPhase().deploy(l_countryID, l_toDeploy);
     }
 
+    /**
+     * Processes Advance Command line string
+     * @param p_args the string array of arguments passed
+     */
     private void processAdvance(String[] p_args)
     {
         String l_countryNameFrom = p_args[1].replace("\"", "");
@@ -173,6 +196,10 @@ public class CommandLineInterface {
         d_gameEngine.getPhase().advance(l_countryNameFrom, l_countryNameTo, l_toAdvance);
     }
 
+    /**
+     * Processes Airlift Command line string
+     * @param p_args the string array of arguments passed
+     */
     private void processAirlift(String[] p_args)
     {
         String l_sourceCountryID = p_args[1].replace("\"", "");
@@ -181,6 +208,11 @@ public class CommandLineInterface {
         d_gameEngine.getPhase().airlift(l_sourceCountryID, l_targetCountryID, l_numArmies);
     }
 
+    /**
+     * Processes GamePlayer Command line string
+     * @param p_args the string array of arguments passed
+     * @param p_operation the string representing the operation
+     */
     private void processGamePlayer(String[] p_args, String p_operation)
     {
         String l_playername = p_args[2];
