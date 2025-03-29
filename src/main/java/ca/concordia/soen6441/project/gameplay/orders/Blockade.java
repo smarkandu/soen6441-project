@@ -8,17 +8,29 @@ import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
 import java.util.Random;
 
+/**
+ * Class representing the Blockade command
+ */
 public class Blockade implements Order {
     private Country d_territory;
     private Player d_initiator;
     private GameContext d_gameEngine;
 
+    /**
+     * Constructor
+     * @param p_territory The territory for blockade
+     * @param p_initiator The player that initiated it
+     * @param p_gameEngine The GameEngine object
+     */
     public Blockade(Country p_territory, Player p_initiator, GameContext p_gameEngine) {
         this.d_territory = p_territory;
         this.d_initiator = p_initiator;
         this.d_gameEngine = p_gameEngine;
     }
 
+    /**
+     * Method for executing the order
+     */
     @Override
     public void execute() {
         String l_errorMsg = null;
