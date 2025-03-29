@@ -70,7 +70,7 @@ public class HandOfCardsManager implements HandOfCardsContext {
 
     /**
      * Get the object used for managing Airlift cards
-     * @return CardManager<AirliftCard> object
+     * @return CardManager for AirliftCard object
      */
     public CardManager<AirliftCard> getAirLiftCardManager() {
         return d_airLiftCardManager;
@@ -78,7 +78,7 @@ public class HandOfCardsManager implements HandOfCardsContext {
 
     /**
      * Get the object used for managing Blockade cards
-     * @return CardManager<BlockadeCard> object
+     * @return CardManager for BlockadeCard object
      */
     public CardManager<BlockadeCard> getBlockadeCardManager() {
         return d_blockadeCardManager;
@@ -86,7 +86,7 @@ public class HandOfCardsManager implements HandOfCardsContext {
 
     /**
      * Get the object used for managing Bomb cards
-     * @return CardManager<BombCard> object
+     * @return CardManager for BombCard object
      */
     public CardManager<BombCard> getBombCardManager() {
         return d_bombCardManager;
@@ -94,7 +94,7 @@ public class HandOfCardsManager implements HandOfCardsContext {
 
     /**
      * Get the object used for managing Diplomacy cards
-     * @return CardManager<DiplomacyCard> object
+     * @return CardManager for DiplomacyCard object
      */
     public CardManager<DiplomacyCard> getDiplomacyCardManager() {
         return d_diplomacyCardManager;
