@@ -25,7 +25,6 @@ public class MapFileReader {
             System.err.println("An error occurred: " + e.getMessage());
         }
     }
-
     /**
      * Reads the file and processes its content to extract map details.
      *
