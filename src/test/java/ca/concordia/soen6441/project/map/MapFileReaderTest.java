@@ -17,35 +17,35 @@ import static org.mockito.Mockito.when;
 public class MapFileReaderTest {
 
     @TempDir
-    Path tempDir;
+    Path d_tempDir;
 
-    private GameContext gameContext;
-    private ContinentContext continentContext;
-    private CountryContext countryContext;
+    private GameContext d_gameContext;
+    private ContinentContext d_continentContext;
+    private CountryContext d_countryContext;
 
     @BeforeEach
     public void setup() {
         // Create mocks for GameContext and its managers.
-        gameContext = Mockito.mock(GameContext.class);
-        continentContext = Mockito.mock(ContinentContext.class);
-        countryContext = Mockito.mock(CountryContext.class);
+        d_gameContext = Mockito.mock(GameContext.class);
+        d_continentContext = Mockito.mock(ContinentContext.class);
+        d_countryContext = Mockito.mock(CountryContext.class);
 
         // Stub the GameContext methods to return our mocks.
-        when(gameContext.getContinentManager()).thenReturn(continentContext);
-        when(gameContext.getCountryManager()).thenReturn(countryContext);
+        when(d_gameContext.getContinentManager()).thenReturn(d_continentContext);
+        when(d_gameContext.getCountryManager()).thenReturn(d_countryContext);
 
         // Create stub continents for numeric IDs.
         // For numeric ID 1, we return a continent with ID "NorthAmerica".
-        Continent northAmerica = Mockito.mock(Continent.class);
-        when(northAmerica.getID()).thenReturn("NorthAmerica");
+        Continent l_northAmerica = Mockito.mock(Continent.class);
+        when(l_northAmerica.getID()).thenReturn("NorthAmerica");
 
         // For numeric ID 2, we return a continent with ID "SouthAmerica".
-        Continent southAmerica = Mockito.mock(Continent.class);
-        when(southAmerica.getID()).thenReturn("SouthAmerica");
+        Continent l_southAmerica = Mockito.mock(Continent.class);
+        when(l_southAmerica.getID()).thenReturn("SouthAmerica");
 
         // Stub getContinentByNumericID for continentContext.
-        when(continentContext.getContinentByNumericID(1)).thenReturn(northAmerica);
-        when(continentContext.getContinentByNumericID(2)).thenReturn(southAmerica);
+        when(d_continentContext.getContinentByNumericID(1)).thenReturn(l_northAmerica);
+        when(d_continentContext.getContinentByNumericID(2)).thenReturn(l_southAmerica);
     }
 
     /**
@@ -56,8 +56,8 @@ public class MapFileReaderTest {
     @Test
     public void testReadValidMapFile() throws Exception {
         // Create a temporary file with sample valid map content.
-        Path mapFile = tempDir.resolve("test.map");
-        String mapContent = """
+        Path l_mapFile = d_tempDir.resolve("test.map");
+        String l_mapContent = """
                 [continents]
                 NorthAmerica 5 yellow
                 SouthAmerica 4 yellow
@@ -72,25 +72,25 @@ public class MapFileReaderTest {
                 2 1 3
                 3 1 2
                 """;
-        Files.writeString(mapFile, mapContent);
+        Files.writeString(l_mapFile, l_mapContent);
 
         // Create an instance of MapFileReader and read the file.
-        MapFileReader mapFileReader = new MapFileReader();
-        mapFileReader.readMapFile(mapFile.toString(), gameContext);
+        MapFileReader l_mapFileReader = new MapFileReader();
+        l_mapFileReader.readMapFile(l_mapFile.toString(), d_gameContext);
 
         // Verify that continents were added.
         // According to the file, the first continent is "NorthAmerica" with bonus 5.
-        verify(continentContext).addContinent(1, "NorthAmerica", 5, "yellow");
+        verify(d_continentContext).addContinent(1, "NorthAmerica", 5, "yellow");
         // The second continent is "SouthAmerica" with bonus 4.
-        verify(continentContext).addContinent(2, "SouthAmerica", 4, "yellow");
+        verify(d_continentContext).addContinent(2, "SouthAmerica", 4, "yellow");
 
         // Verify that countries were added.
         // The country with numeric ID 1 ("Canada") belongs to "NorthAmerica".
-        verify(countryContext).addCountry(1, "Canada", "NorthAmerica", 0, 0);
+        verify(d_countryContext).addCountry(1, "Canada", "NorthAmerica", 0, 0);
         // The country with numeric ID 2 ("UnitedStates") belongs to "NorthAmerica".
-        verify(countryContext).addCountry(2, "UnitedStates", "NorthAmerica", 0, 0);
+        verify(d_countryContext).addCountry(2, "UnitedStates", "NorthAmerica", 0, 0);
         // The country with numeric ID 3 ("Mexico") belongs to "SouthAmerica".
-        verify(countryContext).addCountry(3, "Mexico", "SouthAmerica", 0, 0);
+        verify(d_countryContext).addCountry(3, "Mexico", "SouthAmerica", 0, 0);
     }
 
     /**
@@ -98,10 +98,10 @@ public class MapFileReaderTest {
      */
     @Test
     public void testReadMapFileNotFound() {
-        MapFileReader mapFileReader = new MapFileReader();
+        MapFileReader l_mapFileReader = new MapFileReader();
         // Expect a FileNotFoundException when reading a non-existent file.
         try {
-            mapFileReader.readMapFile("wrong_name.map", gameContext);
+            l_mapFileReader.readMapFile("wrong_name.map", d_gameContext);
             fail("Expected FileNotFoundException to be thrown");
         } catch (FileNotFoundException e) {
             // Test passes, exception was thrown as expected.

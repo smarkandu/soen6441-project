@@ -87,8 +87,8 @@ public class MapFileReader {
      * @throws IOException If an I/O error occurs.
      */
     private Map<String, List<String>> parseMapFile(String p_filePath) throws IOException {
-        Map<String, List<String>> sections = new LinkedHashMap<>();
-        String currentSection = null;
+        Map<String, List<String>> l_sections = new LinkedHashMap<>();
+        String l_currentSection = null;
 
         try (BufferedReader l_br = new BufferedReader(new FileReader(p_filePath))) {
             String l_line;
@@ -98,14 +98,14 @@ public class MapFileReader {
                     continue; // Skip empty lines and comments
                 }
                 if (l_line.startsWith("[")) {
-                    currentSection = l_line.substring(1, l_line.length() - 1);
-                    sections.putIfAbsent(currentSection, new ArrayList<>());
-                } else if (currentSection != null) {
-                    sections.get(currentSection).add(l_line);
+                    l_currentSection = l_line.substring(1, l_line.length() - 1);
+                    l_sections.putIfAbsent(l_currentSection, new ArrayList<>());
+                } else if (l_currentSection != null) {
+                    l_sections.get(l_currentSection).add(l_line);
                 }
             }
         }
-        return sections;
+        return l_sections;
     }
 
     /**
@@ -167,8 +167,8 @@ public class MapFileReader {
      */
     private boolean processCountriesSection(List<String> p_lines, GameContext p_gameEngine) {
         boolean l_mapIsValid = true;
-        for (String line : p_lines) {
-            String[] l_parts = line.split("\\s+");
+        for (String l_line : p_lines) {
+            String[] l_parts = l_line.split("\\s+");
             if (l_parts.length != 5) {
                 System.out.println("Invalid countries in map file.");
                 l_mapIsValid = false;
