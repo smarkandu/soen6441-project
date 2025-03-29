@@ -145,7 +145,7 @@ public class AssignReinforcements extends MainPlay {
             System.out.println(l_player.getName() + " receives " + l_player.getReinforcements() + " reinforcements.");
         }
 
-        // Removed circular dependency call to IssueOrder here.
+        // Set Current State to IssueOrder
         d_gameEngine.setPhase(new IssueOrder(d_gameEngine, 0));
     }
 
