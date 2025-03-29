@@ -49,7 +49,7 @@ public class Bomb implements Order {
         if (d_initiator.getOwnedCountries().contains(d_targetTerritory.getID())) {
             return "Error: Player cannot bomb his territory.";
         }
-        if (!isTerritoryAdjacent(d_initiator.getName(), d_targetTerritory)) {
+        if (!isTerritoryAdjacent(d_targetTerritory)) {
             return "Error: Player's territory is not adjacent to the target territory.";
         }
         if (d_targetTerritory.getTroops() == 0) {
@@ -65,7 +65,7 @@ public class Bomb implements Order {
      * @param p_countryToBomb country to be bombed
      * @return boolean true if one of the neighbor's countries to be bombed belongs to the player
      */
-    private boolean isTerritoryAdjacent(String p_player, Country p_countryToBomb) {
+    private boolean isTerritoryAdjacent(Country p_countryToBomb) {
         for(String l_neighbourCountry : p_countryToBomb.getNeighborIDs()) {
             if(d_initiator.getOwnedCountries().contains(l_neighbourCountry)) {
                 return true;
