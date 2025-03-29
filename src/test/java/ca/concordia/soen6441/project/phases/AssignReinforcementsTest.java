@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 /**
  * Unit tests for the {@link AssignReinforcements} class.
  */
-class AssignReinforcementsTest {
+public class AssignReinforcementsTest {
 
     private GameContext d_gameEngine;
     private AssignReinforcements d_assignReinforcements;

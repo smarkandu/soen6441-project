@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
  * Unit test for {@link Startup#assignCountries()}.
  * Verifies that the game proceeds without warnings when map is valid and enough players exist.
  */
-class StartupTest {
+public class StartupTest {
 
     /**
      * Tests that assignCountries proceeds to gameplay phase when setup is valid.

@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
 /**
  * Test Class to test the Blockade Class
  */
-class BlockadeTest {
+public class BlockadeTest {
     @Mock
     private Country d_mockTerritory;
 
