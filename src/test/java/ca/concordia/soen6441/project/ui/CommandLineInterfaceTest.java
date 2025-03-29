@@ -50,6 +50,46 @@ class CommandLineInterfaceTest {
     }
 
     /**
+     * Verifies that given an appropriate input, testEditCountryAdd will be called
+     * Exit command is run afterward to exit loop
+     */
+    @Test
+    void testEditCountryAdd() {
+        simulateUserInput("editcountry -add \"UnitedStates\" \"NorthAmerica\"\nexit\n");
+        verify(d_mockPhase, times(1)).editCountryAdd("UnitedStates", "NorthAmerica");
+    }
+
+    /**
+     * Verifies that given an appropriate input, testEditCountryRemove will be called
+     * Exit command is run afterward to exit loop
+     */
+    @Test
+    public void testEditCountryRemove() {
+        simulateUserInput("editcountry -remove \"Canada\"\nexit\n");
+        verify(d_mockPhase, times(1)).editCountryRemove("Canada");
+    }
+
+    /**
+     * Verifies that given an appropriate input, testEditNeighborAdd will be called
+     * Exit command is run afterward to exit loop
+     */
+    @Test
+    void testEditNeighborAdd() {
+        simulateUserInput("editneighbor -add \"UnitedStates\" \"Canada\"\nexit\n");
+        verify(d_mockPhase, times(1)).editNeighborAdd("UnitedStates", "Canada");
+    }
+
+    /**
+     * Verifies that given an appropriate input, testEditNeighborRemove will be called
+     * Exit command is run afterward to exit loop
+     */
+    @Test
+    public void testEditNeighborRemove() {
+        simulateUserInput("editneighbor -remove \"UnitedStates\" \"Canada\"\nexit\n");
+        verify(d_mockPhase, times(1)).editNeighborRemove("UnitedStates", "Canada");
+    }
+
+    /**
      * Verifies that given an appropriate input, showMap will be called
      * Exit command is run afterward to exit loop
      */
@@ -77,6 +117,36 @@ class CommandLineInterfaceTest {
     void testAdvance() {
         simulateUserInput("advance \"Germany\" \"Belgium\" 5\nexit\n");
         verify(d_mockPhase, times(1)).advance("Germany", "Belgium", 5);
+    }
+
+    /**
+     * Verifies that given an appropriate input, testAirlift will be called
+     * Exit command is run afterward to exit loop
+     */
+    @Test
+    void testAirlift() {
+        simulateUserInput("airlift \"Germany\" \"Belgium\" 5\nexit\n");
+        verify(d_mockPhase, times(1)).airlift("Germany", "Belgium", 5);
+    }
+
+    /**
+     * Verifies that given an appropriate input, testGamePlayerAdd will be called
+     * Exit command is run afterward to exit loop
+     */
+    @Test
+    public void testGamePlayerAdd() {
+        simulateUserInput("gameplayer -add Steven\nexit\n");
+        verify(d_mockPhase, times(1)).gamePlayerAdd("Steven");
+    }
+
+    /**
+     * Verifies that given an appropriate input, testGamePlayerRemove will be called
+     * Exit command is run afterward to exit loop
+     */
+    @Test
+    void testGamePlayerRemove() {
+        simulateUserInput("gameplayer -remove Steven\nexit\n");
+        verify(d_mockPhase, times(1)).gamePlayerRemove("Steven");
     }
 
     /**
