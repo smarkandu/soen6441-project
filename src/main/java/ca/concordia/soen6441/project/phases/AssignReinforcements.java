@@ -146,6 +146,7 @@ public class AssignReinforcements extends MainPlay {
         }
 
         // Removed circular dependency call to IssueOrder here.
+        d_gameEngine.setPhase(new IssueOrder(d_gameEngine, 0));
     }
 
     /**
