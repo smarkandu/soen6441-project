@@ -74,6 +74,10 @@ public class Bomb implements Order {
         return false;
     }
 
+    /**
+     * This method returns a text representation of the Bomb instance
+     * @return as String.
+     */
     @Override
     public String toString() {
         return "{Bomb " + d_targetTerritory.getID() + "}";
