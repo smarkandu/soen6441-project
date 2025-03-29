@@ -6,8 +6,7 @@ import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
 /**
- * Implementation of the Order interface.
- * Represents a bomb card in the game with its properties and behaviors.
+ * This class represents bombing an adjacent enemy territory.
  */
 public class Bomb implements Order {
 
@@ -42,15 +41,19 @@ public class Bomb implements Order {
         }
     }
 
-    private String validate() {
+    /**
+     * Used to validate whether there are any issues prior to executing an Order
+     * @return A string if an error occurs, null otherwise.
+     */
+    public String validate() {
         if (d_initiator.getOwnedCountries().contains(d_targetTerritory.getID())) {
-            return "Error: Player cannot bombeb his territory.";
+            return "Error: Player cannot bomb his territory.";
         }
         if (!isTerritoryAdjacent(d_initiator.getName(), d_targetTerritory)) {
             return "Error: Player's territory is not adjacent to the target territory.";
         }
         if (d_targetTerritory.getTroops() == 0) {
-            return "Error: Player cannot bombed a territory without troop.";
+            return "Error: Player cannot bomb a territory without troop.";
         }
         return null;
     }
