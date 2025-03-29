@@ -38,41 +38,13 @@ public class CommandLineInterface {
 
                 switch (l_action) {
                     case "editcontinent":
-                        if ("-add".equals(l_operation) && l_args.length == 4) {
-                            String l_continentID = l_args[2].replace("\"", "");
-                            int l_continentValue = Integer.parseInt(l_args[3]);
-                            d_gameEngine.getPhase().editContinentAdd(l_continentID, l_continentValue);
-                        } else if ("-remove".equals(l_operation) && l_args.length == 3) {
-                            String l_continentID = l_args[2].replace("\"", "");
-                            d_gameEngine.getPhase().editContinentRemove(l_continentID);
-                        } else {
-                            System.out.println("Operation not recognized");
-                        }
+                        processEditContinent(l_args, l_operation);
                         break;
                     case "editcountry":
-                        if ("-add".equals(l_operation) && l_args.length == 4) {
-                            String l_countryID = l_args[2].replace("\"", "");
-                            String l_continentID = l_args[3].replace("\"", "");
-                            d_gameEngine.getPhase().editCountryAdd(l_countryID, l_continentID);
-                        } else if ("-remove".equals(l_operation) && l_args.length == 3) {
-                            String l_countryID = l_args[2].replace("\"", "");
-                            d_gameEngine.getPhase().editCountryRemove(l_countryID);
-                        } else {
-                            System.out.println("Operation not recognized");
-                        }
+                        processEditCountry(l_args, l_operation);
                         break;
                     case "editneighbor":
-                        if ("-add".equals(l_operation) && l_args.length == 4) {
-                            String l_countryID = l_args[2].replace("\"", "");
-                            String l_neighborCountryID = l_args[3].replace("\"", "");
-                            d_gameEngine.getPhase().editNeighborAdd(l_countryID, l_neighborCountryID);
-                        } else if ("-remove".equals(l_operation) && l_args.length == 4) {
-                            String l_countryID = l_args[2].replace("\"", "");
-                            String l_neighborCountryID = l_args[3].replace("\"", "");
-                            d_gameEngine.getPhase().editNeighborRemove(l_countryID, l_neighborCountryID);
-                        } else {
-                            System.out.println("Operation not recognized");
-                        }
+                        processEditNeighbor(l_args, l_operation);
                         break;
                     case "showmap":
                         d_gameEngine.getPhase().showMap();
@@ -84,26 +56,17 @@ public class CommandLineInterface {
                         d_gameEngine.getPhase().assignCountries();
                         break;
                     case "deploy": {
-                        String l_countryID = l_args[1].replace("\"", "");
-                        int l_toDeploy = Integer.parseInt(l_args[2]);
-                        d_gameEngine.getPhase().deploy(l_countryID, l_toDeploy);
+                        processDeploy(l_args);
                         break;
                     }
                     case "advance": {
-                        String l_countryNameFrom = l_args[1].replace("\"", "");
-                        String l_countryNameTo = l_args[2].replace("\"", "");
-                        int l_toAdvance = Integer.parseInt(l_args[3]);
-                        d_gameEngine.getPhase().advance(l_countryNameFrom, l_countryNameTo, l_toAdvance);
+                        processAdvance(l_args);
                         break;
                     }
                     case "airlift": {
-                        String l_sourceCountryID = l_args[1].replace("\"", "");
-                        String l_targetCountryID = l_args[2].replace("\"", "");
-                        int l_numArmies = Integer.parseInt(l_args[3]);
-                        d_gameEngine.getPhase().airlift(l_sourceCountryID, l_targetCountryID, l_numArmies);
+                        processAirlift(l_args);
                         break;
                     }
-
                     case "bomb": {
                         String l_countryNameToBomb = l_args[1].replace("\"", "");
                         d_gameEngine.getPhase().bomb(l_countryNameToBomb);
@@ -120,13 +83,7 @@ public class CommandLineInterface {
                         break;
                     }
                     case "gameplayer":
-                        String l_playername = l_args[2];
-                        if ("-add".equals(l_operation) && l_args.length == 3) {
-                            d_gameEngine.getPhase().gamePlayerAdd(l_playername);
-                        }
-                        if ("-remove".equals(l_operation) && l_args.length == 3) {
-                            d_gameEngine.getPhase().gamePlayerRemove(l_playername);
-                        }
+                        processGamePlayer(l_args, l_operation);
                         break;
                     case "loadmap":
                         d_gameEngine.getPhase().loadMap(l_args[1]);
@@ -155,6 +112,87 @@ public class CommandLineInterface {
             {
                 System.out.println(e.getMessage());
             }
+        }
+    }
+
+
+//    String[] l_args = l_scanner.nextLine().split(" ");
+//    String l_action = l_args[0].toLowerCase();
+//    String l_operation = l_args.length > 1 ? l_args[1].toLowerCase() : null;
+    private void processEditContinent(String[] l_args, String l_operation)
+    {
+        if ("-add".equals(l_operation) && l_args.length == 4) {
+            String l_continentID = l_args[2].replace("\"", "");
+            int l_continentValue = Integer.parseInt(l_args[3]);
+            d_gameEngine.getPhase().editContinentAdd(l_continentID, l_continentValue);
+        } else if ("-remove".equals(l_operation) && l_args.length == 3) {
+            String l_continentID = l_args[2].replace("\"", "");
+            d_gameEngine.getPhase().editContinentRemove(l_continentID);
+        } else {
+            System.out.println("Operation not recognized");
+        }
+    }
+
+    private void processEditCountry(String[] l_args, String l_operation)
+    {
+        if ("-add".equals(l_operation) && l_args.length == 4) {
+            String l_countryID = l_args[2].replace("\"", "");
+            String l_continentID = l_args[3].replace("\"", "");
+            d_gameEngine.getPhase().editCountryAdd(l_countryID, l_continentID);
+        } else if ("-remove".equals(l_operation) && l_args.length == 3) {
+            String l_countryID = l_args[2].replace("\"", "");
+            d_gameEngine.getPhase().editCountryRemove(l_countryID);
+        } else {
+            System.out.println("Operation not recognized");
+        }
+    }
+
+    private void processEditNeighbor(String[] l_args, String l_operation)
+    {
+        if ("-add".equals(l_operation) && l_args.length == 4) {
+            String l_countryID = l_args[2].replace("\"", "");
+            String l_neighborCountryID = l_args[3].replace("\"", "");
+            d_gameEngine.getPhase().editNeighborAdd(l_countryID, l_neighborCountryID);
+        } else if ("-remove".equals(l_operation) && l_args.length == 4) {
+            String l_countryID = l_args[2].replace("\"", "");
+            String l_neighborCountryID = l_args[3].replace("\"", "");
+            d_gameEngine.getPhase().editNeighborRemove(l_countryID, l_neighborCountryID);
+        } else {
+            System.out.println("Operation not recognized");
+        }
+    }
+
+    private void processDeploy(String[] l_args)
+    {
+        String l_countryID = l_args[1].replace("\"", "");
+        int l_toDeploy = Integer.parseInt(l_args[2]);
+        d_gameEngine.getPhase().deploy(l_countryID, l_toDeploy);
+    }
+
+    private void processAdvance(String[] l_args)
+    {
+        String l_countryNameFrom = l_args[1].replace("\"", "");
+        String l_countryNameTo = l_args[2].replace("\"", "");
+        int l_toAdvance = Integer.parseInt(l_args[3]);
+        d_gameEngine.getPhase().advance(l_countryNameFrom, l_countryNameTo, l_toAdvance);
+    }
+
+    private void processAirlift(String[] l_args)
+    {
+        String l_sourceCountryID = l_args[1].replace("\"", "");
+        String l_targetCountryID = l_args[2].replace("\"", "");
+        int l_numArmies = Integer.parseInt(l_args[3]);
+        d_gameEngine.getPhase().airlift(l_sourceCountryID, l_targetCountryID, l_numArmies);
+    }
+
+    private void processGamePlayer(String[] l_args, String l_operation)
+    {
+        String l_playername = l_args[2];
+        if ("-add".equals(l_operation) && l_args.length == 3) {
+            d_gameEngine.getPhase().gamePlayerAdd(l_playername);
+        }
+        if ("-remove".equals(l_operation) && l_args.length == 3) {
+            d_gameEngine.getPhase().gamePlayerRemove(l_playername);
         }
     }
 }
