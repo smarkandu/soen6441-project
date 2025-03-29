@@ -1,0 +1,22 @@
+package ca.concordia.soen6441.project.gameplay.behaviour;
+
+import ca.concordia.soen6441.project.interfaces.gameplay.behavior.PlayerBehavior;
+
+public class PlayerBehaviorFactory {
+    public PlayerBehavior createPlayerBehavior(PlayerBehaviorType p_playerBehaviorType) {
+        switch (p_playerBehaviorType) {
+            case HUMAN:
+                return new HumanPlayerBehavior();
+            case AGGRESSIVE:
+                return new AggressivePlayerBehavior();
+            case BENEVOLENT:
+                return new BenevolentPlayerBehavior();
+            case RANDOM:
+                return new RandomPlayerBehavior();
+            case CHEATER:
+                return new CheaterPlayerBehavior();
+            default:
+                throw new IllegalArgumentException("Unknown behavior type: " + p_playerBehaviorType);
+        }
+    }
+}

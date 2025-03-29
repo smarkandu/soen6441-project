@@ -2,6 +2,7 @@ package ca.concordia.soen6441.project.interfaces;
 
 import ca.concordia.soen6441.project.interfaces.context.HandOfCardsContext;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,8 +25,7 @@ public interface Player {
 
     /**
      * Issues a new order for the player.
-     *
-     * @param p_order The order to be issued.
+     * @param p_order The order to be issued
      */
     void issue_order(Order p_order);
 
