@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
  * This test class validates the reinforcement allocation logic
  * for players based on their owned countries and continent control.
  */
-class AssignReinforcementsTest {
+public class AssignReinforcementsTest {
 
     /** Mocked instance of the game engine context. */
     private GameContext d_gameEngine;

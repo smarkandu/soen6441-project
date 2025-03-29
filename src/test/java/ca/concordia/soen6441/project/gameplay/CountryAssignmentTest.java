@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
  *
  * This test verifies that countries are correctly assigned to players during the setup phase.
  */
-class CountryAssignmentTest {
+public class CountryAssignmentTest {
 
     private GameEngine d_gameEngine;
     private CountryAssignment d_countryAssignment;

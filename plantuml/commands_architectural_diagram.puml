@@ -1,0 +1,81 @@
+@startuml
+
+package "UI Module" {
+    class CommandLineInterface {
+        - d_gameEngine: GameContext
+        + start()
+    }
+}
+
+package "Context" {
+    interface GameContext
+    class GameEngine {
+        +setPhase()
+        +getPhase()
+    }
+    GameEngine ..|> GameContext
+}
+
+package "Orders" {
+    interface Order {
+        +execute(): void
+    }
+
+    class Advance {
+        -source
+        -target
+        -troops
+        -initiator
+        -gameCtx
+    }
+
+    class Airlift {
+        -source
+        -target
+        -troops
+        -player
+        -gameCtx
+    }
+
+    class Blockade {
+        -territory
+        -initiator
+        -gameCtx
+    }
+
+    class Bomb {
+        -target
+        -initiator
+    }
+
+    class Deploy {
+        -target
+        -troops
+        -initiator
+    }
+
+    class Diplomacy {
+        -initiator
+        -target
+    }
+
+    class BattleResult {
+        -players
+        -opponents
+    }
+
+    Order <|.. Advance
+    Order <|.. Airlift
+    Order <|.. Blockade
+    Order <|.. Bomb
+    Order <|.. Deploy
+    Order <|.. Diplomacy
+
+    Advance --> BattleResult
+}
+
+CommandLineInterface --> GameContext
+GameEngine ..> CommandLineInterface : Used by
+
+@enduml
+

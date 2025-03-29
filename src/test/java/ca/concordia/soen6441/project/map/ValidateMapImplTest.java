@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
     A continent with no associated countries
     A scenario simulating a country belonging to more than one continent (by having two continents with the same numeric ID)
  */
-class ValidateMapImplTest {
+public class ValidateMapImplTest {
 
     private Continent d_continentAsia;
     private Country d_countryA;
