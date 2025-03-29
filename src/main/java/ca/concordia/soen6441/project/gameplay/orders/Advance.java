@@ -186,7 +186,7 @@ public class Advance implements Order {
      * Obtain the actual number of troops available from the source
      * (Could change between the issue order and when executed)
      * @param p_toAdvance Number of troops requested when order was issued
-     * @return Actual number of troops available ( <= # requested)
+     * @return Actual number of troops available ( gte # requested)
      */
     private int getActualTroopsAdvance(int p_toAdvance)
     {
