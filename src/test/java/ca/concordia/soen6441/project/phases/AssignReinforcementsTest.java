@@ -19,15 +19,30 @@ import static org.mockito.Mockito.*;
 
 /**
  * Unit tests for the {@link AssignReinforcements} class.
+ * This test class validates the reinforcement allocation logic
+ * for players based on their owned countries and continent control.
  */
 class AssignReinforcementsTest {
 
+    /** Mocked instance of the game engine context. */
     private GameContext d_gameEngine;
+
+    /** Instance of the phase under test. */
     private AssignReinforcements d_assignReinforcements;
+
+    /** Mocked continents used for testing. */
     private Continent d_mockAsia, d_mockEurope;
+
+    /** Mocked countries owned by the player. */
     private SortedMap<String, Country> d_mockCountries;
+
+    /** A real player object used in tests. */
     private PlayerImpl d_realPlayer;
 
+    /**
+     * Sets up the mocked game environment before each test.
+     * Initializes the game context, mock continents, and player/continent managers.
+     */
     @BeforeEach
     void setUp() {
         d_mockCountries = new TreeMap<>();
@@ -60,6 +75,12 @@ class AssignReinforcementsTest {
         when(d_gameEngine.getContinentManager().getContinents()).thenReturn(l_mockContinents);
     }
 
+    /**
+     * Tests reinforcement calculation when a player controls an entire continent.
+     * In this scenario, the player owns all countries in Asia (bonus = 7)
+     * and all countries in Europe (bonus = 5), in addition to the base reinforcement.
+     * Expected reinforcement = base + Asia bonus + Europe bonus = 3 + 7 + 5 = 15.
+     */
     @Test
     void testReinforcementArmyCalculation() {
         List<String> l_ownedCountries = Arrays.asList("A1", "A2", "A3", "A4", "A5", "E1", "E2", "E3", "E4");
@@ -88,6 +109,11 @@ class AssignReinforcementsTest {
         assertEquals(15, d_realPlayer.getReinforcements());
     }
 
+    /**
+     * Tests reinforcement calculation without any continent bonus.
+     * Player owns only partial countries in Asia and Europe, not the entire continent.
+     * Expected reinforcement = floor(totalOwnedCountries / 3), with minimum 3.
+     */
     @Test
     void testReinforcementWithoutContinentBonus() {
         d_mockCountries = new TreeMap<>();
@@ -128,6 +154,11 @@ class AssignReinforcementsTest {
         assertEquals(3, d_realPlayer.getReinforcements());
     }
 
+    /**
+     * Tests the minimum reinforcement rule.
+     * Even with fewer than 9 countries, a player should receive a minimum of 3 reinforcements.
+     * This test ensures the lower bound logic is enforced correctly.
+     */
     @Test
     void testMinimumReinforcementAllocation() {
         d_mockCountries = new TreeMap<>();
