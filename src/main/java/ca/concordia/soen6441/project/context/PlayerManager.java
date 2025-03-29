@@ -9,10 +9,16 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+/**
+ * Class managing the player operations
+ */
 public class PlayerManager implements PlayerContext {
     private SortedMap<String, Player> d_players;
     private Player d_neutralPlayer;
 
+    /**
+     * Constructor
+     */
     public PlayerManager() {
         d_players = new TreeMap<String, Player>();
         d_neutralPlayer = new PlayerImpl("Neutral", new ArrayList<>(), new ArrayList<>()); // Will always exist
@@ -54,6 +60,9 @@ public class PlayerManager implements PlayerContext {
         return new ArrayList<Player>(d_players.values()).get(p_index);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Map<String, Player> getPlayers() {
         return d_players;

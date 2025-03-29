@@ -7,9 +7,15 @@ import ca.concordia.soen6441.project.interfaces.context.ContinentContext;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+/**
+ * Class for managing Continent operations
+ */
 public class ContinentManager implements ContinentContext {
     private SortedMap<String, Continent> d_Continents;
 
+    /**
+     * Constructor
+     */
     public ContinentManager() {
         this.d_Continents = new TreeMap<String, Continent>();
     }
@@ -29,6 +35,10 @@ public class ContinentManager implements ContinentContext {
         System.out.println("Continent added: " + d_Continents.get(l_continent.getID()));
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void addContinent(String p_continentID, int p_continentValue) {
         Continent l_continent = OverallFactory.getInstance().CreateContinent(p_continentID, p_continentValue);
         d_Continents.put(l_continent.getID(), l_continent);
@@ -73,11 +83,17 @@ public class ContinentManager implements ContinentContext {
         return d_Continents.get(p_continentID); // Retrieve the continent from the map
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public SortedMap<String, Continent> getContinents() {
         return d_Continents;
     }
 
+    /**
+     * Clears the Continents stored
+     */
     public void clear()
     {
         d_Continents.clear();
