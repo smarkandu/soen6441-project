@@ -2,6 +2,7 @@ package ca.concordia.soen6441.project.phases;
 
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.gameplay.PlayerImpl;
+import ca.concordia.soen6441.project.gameplay.behaviour.HumanPlayerBehavior;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
 
@@ -29,8 +30,8 @@ public class StartupTest {
         Startup l_startup = new Startup(l_gameEngine);
 
         // Add 2 players
-        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>());
-        Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>());
+        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
+        Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
         l_gameEngine.getPlayerManager().getPlayers().put(l_player1.getName(), l_player1);
         l_gameEngine.getPlayerManager().getPlayers().put(l_player2.getName(), l_player2);
 
@@ -73,8 +74,8 @@ public class StartupTest {
         Startup l_startup = new Startup(l_gameEngine);
 
         // Add valid players
-        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>());
-        Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>());
+        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
+        Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
         l_gameEngine.getPlayerManager().getPlayers().put(l_player1.getName(), l_player1);
         l_gameEngine.getPlayerManager().getPlayers().put(l_player2.getName(), l_player2);
 
@@ -104,7 +105,7 @@ public class StartupTest {
         Startup l_startup = new Startup(l_gameEngine);
 
         // Add only one player
-        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>());
+        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
         l_gameEngine.getPlayerManager().getPlayers().put(l_player1.getName(), l_player1);
 
         // Simulate valid map
