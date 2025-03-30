@@ -4,8 +4,10 @@ import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.gameplay.behavior.PlayerBehavior;
 
+/**
+ * Class which implements the Strategy design pattern for the Human player behavior
+ */
 public class HumanPlayerBehavior implements PlayerBehavior {
-
     /**
      * {@inheritDoc}
      */
