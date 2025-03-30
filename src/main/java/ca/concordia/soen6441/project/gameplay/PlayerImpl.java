@@ -78,7 +78,7 @@ public class PlayerImpl implements Player {
      */
     @Override
     public void issue_order(Order p_order) {
-        d_playerBehavior.issue_order(d_Orders, p_order);
+        d_playerBehavior.issue_order(this, p_order);
     }
 
     /**

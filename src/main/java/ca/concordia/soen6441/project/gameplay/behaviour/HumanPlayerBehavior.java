@@ -1,9 +1,8 @@
 package ca.concordia.soen6441.project.gameplay.behaviour;
 
 import ca.concordia.soen6441.project.interfaces.Order;
+import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.gameplay.behavior.PlayerBehavior;
-
-import java.util.List;
 
 public class HumanPlayerBehavior implements PlayerBehavior {
 
@@ -11,7 +10,7 @@ public class HumanPlayerBehavior implements PlayerBehavior {
      * {@inheritDoc}
      */
     @Override
-    public void issue_order(List<Order> p_Orders, Order p_order) {
-        p_Orders.add(p_order);
+    public void issue_order(Player p_player, Order p_order) {
+        p_player.getOrders().add(p_order);
     }
 }
