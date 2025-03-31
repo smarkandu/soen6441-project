@@ -1,6 +1,7 @@
 package ca.concordia.soen6441.project.phases;
 
 import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.gameplay.orders.Advance;
 import ca.concordia.soen6441.project.interfaces.Card;
 import ca.concordia.soen6441.project.interfaces.Country;
@@ -25,18 +26,6 @@ public class OrderExecution extends MainPlay {
      */
     public OrderExecution(GameContext p_gameEngine) {
         super(p_gameEngine);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void gamePlayerAdd(String p_playerName) {
-        printInvalidCommandMessage();
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void gamePlayerRemove(String p_playerName) {
-        printInvalidCommandMessage();
     }
 
     /** {@inheritDoc} */

@@ -1,6 +1,6 @@
 package ca.concordia.soen6441.project.phases;
 
-import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
 /**
@@ -122,9 +122,10 @@ public class End extends Phase {
      * Invalid command for this phase.
      *
      * @param p_playerName The name of the player to add.
+     * @param p_playerBehaviorType The player behavior type
      */
     @Override
-    public void gamePlayerAdd(String p_playerName) { printInvalidCommandMessage(); }
+    public void gamePlayerAdd(String p_playerName, PlayerBehaviorType p_playerBehaviorType) { printInvalidCommandMessage(); }
 
     /**
      * Invalid command for this phase.

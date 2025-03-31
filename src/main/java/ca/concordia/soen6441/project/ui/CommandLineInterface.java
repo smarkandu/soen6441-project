@@ -1,15 +1,20 @@
 package ca.concordia.soen6441.project.ui;
 
+import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorFactory;
+import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.phases.PreLoad;
 
 import java.util.Scanner;
+
+import static ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType.HUMAN;
 
 /**
  * This class provided the user interface in order to interact with our application
  */
 public class CommandLineInterface {
     private GameContext d_gameEngine = null;
+    private PlayerBehaviorFactory d_playerBehaviorFactory = null;
 
     /**
      * Constructor
@@ -17,6 +22,7 @@ public class CommandLineInterface {
      */
     public CommandLineInterface(GameContext p_gameEngine) {
         this.d_gameEngine = p_gameEngine;
+        this.d_playerBehaviorFactory = new PlayerBehaviorFactory();
     }
 
     /**
@@ -216,8 +222,22 @@ public class CommandLineInterface {
     private void processGamePlayer(String[] p_args, String p_operation)
     {
         String l_playername = p_args[2];
-        if ("-add".equals(p_operation) && p_args.length == 3) {
-            d_gameEngine.getPhase().gamePlayerAdd(l_playername);
+        if ("-add".equals(p_operation)) {
+            if (p_args.length == 3)
+            {
+                d_gameEngine.getPhase().gamePlayerAdd(l_playername, HUMAN);
+            }
+            else if (p_args.length == 5 && p_args[3].equals("-behavior"))
+            {
+                try {
+                    PlayerBehaviorType l_playerBehavior = PlayerBehaviorType.valueOf(p_args[4].toUpperCase());
+                    d_gameEngine.getPhase().gamePlayerAdd(l_playername, l_playerBehavior);
+                }
+                catch (Exception e)
+                {
+                    System.out.println(e.getMessage());
+                }
+            }
         }
         if ("-remove".equals(p_operation) && p_args.length == 3) {
             d_gameEngine.getPhase().gamePlayerRemove(l_playername);

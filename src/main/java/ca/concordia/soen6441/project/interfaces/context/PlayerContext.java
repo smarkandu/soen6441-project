@@ -1,5 +1,6 @@
 package ca.concordia.soen6441.project.interfaces.context;
 
+import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.interfaces.Player;
 
 import java.util.Map;
@@ -11,8 +12,9 @@ public interface PlayerContext {
      * Adds a new player to the game.
      *
      * @param p_playername The name of the player to be added.
+     * @param p_playerBehaviorType The player behavior type
      */
-    void addPlayer(String p_playername);
+    void addPlayer(String p_playername, PlayerBehaviorType p_playerBehaviorType);
 
     /**
      * Removes a player from the game.

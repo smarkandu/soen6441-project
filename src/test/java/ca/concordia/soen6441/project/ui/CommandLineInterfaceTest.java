@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
+import static ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType.HUMAN;
 import static org.mockito.Mockito.*;
 
 /**
@@ -136,7 +137,7 @@ class CommandLineInterfaceTest {
     @Test
     public void testGamePlayerAdd() {
         simulateUserInput("gameplayer -add Steven\nexit\n");
-        verify(d_mockPhase, times(1)).gamePlayerAdd("Steven");
+        verify(d_mockPhase, times(1)).gamePlayerAdd("Steven", HUMAN);
     }
 
     /**

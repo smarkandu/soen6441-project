@@ -1,5 +1,6 @@
 package ca.concordia.soen6441.project.phases;
 
+import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.interfaces.phases.State;
 
@@ -35,7 +36,10 @@ public abstract class Phase implements State {
 
     // play state behavior
     // game setup state behavior
-    abstract public void gamePlayerAdd(String p_playerName);
+    /**
+     * {@inheritDoc}
+     */
+    abstract public void gamePlayerAdd(String p_playerName, PlayerBehaviorType p_playerBehaviorType);
     abstract public void gamePlayerRemove(String p_playerName);
     abstract public void assignCountries();
 

@@ -1,6 +1,7 @@
 package ca.concordia.soen6441.project.phases;
 
 import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.gameplay.cards.BombCard;
 import ca.concordia.soen6441.project.gameplay.orders.*;
 import ca.concordia.soen6441.project.interfaces.Country;
@@ -29,18 +30,6 @@ public class IssueOrder extends MainPlay {
         d_currentPlayIndex = p_currentPlayIndex;
         d_logWriter = new LogWriter(LogEntryBuffer.getInstance());
     }
-
-    /**
-     * Invalid command for this phase.
-     */
-    @Override
-    public void gamePlayerAdd(String p_playerName) { printInvalidCommandMessage(); }
-
-    /**
-     * Invalid command for this phase.
-     */
-    @Override
-    public void gamePlayerRemove(String p_playerName) { printInvalidCommandMessage(); }
 
     /**
      * Allows the current player to deploy troops to a country they own.
