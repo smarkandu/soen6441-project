@@ -1,6 +1,7 @@
 package ca.concordia.soen6441.project.gameplay;
 
 import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.gameplay.behaviour.HumanPlayerBehavior;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,9 +35,9 @@ public class CountryAssignmentTest {
         d_countryAssignment = new CountryAssignment(d_gameEngine);
 
         // Add 3 players
-        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>());
-        Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>());
-        Player l_player3 = new PlayerImpl("Player3", new ArrayList<>(), new ArrayList<>());
+        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
+        Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
+        Player l_player3 = new PlayerImpl("Player3", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
 
         d_gameEngine.getPlayerManager().getPlayers().put(l_player1.getName(), l_player1);
         d_gameEngine.getPlayerManager().getPlayers().put(l_player2.getName(), l_player2);
@@ -63,9 +64,9 @@ void testAssignCountriesWithInsufficientCountries() {
     d_gameEngine.getCountryManager().getCountries().clear();
 
     // Add 3 players
-    Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>());
-    Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>());
-    Player l_player3 = new PlayerImpl("Player3", new ArrayList<>(), new ArrayList<>());
+    Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
+    Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
+    Player l_player3 = new PlayerImpl("Player3", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
     d_gameEngine.getPlayerManager().getPlayers().put(l_player1.getName(), l_player1);
     d_gameEngine.getPlayerManager().getPlayers().put(l_player2.getName(), l_player2);
     d_gameEngine.getPlayerManager().getPlayers().put(l_player3.getName(), l_player3);

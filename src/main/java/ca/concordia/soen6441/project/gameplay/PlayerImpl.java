@@ -1,14 +1,13 @@
 package ca.concordia.soen6441.project.gameplay;
 
 import ca.concordia.soen6441.project.context.hand.HandOfCardsManager;
-import ca.concordia.soen6441.project.gameplay.cards.BlockadeCard;
 import ca.concordia.soen6441.project.gameplay.orders.Advance;
 import ca.concordia.soen6441.project.gameplay.orders.Deploy;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.context.HandOfCardsContext;
-import ca.concordia.soen6441.project.gameplay.cards.DiplomacyCard;
+import ca.concordia.soen6441.project.interfaces.gameplay.behavior.PlayerBehavior;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +23,9 @@ public class PlayerImpl implements Player {
     private ArrayList<String> d_ownedCountries;
     private ArrayList<Order> d_Orders;
     private HandOfCardsContext d_HandsOfCardsManager;
-    int d_Reinforcements;
+    private int d_Reinforcements;
     private List<Player> d_negotiatedPlayers = new ArrayList<>();
-
+    private PlayerBehavior d_playerBehavior;
 
     /**
      * Constructs a PlayerImpl instance.
@@ -35,12 +34,13 @@ public class PlayerImpl implements Player {
      * @param p_ownedCountries The list of country IDs owned by the player.
      * @param p_Orders The list of orders issued by the player.
      */
-    public PlayerImpl(String p_name, ArrayList<String> p_ownedCountries, ArrayList<Order> p_Orders) {
+    public PlayerImpl(String p_name, ArrayList<String> p_ownedCountries, ArrayList<Order> p_Orders, PlayerBehavior p_playerBehavior) {
         this.d_name = p_name;
         this.d_ownedCountries = p_ownedCountries;
         this.d_Orders = p_Orders;
         this.d_Reinforcements = 0;
         this.d_HandsOfCardsManager = new HandOfCardsManager(this);
+        this.d_playerBehavior = p_playerBehavior;
     }
 
     /**
@@ -74,13 +74,11 @@ public class PlayerImpl implements Player {
     }
 
     /**
-     * Issues a new order for the player.
-     *
-     * @param p_order The order to be issued.
+     * {@inheritDoc}
      */
     @Override
     public void issue_order(Order p_order) {
-        d_Orders.add(p_order);
+        d_playerBehavior.issue_order(this, p_order);
     }
 
     /**

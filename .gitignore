@@ -42,3 +42,4 @@ log.txt
 *.html
 *.html
 /docs
+*.class

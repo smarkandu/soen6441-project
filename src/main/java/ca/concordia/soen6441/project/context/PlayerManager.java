@@ -1,6 +1,8 @@
 package ca.concordia.soen6441.project.context;
 
 import ca.concordia.soen6441.project.gameplay.PlayerImpl;
+import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorFactory;
+import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.context.PlayerContext;
 
@@ -15,13 +17,15 @@ import java.util.TreeMap;
 public class PlayerManager implements PlayerContext {
     private SortedMap<String, Player> d_players;
     private Player d_neutralPlayer;
-
+    private PlayerBehaviorFactory d_playerBehaviorFactory;
     /**
      * Constructor
      */
     public PlayerManager() {
         d_players = new TreeMap<String, Player>();
-        d_neutralPlayer = new PlayerImpl("Neutral", new ArrayList<>(), new ArrayList<>()); // Will always exist
+        d_playerBehaviorFactory = new PlayerBehaviorFactory();
+        d_neutralPlayer = new PlayerImpl("Neutral", new ArrayList<>(), new ArrayList<>(),
+                d_playerBehaviorFactory.createPlayerBehavior(PlayerBehaviorType.HUMAN)); // Will always exist
     }
 
     /**
@@ -36,7 +40,8 @@ public class PlayerManager implements PlayerContext {
         }
         else
         {
-            d_players.put(p_playername, new PlayerImpl(p_playername, new ArrayList<>(), new ArrayList<>()));
+            d_players.put(p_playername, new PlayerImpl(p_playername, new ArrayList<>(), new ArrayList<>()
+                    , d_playerBehaviorFactory.createPlayerBehavior(PlayerBehaviorType.HUMAN)));
             System.out.println("Player added: " + d_players.get(p_playername).getName());
         }
     }
