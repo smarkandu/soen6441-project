@@ -5,8 +5,6 @@ import ca.concordia.soen6441.project.context.CountryManager;
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.context.PlayerManager;
 import ca.concordia.soen6441.project.gameplay.PlayerImpl;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import ca.concordia.soen6441.project.gameplay.behaviour.HumanPlayerBehavior;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
@@ -17,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 /**
@@ -40,6 +39,11 @@ public class AssignReinforcementsTest {
 
     /** A real player object used in tests. */
     private PlayerImpl d_realPlayer;
+
+    /**
+     * Mock PlayerManager
+     */
+    private PlayerManager d_playerManager;
 
     /**
      * Sets up the mocked game environment before each test.
@@ -71,6 +75,7 @@ public class AssignReinforcementsTest {
 
         d_mockAsia = l_mockContinents.get("Asia");
         d_mockEurope = l_mockContinents.get("Europe");
+        d_playerManager = mock(PlayerManager.class);
 
         ContinentManager l_mockContinentManager = mock(ContinentManager.class);
         when(d_gameEngine.getContinentManager()).thenReturn(l_mockContinentManager);
@@ -86,8 +91,8 @@ public class AssignReinforcementsTest {
     @Test
     void testReinforcementArmyCalculation() {
         List<String> l_ownedCountries = Arrays.asList("A1", "A2", "A3", "A4", "A5", "E1", "E2", "E3", "E4");
-
-        d_realPlayer = new PlayerImpl("Tharun", new ArrayList<>(l_ownedCountries), new ArrayList<>(), new HumanPlayerBehavior());
+        d_realPlayer = new PlayerImpl("Tharun", new ArrayList<>(l_ownedCountries), new ArrayList<>(),
+                new HumanPlayerBehavior(), d_playerManager);
         Map<String, Player> l_mockPlayers = new HashMap<>();
         l_mockPlayers.put(d_realPlayer.getName(), d_realPlayer);
         when(d_gameEngine.getPlayerManager().getPlayers()).thenReturn(l_mockPlayers);
@@ -121,7 +126,8 @@ public class AssignReinforcementsTest {
         d_mockCountries = new TreeMap<>();
         List<String> l_ownedCountries = Arrays.asList("A1", "A2", "A3", "E1", "E2", "E3");
 
-        d_realPlayer = new PlayerImpl("Tharun", new ArrayList<>(l_ownedCountries), new ArrayList<>(), new HumanPlayerBehavior());
+        d_realPlayer = new PlayerImpl("Tharun", new ArrayList<>(l_ownedCountries), new ArrayList<>(),
+                new HumanPlayerBehavior(), d_playerManager);
         Map<String, Player> l_mockPlayers = new HashMap<>();
         l_mockPlayers.put(d_realPlayer.getName(), d_realPlayer);
         when(d_gameEngine.getPlayerManager().getPlayers()).thenReturn(l_mockPlayers);
@@ -166,7 +172,8 @@ public class AssignReinforcementsTest {
         d_mockCountries = new TreeMap<>();
         List<String> l_ownedCountries = Arrays.asList("A1", "E1");
 
-        d_realPlayer = new PlayerImpl("Tharun", new ArrayList<>(l_ownedCountries), new ArrayList<>(), new HumanPlayerBehavior());
+        d_realPlayer = new PlayerImpl("Tharun", new ArrayList<>(l_ownedCountries), new ArrayList<>(),
+                new HumanPlayerBehavior(), d_playerManager);
         Map<String, Player> l_mockPlayers = new HashMap<>();
         l_mockPlayers.put(d_realPlayer.getName(), d_realPlayer);
         when(d_gameEngine.getPlayerManager().getPlayers()).thenReturn(l_mockPlayers);

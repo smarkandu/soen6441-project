@@ -1,18 +1,20 @@
 package ca.concordia.soen6441.project.phases;
 
 import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.context.PlayerManager;
 import ca.concordia.soen6441.project.gameplay.PlayerImpl;
 import ca.concordia.soen6441.project.gameplay.behaviour.HumanPlayerBehavior;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 /**
@@ -20,6 +22,19 @@ import static org.mockito.Mockito.*;
  * Verifies that the game proceeds without warnings when map is valid and enough players exist.
  */
 public class StartupTest {
+    /**
+     * Mock PlayerManager
+     */
+    private PlayerManager d_playerManager;
+
+    /**
+     * Sets up the mocked game environment before each test.
+     * Initializes the game context, mock continents, and player/continent managers.
+     */
+    @BeforeEach
+    void setUp() {
+        d_playerManager = mock(PlayerManager.class);
+    }
 
     /**
      * Tests that assignCountries proceeds to gameplay phase when setup is valid.
@@ -30,8 +45,10 @@ public class StartupTest {
         Startup l_startup = new Startup(l_gameEngine);
 
         // Add 2 players
-        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
-        Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
+        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(),
+                new HumanPlayerBehavior(), d_playerManager);
+        Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>(),
+                new HumanPlayerBehavior(), d_playerManager);
         l_gameEngine.getPlayerManager().getPlayers().put(l_player1.getName(), l_player1);
         l_gameEngine.getPlayerManager().getPlayers().put(l_player2.getName(), l_player2);
 
@@ -74,8 +91,10 @@ public class StartupTest {
         Startup l_startup = new Startup(l_gameEngine);
 
         // Add valid players
-        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
-        Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
+        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior(),
+                d_playerManager);
+        Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior(),
+                d_playerManager);
         l_gameEngine.getPlayerManager().getPlayers().put(l_player1.getName(), l_player1);
         l_gameEngine.getPlayerManager().getPlayers().put(l_player2.getName(), l_player2);
 
@@ -105,7 +124,8 @@ public class StartupTest {
         Startup l_startup = new Startup(l_gameEngine);
 
         // Add only one player
-        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
+        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior(),
+                d_playerManager);
         l_gameEngine.getPlayerManager().getPlayers().put(l_player1.getName(), l_player1);
 
         // Simulate valid map
