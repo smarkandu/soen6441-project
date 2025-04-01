@@ -1,15 +1,19 @@
 package ca.concordia.soen6441.project.map;
 
+import ca.concordia.soen6441.project.context.PlayerManager;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.context.HandOfCardsContext;
+import ca.concordia.soen6441.project.interfaces.gameplay.behavior.PlayerBehavior;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Testclass to test CountryImpl
@@ -264,6 +268,16 @@ public class CountryImplTest {
         @Override
         public void removeNegotiatedPlayer(Player p_player) {
 
+        }
+
+        @Override
+        public PlayerBehavior getPlayerBehavior() {
+            return null;
+        }
+
+        @Override
+        public PlayerManager getPlayerManager() {
+            return null;
         }
     }
 }

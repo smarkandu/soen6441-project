@@ -1,20 +1,19 @@
 package ca.concordia.soen6441.project.gameplay;
 
 import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.context.PlayerManager;
 import ca.concordia.soen6441.project.gameplay.behaviour.HumanPlayerBehavior;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
+import ca.concordia.soen6441.project.log.LogEntryBuffer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
+import java.util.ArrayList;
 
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit test for {@link CountryAssignment}.
@@ -27,17 +26,27 @@ public class CountryAssignmentTest {
     private CountryAssignment d_countryAssignment;
 
     /**
+     * Mock PlayerManager
+     */
+    private PlayerManager d_playerManager;
+
+
+    /**
      * Sets up the game engine and test data before each test.
      */
     @BeforeEach
     void setUp() {
         d_gameEngine = new GameEngine();
         d_countryAssignment = new CountryAssignment(d_gameEngine);
+        d_playerManager = mock(PlayerManager.class);
 
         // Add 3 players
-        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
-        Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
-        Player l_player3 = new PlayerImpl("Player3", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
+        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior(),
+                d_playerManager);
+        Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior(),
+                d_playerManager);
+        Player l_player3 = new PlayerImpl("Player3", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior(),
+                d_playerManager);
 
         d_gameEngine.getPlayerManager().getPlayers().put(l_player1.getName(), l_player1);
         d_gameEngine.getPlayerManager().getPlayers().put(l_player2.getName(), l_player2);
@@ -64,9 +73,12 @@ void testAssignCountriesWithInsufficientCountries() {
     d_gameEngine.getCountryManager().getCountries().clear();
 
     // Add 3 players
-    Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
-    Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
-    Player l_player3 = new PlayerImpl("Player3", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
+    Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior(),
+            d_playerManager);
+    Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior(),
+            d_playerManager);
+    Player l_player3 = new PlayerImpl("Player3", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior(),
+            d_playerManager);
     d_gameEngine.getPlayerManager().getPlayers().put(l_player1.getName(), l_player1);
     d_gameEngine.getPlayerManager().getPlayers().put(l_player2.getName(), l_player2);
     d_gameEngine.getPlayerManager().getPlayers().put(l_player3.getName(), l_player3);
