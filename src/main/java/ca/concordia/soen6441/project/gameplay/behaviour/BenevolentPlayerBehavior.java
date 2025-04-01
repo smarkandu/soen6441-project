@@ -14,10 +14,10 @@ import java.util.Map;
  */
 public class BenevolentPlayerBehavior implements PlayerBehavior {
 
-    private final GameContext d_gameContext = null;
+    private GameContext d_gameContext;
 
     public BenevolentPlayerBehavior() {
-        
+
     }
 
     @Override
