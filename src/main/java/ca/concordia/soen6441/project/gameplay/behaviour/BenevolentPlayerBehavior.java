@@ -31,13 +31,13 @@ public class BenevolentPlayerBehavior implements PlayerBehavior {
         Country l_weakest = null;
         int l_minTroops = Integer.MAX_VALUE;
 
-        Map<String, Country> allCountries = d_gameContext.getCountryManager().getCountries();
+        Map<String, Country> l_allCountries = d_gameContext.getCountryManager().getCountries();
 
-        for (String countryID : p_player.getOwnedCountries()) {
-            Country country = allCountries.get(countryID);
-            if (country != null && country.getTroops() < l_minTroops) {
-                l_weakest = country;
-                l_minTroops = country.getTroops();
+        for (String l_countryID : p_player.getOwnedCountries()) {
+            Country l_country = l_allCountries.get(l_countryID);
+            if (l_country != null && l_country.getTroops() < l_minTroops) {
+                l_weakest = l_country;
+                l_minTroops = l_country.getTroops();
             }
         }
 
