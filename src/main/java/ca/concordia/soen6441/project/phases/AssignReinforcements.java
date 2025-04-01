@@ -1,10 +1,9 @@
 package ca.concordia.soen6441.project.phases;
 
-import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.gameplay.PlayerImpl;
-import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
+import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
@@ -25,26 +24,6 @@ public class AssignReinforcements extends MainPlay {
      */
     public AssignReinforcements(GameContext p_gameEngine) {
         super(p_gameEngine);
-    }
-
-    /**
-     * Invalid command for this phase.
-     *
-     * @param p_playerName player name
-     */
-    @Override
-    public void gamePlayerAdd(String p_playerName) {
-        printInvalidCommandMessage();
-    }
-
-    /**
-     * Invalid command for this phase.
-     *
-     * @param p_playerName player name
-     */
-    @Override
-    public void gamePlayerRemove(String p_playerName) {
-        printInvalidCommandMessage();
     }
 
     /**

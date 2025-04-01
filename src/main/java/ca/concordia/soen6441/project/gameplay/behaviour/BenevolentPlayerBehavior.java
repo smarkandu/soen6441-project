@@ -15,4 +15,9 @@ public class BenevolentPlayerBehavior implements PlayerBehavior {
     public void issue_order(Player p_player, Order p_order) {
 
     }
+
+    @Override
+    public String toString() {
+        return "Benevolent";
+    }
 }

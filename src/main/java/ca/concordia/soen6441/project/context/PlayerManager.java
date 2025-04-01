@@ -33,16 +33,18 @@ public class PlayerManager implements PlayerContext {
      *
      * @param p_playername The name of the player to be added.
      */
-    public void addPlayer(String p_playername) {
+    public void addPlayer(String p_playername, PlayerBehaviorType p_playerBehaviorType) {
         if (p_playername.equalsIgnoreCase("neutral"))
         {
             System.out.println("Unable to create player due to restricted name: " + p_playername);
         }
         else
         {
-            d_players.put(p_playername, new PlayerImpl(p_playername, new ArrayList<>(), new ArrayList<>()
-                    , d_playerBehaviorFactory.createPlayerBehavior(PlayerBehaviorType.HUMAN)));
-            System.out.println("Player added: " + d_players.get(p_playername).getName());
+            PlayerImpl l_playerToAdd = new PlayerImpl(p_playername, new ArrayList<>(), new ArrayList<>()
+                    , d_playerBehaviorFactory.createPlayerBehavior(p_playerBehaviorType));
+            d_players.put(p_playername, l_playerToAdd);
+            System.out.println("Player added: " + d_players.get(p_playername).getName() + " ["
+                    + l_playerToAdd.getPlayerBehavior() + "]");
         }
     }
 

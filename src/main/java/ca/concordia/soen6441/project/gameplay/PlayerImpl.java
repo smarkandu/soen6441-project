@@ -30,9 +30,9 @@ public class PlayerImpl implements Player {
     /**
      * Constructs a PlayerImpl instance.
      *
-     * @param p_name The name of the player.
+     * @param p_name           The name of the player.
      * @param p_ownedCountries The list of country IDs owned by the player.
-     * @param p_Orders The list of orders issued by the player.
+     * @param p_Orders         The list of orders issued by the player.
      */
     public PlayerImpl(String p_name, ArrayList<String> p_ownedCountries, ArrayList<Order> p_Orders, PlayerBehavior p_playerBehavior) {
         this.d_name = p_name;
@@ -163,14 +163,12 @@ public class PlayerImpl implements Player {
         return l_returnValue;
     }
 
-    public int getNumberOfTroopsOrderedToAdvance(Country p_countryFrom)
-    {
+    public int getNumberOfTroopsOrderedToAdvance(Country p_countryFrom) {
         int l_returnValue = 0;
         for (int l_i = 0; l_i < d_Orders.size(); l_i++) {
             if (d_Orders.get(l_i).getClass().getSimpleName().equals("Advance")) {
                 Advance l_advanceOrder = (Advance) d_Orders.get(l_i);
-                if (Objects.equals(l_advanceOrder.getSourceTerritory().getID(), p_countryFrom.getID()))
-                {
+                if (Objects.equals(l_advanceOrder.getSourceTerritory().getID(), p_countryFrom.getID())) {
                     l_returnValue += l_advanceOrder.getToAdvance();
                 }
             }
@@ -183,52 +181,66 @@ public class PlayerImpl implements Player {
         return d_HandsOfCardsManager;
     }
 
-/**
- * Adds a player to the list of players this player has negotiated with.
- *
- * @param p_player The player to add to the negotiated list.
- */
+    /**
+     * Adds a player to the list of players this player has negotiated with.
+     *
+     * @param p_player The player to add to the negotiated list.
+     */
     @Override
     public void addNegotiatedPlayer(Player p_player) {
         if (!d_negotiatedPlayers.contains(p_player)) {
             d_negotiatedPlayers.add(p_player);
         }
     }
-/**
- * Checks if this player has a diplomacy pact with the given player.
- *
- * @param p_player The player to check against.
- * @return true if a diplomacy pact exists, false otherwise.
- */
+
+    /**
+     * Checks if this player has a diplomacy pact with the given player.
+     *
+     * @param p_player The player to check against.
+     * @return true if a diplomacy pact exists, false otherwise.
+     */
     @Override
     public boolean hasNegotiatedWith(Player p_player) {
         return d_negotiatedPlayers.contains(p_player);
     }
-/**
- * Clears all existing diplomacy pacts for this player.
- * Typically called at the beginning of a new round.
- */
+
+    /**
+     * Clears all existing diplomacy pacts for this player.
+     * Typically called at the beginning of a new round.
+     */
     @Override
     public void resetNegotiatedPlayers() {
         d_negotiatedPlayers.clear();
     }
-/**
- * Returns the current list of negotiated players.
- *
- * @return A list of players this player cannot attack this turn.
- */
+
+    /**
+     * Returns the current list of negotiated players.
+     *
+     * @return A list of players this player cannot attack this turn.
+     */
     @Override
-public List<Player> getNegotiatedPlayers() {
-    return d_negotiatedPlayers;
+    public List<Player> getNegotiatedPlayers() {
+        return d_negotiatedPlayers;
+    }
+
+    /**
+     * Removes a specific player from the list of negotiated players.
+     *
+     * @param p_player The player to remove from the diplomacy pact.
+     */
+    @Override
+    public void removeNegotiatedPlayer(Player p_player) {
+        d_negotiatedPlayers.remove(p_player);
+    }
+
+    /**
+     * Get the player's behavior object
+     * @return PlayerBehavior object
+     */
+    public PlayerBehavior getPlayerBehavior() {
+        return d_playerBehavior;
+    }
 }
 
-/**
- * Removes a specific player from the list of negotiated players.
- *
- * @param p_player The player to remove from the diplomacy pact.
- */
-@Override
-public void removeNegotiatedPlayer(Player p_player) {
-    d_negotiatedPlayers.remove(p_player);
-}
-}
+
+

@@ -1,9 +1,9 @@
 package ca.concordia.soen6441.project.phases;
 
-import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.gameplay.CountryAssignment;
+import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.map.InvalidMapFileException;
-import ca.concordia.soen6441.project.gameplay.CountryAssignment;
 
 import java.io.FileNotFoundException;
 
@@ -89,12 +89,10 @@ public class Startup extends Play {
     }
 
     /**
-     * Adds a new player to the game.
-     *
-     * @param p_playerName The name of the player to add.
+     * {@inheritDoc}
      */
-    public void gamePlayerAdd(String p_playerName) {
-        d_gameEngine.getPlayerManager().addPlayer(p_playerName);
+    public void gamePlayerAdd(String p_playerName, PlayerBehaviorType p_playerBehaviorType) {
+        d_gameEngine.getPlayerManager().addPlayer(p_playerName, p_playerBehaviorType);
     }
 
     /**

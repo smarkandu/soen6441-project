@@ -1,6 +1,7 @@
 package ca.concordia.soen6441.project.phases;
 
 import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
 /**
@@ -23,13 +24,6 @@ public abstract class Edit extends Phase {
      */
     public void showMap() {
         d_gameEngine.showMap(false);
-    }
-
-    /**
-     * Invalid command for this phase.
-     */
-    public void setPlayers() {
-        printInvalidCommandMessage();
     }
 
     /**
@@ -92,4 +86,20 @@ public abstract class Edit extends Phase {
             System.out.println("Map is not valid");
         }
     }
+
+    /**
+     * Invalid command for this phase.
+     *
+     * @param p_playerName The name of the player to add.
+     * @param p_playerBehaviorType The player behavior type
+     */
+    @Override
+    public void gamePlayerAdd(String p_playerName, PlayerBehaviorType p_playerBehaviorType) { printInvalidCommandMessage(); }
+
+    /**
+     * Invalid command for this phase.
+     * @param p_playerName the name of the player to be removed.
+     */
+    @Override
+    public void gamePlayerRemove(String p_playerName) { printInvalidCommandMessage(); }
 }
