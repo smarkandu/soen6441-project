@@ -1,10 +1,9 @@
 package ca.concordia.soen6441.project.phases;
 
-import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.gameplay.CountryAssignment;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.map.InvalidMapFileException;
-import ca.concordia.soen6441.project.gameplay.CountryAssignment;
 
 import java.io.FileNotFoundException;
 
