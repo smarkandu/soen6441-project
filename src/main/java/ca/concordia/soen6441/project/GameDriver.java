@@ -2,10 +2,7 @@ package ca.concordia.soen6441.project;
 
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
-import ca.concordia.soen6441.project.phases.PreLoad;
 import ca.concordia.soen6441.project.ui.CommandLineInterface;
-
-import java.util.Scanner;
 
 
 /**
@@ -14,6 +11,7 @@ import java.util.Scanner;
  */
 public class GameDriver {
     static GameContext d_gameEngine = new GameEngine();
+
 
     /**
      * The main method initializes the game engine and starts the game.
@@ -24,4 +22,5 @@ public class GameDriver {
         CommandLineInterface l_commandLineInterface = new CommandLineInterface(d_gameEngine);
         l_commandLineInterface.start();
     }
+
 }
