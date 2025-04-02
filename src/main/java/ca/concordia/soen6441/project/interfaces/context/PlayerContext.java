@@ -48,11 +48,11 @@ public interface PlayerContext {
      * Get Index of CurrentPlayer
      * @return integer value
      */
-    int getCurrentPlayIndex();
+    int getCurrentPlayerIndex();
 
     /**
      * Set Index of CurrentPlayer
      * @param p_newPlayIndex integer value for new player index
      */
-    void setCurrentPlayIndex(int p_newPlayIndex);
+    void setCurrentPlayerIndex(int p_newPlayIndex);
 }

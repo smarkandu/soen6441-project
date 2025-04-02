@@ -22,7 +22,7 @@ public class IssueOrder extends MainPlay {
      */
     public IssueOrder(GameContext p_gameEngine, int p_currentPlayIndex) {
         super(p_gameEngine);
-        p_gameEngine.getPlayerManager().setCurrentPlayIndex(p_currentPlayIndex);
+        p_gameEngine.getPlayerManager().setCurrentPlayerIndex(p_currentPlayIndex);
         d_logWriter = new LogWriter(LogEntryBuffer.getInstance());
     }
 
@@ -35,7 +35,7 @@ public class IssueOrder extends MainPlay {
     @Override
     public void deploy(String p_countryID, int p_toDeploy) {
         Country l_country = d_gameEngine.getCountryManager().getCountries().get(p_countryID);
-        Player l_player = d_gameEngine.getPlayerManager().getPlayer(d_gameEngine.getPlayerManager().getCurrentPlayIndex());
+        Player l_player = d_gameEngine.getPlayerManager().getPlayer(d_gameEngine.getPlayerManager().getCurrentPlayerIndex());
         int l_numberOfTroopsLeftToDeploy = l_player.getReinforcements() - l_player.getNumberOfTroopsOrderedToDeploy();
 
         LogEntryBuffer.getInstance().appendToBuffer(l_player.getName() + " issued order to deploy " + p_toDeploy
@@ -220,7 +220,7 @@ public class IssueOrder extends MainPlay {
     @Override
     public void negotiate(String p_playerID) {
         // Step 1: Fetch current player
-        Player l_currentPlayer = d_gameEngine.getPlayerManager().getPlayer(d_gameEngine.getPlayerManager().getCurrentPlayIndex());
+        Player l_currentPlayer = d_gameEngine.getPlayerManager().getPlayer(d_gameEngine.getPlayerManager().getCurrentPlayerIndex());
 
         // Step 2: Ensure all reinforcements are deployed before diplomacy
         if (getNumberOfTroopsLeftToDeploy(l_currentPlayer) > 0) {
@@ -264,11 +264,11 @@ public class IssueOrder extends MainPlay {
         {
             System.out.println("You still have " + getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) + " left to deploy!");
         }
-        else if (d_gameEngine.getPlayerManager().getCurrentPlayIndex() == d_gameEngine.getPlayerManager().getPlayers().size() - 1) {
+        else if (d_gameEngine.getPlayerManager().getCurrentPlayerIndex() == d_gameEngine.getPlayerManager().getPlayers().size() - 1) {
             OrderExecution l_orderExecution = new OrderExecution(d_gameEngine);
             l_orderExecution.execute();
         } else {
-            d_gameEngine.setPhase(new IssueOrder(d_gameEngine, d_gameEngine.getPlayerManager().getCurrentPlayIndex() + 1));
+            d_gameEngine.setPhase(new IssueOrder(d_gameEngine, d_gameEngine.getPlayerManager().getCurrentPlayerIndex() + 1));
         }
     }
 
@@ -279,7 +279,7 @@ public class IssueOrder extends MainPlay {
      */
     @Override
     public String getPhaseName() {
-        Player l_currentPlayer = d_gameEngine.getPlayerManager().getPlayer(d_gameEngine.getPlayerManager().getCurrentPlayIndex());
+        Player l_currentPlayer = d_gameEngine.getPlayerManager().getPlayer(d_gameEngine.getPlayerManager().getCurrentPlayerIndex());
         String l_currentOrders = l_currentPlayer.getOrders().toString();
         String l_currentCards = l_currentPlayer.getHandOfCardsManager().toString();
         String l_playerStr = "[" + l_currentPlayer.getName() + "]";
@@ -291,7 +291,7 @@ public class IssueOrder extends MainPlay {
 
     private Player getCurrentPlayer()
     {
-        return d_gameEngine.getPlayerManager().getPlayer(d_gameEngine.getPlayerManager().getCurrentPlayIndex());
+        return d_gameEngine.getPlayerManager().getPlayer(d_gameEngine.getPlayerManager().getCurrentPlayerIndex());
     }
 
     int getNumberOfTroopsLeftToDeploy(Player p_player)
