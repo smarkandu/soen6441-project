@@ -15,4 +15,12 @@ public class HumanPlayerBehavior implements PlayerBehavior {
     public void issue_order(Player p_player, Order p_order) {
         p_player.getOrders().add(p_order);
     }
+
+    /**
+     * String representing the object
+     */
+    @Override
+    public String toString() {
+        return "Human";
+    }
 }

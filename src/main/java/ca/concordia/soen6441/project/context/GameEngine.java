@@ -1,13 +1,19 @@
 package ca.concordia.soen6441.project.context;
 
-import ca.concordia.soen6441.project.interfaces.*;
+import ca.concordia.soen6441.project.interfaces.Continent;
+import ca.concordia.soen6441.project.interfaces.Country;
+import ca.concordia.soen6441.project.interfaces.MapComponent;
+import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.context.*;
 import ca.concordia.soen6441.project.interfaces.phases.State;
 import ca.concordia.soen6441.project.map.*;
 import ca.concordia.soen6441.project.phases.Phase;
+
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
-import java.util.*;
 
 /**
  * GameEngine class represents the main controller of the game.
@@ -29,7 +35,7 @@ public class GameEngine implements GameContext, MapComponent {
         d_ContinentManager = new ContinentManager();
         d_CountryManager = new CountryManager(this);
         d_NeighborManager = new NeighborManager(this);
-        d_PlayerManager = new PlayerManager();
+        d_PlayerManager = new PlayerManager(this);
         d_validateMapImpl = new ValidateMapImpl(d_CountryManager.getCountries(), d_ContinentManager.getContinents());
         d_DeckOfCards = new DeckOfCards();
     }

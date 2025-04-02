@@ -1,8 +1,9 @@
 package ca.concordia.soen6441.project.interfaces;
 
+import ca.concordia.soen6441.project.context.PlayerManager;
 import ca.concordia.soen6441.project.interfaces.context.HandOfCardsContext;
+import ca.concordia.soen6441.project.interfaces.gameplay.behavior.PlayerBehavior;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -104,4 +105,16 @@ public interface Player {
     void resetNegotiatedPlayers();
     List<Player> getNegotiatedPlayers();  // needed for reset check
     void removeNegotiatedPlayer(Player p_player);
+
+    /**
+     * Get the player's behavior object
+     * @return PlayerBehavior object
+     */
+    PlayerBehavior getPlayerBehavior();
+
+    /**
+     * Gets the Player Manager
+     * @return PlayerManager object
+     */
+    PlayerManager getPlayerManager();
 }

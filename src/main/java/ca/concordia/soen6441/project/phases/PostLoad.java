@@ -1,5 +1,5 @@
 package ca.concordia.soen6441.project.phases;
-import ca.concordia.soen6441.project.context.GameEngine;
+
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
 import java.io.FileNotFoundException;
@@ -46,12 +46,6 @@ public class PostLoad extends Edit {
             System.out.println(e.getMessage());
         }
     }
-
-    @Override
-    public void gamePlayerAdd(String p_playerName) { printInvalidCommandMessage(); }
-
-    @Override
-    public void gamePlayerRemove(String p_playerName) { printInvalidCommandMessage(); }
 
     /**
      * Moves to the next phase by resetting the map and transitioning to the Startup phase.

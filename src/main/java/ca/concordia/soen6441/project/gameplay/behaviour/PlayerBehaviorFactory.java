@@ -16,6 +16,7 @@ public class PlayerBehaviorFactory {
 
     /**
      * Creates a PlayerBehavior object
+     *
      * @param p_playerBehaviorType PlayerBehavior enum value stating the player behavior type
      * @return A PlayerBehavior object
      */

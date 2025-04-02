@@ -1,4 +1,7 @@
 package ca.concordia.soen6441.project.interfaces.phases;
+
+import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
+
 /**
  * Represents a state in the game, defining various actions that can be performed
  * depending on the current phase of gameplay. This interface follows the State Pattern
@@ -76,14 +79,13 @@ public interface State {
      */
     void saveMap(String p_filename);
 
-    // play state behavior
-    // game setup state behavior
     /**
-     * Adds a player to the game.
+     * Adds a new player to the game.
      *
-     * @param p_playerName the name of the player to be added.
+     * @param p_playerName The name of the player to add.
+     * @param p_playerBehaviorType The player behavior type
      */
-    void gamePlayerAdd(String p_playerName);
+    void gamePlayerAdd(String p_playerName, PlayerBehaviorType p_playerBehaviorType);
 
     /**
      * Removes a player from the game.
