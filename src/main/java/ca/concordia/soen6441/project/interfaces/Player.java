@@ -117,4 +117,11 @@ public interface Player {
      * @return PlayerManager object
      */
     PlayerManager getPlayerManager();
+
+
+    /**
+     * Add new order to list of orders
+     * @param p_newOrder new Order object to add
+     */
+    void addToOrders(Order p_newOrder);
 }

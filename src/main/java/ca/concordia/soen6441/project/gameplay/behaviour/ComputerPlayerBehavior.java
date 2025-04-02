@@ -9,6 +9,7 @@ public abstract class ComputerPlayerBehavior implements PlayerBehavior {
     public void issue_order(Player p_player, Order p_order) {
         deployment(p_player, p_order);
         attackTransfer(p_player, p_order);
+        p_player.getPlayerManager().getGameEngine().getPhase().next();
     }
 
     /**

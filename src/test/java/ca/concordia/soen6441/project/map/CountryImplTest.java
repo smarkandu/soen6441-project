@@ -279,5 +279,10 @@ public class CountryImplTest {
         public PlayerManager getPlayerManager() {
             return null;
         }
+
+        @Override
+        public void addToOrders(Order p_newOrder) {
+
+        }
     }
 }

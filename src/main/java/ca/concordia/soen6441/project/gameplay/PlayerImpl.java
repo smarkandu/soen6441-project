@@ -251,6 +251,14 @@ public class PlayerImpl implements Player {
     public PlayerManager getPlayerManager() {
         return d_playerManager;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void addToOrders(Order p_newOrder)
+    {
+        d_Orders.add(p_newOrder);
+    }
 }
 
 

@@ -1,8 +1,5 @@
 package ca.concordia.soen6441.project.phases;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
-
 import ca.concordia.soen6441.project.context.CountryManager;
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.context.PlayerManager;
@@ -15,9 +12,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.io.PrintStream;
-import java.util.*;
 import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
 
 /**
  * Unit tests for the {@link IssueOrder} class.
@@ -91,7 +93,7 @@ public class IssueOrderTest {
         when(d_player.getReinforcements()).thenReturn(10);
         when(d_player.getNumberOfTroopsOrderedToDeploy()).thenReturn(3);
         d_issueOrder.deploy("Country1", 5);
-        verify(d_player, times(1)).issue_order(any(Deploy.class));
+        verify(d_player, times(1)).addToOrders(any(Deploy.class));
     }
 
     @Test
@@ -222,6 +224,6 @@ public class IssueOrderTest {
         when(d_player.getNumberOfTroopsOrderedToDeploy()).thenReturn(0);
         when(d_country.getTroops()).thenReturn(10);
         d_issueOrder.airlift("Country1", "Country2", 5);
-        verify(d_player, times(1)).issue_order(any());
+        verify(d_player, times(1)).addToOrders(any());
     }
 }
