@@ -1,5 +1,8 @@
 package ca.concordia.soen6441.project.gameplay.behaviour;
 
+import ca.concordia.soen6441.project.interfaces.Order;
+import ca.concordia.soen6441.project.interfaces.Player;
+
 /**
  * Class which implements the Strategy design pattern for the Random player behavior
  */
@@ -8,7 +11,7 @@ public class RandomPlayerBehavior extends ComputerPlayerBehavior {
      * {@inheritDoc}
      */
     @Override
-    public void deployment() {
+    public void deployment(Player p_player, Order p_order) {
 
     }
 
@@ -16,7 +19,7 @@ public class RandomPlayerBehavior extends ComputerPlayerBehavior {
      * {@inheritDoc}
      */
     @Override
-    public void attackTransfer() {
+    public void attackTransfer(Player p_player, Order p_order) {
 
     }
 
