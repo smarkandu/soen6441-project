@@ -146,7 +146,7 @@ public class CountryImplTest {
          * {@inheritDoc}
          */
         @Override
-        public void issue_order(Order p_order) {
+        public void issue_order() {
 
         }
 

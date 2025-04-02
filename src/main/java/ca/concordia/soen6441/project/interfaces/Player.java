@@ -26,9 +26,8 @@ public interface Player {
 
     /**
      * Issues a new order for the player.
-     * @param p_order The order to be issued
      */
-    void issue_order(Order p_order);
+    void issue_order();
 
     /**
      * Retrieves and removes the next order from the player's order list.

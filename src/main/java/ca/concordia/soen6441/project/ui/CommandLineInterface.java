@@ -42,7 +42,7 @@ public class CommandLineInterface {
             {
                 if (d_gameEngine.getPhase() instanceof IssueOrder)
                 {
-                    d_gameEngine.getPlayerManager().getPlayer(d_gameEngine.getPlayerManager().getCurrentPlayIndex()).issue_order(null);
+                    d_gameEngine.getPlayerManager().getPlayer(d_gameEngine.getPlayerManager().getCurrentPlayIndex()).issue_order();
                 }
                 else
                 {

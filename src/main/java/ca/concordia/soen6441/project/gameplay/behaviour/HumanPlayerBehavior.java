@@ -1,6 +1,5 @@
 package ca.concordia.soen6441.project.gameplay.behaviour;
 
-import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.gameplay.behavior.PlayerBehavior;
 import ca.concordia.soen6441.project.ui.CommandLineInterface;
@@ -13,7 +12,7 @@ public class HumanPlayerBehavior implements PlayerBehavior {
      * {@inheritDoc}
      */
     @Override
-    public void issue_order(Player p_player, Order p_order) {
+    public void issue_order(Player p_player) {
         CommandLineInterface l_commandLineInterface = new CommandLineInterface(p_player.getPlayerManager().getGameEngine());
         l_commandLineInterface.getInputFromUserAndProcess();
     }

@@ -81,8 +81,8 @@ public class PlayerImpl implements Player {
      * {@inheritDoc}
      */
     @Override
-    public void issue_order(Order p_order) {
-        d_playerBehavior.issue_order(this, p_order);
+    public void issue_order() {
+        d_playerBehavior.issue_order(this);
     }
 
     /**

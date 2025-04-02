@@ -1,6 +1,5 @@
 package ca.concordia.soen6441.project.gameplay.behaviour;
 
-import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
 
 /**
@@ -11,7 +10,7 @@ public class RandomPlayerBehavior extends ComputerPlayerBehavior {
      * {@inheritDoc}
      */
     @Override
-    public void deployment(Player p_player, Order p_order) {
+    public void deployment(Player p_player) {
 
     }
 
@@ -19,7 +18,7 @@ public class RandomPlayerBehavior extends ComputerPlayerBehavior {
      * {@inheritDoc}
      */
     @Override
-    public void attackTransfer(Player p_player, Order p_order) {
+    public void attackTransfer(Player p_player) {
 
     }
 
