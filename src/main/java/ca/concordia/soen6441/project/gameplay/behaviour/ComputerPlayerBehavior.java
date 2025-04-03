@@ -3,7 +3,9 @@ package ca.concordia.soen6441.project.gameplay.behaviour;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.gameplay.behavior.PlayerBehavior;
 
-public abstract class ComputerPlayerBehavior implements PlayerBehavior {
+import java.io.Serializable;
+
+public abstract class ComputerPlayerBehavior implements PlayerBehavior, Serializable {
     /**
      * {@inheritDoc}
      */

@@ -1,11 +1,12 @@
 package ca.concordia.soen6441.project.ui;
 
-import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorFactory;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.phases.IssueOrder;
 import ca.concordia.soen6441.project.phases.PreLoad;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 import static ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType.HUMAN;
@@ -15,7 +16,7 @@ import static ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorTyp
  */
 public class CommandLineInterface {
     private GameContext d_gameEngine = null;
-    private PlayerBehaviorFactory d_playerBehaviorFactory = null;
+  //  private PlayerBehaviorFactory d_playerBehaviorFactory = null;
     private Scanner d_scanner = null;
 
     /**
@@ -24,7 +25,7 @@ public class CommandLineInterface {
      */
     public CommandLineInterface(GameContext p_gameEngine) {
         this.d_gameEngine = p_gameEngine;
-        this.d_playerBehaviorFactory = new PlayerBehaviorFactory();
+//        this.d_playerBehaviorFactory = new PlayerBehaviorFactory();
         this.d_scanner = new Scanner(System.in);
     }
 
@@ -129,6 +130,18 @@ public class CommandLineInterface {
             case "exit":
                 d_gameEngine.getPhase().endGame();
                 l_continuePlaying = false;
+                break;
+            case "loadgame": {
+                String l_fileName = l_args[1];
+                d_gameEngine.getPhase().loadGame(l_fileName);
+                }
+                break;
+            case "savegame":
+                String l_fileName = l_args[1];
+                d_gameEngine.getPhase().saveGame(l_fileName);
+                break;
+            case "tournamentmode":
+                processTournament(l_args);
                 break;
             case "":
                 // Do Nothing
@@ -262,5 +275,16 @@ public class CommandLineInterface {
         if ("-remove".equals(p_operation) && p_args.length == 3) {
             d_gameEngine.getPhase().gamePlayerRemove(l_playername);
         }
+    }
+
+    private void processTournament(String[] p_args)
+    {
+        List<String> l_listOfMapFiles = Arrays.stream(p_args[2].split(",")).toList();
+        List<String> l_listOfPlayerStrategies = Arrays.stream(p_args[4].split(",")).toList();
+        int l_numberOfGames = Integer.parseInt(p_args[6]);
+        int l_maxNumberOfTurns = Integer.parseInt(p_args[8]);
+
+        d_gameEngine.getPhase().tournament(l_listOfMapFiles, l_listOfPlayerStrategies, l_numberOfGames,
+                l_maxNumberOfTurns);
     }
 }

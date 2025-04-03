@@ -10,6 +10,7 @@ import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.context.HandOfCardsContext;
 import ca.concordia.soen6441.project.interfaces.gameplay.behavior.PlayerBehavior;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,7 +20,7 @@ import java.util.Objects;
  * The PlayerImpl class represents a player in the game, implementing the Player interface.
  * It manages player properties, owned countries, orders, and reinforcements.
  */
-public class PlayerImpl implements Player {
+public class PlayerImpl implements Player, Serializable {
     private String d_name;
     private ArrayList<String> d_ownedCountries;
     private ArrayList<Order> d_Orders;

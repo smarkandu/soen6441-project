@@ -3,6 +3,10 @@ package ca.concordia.soen6441.project.phases;
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
+import ca.concordia.soen6441.project.log.LogEntryBuffer;
+
+import java.io.*;
+import java.util.List;
 
 /**
  * The MainPlay class represents the abstract base class for main gameplay phases.
@@ -61,4 +65,42 @@ public abstract class MainPlay extends Play {
     public void gamePlayerRemove(String p_playerName) {
         printInvalidCommandMessage();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void loadGame(String p_filename) {
+        // TODO
+        try (ObjectInputStream l_objectInputStream = new ObjectInputStream(new FileInputStream(p_filename))) {
+            GameEngine l_gameEngine = (GameEngine) l_objectInputStream.readObject(); // Deserialize the object
+
+            LogEntryBuffer.getInstance().appendToBuffer("Game loaded from: " + p_filename, true);
+        } catch (IOException | ClassNotFoundException e) {
+            LogEntryBuffer.getInstance().appendToBuffer("Issue loading game: " + p_filename + ":\n"
+                    + e.getMessage(), true);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void saveGame(String p_filename) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(p_filename))) {
+            oos.writeObject(d_gameEngine);
+            LogEntryBuffer.getInstance().appendToBuffer("Game saved as: " + p_filename, true);
+        } catch (IOException e) {
+            LogEntryBuffer.getInstance().appendToBuffer("Issue saving game: " + p_filename + ":\n"
+                    + e.getMessage(), true);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void tournament(List<String> p_listOfMapFiles, List<String> p_listOfPlayerStrategies, int p_numberOfGames,
+                           int p_maxNumberOfTurns)
+    {
+        //TODO
+    }
+
 }

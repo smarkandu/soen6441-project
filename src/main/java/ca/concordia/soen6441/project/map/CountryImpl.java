@@ -5,6 +5,7 @@ import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.MapComponent;
 import ca.concordia.soen6441.project.interfaces.Player;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
@@ -14,7 +15,7 @@ import java.util.stream.Collectors;
  * Represents a country in the game with its properties and behaviors.
  */
 
-public class CountryImpl implements Country, MapComponent {
+public class CountryImpl implements Country, MapComponent, Serializable {
     private final String d_ID;
     private final int d_xCoord;
     private final int d_yCoord;

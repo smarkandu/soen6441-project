@@ -4,6 +4,8 @@ import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.interfaces.phases.State;
 
+import java.util.List;
+
 /**
  * The Phase class represents the abstract base class for different phases in the game.
  * Each phase defines specific behaviors for game actions.
@@ -55,6 +57,24 @@ public abstract class Phase implements State {
 
     // go to next phase
     abstract public void next();
+
+    /**
+     * {@inheritDoc}
+     */
+    abstract public void loadGame(String p_filename);
+
+    /**
+     * {@inheritDoc}
+     */
+    abstract public void saveGame(String p_filename);
+
+    /**
+     * {@inheritDoc}
+     */
+    abstract public void tournament(List<String> p_listOfMapFiles, List<String> p_listOfPlayerStrategies, int p_numberOfGames,
+                    int p_maxNumberOfTurns);
+
+
 
     // methods common to all states
     public void printInvalidCommandMessage() {

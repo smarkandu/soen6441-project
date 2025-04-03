@@ -10,6 +10,7 @@ import ca.concordia.soen6441.project.map.*;
 import ca.concordia.soen6441.project.phases.Phase;
 
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
  * GameEngine class represents the main controller of the game.
  * It manages the game state, executes commands, and interacts with other components.
  */
-public class GameEngine implements GameContext, MapComponent {
+public class GameEngine implements GameContext, MapComponent, Serializable {
     private Phase d_gamePhase;
     private ValidateMapImpl d_validateMapImpl;
     private ContinentManager d_ContinentManager;

@@ -4,10 +4,12 @@ import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.gameplay.behavior.PlayerBehavior;
 import ca.concordia.soen6441.project.ui.CommandLineInterface;
 
+import java.io.Serializable;
+
 /**
  * Class which implements the Strategy design pattern for the Human player behavior
  */
-public class HumanPlayerBehavior implements PlayerBehavior {
+public class HumanPlayerBehavior implements PlayerBehavior, Serializable {
     /**
      * {@inheritDoc}
      */

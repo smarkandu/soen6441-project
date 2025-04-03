@@ -7,6 +7,7 @@ import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.interfaces.context.PlayerContext;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.SortedMap;
@@ -15,10 +16,9 @@ import java.util.TreeMap;
 /**
  * Class managing the player operations
  */
-public class PlayerManager implements PlayerContext {
+public class PlayerManager implements PlayerContext, Serializable {
     private SortedMap<String, Player> d_players;
     private Player d_neutralPlayer;
-    private PlayerBehaviorFactory d_playerBehaviorFactory;
     private GameContext d_GameEngine;
     private int d_currentPlayerIndex;
 
@@ -27,9 +27,9 @@ public class PlayerManager implements PlayerContext {
      */
     public PlayerManager(GameContext p_GameEngine) {
         d_players = new TreeMap<String, Player>();
-        d_playerBehaviorFactory = new PlayerBehaviorFactory();
+        PlayerBehaviorFactory l_playerBehaviorFactory = new PlayerBehaviorFactory();
         d_neutralPlayer = new PlayerImpl("Neutral", new ArrayList<>(), new ArrayList<>(),
-                d_playerBehaviorFactory.createPlayerBehavior(PlayerBehaviorType.HUMAN), this); // Will always exist
+                l_playerBehaviorFactory.createPlayerBehavior(PlayerBehaviorType.HUMAN), this); // Will always exist
         d_GameEngine = p_GameEngine;
         d_currentPlayerIndex = 0;
     }
@@ -46,8 +46,9 @@ public class PlayerManager implements PlayerContext {
         }
         else
         {
+            PlayerBehaviorFactory l_playerBehaviorFactory = new PlayerBehaviorFactory();
             PlayerImpl l_playerToAdd = new PlayerImpl(p_playername, new ArrayList<>(), new ArrayList<>()
-                    , d_playerBehaviorFactory.createPlayerBehavior(p_playerBehaviorType), this);
+                    , l_playerBehaviorFactory.createPlayerBehavior(p_playerBehaviorType), this);
             d_players.put(p_playername, l_playerToAdd);
             System.out.println("Player added: " + d_players.get(p_playername).getName() + " ["
                     + l_playerToAdd.getPlayerBehavior() + "]");

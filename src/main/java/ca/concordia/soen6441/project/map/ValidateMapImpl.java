@@ -4,6 +4,7 @@ import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.ValidateMap;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -11,7 +12,7 @@ import java.util.*;
  * Provides methods to check the validity of the map,
  * ensuring that all countries are connected and properly assigned to continents.
  */
-public class ValidateMapImpl implements ValidateMap {
+public class ValidateMapImpl implements ValidateMap, Serializable {
 
     private SortedMap<String, Continent> d_Continents;
     private SortedMap<String, Country> d_Countries;

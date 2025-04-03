@@ -5,12 +5,16 @@ import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.context.CountryContext;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
-import java.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * Class for managing the Country operations
  */
-public class CountryManager implements CountryContext {
+public class CountryManager implements CountryContext, Serializable {
     private SortedMap<String, Country> d_Countries;
     private GameContext d_GameEngine;
 

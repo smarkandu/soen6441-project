@@ -1,8 +1,9 @@
 package ca.concordia.soen6441.project.phases;
 
-import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
+
+import java.util.List;
 
 /**
  * The Edit class represents an abstract phase where the game can be modified.
@@ -102,4 +103,20 @@ public abstract class Edit extends Phase {
      */
     @Override
     public void gamePlayerRemove(String p_playerName) { printInvalidCommandMessage(); }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void loadGame(String p_filename) { printInvalidCommandMessage(); }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void saveGame(String p_filename) { printInvalidCommandMessage(); }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void tournament(List<String> p_listOfMapFiles, List<String> p_listOfPlayerStrategies, int p_numberOfGames,
+                                    int p_maxNumberOfTurns) { printInvalidCommandMessage(); }
 }
