@@ -4,7 +4,6 @@ import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
 /**
@@ -21,7 +20,7 @@ public class Blockade implements Order {
      * @param p_initiator The player that initiated it
      * @param p_gameEngine The GameEngine object
      */
-    public Blockade(Country p_territory, Player p_initiator, GameContext p_gameEngine) {
+    public Blockade(Country p_territory, Player p_initiator) {
         this.d_territory = p_territory;
         this.d_initiator = p_initiator;
     }

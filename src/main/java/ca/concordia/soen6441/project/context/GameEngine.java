@@ -183,7 +183,7 @@ public class GameEngine implements GameContext, MapComponent, Serializable {
 
         // Read Map into Game Engine
         MapFileReader l_mapFileReader = new MapFileReader();
-        l_mapFileReader.readMapFile(p_filename, this);
+        l_mapFileReader.readMapFile(p_filename);
 
         // Validate Map
         if (isMapValid()) {

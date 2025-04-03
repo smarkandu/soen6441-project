@@ -91,7 +91,7 @@ public class IssueOrder extends MainPlay implements Serializable {
         }
         else
         {
-            getCurrentPlayer().addToOrders(new Advance(l_countryFrom, l_countryTo, p_toAdvance, getCurrentPlayer(), GameDriver.getGameEngine()));
+            getCurrentPlayer().addToOrders(new Advance(l_countryFrom, l_countryTo, p_toAdvance, getCurrentPlayer()));
             LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to advance "
                     + p_toAdvance + " from " + p_countryNameFrom + " to " + p_countryNameTo +  " granted", false);
         }
@@ -156,7 +156,7 @@ public class IssueOrder extends MainPlay implements Serializable {
         }
         else
         {
-            getCurrentPlayer().addToOrders(new Blockade(l_country, getCurrentPlayer(), GameDriver.getGameEngine()));
+            getCurrentPlayer().addToOrders(new Blockade(l_country, getCurrentPlayer()));
             getCurrentPlayer().getHandOfCardsManager().getBlockadeCardManager().removeCard();
             LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to blockade " +
                     p_countryID +  " granted", false);
