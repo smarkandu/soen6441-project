@@ -78,7 +78,7 @@ public class RandomPlayerBehavior extends ComputerPlayerBehavior {
                 Country l_target = p_player.getPlayerManager().getGameEngine().getCountryManager().getCountries().get(l_neighborID);
                 if (l_target == null || l_source.equals(l_target)) continue;
 
-                int l_availableTroops = l_source.getTroops() - 1 - p_player.getNumberOfTroopsOrderedToAdvance(l_source);
+                int l_availableTroops = l_source.getTroops() - p_player.getNumberOfTroopsOrderedToAdvance(l_source);
 
                 if (l_availableTroops > 0) {
                     int l_toAdvance = 1 + d_random.nextInt(l_availableTroops);
