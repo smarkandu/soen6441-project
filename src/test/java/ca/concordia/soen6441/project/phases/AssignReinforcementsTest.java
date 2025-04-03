@@ -58,7 +58,7 @@ public class AssignReinforcementsTest {
         PlayerManager l_mockPlayerManager = mock(PlayerManager.class);
         when(d_gameEngine.getPlayerManager()).thenReturn(l_mockPlayerManager);
 
-        d_assignReinforcements = new AssignReinforcements(d_gameEngine);
+        d_assignReinforcements = new AssignReinforcements();
 
         SortedMap<String, Continent> l_mockContinents = new TreeMap<>();
 

@@ -37,7 +37,7 @@ public class CountryAssignmentTest {
     @BeforeEach
     void setUp() {
         d_gameEngine = new GameEngine();
-        d_countryAssignment = new CountryAssignment(d_gameEngine);
+        d_countryAssignment = new CountryAssignment();
         d_playerManager = mock(PlayerManager.class);
 
         // Add 3 players

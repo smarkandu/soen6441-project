@@ -1,11 +1,11 @@
 package ca.concordia.soen6441.project.phases;
 
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.gameplay.orders.Advance;
 import ca.concordia.soen6441.project.interfaces.Card;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
 import java.util.ArrayList;
@@ -22,8 +22,8 @@ public class OrderExecution extends MainPlay {
      *
      * @param p_gameEngine the current game context
      */
-    public OrderExecution(GameContext p_gameEngine) {
-        super(p_gameEngine);
+    public OrderExecution() {
+        
     }
 
     /** {@inheritDoc} */
@@ -75,10 +75,10 @@ public class OrderExecution extends MainPlay {
      */
     public void execute() {
         int l_currentPlayerIndex = 0;
-        int[] l_playerWins = new int[d_gameEngine.getPlayerManager().getPlayers().size()];
+        int[] l_playerWins = new int[GameDriver.getGameEngine().getPlayerManager().getPlayers().size()];
 
         while (!allPlayersFinishedExecutingOrders()) {
-            Player l_player = d_gameEngine.getPlayerManager().getPlayer(l_currentPlayerIndex);
+            Player l_player = GameDriver.getGameEngine().getPlayerManager().getPlayer(l_currentPlayerIndex);
             if (!l_player.getOrders().isEmpty()) {
                 Order l_order = l_player.next_order();
                 l_order.execute();
@@ -90,16 +90,16 @@ public class OrderExecution extends MainPlay {
                     }
                 }
             }
-            l_currentPlayerIndex = (l_currentPlayerIndex + 1) % d_gameEngine.getPlayerManager().getPlayers().size();
+            l_currentPlayerIndex = (l_currentPlayerIndex + 1) % GameDriver.getGameEngine().getPlayerManager().getPlayers().size();
         }
 
         // Award cards to players who conquered at least one territory
         for (int l_i = 0; l_i < l_playerWins.length; l_i++) {
             if (l_playerWins[l_i] > 0) {
-                Card l_cardDrawn = d_gameEngine.getDeckOfCards().getCardFromDeck();
+                Card l_cardDrawn = GameDriver.getGameEngine().getDeckOfCards().getCardFromDeck();
                 if (l_cardDrawn != null) {
-                    d_gameEngine.getPlayerManager().getPlayer(l_i).getHandOfCardsManager().addCard(l_cardDrawn);
-                    String l_message = d_gameEngine.getPlayerManager().getPlayer(l_i).getName()
+                    GameDriver.getGameEngine().getPlayerManager().getPlayer(l_i).getHandOfCardsManager().addCard(l_cardDrawn);
+                    String l_message = GameDriver.getGameEngine().getPlayerManager().getPlayer(l_i).getName()
                             + " conquered " + l_playerWins[l_i]
                             + " countries this round! Awarded a " + l_cardDrawn + " card!";
                     LogEntryBuffer.getInstance().appendToBuffer(l_message, true);
@@ -112,14 +112,14 @@ public class OrderExecution extends MainPlay {
         String l_playerWhoWon = gameWonBy();
         if (l_playerWhoWon != null) {
             System.out.println("Game won by " + l_playerWhoWon + ": congratulations!");
-            End l_end = new End(d_gameEngine);
+            End l_end = new End();
             l_end.endGame();
         } else {
-            AssignReinforcements l_assignReinforcements = new AssignReinforcements(d_gameEngine);
+            AssignReinforcements l_assignReinforcements = new AssignReinforcements();
             l_assignReinforcements.execute();
 
             // Transition to next phase
-            d_gameEngine.setPhase(new IssueOrder(d_gameEngine, 0));
+            GameDriver.getGameEngine().setPhase(new IssueOrder(GameDriver.getGameEngine(), 0));
         }
     }
 
@@ -130,12 +130,12 @@ public class OrderExecution extends MainPlay {
      */
     public boolean allPlayersFinishedExecutingOrders() {
         int l_finished = 0;
-        for (Player l_player : d_gameEngine.getPlayerManager().getPlayers().values()) {
+        for (Player l_player : GameDriver.getGameEngine().getPlayerManager().getPlayers().values()) {
             if (l_player.getOrders().isEmpty()) {
                 l_finished++;
             }
         }
-        return l_finished == d_gameEngine.getPlayerManager().getPlayers().size();
+        return l_finished == GameDriver.getGameEngine().getPlayerManager().getPlayers().size();
     }
 
     /**
@@ -145,7 +145,7 @@ public class OrderExecution extends MainPlay {
      * @return the name of the winning player, or null if no winner
      */
     public String gameWonBy() {
-        ArrayList<Country> l_listOfCountries = new ArrayList<>(d_gameEngine.getCountryManager().getCountries().values());
+        ArrayList<Country> l_listOfCountries = new ArrayList<>(GameDriver.getGameEngine().getCountryManager().getCountries().values());
         if (l_listOfCountries.isEmpty()) return null;
 
         Player l_player = l_listOfCountries.get(0).getOwner();
@@ -162,12 +162,12 @@ public class OrderExecution extends MainPlay {
      * who no longer owns any territories.
      */
     public void validatePlayers() {
-        ArrayList<Player> l_players = new ArrayList<>(d_gameEngine.getPlayerManager().getPlayers().values());
+        ArrayList<Player> l_players = new ArrayList<>(GameDriver.getGameEngine().getPlayerManager().getPlayers().values());
         for (Player l_player : l_players) {
             if (l_player == null || l_player.getOwnedCountries().isEmpty()) {
                 LogEntryBuffer.getInstance().appendToBuffer("Player " + l_player.getName()
                         + " no longer owns any countries and is no longer part of the game!", true);
-                d_gameEngine.getPlayerManager().removePlayer(l_player.getName());
+                GameDriver.getGameEngine().getPlayerManager().removePlayer(l_player.getName());
             }
         }
     }

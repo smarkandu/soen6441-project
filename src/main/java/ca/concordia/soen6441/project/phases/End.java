@@ -1,7 +1,6 @@
 package ca.concordia.soen6441.project.phases;
 
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
 import java.util.List;
 
@@ -16,8 +15,8 @@ public class End extends Phase {
      *
      * @param p_gameEngine The game engine instance controlling the game state.
      */
-    public End(GameContext p_gameEngine) {
-        super(p_gameEngine);
+    public End() {
+        
     }
 
     /**

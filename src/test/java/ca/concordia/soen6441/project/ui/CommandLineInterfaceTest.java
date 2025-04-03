@@ -5,6 +5,7 @@ import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.phases.Phase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
@@ -27,7 +28,7 @@ class CommandLineInterfaceTest {
         d_mockGameEngine = mock(GameEngine.class);
         d_mockPhase = mock(Phase.class);
         when(d_mockGameEngine.getPhase()).thenReturn(d_mockPhase);
-        d_commandLineInterface = new CommandLineInterface(d_mockGameEngine);
+        d_commandLineInterface = new CommandLineInterface();
     }
 
     /**

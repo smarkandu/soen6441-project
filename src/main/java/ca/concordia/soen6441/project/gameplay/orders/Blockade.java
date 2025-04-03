@@ -1,12 +1,11 @@
 package ca.concordia.soen6441.project.gameplay.orders;
 
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
-
-import java.util.Random;
 
 /**
  * Class representing the Blockade command
@@ -14,7 +13,7 @@ import java.util.Random;
 public class Blockade implements Order {
     private Country d_territory;
     private Player d_initiator;
-    private GameContext d_gameEngine;
+    
 
     /**
      * Constructor
@@ -25,7 +24,6 @@ public class Blockade implements Order {
     public Blockade(Country p_territory, Player p_initiator, GameContext p_gameEngine) {
         this.d_territory = p_territory;
         this.d_initiator = p_initiator;
-        this.d_gameEngine = p_gameEngine;
     }
 
     /**
@@ -41,7 +39,7 @@ public class Blockade implements Order {
         }
         else {
             // Assign Country as Neutral
-            d_gameEngine.assignCountryToPlayer(d_territory, d_gameEngine.getPlayerManager().getNeutralPlayer());
+            GameDriver.getGameEngine().assignCountryToPlayer(d_territory, GameDriver.getGameEngine().getPlayerManager().getNeutralPlayer());
 
             // Change number of troops to new amount, per specs
             int l_oldTroopNumber = d_territory.getTroops();

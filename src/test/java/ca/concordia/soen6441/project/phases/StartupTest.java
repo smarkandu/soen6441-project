@@ -42,7 +42,7 @@ public class StartupTest {
     @Test
     void testSuccessfulStartup() {
         GameEngine l_gameEngine = spy(new GameEngine());
-        Startup l_startup = new Startup(l_gameEngine);
+        Startup l_startup = new Startup();
 
         // Add 2 players
         Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(),
@@ -88,7 +88,7 @@ public class StartupTest {
     @Test
     void testInvalidMap() {
         GameEngine l_gameEngine = spy(new GameEngine());
-        Startup l_startup = new Startup(l_gameEngine);
+        Startup l_startup = new Startup();
 
         // Add valid players
         Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior(),
@@ -121,7 +121,7 @@ public class StartupTest {
     @Test
     void testNotEnoughPlayers() {
         GameEngine l_gameEngine = spy(new GameEngine());
-        Startup l_startup = new Startup(l_gameEngine);
+        Startup l_startup = new Startup();
 
         // Add only one player
         Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior(),

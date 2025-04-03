@@ -4,14 +4,15 @@ import ca.concordia.soen6441.project.context.CountryManager;
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
-
 import org.junit.jupiter.api.Test;
 
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for the {@link OrderExecution} class.
@@ -45,7 +46,7 @@ public class OrderExecutionTest {
         when(l_mockGame.getCountryManager()).thenReturn(l_mockCountryManager);
         when(l_mockCountryManager.getCountries()).thenAnswer(inv -> l_mockCountries);
 
-        OrderExecution l_orderExecution = new OrderExecution(l_mockGame);
+        OrderExecution l_orderExecution = new OrderExecution();
         String l_winner = l_orderExecution.gameWonBy();
 
         assertEquals("PlayerOne", l_winner);
@@ -75,7 +76,7 @@ public class OrderExecutionTest {
         when(l_mockGame.getCountryManager()).thenReturn(l_mockCountryManager);
         when(l_mockCountryManager.getCountries()).thenAnswer(inv -> l_mockCountries);
 
-        OrderExecution l_orderExecution = new OrderExecution(l_mockGame);
+        OrderExecution l_orderExecution = new OrderExecution();
         String l_winner = l_orderExecution.gameWonBy();
 
         assertNull(l_winner);

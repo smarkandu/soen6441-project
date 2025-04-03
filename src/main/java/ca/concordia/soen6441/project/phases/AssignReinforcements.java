@@ -1,10 +1,10 @@
 package ca.concordia.soen6441.project.phases;
 
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.gameplay.PlayerImpl;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
 import java.util.Map;
@@ -22,8 +22,8 @@ public class AssignReinforcements extends MainPlay {
      *
      * @param p_gameEngine the game context to operate on
      */
-    public AssignReinforcements(GameContext p_gameEngine) {
-        super(p_gameEngine);
+    public AssignReinforcements() {
+        
     }
 
     /**
@@ -106,15 +106,15 @@ public class AssignReinforcements extends MainPlay {
      * - Assigns reinforcement count to each player
      */
     public void execute() {
-        for (int l_i = 0; l_i < d_gameEngine.getPlayerManager().getPlayers().size(); l_i++) {
-            Player l_player = d_gameEngine.getPlayerManager().getPlayer(l_i);
+        for (int l_i = 0; l_i < GameDriver.getGameEngine().getPlayerManager().getPlayers().size(); l_i++) {
+            Player l_player = GameDriver.getGameEngine().getPlayerManager().getPlayer(l_i);
 
             if (!((PlayerImpl) l_player).getNegotiatedPlayers().isEmpty()) {
                 ((PlayerImpl) l_player).resetNegotiatedPlayers();
                 LogEntryBuffer.getInstance().appendToBuffer("Diplomacy list reset for player: " + l_player.getName(), true);
             }
 
-            Map<String, Continent> l_continents = d_gameEngine.getContinentManager().getContinents();
+            Map<String, Continent> l_continents = GameDriver.getGameEngine().getContinentManager().getContinents();
             int l_territoriesOwned = l_player.getOwnedCountries().size();
             int l_continentBonus = calculateContinentBonus(l_player, l_continents);
 
@@ -125,7 +125,7 @@ public class AssignReinforcements extends MainPlay {
         }
 
         // Set Current State to IssueOrder
-        d_gameEngine.setPhase(new IssueOrder(d_gameEngine, 0));
+        GameDriver.getGameEngine().setPhase(new IssueOrder(GameDriver.getGameEngine(), 0));
     }
 
     /**
@@ -143,7 +143,7 @@ public class AssignReinforcements extends MainPlay {
             boolean l_ownsAll = true;
             int l_countriesInContinent = 0;
 
-            for (Country l_country : d_gameEngine.getCountryManager().getCountries().values()) {
+            for (Country l_country : GameDriver.getGameEngine().getCountryManager().getCountries().values()) {
                 if (l_country.getContinent() == l_continent) {
                     l_countriesInContinent++;
                     if (!p_player.getOwnedCountries().contains(l_country.getID())) {

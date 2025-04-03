@@ -1,6 +1,6 @@
 package ca.concordia.soen6441.project.phases;
 
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.map.InvalidMapFileException;
 
 import java.io.FileNotFoundException;
@@ -16,8 +16,8 @@ public class PreLoad extends Edit {
      *
      * @param p_gameEngine The game engine instance controlling the game state.
      */
-    public PreLoad(GameContext p_gameEngine) {
-        super(p_gameEngine);
+    public PreLoad() {
+        
     }
 
     /**
@@ -27,7 +27,7 @@ public class PreLoad extends Edit {
      */
     public void loadMap(String p_filename) {
         try {
-            d_gameEngine.loadMap(p_filename);
+            GameDriver.getGameEngine().loadMap(p_filename);
         } catch (InvalidMapFileException e) {
             // No need to write anything
         } catch (FileNotFoundException e) {
@@ -44,7 +44,7 @@ public class PreLoad extends Edit {
      * Moves to the next phase, transitioning to PostLoad.
      */
     public void next() {
-        d_gameEngine.setPhase(new PostLoad(d_gameEngine));
+        GameDriver.getGameEngine().setPhase(new PostLoad());
     }
 
     @Override

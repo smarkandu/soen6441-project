@@ -1,6 +1,6 @@
 package ca.concordia.soen6441.project.phases;
 
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
+import ca.concordia.soen6441.project.GameDriver;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -16,8 +16,8 @@ public class PostLoad extends Edit {
      *
      * @param p_gameEngine The game engine instance controlling the game state.
      */
-    public PostLoad(GameContext p_gameEngine) {
-        super(p_gameEngine);
+    public PostLoad() {
+        
     }
 
     /**
@@ -36,7 +36,7 @@ public class PostLoad extends Edit {
      */
     public void saveMap(String p_filename) {
         // Fetch the map data in Domination format
-        String l_mapData = d_gameEngine.toMapString();
+        String l_mapData = GameDriver.getGameEngine().toMapString();
 
         // Write the data to the specified file
         try (PrintWriter l_writer = new PrintWriter(p_filename)) {
@@ -52,46 +52,46 @@ public class PostLoad extends Edit {
      */
     public void next() {
         // Reset the engine.  Map needs to be loaded at beginning of game.
-        d_gameEngine.resetMap();
+        GameDriver.getGameEngine().resetMap();
 
         // Go to the startup phase of game.
-        d_gameEngine.setPhase(new Startup(d_gameEngine));
+        GameDriver.getGameEngine().setPhase(new Startup());
     }
 
     /**
      * Validates the current map.
      */
     public void validateMap() {
-        d_gameEngine.isMapValid();
+        GameDriver.getGameEngine().isMapValid();
     }
 
     @Override
     public void editContinentAdd(String p_continentID, int p_continentValue) {
-        d_gameEngine.getContinentManager().addContinent(p_continentID, p_continentValue);
+        GameDriver.getGameEngine().getContinentManager().addContinent(p_continentID, p_continentValue);
     }
 
     @Override
     public void editContinentRemove(String p_continentID) {
-        d_gameEngine.getContinentManager().removeContinent(p_continentID);
+        GameDriver.getGameEngine().getContinentManager().removeContinent(p_continentID);
     }
 
     @Override
     public void editCountryAdd(String p_countryID, String p_continentID) {
-        d_gameEngine.getCountryManager().addCountry(p_countryID, p_continentID);
+        GameDriver.getGameEngine().getCountryManager().addCountry(p_countryID, p_continentID);
     }
 
     @Override
     public void editCountryRemove(String p_countryID) {
-        d_gameEngine.getCountryManager().removeCountry(p_countryID);
+        GameDriver.getGameEngine().getCountryManager().removeCountry(p_countryID);
     }
 
     @Override
     public void editNeighborAdd(String p_countryID, String p_neighborCountryID) {
-        d_gameEngine.getNeighborManager().addNeighbor(p_countryID, p_neighborCountryID);
+        GameDriver.getGameEngine().getNeighborManager().addNeighbor(p_countryID, p_neighborCountryID);
     }
 
     @Override
     public void editNeighborRemove(String p_countryID, String p_neighborCountryID) {
-        d_gameEngine.getNeighborManager().removeNeighbor(p_countryID, p_neighborCountryID);
+        GameDriver.getGameEngine().getNeighborManager().removeNeighbor(p_countryID, p_neighborCountryID);
     }
 }

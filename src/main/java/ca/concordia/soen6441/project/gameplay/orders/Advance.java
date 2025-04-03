@@ -1,5 +1,6 @@
 package ca.concordia.soen6441.project.gameplay.orders;
 
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
@@ -23,7 +24,7 @@ public class Advance implements Order {
     private Player d_initiator;
     private Random d_random;
     private boolean d_conquersTerritory;
-    private GameContext d_gameEngine;
+    
     private double d_probabilityWinningAttacker = 0.60;
     private double d_probabilityWinningDefender = 0.70;
 
@@ -43,7 +44,7 @@ public class Advance implements Order {
         this.d_initiator = p_initiator;
         this.d_random = new Random();
         this.d_conquersTerritory = false;
-        d_gameEngine = p_gameEngine;
+        
         d_probabilityWinningAttacker = 0.60;
         d_probabilityWinningDefender = 0.70;
     }
@@ -81,7 +82,7 @@ public class Advance implements Order {
 
                 // If country was owned, change owner to player
 
-                d_gameEngine.assignCountryToPlayer(d_targetTerritory, d_initiator);
+                GameDriver.getGameEngine().assignCountryToPlayer(d_targetTerritory, d_initiator);
                 d_conquersTerritory = true;
                 if (d_targetTerritory.getOwner() != null)
                 {
@@ -103,7 +104,7 @@ public class Advance implements Order {
 
                 if (l_battleResult.getPlayersTroops() > 0)
                 {
-                    d_gameEngine.assignCountryToPlayer(d_targetTerritory, d_initiator);
+                    GameDriver.getGameEngine().assignCountryToPlayer(d_targetTerritory, d_initiator);
                     d_targetTerritory.setTroops(l_battleResult.getPlayersTroops());
                     LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName()
                             + " wins the battle and conquers " + d_targetTerritory.getID() + "!\nRemaining survivors: "
