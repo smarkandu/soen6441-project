@@ -1,6 +1,5 @@
 package ca.concordia.soen6441.project.gameplay.behaviour;
 
-import ca.concordia.soen6441.project.gameplay.orders.Advance;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
 
@@ -75,14 +74,11 @@ public class RandomPlayerBehavior extends ComputerPlayerBehavior {
             Collections.shuffle(l_neighbors);
 
             for (String l_neighborID : l_neighbors) {
-                Country l_target = p_player.getPlayerManager().getGameEngine().getCountryManager().getCountries().get(l_neighborID);
-                if (l_target == null || l_source.equals(l_target)) continue;
-
                 int l_availableTroops = l_source.getTroops() - p_player.getNumberOfTroopsOrderedToAdvance(l_source);
 
                 if (l_availableTroops > 0) {
                     int l_toAdvance = 1 + d_random.nextInt(l_availableTroops);
-                    p_player.addToOrders(new Advance(l_source, l_target, l_toAdvance, p_player, p_player.getPlayerManager().getGameEngine()));
+                    p_player.getPlayerManager().getGameEngine().getPhase().advance(l_countryID, l_neighborID, l_toAdvance);
                     System.out.println(p_player.getPlayerManager().getGameEngine().getPhase().getPhaseName());
                     return; // Only one advance per call
                 }
