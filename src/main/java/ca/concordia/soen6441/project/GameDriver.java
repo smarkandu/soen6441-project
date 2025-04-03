@@ -16,7 +16,7 @@ public class GameDriver {
         return d_gameEngine;
     }
 
-    public static void setGameEngine(GameEngine p_gameEngine) {
+    public static void setGameEngine(GameContext p_gameEngine) {
         d_gameEngine = p_gameEngine;
     }
 

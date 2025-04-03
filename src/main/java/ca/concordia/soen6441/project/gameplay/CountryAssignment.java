@@ -3,7 +3,6 @@ package ca.concordia.soen6441.project.gameplay;
 import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
 import java.util.ArrayList;
@@ -18,8 +17,6 @@ public class CountryAssignment {
 
     /**
      * Constructs a CountryAssignment instance with the specified game engine.
-     *
-     * @param p_gameEngine The game engine instance controlling the game state.
      */
     public CountryAssignment() {
     }
