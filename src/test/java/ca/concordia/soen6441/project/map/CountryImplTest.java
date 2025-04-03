@@ -146,7 +146,7 @@ public class CountryImplTest {
          * {@inheritDoc}
          */
         @Override
-        public void issue_order(Order p_order) {
+        public void issue_order() {
 
         }
 
@@ -278,6 +278,11 @@ public class CountryImplTest {
         @Override
         public PlayerManager getPlayerManager() {
             return null;
+        }
+
+        @Override
+        public void addToOrders(Order p_newOrder) {
+
         }
     }
 }

@@ -20,6 +20,7 @@ public class PlayerManager implements PlayerContext {
     private Player d_neutralPlayer;
     private PlayerBehaviorFactory d_playerBehaviorFactory;
     private GameContext d_GameEngine;
+    private int d_currentPlayerIndex;
 
     /**
      * Constructor
@@ -30,6 +31,7 @@ public class PlayerManager implements PlayerContext {
         d_neutralPlayer = new PlayerImpl("Neutral", new ArrayList<>(), new ArrayList<>(),
                 d_playerBehaviorFactory.createPlayerBehavior(PlayerBehaviorType.HUMAN), this); // Will always exist
         d_GameEngine = p_GameEngine;
+        d_currentPlayerIndex = 0;
     }
 
     /**
@@ -89,5 +91,21 @@ public class PlayerManager implements PlayerContext {
 
     public GameContext getGameEngine() {
         return d_GameEngine;
+    }
+
+    /**
+     * Get Index of CurrentPlayer
+     * @return integer value
+     */
+    public int getCurrentPlayerIndex() {
+        return d_currentPlayerIndex;
+    }
+
+    /**
+     * Set Index of CurrentPlayer
+     * @param p_newPlayIndex integer value for new player index
+     */
+    public void setCurrentPlayerIndex(int p_newPlayIndex) {
+        d_currentPlayerIndex = p_newPlayIndex;
     }
 }

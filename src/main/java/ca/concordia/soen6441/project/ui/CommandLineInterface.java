@@ -3,6 +3,7 @@ package ca.concordia.soen6441.project.ui;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorFactory;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
+import ca.concordia.soen6441.project.phases.IssueOrder;
 import ca.concordia.soen6441.project.phases.PreLoad;
 
 import java.util.Scanner;
@@ -15,6 +16,7 @@ import static ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorTyp
 public class CommandLineInterface {
     private GameContext d_gameEngine = null;
     private PlayerBehaviorFactory d_playerBehaviorFactory = null;
+    private Scanner d_scanner = null;
 
     /**
      * Constructor
@@ -23,6 +25,7 @@ public class CommandLineInterface {
     public CommandLineInterface(GameContext p_gameEngine) {
         this.d_gameEngine = p_gameEngine;
         this.d_playerBehaviorFactory = new PlayerBehaviorFactory();
+        this.d_scanner = new Scanner(System.in);
     }
 
     /**
@@ -32,93 +35,110 @@ public class CommandLineInterface {
         // Can change the state of the Context (GameEngine) object, e.g.
         d_gameEngine.setPhase(new PreLoad(d_gameEngine));
         boolean l_continuePlaying = true;
-        Scanner l_scanner = new Scanner(System.in);
+        d_scanner = new Scanner(System.in); // we reset the scanner here on purpose
 
         while (l_continuePlaying) {
             try
             {
-                System.out.print(d_gameEngine.getPhase().getPhaseName() + ">");
-                String[] l_args = l_scanner.nextLine().split(" ");
-                String l_action = l_args[0].toLowerCase();
-                String l_operation = l_args.length > 1 ? l_args[1].toLowerCase() : null;
-
-                switch (l_action) {
-                    case "editcontinent":
-                        processEditContinent(l_args, l_operation);
-                        break;
-                    case "editcountry":
-                        processEditCountry(l_args, l_operation);
-                        break;
-                    case "editneighbor":
-                        processEditNeighbor(l_args, l_operation);
-                        break;
-                    case "showmap":
-                        d_gameEngine.getPhase().showMap();
-                        break;
-                    case "savemap":
-                        d_gameEngine.getPhase().saveMap(l_args[1]);
-                        break;
-                    case "assigncountries":
-                        d_gameEngine.getPhase().assignCountries();
-                        break;
-                    case "deploy": {
-                        processDeploy(l_args);
-                        break;
-                    }
-                    case "advance": {
-                        processAdvance(l_args);
-                        break;
-                    }
-                    case "airlift": {
-                        processAirlift(l_args);
-                        break;
-                    }
-                    case "bomb": {
-                        String l_countryNameToBomb = l_args[1].replace("\"", "");
-                        d_gameEngine.getPhase().bomb(l_countryNameToBomb);
-                        break;
-                    }
-                    case "blockade": {
-                        String l_countryNameToBlockade = l_args[1].replace("\"", "");
-                        d_gameEngine.getPhase().blockade(l_countryNameToBlockade);
-                        break;
-                    }
-                    case "negotiate": {
-                        String l_targetPlayerID = l_args[1];
-                        d_gameEngine.getPhase().negotiate(l_targetPlayerID);
-                        break;
-                    }
-                    case "gameplayer":
-                        processGamePlayer(l_args, l_operation);
-                        break;
-                    case "loadmap":
-                        d_gameEngine.getPhase().loadMap(l_args[1]);
-                        break;
-                    case "validatemap":
-                        if (l_args.length == 1) {
-                            d_gameEngine.getPhase().validateMap();
-                        }
-                        break;
-                    case "next":
-                        d_gameEngine.getPhase().next();
-                        break;
-                    case "exit":
-                        d_gameEngine.getPhase().endGame();
-                        l_continuePlaying = false;
-                        break;
-                    case "":
-                        // Do Nothing
-                        break;
-                    default:
-                        System.out.println("Command not recognized");
-                        break;
+                if (d_gameEngine.getPhase() instanceof IssueOrder)
+                {
+                    d_gameEngine.getPlayerManager().getPlayer(d_gameEngine.getPlayerManager().getCurrentPlayerIndex()).issue_order();
                 }
+                else
+                {
+                    l_continuePlaying = getInputFromUserAndProcess();
+                }
+
             }
             catch (Exception e)
             {
                 System.out.println(e.getMessage());
             }
         }
+    }
+
+    public boolean getInputFromUserAndProcess()
+    {
+        System.out.print(d_gameEngine.getPhase().getPhaseName() + ">");
+        String[] l_args = d_scanner.nextLine().split(" ");
+        String l_action = l_args[0].toLowerCase();
+        String l_operation = l_args.length > 1 ? l_args[1].toLowerCase() : null;
+
+        boolean l_continuePlaying = true;
+
+        switch (l_action) {
+            case "editcontinent":
+                processEditContinent(l_args, l_operation);
+                break;
+            case "editcountry":
+                processEditCountry(l_args, l_operation);
+                break;
+            case "editneighbor":
+                processEditNeighbor(l_args, l_operation);
+                break;
+            case "showmap":
+                d_gameEngine.getPhase().showMap();
+                break;
+            case "savemap":
+                d_gameEngine.getPhase().saveMap(l_args[1]);
+                break;
+            case "assigncountries":
+                d_gameEngine.getPhase().assignCountries();
+                break;
+            case "deploy": {
+                processDeploy(l_args);
+                break;
+            }
+            case "advance": {
+                processAdvance(l_args);
+                break;
+            }
+            case "airlift": {
+                processAirlift(l_args);
+                break;
+            }
+            case "bomb": {
+                String l_countryNameToBomb = l_args[1].replace("\"", "");
+                d_gameEngine.getPhase().bomb(l_countryNameToBomb);
+                break;
+            }
+            case "blockade": {
+                String l_countryNameToBlockade = l_args[1].replace("\"", "");
+                d_gameEngine.getPhase().blockade(l_countryNameToBlockade);
+                break;
+            }
+            case "negotiate": {
+                String l_targetPlayerID = l_args[1];
+                d_gameEngine.getPhase().negotiate(l_targetPlayerID);
+                break;
+            }
+            case "gameplayer":
+                processGamePlayer(l_args, l_operation);
+                break;
+            case "loadmap":
+                d_gameEngine.getPhase().loadMap(l_args[1]);
+                break;
+            case "validatemap":
+                if (l_args.length == 1) {
+                    d_gameEngine.getPhase().validateMap();
+                }
+                break;
+            case "next":
+                d_gameEngine.getPhase().next();
+                break;
+            case "exit":
+                d_gameEngine.getPhase().endGame();
+                l_continuePlaying = false;
+                break;
+            case "":
+                // Do Nothing
+                break;
+            default:
+                System.out.println("Command not recognized");
+                break;
+        }
+
+        return l_continuePlaying;
     }
 
     /**

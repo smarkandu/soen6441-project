@@ -43,4 +43,16 @@ public interface PlayerContext {
      * Returns the Neutral player
      */
     Player getNeutralPlayer();
+
+    /**
+     * Get Index of CurrentPlayer
+     * @return integer value
+     */
+    int getCurrentPlayerIndex();
+
+    /**
+     * Set Index of CurrentPlayer
+     * @param p_newPlayIndex integer value for new player index
+     */
+    void setCurrentPlayerIndex(int p_newPlayIndex);
 }

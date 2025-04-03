@@ -1,0 +1,11 @@
+next
+next
+loadmap F:\Github\soen6441-project\sample_maps\valid\america.map
+gameplayer -add Steve -behavior human
+gameplayer -add Vipin -behavior random
+assigncountries
+showmap
+
+gameplayer -add Tharun -behavior benevolent
+gameplayer -add Shubo -behavior aggressive
+gameplayer -add Marc -behavior cheater
