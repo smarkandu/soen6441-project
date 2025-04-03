@@ -60,6 +60,8 @@ public class RandomPlayerBehavior extends ComputerPlayerBehavior {
      */
     @Override
     public void attackTransfer(Player p_player) {
+        System.out.println("[RandomPlayer] attackTransfer() executed in phase: " +
+        p_player.getPlayerManager().getGameEngine().getPhase().getPhaseName());
         // Get all owned countries
         List<String> l_ownedCountryIDs = p_player.getOwnedCountries();
         Collections.shuffle(l_ownedCountryIDs); // Shuffle for randomness
@@ -74,14 +76,21 @@ public class RandomPlayerBehavior extends ComputerPlayerBehavior {
             Collections.shuffle(l_neighbors);
 
             for (String l_neighborID : l_neighbors) {
+                Country l_target = p_player.getPlayerManager().getGameEngine()
+                .getCountryManager().getCountries().get(l_neighborID);
+
+                if (l_target == null) continue;
+                // Skip if we've already used all troops from source
                 int l_availableTroops = l_source.getTroops() - p_player.getNumberOfTroopsOrderedToAdvance(l_source);
 
-                if (l_availableTroops > 0) {
-                    int l_toAdvance = 1 + d_random.nextInt(l_availableTroops);
-                    p_player.getPlayerManager().getGameEngine().getPhase().advance(l_countryID, l_neighborID, l_toAdvance);
-                    System.out.println(p_player.getPlayerManager().getGameEngine().getPhase().getPhaseName());
-                    return; // Only one advance per call
-                }
+            if (l_availableTroops <= 0) break;
+
+            int l_toAdvance = 1 + d_random.nextInt(l_availableTroops);
+
+            // Issue advance order (attack or transfer)
+            p_player.getPlayerManager().getGameEngine().getPhase()
+                .advance(l_countryID, l_neighborID, l_toAdvance); 
+           
             }
         }
     }
