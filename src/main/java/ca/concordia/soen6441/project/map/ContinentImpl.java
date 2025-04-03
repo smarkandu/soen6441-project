@@ -3,10 +3,12 @@ package ca.concordia.soen6441.project.map;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.MapComponent;
 
+import java.io.Serializable;
+
 /**
  * Implementation of the Continent interface, representing a continent in the game map.
  */
-public class ContinentImpl implements Continent, MapComponent {
+public class ContinentImpl implements Continent, MapComponent, Serializable {
     private final String d_ID;
     private final int d_Value;
     private static int d_Counter = 0;

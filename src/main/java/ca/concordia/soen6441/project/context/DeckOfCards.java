@@ -6,12 +6,13 @@ import ca.concordia.soen6441.project.gameplay.cards.BombCard;
 import ca.concordia.soen6441.project.gameplay.cards.DiplomacyCard;
 import ca.concordia.soen6441.project.interfaces.Card;
 
+import java.io.Serializable;
 import java.util.Random;
 
 /**
  * Class for modelling a deck of cards
  */
-public class DeckOfCards {
+public class DeckOfCards implements Serializable {
     Random d_rand;
 
     /**

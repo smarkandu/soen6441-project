@@ -2,6 +2,8 @@ package ca.concordia.soen6441.project.interfaces.phases;
 
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 
+import java.util.List;
+
 /**
  * Represents a state in the game, defining various actions that can be performed
  * depending on the current phase of gameplay. This interface follows the State Pattern
@@ -162,4 +164,26 @@ public interface State {
     * @param p_playerID ID of the player to negotiate with.
     */
     void negotiate(String p_playerID);
+
+    /**
+     * Allows the user to load his game
+     * @param p_filename String denoting the filename
+     */
+    void loadGame(String p_filename);
+
+    /**
+     * Allows the user to save his game
+     * @param p_filename String denoting the filename
+     */
+    void saveGame(String p_filename);
+
+    /**
+     * Allows the user to initiate a tournament
+     * @param p_listOfMapFiles List of strings representing map filenames
+     * @param p_listOfPlayerStrategies List of Strings representing the player strategies to be used
+     * @param p_numberOfGames number of games to be played on each map
+     * @param p_maxNumberOfTurns maximum number of turns for each game
+     */
+    void tournament(List<String> p_listOfMapFiles, List<String> p_listOfPlayerStrategies, int p_numberOfGames,
+                    int p_maxNumberOfTurns);
 }

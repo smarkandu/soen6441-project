@@ -5,15 +5,15 @@ import ca.concordia.soen6441.project.gameplay.cards.BlockadeCard;
 import ca.concordia.soen6441.project.gameplay.cards.BombCard;
 import ca.concordia.soen6441.project.gameplay.cards.DiplomacyCard;
 import ca.concordia.soen6441.project.interfaces.Card;
-import ca.concordia.soen6441.project.interfaces.context.HandOfCardsContext;
 import ca.concordia.soen6441.project.interfaces.Player;
+import ca.concordia.soen6441.project.interfaces.context.HandOfCardsContext;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
 /**
  * Class for modelling the hands of cards that a player holds
  */
-public class HandOfCardsManager implements HandOfCardsContext {
+public class HandOfCardsManager implements HandOfCardsContext, Serializable {
     private Player d_player;
     private CardManager<AirliftCard> d_airLiftCardManager;
     private CardManager<BlockadeCard> d_blockadeCardManager;

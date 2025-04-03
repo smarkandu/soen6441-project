@@ -1,14 +1,15 @@
 package ca.concordia.soen6441.project.phases;
 
-import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
+
+import java.io.Serializable;
 
 // State of the State pattern
 /**
  * The Play class represents an abstract phase in the game where the main gameplay occurs.
  * It extends the Phase class and defines behaviors specific to the play state.
  */
-public abstract class Play extends Phase {
+public abstract class Play extends Phase implements Serializable {
 
     /**
      * Constructs a Play phase.

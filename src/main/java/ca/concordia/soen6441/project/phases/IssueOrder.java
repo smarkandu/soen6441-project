@@ -7,11 +7,13 @@ import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 import ca.concordia.soen6441.project.log.LogWriter;
 
+import java.io.Serializable;
+
 /**
  * The IssueOrder class represents the phase where players issue their orders.
  * This includes deploying troops and progressing to the next phase.
  */
-public class IssueOrder extends MainPlay {
+public class IssueOrder extends MainPlay implements Serializable {
     private LogWriter d_logWriter;
 
     /**

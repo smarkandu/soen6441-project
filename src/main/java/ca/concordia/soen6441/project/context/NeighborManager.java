@@ -1,15 +1,14 @@
 package ca.concordia.soen6441.project.context;
 
-import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.interfaces.context.NeighborContext;
 
-import java.util.TreeMap;
+import java.io.Serializable;
 
 /**
  * Manages all Neighbor operations
  */
-public class NeighborManager implements NeighborContext {
+public class NeighborManager implements NeighborContext, Serializable {
     private GameContext d_GameEngine;
 
     /**

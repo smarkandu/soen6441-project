@@ -6,6 +6,7 @@ import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.map.InvalidMapFileException;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 
 /**
  * The Startup class represents the initial phase of the game.
@@ -121,4 +122,20 @@ public class Startup extends Play {
         System.out.println("Once you have done the above, use the command 'assigncountries' to initiate action and start the game\n");
         return super.getPhaseName();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void loadGame(String p_filename) { printInvalidCommandMessage(); }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void saveGame(String p_filename) { printInvalidCommandMessage(); }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void tournament(List<String> p_listOfMapFiles, List<String> p_listOfPlayerStrategies, int p_numberOfGames,
+                           int p_maxNumberOfTurns) { printInvalidCommandMessage(); }
 }
