@@ -11,7 +11,7 @@ public class AggressivePlayerBehavior extends ComputerPlayerBehavior {
      * {@inheritDoc}
      */
     @Override
-    public void deployment(Player p_player, Order p_order) {
+    public void deployment(Player p_player) {
 
     }
 
@@ -19,7 +19,7 @@ public class AggressivePlayerBehavior extends ComputerPlayerBehavior {
      * {@inheritDoc}
      */
     @Override
-    public void attackTransfer(Player p_player, Order p_order) {
+    public void attackTransfer(Player p_player) {
 
     }
 
