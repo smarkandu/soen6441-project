@@ -12,7 +12,7 @@ import java.util.List;
  * The MainPlay class represents the abstract base class for main gameplay phases.
  * It defines common methods for loading maps, setting players, and assigning countries.
  */
-public abstract class MainPlay extends Play {
+public abstract class MainPlay extends Play implements Serializable {
 
     /**
      * Constructs a MainPlay phase.

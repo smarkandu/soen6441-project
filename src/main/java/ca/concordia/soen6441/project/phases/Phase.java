@@ -4,13 +4,14 @@ import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.interfaces.phases.State;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * The Phase class represents the abstract base class for different phases in the game.
  * Each phase defines specific behaviors for game actions.
  */
-public abstract class Phase implements State {
+public abstract class Phase implements State, Serializable {
     protected GameContext d_gameEngine;
 
     /**
