@@ -4,7 +4,6 @@ import ca.concordia.soen6441.project.gameplay.PlayerImpl;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorFactory;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.interfaces.Player;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.interfaces.context.PlayerContext;
 
 import java.io.Serializable;
@@ -29,7 +28,7 @@ public class PlayerManager implements PlayerContext, Serializable {
         d_players = new TreeMap<String, Player>();
         PlayerBehaviorFactory l_playerBehaviorFactory = new PlayerBehaviorFactory();
         d_neutralPlayer = new PlayerImpl("Neutral", new ArrayList<>(), new ArrayList<>(),
-                l_playerBehaviorFactory.createPlayerBehavior(PlayerBehaviorType.HUMAN), this); // Will always exist
+                l_playerBehaviorFactory.createPlayerBehavior(PlayerBehaviorType.HUMAN)); // Will always exist
         
         d_currentPlayerIndex = 0;
     }
@@ -48,7 +47,7 @@ public class PlayerManager implements PlayerContext, Serializable {
         {
             PlayerBehaviorFactory l_playerBehaviorFactory = new PlayerBehaviorFactory();
             PlayerImpl l_playerToAdd = new PlayerImpl(p_playername, new ArrayList<>(), new ArrayList<>()
-                    , l_playerBehaviorFactory.createPlayerBehavior(p_playerBehaviorType), this);
+                    , l_playerBehaviorFactory.createPlayerBehavior(p_playerBehaviorType));
             d_players.put(p_playername, l_playerToAdd);
             System.out.println("Player added: " + d_players.get(p_playername).getName() + " ["
                     + l_playerToAdd.getPlayerBehavior() + "]");

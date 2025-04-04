@@ -22,7 +22,6 @@ import static org.mockito.Mockito.when;
  * This test verifies the functionality of the showMap() and toMapString() method.
  */
 class GameEngineTest {
-    private GameEngine d_gameEngine;
     private Continent d_mockContinent;
     private Country d_mockCountry;
     private Country d_mockNeighbor;
@@ -32,7 +31,8 @@ class GameEngineTest {
      */
     @BeforeEach
     void setUp() {
-        d_gameEngine = new GameEngine(); // Real instance
+        GameEngine l_gameEngine = new GameEngine(); // Real instance of GameEngine
+        GameDriver.setGameEngine(l_gameEngine);
 
         // Mock dependencies
         d_mockContinent = mock(Continent.class);
@@ -73,8 +73,6 @@ class GameEngineTest {
      */
     @Test
     void testToMapString() {
-        d_gameEngine = new GameEngine(); // Real instance of GameEngine
-
         // Mock dependencies
         Continent l_mockContinent = mock(Continent.class);
         when(l_mockContinent.getID()).thenReturn("Asia");

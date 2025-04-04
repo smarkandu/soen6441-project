@@ -1,9 +1,11 @@
 package ca.concordia.soen6441.project.phases;
 
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.context.CountryManager;
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.SortedMap;
@@ -21,6 +23,14 @@ import static org.mockito.Mockito.when;
  * ownership of all countries by a single player.
  */
 public class OrderExecutionTest {
+    /**
+     * Set up method of all testcases in file
+     */
+    @BeforeEach
+    void setUp() {
+        GameEngine l_mockGameEngine = mock(GameEngine.class);
+        GameDriver.setGameEngine(l_mockGameEngine);
+    }
 
     /**
      * Tests that a player is correctly recognized as the winner
@@ -28,7 +38,6 @@ public class OrderExecutionTest {
      */
     @Test
     void testGameWonByPlayer() {
-        GameEngine l_mockGame = mock(GameEngine.class);
         CountryManager l_mockCountryManager = mock(CountryManager.class);
         Player l_mockPlayer = mock(Player.class);
         when(l_mockPlayer.getName()).thenReturn("PlayerOne");
@@ -43,7 +52,7 @@ public class OrderExecutionTest {
         l_mockCountries.put("C1", l_country1);
         l_mockCountries.put("C2", l_country2);
 
-        when(l_mockGame.getCountryManager()).thenReturn(l_mockCountryManager);
+        when(GameDriver.getGameEngine().getCountryManager()).thenReturn(l_mockCountryManager);
         when(l_mockCountryManager.getCountries()).thenAnswer(inv -> l_mockCountries);
 
         OrderExecution l_orderExecution = new OrderExecution();
@@ -58,7 +67,6 @@ public class OrderExecutionTest {
      */
     @Test
     void testGameNotWonByAnyPlayer() {
-        GameEngine l_mockGame = mock(GameEngine.class);
         CountryManager l_mockCountryManager = mock(CountryManager.class);
         Player l_mockPlayer1 = mock(Player.class);
         Player l_mockPlayer2 = mock(Player.class);
@@ -73,7 +81,7 @@ public class OrderExecutionTest {
         l_mockCountries.put("C1", l_country1);
         l_mockCountries.put("C2", l_country2);
 
-        when(l_mockGame.getCountryManager()).thenReturn(l_mockCountryManager);
+        when(GameDriver.getGameEngine().getCountryManager()).thenReturn(l_mockCountryManager);
         when(l_mockCountryManager.getCountries()).thenAnswer(inv -> l_mockCountries);
 
         OrderExecution l_orderExecution = new OrderExecution();

@@ -1,6 +1,5 @@
 package ca.concordia.soen6441.project.gameplay;
 
-import ca.concordia.soen6441.project.context.PlayerManager;
 import ca.concordia.soen6441.project.context.hand.HandOfCardsManager;
 import ca.concordia.soen6441.project.gameplay.orders.Advance;
 import ca.concordia.soen6441.project.gameplay.orders.Deploy;
@@ -28,7 +27,6 @@ public class PlayerImpl implements Player, Serializable {
     private int d_Reinforcements;
     private List<Player> d_negotiatedPlayers = new ArrayList<>();
     private PlayerBehavior d_playerBehavior;
-    private PlayerManager d_playerManager;
 
     /**
      * Constructs a PlayerImpl instance.
@@ -38,14 +36,13 @@ public class PlayerImpl implements Player, Serializable {
      * @param p_Orders         The list of orders issued by the player.
      */
     public PlayerImpl(String p_name, ArrayList<String> p_ownedCountries, ArrayList<Order> p_Orders,
-                      PlayerBehavior p_playerBehavior, PlayerManager p_playerManager) {
+                      PlayerBehavior p_playerBehavior) {
         this.d_name = p_name;
         this.d_ownedCountries = p_ownedCountries;
         this.d_Orders = p_Orders;
         this.d_Reinforcements = 0;
         this.d_HandsOfCardsManager = new HandOfCardsManager(this);
         this.d_playerBehavior = p_playerBehavior;
-        this.d_playerManager = p_playerManager;
     }
 
     /**
@@ -243,14 +240,6 @@ public class PlayerImpl implements Player, Serializable {
      */
     public PlayerBehavior getPlayerBehavior() {
         return d_playerBehavior;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public PlayerManager getPlayerManager() {
-        return d_playerManager;
     }
 
     /**

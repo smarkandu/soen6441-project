@@ -25,7 +25,6 @@ public class AdvanceTest {
     private Country d_targetTerritory;
     private Player d_initiator;
     private Player d_defender;
-    private GameEngine d_mockGameEngine;
 
     /**
      * Set up method of all testcases in file
@@ -36,8 +35,8 @@ public class AdvanceTest {
         d_targetTerritory = mock(Country.class);
         d_initiator = mock(Player.class);
         d_defender = mock(Player.class);
-        d_mockGameEngine = mock(GameEngine.class);
-        GameDriver.setGameEngine(d_mockGameEngine);
+        GameEngine l_mockGameEngine = mock(GameEngine.class);
+        GameDriver.setGameEngine(l_mockGameEngine);
 
         when(d_sourceTerritory.getID()).thenReturn("A");
         when(d_targetTerritory.getID()).thenReturn("B");

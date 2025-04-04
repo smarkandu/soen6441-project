@@ -1,5 +1,6 @@
 package ca.concordia.soen6441.project.phases;
 
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.context.ContinentManager;
 import ca.concordia.soen6441.project.context.CountryManager;
 import ca.concordia.soen6441.project.context.GameEngine;
@@ -9,7 +10,6 @@ import ca.concordia.soen6441.project.gameplay.behaviour.HumanPlayerBehavior;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,9 +24,6 @@ import static org.mockito.Mockito.*;
  * for players based on their owned countries and continent control.
  */
 public class AssignReinforcementsTest {
-
-    /** Mocked instance of the game engine context. */
-    private GameContext d_gameEngine;
 
     /** Instance of the phase under test. */
     private AssignReinforcements d_assignReinforcements;
@@ -52,11 +49,12 @@ public class AssignReinforcementsTest {
     @BeforeEach
     void setUp() {
         d_mockCountries = new TreeMap<>();
-        d_gameEngine = mock(GameEngine.class);
+        GameEngine l_mockGameEngine = mock(GameEngine.class);
+        GameDriver.setGameEngine(l_mockGameEngine);
         CountryManager l_mockCountryManager = mock(CountryManager.class);
-        when(d_gameEngine.getCountryManager()).thenReturn(l_mockCountryManager);
+        when(GameDriver.getGameEngine().getCountryManager()).thenReturn(l_mockCountryManager);
         PlayerManager l_mockPlayerManager = mock(PlayerManager.class);
-        when(d_gameEngine.getPlayerManager()).thenReturn(l_mockPlayerManager);
+        when(GameDriver.getGameEngine().getPlayerManager()).thenReturn(l_mockPlayerManager);
 
         d_assignReinforcements = new AssignReinforcements();
 
@@ -78,8 +76,8 @@ public class AssignReinforcementsTest {
         d_playerManager = mock(PlayerManager.class);
 
         ContinentManager l_mockContinentManager = mock(ContinentManager.class);
-        when(d_gameEngine.getContinentManager()).thenReturn(l_mockContinentManager);
-        when(d_gameEngine.getContinentManager().getContinents()).thenReturn(l_mockContinents);
+        when(GameDriver.getGameEngine().getContinentManager()).thenReturn(l_mockContinentManager);
+        when(GameDriver.getGameEngine().getContinentManager().getContinents()).thenReturn(l_mockContinents);
     }
 
     /**
@@ -92,11 +90,11 @@ public class AssignReinforcementsTest {
     void testReinforcementArmyCalculation() {
         List<String> l_ownedCountries = Arrays.asList("A1", "A2", "A3", "A4", "A5", "E1", "E2", "E3", "E4");
         d_realPlayer = new PlayerImpl("Tharun", new ArrayList<>(l_ownedCountries), new ArrayList<>(),
-                new HumanPlayerBehavior(), d_playerManager);
+                new HumanPlayerBehavior());
         Map<String, Player> l_mockPlayers = new HashMap<>();
         l_mockPlayers.put(d_realPlayer.getName(), d_realPlayer);
-        when(d_gameEngine.getPlayerManager().getPlayers()).thenReturn(l_mockPlayers);
-        when(d_gameEngine.getPlayerManager().getPlayer(anyInt())).thenReturn(d_realPlayer);
+        when(GameDriver.getGameEngine().getPlayerManager().getPlayers()).thenReturn(l_mockPlayers);
+        when(GameDriver.getGameEngine().getPlayerManager().getPlayer(anyInt())).thenReturn(d_realPlayer);
 
         for (String l_countryId : l_ownedCountries) {
             Country l_country = mock(Country.class);
@@ -109,7 +107,7 @@ public class AssignReinforcementsTest {
             d_mockCountries.put(l_countryId, l_country);
         }
 
-        when(d_gameEngine.getCountryManager().getCountries()).thenReturn(d_mockCountries);
+        when(GameDriver.getGameEngine().getCountryManager().getCountries()).thenReturn(d_mockCountries);
 
         d_assignReinforcements.execute();
 
@@ -127,11 +125,11 @@ public class AssignReinforcementsTest {
         List<String> l_ownedCountries = Arrays.asList("A1", "A2", "A3", "E1", "E2", "E3");
 
         d_realPlayer = new PlayerImpl("Tharun", new ArrayList<>(l_ownedCountries), new ArrayList<>(),
-                new HumanPlayerBehavior(), d_playerManager);
+                new HumanPlayerBehavior());
         Map<String, Player> l_mockPlayers = new HashMap<>();
         l_mockPlayers.put(d_realPlayer.getName(), d_realPlayer);
-        when(d_gameEngine.getPlayerManager().getPlayers()).thenReturn(l_mockPlayers);
-        when(d_gameEngine.getPlayerManager().getPlayer(anyInt())).thenReturn(d_realPlayer);
+        when(GameDriver.getGameEngine().getPlayerManager().getPlayers()).thenReturn(l_mockPlayers);
+        when(GameDriver.getGameEngine().getPlayerManager().getPlayer(anyInt())).thenReturn(d_realPlayer);
 
         for (int l_i = 0; l_i < l_ownedCountries.size(); l_i++) {
             Country l_country = mock(Country.class);
@@ -155,7 +153,7 @@ public class AssignReinforcementsTest {
         when(l_dummyEurope.getContinent()).thenReturn(d_mockEurope);
         d_mockCountries.put("E_X", l_dummyEurope);
 
-        when(d_gameEngine.getCountryManager().getCountries()).thenReturn(d_mockCountries);
+        when(GameDriver.getGameEngine().getCountryManager().getCountries()).thenReturn(d_mockCountries);
 
         d_assignReinforcements.execute();
 
@@ -173,11 +171,11 @@ public class AssignReinforcementsTest {
         List<String> l_ownedCountries = Arrays.asList("A1", "E1");
 
         d_realPlayer = new PlayerImpl("Tharun", new ArrayList<>(l_ownedCountries), new ArrayList<>(),
-                new HumanPlayerBehavior(), d_playerManager);
+                new HumanPlayerBehavior());
         Map<String, Player> l_mockPlayers = new HashMap<>();
         l_mockPlayers.put(d_realPlayer.getName(), d_realPlayer);
-        when(d_gameEngine.getPlayerManager().getPlayers()).thenReturn(l_mockPlayers);
-        when(d_gameEngine.getPlayerManager().getPlayer(anyInt())).thenReturn(d_realPlayer);
+        when(GameDriver.getGameEngine().getPlayerManager().getPlayers()).thenReturn(l_mockPlayers);
+        when(GameDriver.getGameEngine().getPlayerManager().getPlayer(anyInt())).thenReturn(d_realPlayer);
 
         for (String l_countryId : l_ownedCountries) {
             Country l_country = mock(Country.class);
@@ -197,7 +195,7 @@ public class AssignReinforcementsTest {
         when(l_dummyEurope.getContinent()).thenReturn(d_mockEurope);
         d_mockCountries.put("E_X", l_dummyEurope);
 
-        when(d_gameEngine.getCountryManager().getCountries()).thenReturn(d_mockCountries);
+        when(GameDriver.getGameEngine().getCountryManager().getCountries()).thenReturn(d_mockCountries);
 
         d_assignReinforcements.execute();
 

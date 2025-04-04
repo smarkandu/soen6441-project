@@ -1,5 +1,6 @@
 package ca.concordia.soen6441.project.phases;
 
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.context.CountryManager;
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.context.PlayerManager;
@@ -54,12 +55,13 @@ public class IssueOrderTest {
     @BeforeEach
     void setUp() {
         // Mock dependencies required for "deploy" method
-        GameEngine l_gameEngine = mock(GameEngine.class);
+        GameEngine l_mockGameEngine = mock(GameEngine.class);
+        GameDriver.setGameEngine(l_mockGameEngine);
         MockitoAnnotations.openMocks(this);
         CountryManager l_mockCountryManager = mock(CountryManager.class);
-        when(l_gameEngine.getCountryManager()).thenReturn(l_mockCountryManager);
+        when(GameDriver.getGameEngine().getCountryManager()).thenReturn(l_mockCountryManager);
         PlayerManager l_mockPlayerManager = mock(PlayerManager.class);
-        when(l_gameEngine.getPlayerManager()).thenReturn(l_mockPlayerManager);
+        when(GameDriver.getGameEngine().getPlayerManager()).thenReturn(l_mockPlayerManager);
 
         d_player = mock(Player.class);
         d_country = mock(Country.class);
@@ -75,13 +77,13 @@ public class IssueOrderTest {
         l_countries.put("Country1", d_country);
         l_countries.put("Country2", d_country2);
         when(d_country2.getID()).thenReturn("Country2");
-        when(l_gameEngine.getCountryManager().getCountries()).thenReturn(l_countries);
+        when(GameDriver.getGameEngine().getCountryManager().getCountries()).thenReturn(l_countries);
 
         // Mock player behavior
-        when(l_gameEngine.getPlayerManager().getPlayer(0)).thenReturn(d_player);
+        when(GameDriver.getGameEngine().getPlayerManager().getPlayer(0)).thenReturn(d_player);
 
         // Initialize IssueOrder instance
-        d_issueOrder = new IssueOrder(l_gameEngine, 0);
+        d_issueOrder = new IssueOrder(GameDriver.getGameEngine(), 0);
 
         System.setOut(new PrintStream(d_outContent));
     }
