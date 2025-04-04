@@ -4,7 +4,6 @@ import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.gameplay.orders.*;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 import ca.concordia.soen6441.project.log.LogWriter;
 
@@ -20,12 +19,11 @@ public class IssueOrder extends MainPlay implements Serializable {
     /**
      * Constructs an IssueOrder phase.
      *
-     * @param p_gameEngine      The game engine instance controlling the game state.
      * @param p_currentPlayIndex The index of the current player issuing orders.
      */
-    public IssueOrder(GameContext p_gameEngine, int p_currentPlayIndex) {
+    public IssueOrder(int p_currentPlayIndex) {
         
-        p_gameEngine.getPlayerManager().setCurrentPlayerIndex(p_currentPlayIndex);
+        GameDriver.getGameEngine().getPlayerManager().setCurrentPlayerIndex(p_currentPlayIndex);
         d_logWriter = new LogWriter(LogEntryBuffer.getInstance());
     }
 
@@ -271,7 +269,7 @@ public class IssueOrder extends MainPlay implements Serializable {
             OrderExecution l_orderExecution = new OrderExecution();
             l_orderExecution.execute();
         } else {
-            GameDriver.getGameEngine().setPhase(new IssueOrder(GameDriver.getGameEngine(), GameDriver.getGameEngine().getPlayerManager().getCurrentPlayerIndex() + 1));
+            GameDriver.getGameEngine().setPhase(new IssueOrder(GameDriver.getGameEngine().getPlayerManager().getCurrentPlayerIndex() + 1));
         }
     }
 

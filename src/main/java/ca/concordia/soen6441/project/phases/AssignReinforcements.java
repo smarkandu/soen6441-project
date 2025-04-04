@@ -20,7 +20,6 @@ public class AssignReinforcements extends MainPlay {
     /**
      * Constructs the AssignReinforcements phase.
      *
-     * @param p_gameEngine the game context to operate on
      */
     public AssignReinforcements() {
         
@@ -125,7 +124,7 @@ public class AssignReinforcements extends MainPlay {
         }
 
         // Set Current State to IssueOrder
-        GameDriver.getGameEngine().setPhase(new IssueOrder(GameDriver.getGameEngine(), 0));
+        GameDriver.getGameEngine().setPhase(new IssueOrder(0));
     }
 
     /**

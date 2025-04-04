@@ -14,7 +14,6 @@ public abstract class Edit extends Phase {
     /**
      * Constructs an Edit phase.
      *
-     * @param p_gameEngine The game engine instance controlling the game state.
      */
     public Edit() {
 

@@ -1,7 +1,6 @@
 package ca.concordia.soen6441.project.context;
 
 import ca.concordia.soen6441.project.GameDriver;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.interfaces.context.NeighborContext;
 
 import java.io.Serializable;
@@ -14,7 +13,6 @@ public class NeighborManager implements NeighborContext, Serializable {
 
     /**
      * Constructor
-     * @param p_GameEngine GameContext object representing the GameEngine
      */
     public NeighborManager() {
         

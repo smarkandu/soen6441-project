@@ -119,7 +119,7 @@ public class OrderExecution extends MainPlay {
             l_assignReinforcements.execute();
 
             // Transition to next phase
-            GameDriver.getGameEngine().setPhase(new IssueOrder(GameDriver.getGameEngine(), 0));
+            GameDriver.getGameEngine().setPhase(new IssueOrder(0));
         }
     }
 

@@ -4,7 +4,6 @@ import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.OverallFactory;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.context.CountryContext;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,7 +20,6 @@ public class CountryManager implements CountryContext, Serializable {
 
     /**
      * Constructor
-     * @param p_GameEngine GameContext object representing the GameEngine
      */
     public CountryManager() {
         d_Countries = new TreeMap<String, Country>();

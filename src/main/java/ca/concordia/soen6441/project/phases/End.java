@@ -13,7 +13,6 @@ public class End extends Phase {
     /**
      * Constructs the End phase.
      *
-     * @param p_gameEngine The game engine instance controlling the game state.
      */
     public End() {
         

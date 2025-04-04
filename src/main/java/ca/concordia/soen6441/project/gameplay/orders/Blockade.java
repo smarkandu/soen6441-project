@@ -18,7 +18,6 @@ public class Blockade implements Order {
      * Constructor
      * @param p_territory The territory for blockade
      * @param p_initiator The player that initiated it
-     * @param p_gameEngine The GameEngine object
      */
     public Blockade(Country p_territory, Player p_initiator) {
         this.d_territory = p_territory;

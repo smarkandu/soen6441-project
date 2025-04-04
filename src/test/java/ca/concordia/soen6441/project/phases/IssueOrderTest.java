@@ -83,7 +83,7 @@ public class IssueOrderTest {
         when(GameDriver.getGameEngine().getPlayerManager().getPlayer(0)).thenReturn(d_player);
 
         // Initialize IssueOrder instance
-        d_issueOrder = new IssueOrder(GameDriver.getGameEngine(), 0);
+        d_issueOrder = new IssueOrder(0);
 
         System.setOut(new PrintStream(d_outContent));
     }
@@ -187,7 +187,7 @@ public class IssueOrderTest {
         when(l_countryManager.getCountries()).thenReturn(l_countries);
         when(l_playerManager.getPlayer(0)).thenReturn(d_player);
 
-        IssueOrder l_issueOrder = new IssueOrder(l_gameEngine, 0);
+        IssueOrder l_issueOrder = new IssueOrder(0);
         l_issueOrder.airlift("Country1", "Country1", 5);
         verify(d_player, never()).issue_order();
     }
