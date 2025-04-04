@@ -10,7 +10,7 @@ import java.util.Random;
  */
 public class AggressivePlayerBehavior extends ComputerPlayerBehavior {
     // Random instance for random decisions
-    private Random l_random = new Random();
+    private Random d_random = new Random();
     //Deploys all available reinforcements to the strongest country.
     /**
      * {@inheritDoc}
