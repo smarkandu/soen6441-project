@@ -295,6 +295,7 @@ public class Advance implements Order {
 
     /**
      * Set probability for winning as an attacker
+     * @param p_probabilityWinningAttacker double value representing the probability of attacker winning
      */
     public void setProbabilityWinningAttacker(double p_probabilityWinningAttacker) {
         this.d_probabilityWinningAttacker = p_probabilityWinningAttacker;
@@ -302,6 +303,7 @@ public class Advance implements Order {
 
     /**
      * Set probability for winning as a defender
+     * @param p_probabilityWinningDefender double value representing the probability of defender winning
      */
     public void setProbabilityWinningDefender(double p_probabilityWinningDefender) {
         this.d_probabilityWinningDefender = p_probabilityWinningDefender;
