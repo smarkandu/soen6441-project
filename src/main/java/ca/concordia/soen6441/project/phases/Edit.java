@@ -1,7 +1,7 @@
 package ca.concordia.soen6441.project.phases;
 
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
 import java.util.List;
 
@@ -14,17 +14,16 @@ public abstract class Edit extends Phase {
     /**
      * Constructs an Edit phase.
      *
-     * @param p_gameEngine The game engine instance controlling the game state.
      */
-    public Edit(GameContext p_gameEngine) {
-        super(p_gameEngine);
+    public Edit() {
+
     }
 
     /**
      * Displays the current game map.
      */
     public void showMap() {
-        d_gameEngine.showMap(false);
+        GameDriver.getGameEngine().showMap(false);
     }
 
     /**
@@ -81,7 +80,7 @@ public abstract class Edit extends Phase {
      * Prints whether the map is valid or not.
      */
     public void validateMap() {
-        if (d_gameEngine.isMapValid()) {
+        if (GameDriver.getGameEngine().isMapValid()) {
             System.out.println("Map is valid");
         } else {
             System.out.println("Map is not valid");

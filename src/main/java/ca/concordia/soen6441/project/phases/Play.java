@@ -1,6 +1,6 @@
 package ca.concordia.soen6441.project.phases;
 
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
+import ca.concordia.soen6441.project.GameDriver;
 
 import java.io.Serializable;
 
@@ -13,18 +13,16 @@ public abstract class Play extends Phase implements Serializable {
 
     /**
      * Constructs a Play phase.
-     *
-     * @param p_gameEngine The game engine instance controlling the game state.
      */
-    public Play(GameContext p_gameEngine) {
-        super(p_gameEngine);
+    public Play() {
+        
     }
 
     /**
      * Displays the current game map.
      */
     public void showMap() {
-        d_gameEngine.showMap(false);
+        GameDriver.getGameEngine().showMap(false);
     }
 
     @Override
@@ -69,6 +67,6 @@ public abstract class Play extends Phase implements Serializable {
      * Ends the game by transitioning to the End phase.
      */
     public void endGame() {
-        d_gameEngine.setPhase(new End(d_gameEngine));
+        GameDriver.getGameEngine().setPhase(new End());
     }
 }

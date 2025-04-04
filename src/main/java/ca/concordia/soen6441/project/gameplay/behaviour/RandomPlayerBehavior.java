@@ -1,5 +1,6 @@
 package ca.concordia.soen6441.project.gameplay.behaviour;
 
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
 
@@ -46,10 +47,10 @@ public class RandomPlayerBehavior extends ComputerPlayerBehavior {
                 int l_toDeploy = 1 + d_random.nextInt(l_remainingTroops);
 
                 // Create a deploy order and add it to the player's orders
-                p_player.getPlayerManager().getGameEngine().getPhase().deploy(l_randomCountryID, l_toDeploy);
+                GameDriver.getGameEngine().getPhase().deploy(l_randomCountryID, l_toDeploy);
             }
         }
-        System.out.println(p_player.getPlayerManager().getGameEngine().getPhase().getPhaseName());
+        System.out.println(GameDriver.getGameEngine().getPhase().getPhaseName());
     }
 
     /**
@@ -61,14 +62,14 @@ public class RandomPlayerBehavior extends ComputerPlayerBehavior {
     @Override
     public void attackTransfer(Player p_player) {
         System.out.println("[RandomPlayer] attackTransfer() executed in phase: " +
-        p_player.getPlayerManager().getGameEngine().getPhase().getPhaseName());
+                GameDriver.getGameEngine().getPhase().getPhaseName());
         // Get all owned countries
         List<String> l_ownedCountryIDs = p_player.getOwnedCountries();
         Collections.shuffle(l_ownedCountryIDs); // Shuffle for randomness
 
         for (String l_countryID : l_ownedCountryIDs) {
             // Get Country object
-            Country l_source = p_player.getPlayerManager().getGameEngine().getCountryManager().getCountries().get(l_countryID);
+            Country l_source = GameDriver.getGameEngine().getCountryManager().getCountries().get(l_countryID);
             if (l_source == null || l_source.getTroops() <= 1) continue; // Skip if no troops to send
 
             // Shuffle neighbors
@@ -76,21 +77,20 @@ public class RandomPlayerBehavior extends ComputerPlayerBehavior {
             Collections.shuffle(l_neighbors);
 
             for (String l_neighborID : l_neighbors) {
-                Country l_target = p_player.getPlayerManager().getGameEngine()
-                .getCountryManager().getCountries().get(l_neighborID);
+                Country l_target = GameDriver.getGameEngine()
+                        .getCountryManager().getCountries().get(l_neighborID);
 
                 if (l_target == null) continue;
                 // Skip if we've already used all troops from source
                 int l_availableTroops = l_source.getTroops() - p_player.getNumberOfTroopsOrderedToAdvance(l_source);
 
-            if (l_availableTroops <= 0) break;
+                if (l_availableTroops <= 0) break;
 
-            int l_toAdvance = 1 + d_random.nextInt(l_availableTroops);
+                int l_toAdvance = 1 + d_random.nextInt(l_availableTroops);
 
-            // Issue advance order (attack or transfer)
-            p_player.getPlayerManager().getGameEngine().getPhase()
-                .advance(l_countryID, l_neighborID, l_toAdvance); 
-           
+                // Issue advance order (attack or transfer)
+                GameDriver.getGameEngine().getPhase()
+                        .advance(l_countryID, l_neighborID, l_toAdvance);
             }
         }
     }

@@ -1,8 +1,8 @@
 package ca.concordia.soen6441.project.phases;
 
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
 import java.io.*;
@@ -16,11 +16,9 @@ public abstract class MainPlay extends Play implements Serializable {
 
     /**
      * Constructs a MainPlay phase.
-     *
-     * @param p_gameEngine The game engine instance controlling the game state.
      */
-    public MainPlay(GameContext p_gameEngine) {
-        super(p_gameEngine);
+    public MainPlay() {
+        
     }
 
     /**
@@ -43,7 +41,7 @@ public abstract class MainPlay extends Play implements Serializable {
      * Displays the current game map.
      */
     public void showMap() {
-        d_gameEngine.showMap(true);
+        GameDriver.getGameEngine().showMap(true);
     }
 
     /**
@@ -73,7 +71,7 @@ public abstract class MainPlay extends Play implements Serializable {
         // TODO
         try (ObjectInputStream l_objectInputStream = new ObjectInputStream(new FileInputStream(p_filename))) {
             GameEngine l_gameEngine = (GameEngine) l_objectInputStream.readObject(); // Deserialize the object
-
+            GameDriver.setGameEngine(l_gameEngine);
             LogEntryBuffer.getInstance().appendToBuffer("Game loaded from: " + p_filename, true);
         } catch (IOException | ClassNotFoundException e) {
             LogEntryBuffer.getInstance().appendToBuffer("Issue loading game: " + p_filename + ":\n"
@@ -85,8 +83,8 @@ public abstract class MainPlay extends Play implements Serializable {
      * {@inheritDoc}
      */
     public void saveGame(String p_filename) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(p_filename))) {
-            oos.writeObject(d_gameEngine);
+        try (ObjectOutputStream l_objectOutputStream = new ObjectOutputStream(new FileOutputStream(p_filename))) {
+            l_objectOutputStream.writeObject(p_filename);
             LogEntryBuffer.getInstance().appendToBuffer("Game saved as: " + p_filename, true);
         } catch (IOException e) {
             LogEntryBuffer.getInstance().appendToBuffer("Issue saving game: " + p_filename + ":\n"

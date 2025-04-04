@@ -1,9 +1,9 @@
 package ca.concordia.soen6441.project.gameplay.orders;
 
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
 import java.util.Random;
@@ -23,7 +23,7 @@ public class Advance implements Order {
     private Player d_initiator;
     private Random d_random;
     private boolean d_conquersTerritory;
-    private GameContext d_gameEngine;
+    
     private double d_probabilityWinningAttacker = 0.60;
     private double d_probabilityWinningDefender = 0.70;
 
@@ -34,16 +34,15 @@ public class Advance implements Order {
      * @param p_targetTerritory The country the player wants his army to move to
      * @param p_toAdvance Number of troops the player wants to advance
      * @param p_initiator The player that initiated the command
-     * @param p_gameEngine The game engine object
      */
-    public Advance(Country p_sourceTerritory, Country p_targetTerritory, int p_toAdvance, Player p_initiator, GameContext p_gameEngine) {
+    public Advance(Country p_sourceTerritory, Country p_targetTerritory, int p_toAdvance, Player p_initiator) {
         this.d_sourceTerritory = p_sourceTerritory;
         this.d_targetTerritory = p_targetTerritory;
         this.d_toAdvance = p_toAdvance;
         this.d_initiator = p_initiator;
         this.d_random = new Random();
         this.d_conquersTerritory = false;
-        d_gameEngine = p_gameEngine;
+        
         d_probabilityWinningAttacker = 0.60;
         d_probabilityWinningDefender = 0.70;
     }
@@ -81,7 +80,7 @@ public class Advance implements Order {
 
                 // If country was owned, change owner to player
 
-                d_gameEngine.assignCountryToPlayer(d_targetTerritory, d_initiator);
+                GameDriver.getGameEngine().assignCountryToPlayer(d_targetTerritory, d_initiator);
                 d_conquersTerritory = true;
                 if (d_targetTerritory.getOwner() != null)
                 {
@@ -103,7 +102,7 @@ public class Advance implements Order {
 
                 if (l_battleResult.getPlayersTroops() > 0)
                 {
-                    d_gameEngine.assignCountryToPlayer(d_targetTerritory, d_initiator);
+                    GameDriver.getGameEngine().assignCountryToPlayer(d_targetTerritory, d_initiator);
                     d_targetTerritory.setTroops(l_battleResult.getPlayersTroops());
                     LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName()
                             + " wins the battle and conquers " + d_targetTerritory.getID() + "!\nRemaining survivors: "
@@ -296,6 +295,7 @@ public class Advance implements Order {
 
     /**
      * Set probability for winning as an attacker
+     * @param p_probabilityWinningAttacker double value representing the probability of attacker winning
      */
     public void setProbabilityWinningAttacker(double p_probabilityWinningAttacker) {
         this.d_probabilityWinningAttacker = p_probabilityWinningAttacker;
@@ -303,6 +303,7 @@ public class Advance implements Order {
 
     /**
      * Set probability for winning as a defender
+     * @param p_probabilityWinningDefender double value representing the probability of defender winning
      */
     public void setProbabilityWinningDefender(double p_probabilityWinningDefender) {
         this.d_probabilityWinningDefender = p_probabilityWinningDefender;

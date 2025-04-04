@@ -1,10 +1,13 @@
 package ca.concordia.soen6441.project.gameplay.behaviour;
 
-import ca.concordia.soen6441.project.interfaces.Player;
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.interfaces.Country;
+import ca.concordia.soen6441.project.interfaces.Player;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 /**
  * Class which implements the Strategy design pattern for the Aggressive player behavior
  */
@@ -12,6 +15,7 @@ public class AggressivePlayerBehavior extends ComputerPlayerBehavior {
     // Random instance for random decisions
     private Random d_random = new Random();
     //Deploys all available reinforcements to the strongest country.
+
     /**
      * {@inheritDoc}
      */
@@ -26,7 +30,7 @@ public class AggressivePlayerBehavior extends ComputerPlayerBehavior {
         // Retrieve the Country objects from the game engine's country manager
         List<Country> l_ownedCountries = new ArrayList<>();
         for (String l_id : l_ownedCountryIDs) {
-            Country l_country = p_player.getPlayerManager().getGameEngine().getCountryManager().getCountries().get(l_id);
+            Country l_country = GameDriver.getGameEngine().getCountryManager().getCountries().get(l_id);
             if (l_country != null) {
                 l_ownedCountries.add(l_country);
             }
@@ -50,7 +54,7 @@ public class AggressivePlayerBehavior extends ComputerPlayerBehavior {
         int l_remainingReinforcements = p_player.getReinforcements() - p_player.getNumberOfTroopsOrderedToDeploy();
         if (l_remainingReinforcements > 0) {
             // Deploy all remaining reinforcements to the strongest country
-            p_player.getPlayerManager().getGameEngine().getPhase().deploy(l_strongestCountry.getID(), l_remainingReinforcements);
+            GameDriver.getGameEngine().getPhase().deploy(l_strongestCountry.getID(), l_remainingReinforcements);
         }
     }
 
@@ -72,7 +76,7 @@ public class AggressivePlayerBehavior extends ComputerPlayerBehavior {
 
         List<Country> l_ownedCountries = new ArrayList<>();
         for (String l_id : l_ownedCountryIDs) {
-            Country l_country = p_player.getPlayerManager().getGameEngine().getCountryManager().getCountries().get(l_id);
+            Country l_country = GameDriver.getGameEngine().getCountryManager().getCountries().get(l_id);
             if (l_country != null) {
                 l_ownedCountries.add(l_country);
             }
@@ -119,7 +123,7 @@ public class AggressivePlayerBehavior extends ComputerPlayerBehavior {
                             break;
                         }
                         int l_troopsToAttack = 1 + d_random.nextInt(l_availableTroops);
-                        p_player.getPlayerManager().getGameEngine().getPhase().advance(l_strongest.getID(), l_enemyID, l_troopsToAttack);
+                        GameDriver.getGameEngine().getPhase().advance(l_strongest.getID(), l_enemyID, l_troopsToAttack);
                     }
                 } else {
                     // Attack a single random enemy neighbor
@@ -127,7 +131,7 @@ public class AggressivePlayerBehavior extends ComputerPlayerBehavior {
                     l_availableTroops = l_strongest.getTroops() - p_player.getNumberOfTroopsOrderedToAdvance(l_strongest);
                     if (l_availableTroops > 0) {
                         int l_troopsToAttack = 1 + d_random.nextInt(l_availableTroops);
-                        p_player.getPlayerManager().getGameEngine().getPhase().advance(l_strongest.getID(), l_targetEnemy, l_troopsToAttack);
+                        GameDriver.getGameEngine().getPhase().advance(l_strongest.getID(), l_targetEnemy, l_troopsToAttack);
                     }
                 }
             }
@@ -141,7 +145,7 @@ public class AggressivePlayerBehavior extends ComputerPlayerBehavior {
             if (l_countryID.equals(l_strongest.getID())) {
                 continue;
             }
-            Country l_sourceCountry = p_player.getPlayerManager().getGameEngine().getCountryManager().getCountries().get(l_countryID);
+            Country l_sourceCountry = GameDriver.getGameEngine().getCountryManager().getCountries().get(l_countryID);
             if (l_sourceCountry == null) {
                 continue;
             }
@@ -154,7 +158,7 @@ public class AggressivePlayerBehavior extends ComputerPlayerBehavior {
                 if (l_sourceNeighbors.contains(l_strongest.getID())) {
                     // Transfer all but one troop from source to the strongest country
                     int l_troopsToTransfer = l_availableTroops - 1;
-                    p_player.getPlayerManager().getGameEngine().getPhase().advance(l_sourceCountry.getID(), l_strongest.getID(), l_troopsToTransfer);
+                    GameDriver.getGameEngine().getPhase().advance(l_sourceCountry.getID(), l_strongest.getID(), l_troopsToTransfer);
                 }
             }
         }

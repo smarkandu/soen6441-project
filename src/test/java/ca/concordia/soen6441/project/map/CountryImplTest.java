@@ -1,6 +1,5 @@
 package ca.concordia.soen6441.project.map;
 
-import ca.concordia.soen6441.project.context.PlayerManager;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Order;
@@ -272,11 +271,6 @@ public class CountryImplTest {
 
         @Override
         public PlayerBehavior getPlayerBehavior() {
-            return null;
-        }
-
-        @Override
-        public PlayerManager getPlayerManager() {
             return null;
         }
 

@@ -1,7 +1,7 @@
 package ca.concordia.soen6441.project.ui;
 
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.phases.IssueOrder;
 import ca.concordia.soen6441.project.phases.PreLoad;
 
@@ -15,16 +15,13 @@ import static ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorTyp
  * This class provided the user interface in order to interact with our application
  */
 public class CommandLineInterface {
-    private GameContext d_gameEngine = null;
   //  private PlayerBehaviorFactory d_playerBehaviorFactory = null;
     private Scanner d_scanner = null;
 
     /**
      * Constructor
-     * @param p_gameEngine GameContext object
      */
-    public CommandLineInterface(GameContext p_gameEngine) {
-        this.d_gameEngine = p_gameEngine;
+    public CommandLineInterface() {
 //        this.d_playerBehaviorFactory = new PlayerBehaviorFactory();
         this.d_scanner = new Scanner(System.in);
     }
@@ -34,16 +31,16 @@ public class CommandLineInterface {
      */
     public void start() {
         // Can change the state of the Context (GameEngine) object, e.g.
-        d_gameEngine.setPhase(new PreLoad(d_gameEngine));
+        GameDriver.getGameEngine().setPhase(new PreLoad());
         boolean l_continuePlaying = true;
         d_scanner = new Scanner(System.in); // we reset the scanner here on purpose
 
         while (l_continuePlaying) {
             try
             {
-                if (d_gameEngine.getPhase() instanceof IssueOrder)
+                if (GameDriver.getGameEngine().getPhase() instanceof IssueOrder)
                 {
-                    d_gameEngine.getPlayerManager().getPlayer(d_gameEngine.getPlayerManager().getCurrentPlayerIndex()).issue_order();
+                    GameDriver.getGameEngine().getPlayerManager().getPlayer(GameDriver.getGameEngine().getPlayerManager().getCurrentPlayerIndex()).issue_order();
                 }
                 else
                 {
@@ -60,7 +57,7 @@ public class CommandLineInterface {
 
     public boolean getInputFromUserAndProcess()
     {
-        System.out.print(d_gameEngine.getPhase().getPhaseName() + ">");
+        System.out.print(GameDriver.getGameEngine().getPhase().getPhaseName() + ">");
         String[] l_args = d_scanner.nextLine().split(" ");
         String l_action = l_args[0].toLowerCase();
         String l_operation = l_args.length > 1 ? l_args[1].toLowerCase() : null;
@@ -78,13 +75,13 @@ public class CommandLineInterface {
                 processEditNeighbor(l_args, l_operation);
                 break;
             case "showmap":
-                d_gameEngine.getPhase().showMap();
+                GameDriver.getGameEngine().getPhase().showMap();
                 break;
             case "savemap":
-                d_gameEngine.getPhase().saveMap(l_args[1]);
+                GameDriver.getGameEngine().getPhase().saveMap(l_args[1]);
                 break;
             case "assigncountries":
-                d_gameEngine.getPhase().assignCountries();
+                GameDriver.getGameEngine().getPhase().assignCountries();
                 break;
             case "deploy": {
                 processDeploy(l_args);
@@ -100,45 +97,45 @@ public class CommandLineInterface {
             }
             case "bomb": {
                 String l_countryNameToBomb = l_args[1].replace("\"", "");
-                d_gameEngine.getPhase().bomb(l_countryNameToBomb);
+                GameDriver.getGameEngine().getPhase().bomb(l_countryNameToBomb);
                 break;
             }
             case "blockade": {
                 String l_countryNameToBlockade = l_args[1].replace("\"", "");
-                d_gameEngine.getPhase().blockade(l_countryNameToBlockade);
+                GameDriver.getGameEngine().getPhase().blockade(l_countryNameToBlockade);
                 break;
             }
             case "negotiate": {
                 String l_targetPlayerID = l_args[1];
-                d_gameEngine.getPhase().negotiate(l_targetPlayerID);
+                GameDriver.getGameEngine().getPhase().negotiate(l_targetPlayerID);
                 break;
             }
             case "gameplayer":
                 processGamePlayer(l_args, l_operation);
                 break;
             case "loadmap":
-                d_gameEngine.getPhase().loadMap(l_args[1]);
+                GameDriver.getGameEngine().getPhase().loadMap(l_args[1]);
                 break;
             case "validatemap":
                 if (l_args.length == 1) {
-                    d_gameEngine.getPhase().validateMap();
+                    GameDriver.getGameEngine().getPhase().validateMap();
                 }
                 break;
             case "next":
-                d_gameEngine.getPhase().next();
+                GameDriver.getGameEngine().getPhase().next();
                 break;
             case "exit":
-                d_gameEngine.getPhase().endGame();
+                GameDriver.getGameEngine().getPhase().endGame();
                 l_continuePlaying = false;
                 break;
             case "loadgame": {
                 String l_fileName = l_args[1];
-                d_gameEngine.getPhase().loadGame(l_fileName);
+                GameDriver.getGameEngine().getPhase().loadGame(l_fileName);
                 }
                 break;
             case "savegame":
                 String l_fileName = l_args[1];
-                d_gameEngine.getPhase().saveGame(l_fileName);
+                GameDriver.getGameEngine().getPhase().saveGame(l_fileName);
                 break;
             case "tournamentmode":
                 processTournament(l_args);
@@ -164,10 +161,10 @@ public class CommandLineInterface {
         if ("-add".equals(p_operation) && p_args.length == 4) {
             String l_continentID = p_args[2].replace("\"", "");
             int l_continentValue = Integer.parseInt(p_args[3]);
-            d_gameEngine.getPhase().editContinentAdd(l_continentID, l_continentValue);
+            GameDriver.getGameEngine().getPhase().editContinentAdd(l_continentID, l_continentValue);
         } else if ("-remove".equals(p_operation) && p_args.length == 3) {
             String l_continentID = p_args[2].replace("\"", "");
-            d_gameEngine.getPhase().editContinentRemove(l_continentID);
+            GameDriver.getGameEngine().getPhase().editContinentRemove(l_continentID);
         } else {
             System.out.println("Operation not recognized");
         }
@@ -183,10 +180,10 @@ public class CommandLineInterface {
         if ("-add".equals(p_operation) && p_args.length == 4) {
             String l_countryID = p_args[2].replace("\"", "");
             String l_continentID = p_args[3].replace("\"", "");
-            d_gameEngine.getPhase().editCountryAdd(l_countryID, l_continentID);
+            GameDriver.getGameEngine().getPhase().editCountryAdd(l_countryID, l_continentID);
         } else if ("-remove".equals(p_operation) && p_args.length == 3) {
             String l_countryID = p_args[2].replace("\"", "");
-            d_gameEngine.getPhase().editCountryRemove(l_countryID);
+            GameDriver.getGameEngine().getPhase().editCountryRemove(l_countryID);
         } else {
             System.out.println("Operation not recognized");
         }
@@ -202,11 +199,11 @@ public class CommandLineInterface {
         if ("-add".equals(p_operation) && p_args.length == 4) {
             String l_countryID = p_args[2].replace("\"", "");
             String l_neighborCountryID = p_args[3].replace("\"", "");
-            d_gameEngine.getPhase().editNeighborAdd(l_countryID, l_neighborCountryID);
+            GameDriver.getGameEngine().getPhase().editNeighborAdd(l_countryID, l_neighborCountryID);
         } else if ("-remove".equals(p_operation) && p_args.length == 4) {
             String l_countryID = p_args[2].replace("\"", "");
             String l_neighborCountryID = p_args[3].replace("\"", "");
-            d_gameEngine.getPhase().editNeighborRemove(l_countryID, l_neighborCountryID);
+            GameDriver.getGameEngine().getPhase().editNeighborRemove(l_countryID, l_neighborCountryID);
         } else {
             System.out.println("Operation not recognized");
         }
@@ -220,7 +217,7 @@ public class CommandLineInterface {
     {
         String l_countryID = p_args[1].replace("\"", "");
         int l_toDeploy = Integer.parseInt(p_args[2]);
-        d_gameEngine.getPhase().deploy(l_countryID, l_toDeploy);
+        GameDriver.getGameEngine().getPhase().deploy(l_countryID, l_toDeploy);
     }
 
     /**
@@ -232,7 +229,7 @@ public class CommandLineInterface {
         String l_countryNameFrom = p_args[1].replace("\"", "");
         String l_countryNameTo = p_args[2].replace("\"", "");
         int l_toAdvance = Integer.parseInt(p_args[3]);
-        d_gameEngine.getPhase().advance(l_countryNameFrom, l_countryNameTo, l_toAdvance);
+        GameDriver.getGameEngine().getPhase().advance(l_countryNameFrom, l_countryNameTo, l_toAdvance);
     }
 
     /**
@@ -244,7 +241,7 @@ public class CommandLineInterface {
         String l_sourceCountryID = p_args[1].replace("\"", "");
         String l_targetCountryID = p_args[2].replace("\"", "");
         int l_numArmies = Integer.parseInt(p_args[3]);
-        d_gameEngine.getPhase().airlift(l_sourceCountryID, l_targetCountryID, l_numArmies);
+        GameDriver.getGameEngine().getPhase().airlift(l_sourceCountryID, l_targetCountryID, l_numArmies);
     }
 
     /**
@@ -258,13 +255,13 @@ public class CommandLineInterface {
         if ("-add".equals(p_operation)) {
             if (p_args.length == 3)
             {
-                d_gameEngine.getPhase().gamePlayerAdd(l_playername, HUMAN);
+                GameDriver.getGameEngine().getPhase().gamePlayerAdd(l_playername, HUMAN);
             }
             else if (p_args.length == 5 && p_args[3].equals("-behavior"))
             {
                 try {
                     PlayerBehaviorType l_playerBehavior = PlayerBehaviorType.valueOf(p_args[4].toUpperCase());
-                    d_gameEngine.getPhase().gamePlayerAdd(l_playername, l_playerBehavior);
+                    GameDriver.getGameEngine().getPhase().gamePlayerAdd(l_playername, l_playerBehavior);
                 }
                 catch (Exception e)
                 {
@@ -273,7 +270,7 @@ public class CommandLineInterface {
             }
         }
         if ("-remove".equals(p_operation) && p_args.length == 3) {
-            d_gameEngine.getPhase().gamePlayerRemove(l_playername);
+            GameDriver.getGameEngine().getPhase().gamePlayerRemove(l_playername);
         }
     }
 
@@ -284,7 +281,7 @@ public class CommandLineInterface {
         int l_numberOfGames = Integer.parseInt(p_args[6]);
         int l_maxNumberOfTurns = Integer.parseInt(p_args[8]);
 
-        d_gameEngine.getPhase().tournament(l_listOfMapFiles, l_listOfPlayerStrategies, l_numberOfGames,
+        GameDriver.getGameEngine().getPhase().tournament(l_listOfMapFiles, l_listOfPlayerStrategies, l_numberOfGames,
                 l_maxNumberOfTurns);
     }
 }
