@@ -15,14 +15,12 @@ import static ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorTyp
  * This class provided the user interface in order to interact with our application
  */
 public class CommandLineInterface {
-  //  private PlayerBehaviorFactory d_playerBehaviorFactory = null;
     private Scanner d_scanner = null;
 
     /**
      * Constructor
      */
     public CommandLineInterface() {
-//        this.d_playerBehaviorFactory = new PlayerBehaviorFactory();
         this.d_scanner = new Scanner(System.in);
     }
 
@@ -36,27 +34,20 @@ public class CommandLineInterface {
         d_scanner = new Scanner(System.in); // we reset the scanner here on purpose
 
         while (l_continuePlaying) {
-            try
-            {
-                if (GameDriver.getGameEngine().getPhase() instanceof IssueOrder)
-                {
+            try {
+                if (GameDriver.getGameEngine().getPhase() instanceof IssueOrder) {
                     GameDriver.getGameEngine().getPlayerManager().getPlayer(GameDriver.getGameEngine().getPlayerManager().getCurrentPlayerIndex()).issue_order();
-                }
-                else
-                {
+                } else {
                     l_continuePlaying = getInputFromUserAndProcess();
                 }
 
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
     }
 
-    public boolean getInputFromUserAndProcess()
-    {
+    public boolean getInputFromUserAndProcess() {
         System.out.print(GameDriver.getGameEngine().getPhase().getPhaseName() + ">");
         String[] l_args = d_scanner.nextLine().split(" ");
         String l_action = l_args[0].toLowerCase();
@@ -77,9 +68,11 @@ public class CommandLineInterface {
             case "showmap":
                 GameDriver.getGameEngine().getPhase().showMap();
                 break;
-            case "savemap":
-                GameDriver.getGameEngine().getPhase().saveMap(l_args[1]);
-                break;
+            case "savemap": {
+                String l_filename = extractFileNameFromArgs(l_args);
+                GameDriver.getGameEngine().getPhase().saveMap(l_filename);
+            }
+            break;
             case "assigncountries":
                 GameDriver.getGameEngine().getPhase().assignCountries();
                 break;
@@ -113,9 +106,11 @@ public class CommandLineInterface {
             case "gameplayer":
                 processGamePlayer(l_args, l_operation);
                 break;
-            case "loadmap":
-                GameDriver.getGameEngine().getPhase().loadMap(l_args[1]);
-                break;
+            case "loadmap": {
+                String l_filename = extractFileNameFromArgs(l_args);
+                GameDriver.getGameEngine().getPhase().loadMap(l_filename);
+            }
+            break;
             case "validatemap":
                 if (l_args.length == 1) {
                     GameDriver.getGameEngine().getPhase().validateMap();
@@ -129,14 +124,15 @@ public class CommandLineInterface {
                 l_continuePlaying = false;
                 break;
             case "loadgame": {
-                String l_fileName = l_args[1];
-                GameDriver.getGameEngine().getPhase().loadGame(l_fileName);
-                }
-                break;
-            case "savegame":
-                String l_fileName = l_args[1];
-                GameDriver.getGameEngine().getPhase().saveGame(l_fileName);
-                break;
+                String l_filename = extractFileNameFromArgs(l_args);
+                GameDriver.getGameEngine().getPhase().loadGame(l_filename);
+            }
+            break;
+            case "savegame": {
+                String l_filename = extractFileNameFromArgs(l_args);
+                GameDriver.getGameEngine().getPhase().saveGame(l_filename);
+            }
+            break;
             case "tournamentmode":
                 processTournament(l_args);
                 break;
@@ -153,11 +149,11 @@ public class CommandLineInterface {
 
     /**
      * Processes EditContinent Command line string
-     * @param p_args the string array of arguments passed
+     *
+     * @param p_args      the string array of arguments passed
      * @param p_operation the string representing the operation
      */
-    private void processEditContinent(String[] p_args, String p_operation)
-    {
+    private void processEditContinent(String[] p_args, String p_operation) {
         if ("-add".equals(p_operation) && p_args.length == 4) {
             String l_continentID = p_args[2].replace("\"", "");
             int l_continentValue = Integer.parseInt(p_args[3]);
@@ -172,11 +168,11 @@ public class CommandLineInterface {
 
     /**
      * Processes EditCountry Command line string
-     * @param p_args the string array of arguments passed
+     *
+     * @param p_args      the string array of arguments passed
      * @param p_operation the string representing the operation
      */
-    private void processEditCountry(String[] p_args, String p_operation)
-    {
+    private void processEditCountry(String[] p_args, String p_operation) {
         if ("-add".equals(p_operation) && p_args.length == 4) {
             String l_countryID = p_args[2].replace("\"", "");
             String l_continentID = p_args[3].replace("\"", "");
@@ -191,11 +187,11 @@ public class CommandLineInterface {
 
     /**
      * Processes EditNeighbor Command line string
-     * @param p_args the string array of arguments passed
+     *
+     * @param p_args      the string array of arguments passed
      * @param p_operation the string representing the operation
      */
-    private void processEditNeighbor(String[] p_args, String p_operation)
-    {
+    private void processEditNeighbor(String[] p_args, String p_operation) {
         if ("-add".equals(p_operation) && p_args.length == 4) {
             String l_countryID = p_args[2].replace("\"", "");
             String l_neighborCountryID = p_args[3].replace("\"", "");
@@ -211,10 +207,10 @@ public class CommandLineInterface {
 
     /**
      * Processes Deploy Command line string
+     *
      * @param p_args the string array of arguments passed
      */
-    private void processDeploy(String[] p_args)
-    {
+    private void processDeploy(String[] p_args) {
         String l_countryID = p_args[1].replace("\"", "");
         int l_toDeploy = Integer.parseInt(p_args[2]);
         GameDriver.getGameEngine().getPhase().deploy(l_countryID, l_toDeploy);
@@ -222,10 +218,10 @@ public class CommandLineInterface {
 
     /**
      * Processes Advance Command line string
+     *
      * @param p_args the string array of arguments passed
      */
-    private void processAdvance(String[] p_args)
-    {
+    private void processAdvance(String[] p_args) {
         String l_countryNameFrom = p_args[1].replace("\"", "");
         String l_countryNameTo = p_args[2].replace("\"", "");
         int l_toAdvance = Integer.parseInt(p_args[3]);
@@ -234,10 +230,10 @@ public class CommandLineInterface {
 
     /**
      * Processes Airlift Command line string
+     *
      * @param p_args the string array of arguments passed
      */
-    private void processAirlift(String[] p_args)
-    {
+    private void processAirlift(String[] p_args) {
         String l_sourceCountryID = p_args[1].replace("\"", "");
         String l_targetCountryID = p_args[2].replace("\"", "");
         int l_numArmies = Integer.parseInt(p_args[3]);
@@ -246,25 +242,20 @@ public class CommandLineInterface {
 
     /**
      * Processes GamePlayer Command line string
-     * @param p_args the string array of arguments passed
+     *
+     * @param p_args      the string array of arguments passed
      * @param p_operation the string representing the operation
      */
-    private void processGamePlayer(String[] p_args, String p_operation)
-    {
+    private void processGamePlayer(String[] p_args, String p_operation) {
         String l_playername = p_args[2];
         if ("-add".equals(p_operation)) {
-            if (p_args.length == 3)
-            {
+            if (p_args.length == 3) {
                 GameDriver.getGameEngine().getPhase().gamePlayerAdd(l_playername, HUMAN);
-            }
-            else if (p_args.length == 5 && p_args[3].equals("-behavior"))
-            {
+            } else if (p_args.length == 5 && p_args[3].equals("-behavior")) {
                 try {
                     PlayerBehaviorType l_playerBehavior = PlayerBehaviorType.valueOf(p_args[4].toUpperCase());
                     GameDriver.getGameEngine().getPhase().gamePlayerAdd(l_playername, l_playerBehavior);
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
             }
@@ -274,8 +265,7 @@ public class CommandLineInterface {
         }
     }
 
-    private void processTournament(String[] p_args)
-    {
+    private void processTournament(String[] p_args) {
         List<String> l_listOfMapFiles = Arrays.stream(p_args[2].split(",")).toList();
         List<String> l_listOfPlayerStrategies = Arrays.stream(p_args[4].split(",")).toList();
         int l_numberOfGames = Integer.parseInt(p_args[6]);
@@ -283,5 +273,18 @@ public class CommandLineInterface {
 
         GameDriver.getGameEngine().getPhase().tournament(l_listOfMapFiles, l_listOfPlayerStrategies, l_numberOfGames,
                 l_maxNumberOfTurns);
+    }
+
+    /**
+     * Extracts filename from the arguments passed from the command prompt
+     *
+     * @param p_args String array with all the arguments
+     * @return the extracted filename
+     */
+    private String extractFileNameFromArgs(String[] p_args) {
+        String filename = String.join(" ", Arrays.copyOfRange(p_args, 1, p_args.length));
+        filename = filename.replace("\"", "");
+
+        return filename;
     }
 }
