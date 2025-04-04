@@ -17,8 +17,6 @@ public class Startup extends Play {
 
     /**
      * Constructs the Startup phase.
-     *
-     * @param p_gameEngine The game engine instance controlling the game state.
      */
     public Startup() {
         

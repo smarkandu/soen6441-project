@@ -1,7 +1,6 @@
 package ca.concordia.soen6441.project.phases;
 
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.interfaces.phases.State;
 
 import java.io.Serializable;
@@ -14,8 +13,6 @@ import java.util.List;
 public abstract class Phase implements State, Serializable {
     /**
      * Constructs a Phase instance.
-     *
-     * @param p_gameEngine The game engine instance controlling the game state.
      */
     public Phase() {
     }

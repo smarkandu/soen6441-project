@@ -2,7 +2,6 @@ package ca.concordia.soen6441.project.ui;
 
 import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.phases.IssueOrder;
 import ca.concordia.soen6441.project.phases.PreLoad;
 
@@ -16,13 +15,11 @@ import static ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorTyp
  * This class provided the user interface in order to interact with our application
  */
 public class CommandLineInterface {
-    private GameContext d_gameEngine = null;
   //  private PlayerBehaviorFactory d_playerBehaviorFactory = null;
     private Scanner d_scanner = null;
 
     /**
      * Constructor
-     * @param p_gameEngine GameContext object
      */
     public CommandLineInterface() {
 //        this.d_playerBehaviorFactory = new PlayerBehaviorFactory();

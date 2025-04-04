@@ -13,8 +13,6 @@ public class PostLoad extends Edit {
 
     /**
      * Constructs the PostLoad phase.
-     *
-     * @param p_gameEngine The game engine instance controlling the game state.
      */
     public PostLoad() {
         

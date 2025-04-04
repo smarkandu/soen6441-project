@@ -13,8 +13,6 @@ public class PreLoad extends Edit {
 
     /**
      * Constructs the PreLoad phase.
-     *
-     * @param p_gameEngine The game engine instance controlling the game state.
      */
     public PreLoad() {
         

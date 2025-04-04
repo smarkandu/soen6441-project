@@ -16,8 +16,6 @@ public abstract class MainPlay extends Play implements Serializable {
 
     /**
      * Constructs a MainPlay phase.
-     *
-     * @param p_gameEngine The game engine instance controlling the game state.
      */
     public MainPlay() {
         
