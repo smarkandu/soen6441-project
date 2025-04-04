@@ -109,7 +109,7 @@ public class AggressivePlayerBehavior extends ComputerPlayerBehavior {
             // Compute available troops for attack from the strongest country
             int l_availableTroops = l_strongest.getTroops() - p_player.getNumberOfTroopsOrderedToAdvance(l_strongest);
             if (l_availableTroops > 0) {
-                boolean l_attackAll = l_random.nextBoolean();
+                boolean l_attackAll = d_random.nextBoolean();
                 if (l_attackAll) {
                     // Attack every enemy neighbor with a random number of available troops
                     for (String l_enemyID : l_enemyNeighborIDs) {
@@ -118,15 +118,15 @@ public class AggressivePlayerBehavior extends ComputerPlayerBehavior {
                         if (l_availableTroops <= 0) {
                             break;
                         }
-                        int l_troopsToAttack = 1 + l_random.nextInt(l_availableTroops);
+                        int l_troopsToAttack = 1 + d_random.nextInt(l_availableTroops);
                         p_player.getPlayerManager().getGameEngine().getPhase().advance(l_strongest.getID(), l_enemyID, l_troopsToAttack);
                     }
                 } else {
                     // Attack a single random enemy neighbor
-                    String l_targetEnemy = l_enemyNeighborIDs.get(l_random.nextInt(l_enemyNeighborIDs.size()));
+                    String l_targetEnemy = l_enemyNeighborIDs.get(d_random.nextInt(l_enemyNeighborIDs.size()));
                     l_availableTroops = l_strongest.getTroops() - p_player.getNumberOfTroopsOrderedToAdvance(l_strongest);
                     if (l_availableTroops > 0) {
-                        int l_troopsToAttack = 1 + l_random.nextInt(l_availableTroops);
+                        int l_troopsToAttack = 1 + d_random.nextInt(l_availableTroops);
                         p_player.getPlayerManager().getGameEngine().getPhase().advance(l_strongest.getID(), l_targetEnemy, l_troopsToAttack);
                     }
                 }
