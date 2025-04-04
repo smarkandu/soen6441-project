@@ -8,47 +8,67 @@ import java.util.List;
 
 /**
  * Class which implements the Strategy design pattern for the Benevolent player behavior.
- * Focuses on defense by reinforcing the weakest country.
+ * Focuses on defense by reinforcing the weakest owned country and avoids attacks.
  */
 public class BenevolentPlayerBehavior extends ComputerPlayerBehavior {
 
     /**
      * Deploy reinforcements to the weakest (least troops) owned country.
+     *
+     * @param player The player performing the deploy action.
      */
     @Override
-    public void deployment(Player p_player) {
-        List<String> ownedCountryIDs = p_player.getOwnedCountries();
+    public void deployment(Player player) {
+        List<String> ownedCountries = player.getOwnedCountries();
 
-        if (ownedCountryIDs.isEmpty()) return;
+        if (ownedCountries.isEmpty()) {
+            return;
+        }
 
-        Country weakestCountry = null;
-        int minTroops = Integer.MAX_VALUE;
+        Country weakest = null;
+        int minimumTroops = Integer.MAX_VALUE;
 
-        for (String countryID : ownedCountryIDs) {
-            Country country = GameDriver.getGameEngine().getCountryManager().getCountries().get(countryID);
-            if (country != null && country.getTroops() < minTroops) {
-                weakestCountry = country;
-                minTroops = country.getTroops();
+        for (String id : ownedCountries) {
+            Country current = GameDriver.getGameEngine()
+                    .getCountryManager()
+                    .getCountries()
+                    .get(id);
+
+            if (current != null && current.getTroops() < minimumTroops) {
+                weakest = current;
+                minimumTroops = current.getTroops();
             }
         }
 
-        if (weakestCountry != null) {
-            int reinforcementsLeft = p_player.getReinforcements() - p_player.getNumberOfTroopsOrderedToDeploy();
-            if (reinforcementsLeft > 0) {
-                GameDriver.getGameEngine().getPhase().deploy(weakestCountry.getID(), reinforcementsLeft);
+        if (weakest != null) {
+            int availableTroops = player.getReinforcements()
+                    - player.getNumberOfTroopsOrderedToDeploy();
+
+            if (availableTroops > 0) {
+                GameDriver.getGameEngine()
+                        .getPhase()
+                        .deploy(weakest.getID(), availableTroops);
             }
         }
-        System.out.println("[Benevolent] deployment done for: " + p_player.getName());
+
+        System.out.println("[Benevolent] deployment done for: " + player.getName());
     }
 
     /**
-     * Does not attack. Benevolent strategy avoids attacking.
+     * Benevolent players do not attack; they focus on defense.
+     *
+     * @param player The player (not used in attack).
      */
     @Override
-    public void attackTransfer(Player p_player) {
+    public void attackTransfer(Player player) {
         System.out.println("[Benevolent] No attack. Benevolent strategy is passive.");
     }
 
+    /**
+     * Returns the string identifier for the strategy.
+     *
+     * @return "Benevolent"
+     */
     @Override
     public String toString() {
         return "Benevolent";
