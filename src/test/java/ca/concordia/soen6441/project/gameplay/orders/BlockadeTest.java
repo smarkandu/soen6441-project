@@ -1,9 +1,10 @@
 package ca.concordia.soen6441.project.gameplay.orders;
 
+import ca.concordia.soen6441.project.GameDriver;
+import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.context.PlayerManager;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,8 +27,6 @@ public class BlockadeTest {
     @Mock
     private Player d_mockNeutralPlayer;
 
-    @Mock
-    private GameContext d_mockGameContext;
 
     @Mock
     private PlayerManager d_mockPlayerManager;
@@ -41,12 +40,14 @@ public class BlockadeTest {
      */
     @BeforeEach
     void setUp() {
+        GameEngine l_mockGameEngine = mock(GameEngine.class);
+        GameDriver.setGameEngine(l_mockGameEngine);
         d_autoCloseable =MockitoAnnotations.openMocks(this);
 
-        when(d_mockGameContext.getPlayerManager()).thenReturn(d_mockPlayerManager);
+        when(GameDriver.getGameEngine().getPlayerManager()).thenReturn(d_mockPlayerManager);
         when(d_mockPlayerManager.getNeutralPlayer()).thenReturn(d_mockNeutralPlayer);
 
-        d_blockadeOrder = new Blockade(d_mockTerritory, d_mockInitiator, d_mockGameContext);
+        d_blockadeOrder = new Blockade(d_mockTerritory, d_mockInitiator);
     }
 
     /**
@@ -71,7 +72,7 @@ public class BlockadeTest {
         d_blockadeOrder.execute();
 
         // Verify that territory belongs to neutral side
-        verify(d_mockGameContext).assignCountryToPlayer(d_mockTerritory, d_mockNeutralPlayer);
+        verify(GameDriver.getGameEngine()).assignCountryToPlayer(d_mockTerritory, d_mockNeutralPlayer);
 
         // Verify troops were tripled after blockade was initiated
         verify(d_mockTerritory).setTroops(15);
@@ -90,7 +91,7 @@ public class BlockadeTest {
         d_blockadeOrder.execute();
 
         // Verify that no change occurred, due to the incorrect input
-        verify(d_mockGameContext, never()).assignCountryToPlayer(any(), any());
+        verify(GameDriver.getGameEngine(), never()).assignCountryToPlayer(any(), any());
         verify(d_mockTerritory, never()).setTroops(anyInt());
     }
 }

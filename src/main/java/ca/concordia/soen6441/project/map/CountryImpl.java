@@ -34,6 +34,7 @@ public class CountryImpl implements Country, MapComponent, Serializable {
      * @param p_Continent Continent to which the country belongs.
      * @param p_xCoord    X coordinate of the country.
      * @param p_yCoord    Y coordinate of the country.
+     * @param p_owner Player object representing the owner of the country
      */
     public CountryImpl(int p_numericID, String p_ID, Continent p_Continent, int p_xCoord, int p_yCoord, Player p_owner) {
         this.d_ID = p_ID;
@@ -53,6 +54,7 @@ public class CountryImpl implements Country, MapComponent, Serializable {
      *
      * @param p_ID        String ID of the country.
      * @param p_Continent Continent to which the country belongs.
+     * @param p_owner Player object representing the owner
      */
     public CountryImpl(String p_ID, Continent p_Continent, Player p_owner) {
         this.d_ID = p_ID;

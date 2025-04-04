@@ -34,9 +34,9 @@ public class GameEngine implements GameContext, MapComponent, Serializable {
      */
     public GameEngine() {
         d_ContinentManager = new ContinentManager();
-        d_CountryManager = new CountryManager(this);
-        d_NeighborManager = new NeighborManager(this);
-        d_PlayerManager = new PlayerManager(this);
+        d_CountryManager = new CountryManager();
+        d_NeighborManager = new NeighborManager();
+        d_PlayerManager = new PlayerManager();
         d_validateMapImpl = new ValidateMapImpl(d_CountryManager.getCountries(), d_ContinentManager.getContinents());
         d_DeckOfCards = new DeckOfCards();
     }
@@ -183,7 +183,7 @@ public class GameEngine implements GameContext, MapComponent, Serializable {
 
         // Read Map into Game Engine
         MapFileReader l_mapFileReader = new MapFileReader();
-        l_mapFileReader.readMapFile(p_filename, this);
+        l_mapFileReader.readMapFile(p_filename);
 
         // Validate Map
         if (isMapValid()) {

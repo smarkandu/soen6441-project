@@ -15,7 +15,7 @@ public class HumanPlayerBehavior implements PlayerBehavior, Serializable {
      */
     @Override
     public void issue_order(Player p_player) {
-        CommandLineInterface l_commandLineInterface = new CommandLineInterface(p_player.getPlayerManager().getGameEngine());
+        CommandLineInterface l_commandLineInterface = new CommandLineInterface();
         l_commandLineInterface.getInputFromUserAndProcess();
     }
 

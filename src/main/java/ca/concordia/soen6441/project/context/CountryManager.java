@@ -1,9 +1,9 @@
 package ca.concordia.soen6441.project.context;
 
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.OverallFactory;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.context.CountryContext;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,15 +16,14 @@ import java.util.TreeMap;
  */
 public class CountryManager implements CountryContext, Serializable {
     private SortedMap<String, Country> d_Countries;
-    private GameContext d_GameEngine;
+    
 
     /**
      * Constructor
-     * @param p_GameEngine GameContext object representing the GameEngine
      */
-    public CountryManager(GameContext p_GameEngine) {
+    public CountryManager() {
         d_Countries = new TreeMap<String, Country>();
-        d_GameEngine = p_GameEngine;
+        
     }
 
     /**
@@ -36,8 +35,8 @@ public class CountryManager implements CountryContext, Serializable {
     @Override
     public void addCountry(int p_numericID, String p_CountryID, String p_continentID, int p_xCoord, int p_yCoord) {
         Country l_country = OverallFactory.getInstance().CreateCountry(p_numericID, p_CountryID,
-                d_GameEngine.getContinentManager().getContinents().get(p_continentID),
-                p_xCoord, p_yCoord, d_GameEngine.getPlayerManager().getNeutralPlayer()); // neutral army by default
+                GameDriver.getGameEngine().getContinentManager().getContinents().get(p_continentID),
+                p_xCoord, p_yCoord, GameDriver.getGameEngine().getPlayerManager().getNeutralPlayer()); // neutral army by default
         l_country.setTroops(2); // Default value for neutral armies
         d_Countries.put(p_CountryID, l_country);
         System.out.println("Country added: " + d_Countries.get(l_country.getID()));
@@ -48,8 +47,8 @@ public class CountryManager implements CountryContext, Serializable {
      */
     @Override
     public void addCountry(String p_CountryID, String p_continentID) {
-        Country l_country = OverallFactory.getInstance().CreateCountry(p_CountryID, d_GameEngine.getContinentManager().getContinents().get(p_continentID),
-                d_GameEngine.getPlayerManager().getNeutralPlayer()); // neutral army by default
+        Country l_country = OverallFactory.getInstance().CreateCountry(p_CountryID, GameDriver.getGameEngine().getContinentManager().getContinents().get(p_continentID),
+                GameDriver.getGameEngine().getPlayerManager().getNeutralPlayer()); // neutral army by default
         l_country.setTroops(2); // Default value for neutral armies
         d_Countries.put(p_CountryID, l_country);
         System.out.println("Country added: " + d_Countries.get(l_country.getID()));
