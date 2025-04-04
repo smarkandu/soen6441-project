@@ -19,16 +19,16 @@ public class BenevolentPlayerBehavior extends ComputerPlayerBehavior {
      */
     @Override
     public void deployment(Player p_player) {
-        List<String> L_ownedCountries = p_player.getOwnedCountries();
+        List<String> l_ownedCountries = p_player.getOwnedCountries();
 
-        if (L_ownedCountries.isEmpty()) {
+        if (l_ownedCountries.isEmpty()) {
             return;
         }
 
         Country l_weakest = null;
         int l_minimumTroops = Integer.MAX_VALUE;
 
-        for (String l_id : L_ownedCountries) {
+        for (String l_id : l_ownedCountries) {
             Country l_current = GameDriver.getGameEngine()
                     .getCountryManager()
                     .getCountries()
