@@ -20,7 +20,6 @@ public class GameDriver {
         d_gameEngine = p_gameEngine;
     }
 
-
     /**
      * The main method initializes the game engine and starts the game.
      *
@@ -30,5 +29,4 @@ public class GameDriver {
         CommandLineInterface l_commandLineInterface = new CommandLineInterface();
         l_commandLineInterface.start();
     }
-
 }

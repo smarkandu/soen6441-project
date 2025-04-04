@@ -1,19 +1,11 @@
 package ca.concordia.soen6441.project.gameplay.behaviour;
 
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.interfaces.gameplay.behavior.PlayerBehavior;
 
 /**
  * Class implementing the Factory design pattern for creating a PlayerBehavior object
  */
 public class PlayerBehaviorFactory {
-    public PlayerBehaviorFactory(GameContext p_GameEngine) {
-    }
-
-    public PlayerBehaviorFactory() {
-
-    }
-
     /**
      * Creates a PlayerBehavior object
      *
