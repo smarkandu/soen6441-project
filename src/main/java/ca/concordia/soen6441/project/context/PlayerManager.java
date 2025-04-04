@@ -4,9 +4,9 @@ import ca.concordia.soen6441.project.gameplay.PlayerImpl;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorFactory;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.interfaces.Player;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.interfaces.context.PlayerContext;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.SortedMap;
@@ -15,21 +15,22 @@ import java.util.TreeMap;
 /**
  * Class managing the player operations
  */
-public class PlayerManager implements PlayerContext {
+public class PlayerManager implements PlayerContext, Serializable {
     private SortedMap<String, Player> d_players;
     private Player d_neutralPlayer;
-    private PlayerBehaviorFactory d_playerBehaviorFactory;
-    private GameContext d_GameEngine;
+    
+    private int d_currentPlayerIndex;
 
     /**
      * Constructor
      */
-    public PlayerManager(GameContext p_GameEngine) {
+    public PlayerManager() {
         d_players = new TreeMap<String, Player>();
-        d_playerBehaviorFactory = new PlayerBehaviorFactory();
+        PlayerBehaviorFactory l_playerBehaviorFactory = new PlayerBehaviorFactory();
         d_neutralPlayer = new PlayerImpl("Neutral", new ArrayList<>(), new ArrayList<>(),
-                d_playerBehaviorFactory.createPlayerBehavior(PlayerBehaviorType.HUMAN), this); // Will always exist
-        d_GameEngine = p_GameEngine;
+                l_playerBehaviorFactory.createPlayerBehavior(PlayerBehaviorType.HUMAN)); // Will always exist
+        
+        d_currentPlayerIndex = 0;
     }
 
     /**
@@ -44,8 +45,9 @@ public class PlayerManager implements PlayerContext {
         }
         else
         {
+            PlayerBehaviorFactory l_playerBehaviorFactory = new PlayerBehaviorFactory();
             PlayerImpl l_playerToAdd = new PlayerImpl(p_playername, new ArrayList<>(), new ArrayList<>()
-                    , d_playerBehaviorFactory.createPlayerBehavior(p_playerBehaviorType), this);
+                    , l_playerBehaviorFactory.createPlayerBehavior(p_playerBehaviorType));
             d_players.put(p_playername, l_playerToAdd);
             System.out.println("Player added: " + d_players.get(p_playername).getName() + " ["
                     + l_playerToAdd.getPlayerBehavior() + "]");
@@ -87,7 +89,19 @@ public class PlayerManager implements PlayerContext {
         return d_neutralPlayer;
     }
 
-    public GameContext getGameEngine() {
-        return d_GameEngine;
+    /**
+     * Get Index of CurrentPlayer
+     * @return integer value
+     */
+    public int getCurrentPlayerIndex() {
+        return d_currentPlayerIndex;
+    }
+
+    /**
+     * Set Index of CurrentPlayer
+     * @param p_newPlayIndex integer value for new player index
+     */
+    public void setCurrentPlayerIndex(int p_newPlayIndex) {
+        d_currentPlayerIndex = p_newPlayIndex;
     }
 }

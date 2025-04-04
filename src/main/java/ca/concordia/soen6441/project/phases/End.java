@@ -1,7 +1,8 @@
 package ca.concordia.soen6441.project.phases;
 
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
+
+import java.util.List;
 
 /**
  * The End class represents the phase where the game ends.
@@ -12,10 +13,9 @@ public class End extends Phase {
     /**
      * Constructs the End phase.
      *
-     * @param p_gameEngine The game engine instance controlling the game state.
      */
-    public End(GameContext p_gameEngine) {
-        super(p_gameEngine);
+    public End() {
+        
     }
 
     /**
@@ -195,4 +195,19 @@ public class End extends Phase {
     public void next() {
         // No action required for the end phase
     }
-}
+
+    /**
+     * {@inheritDoc}
+     */
+    public void loadGame(String p_filename) { printInvalidCommandMessage(); }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void saveGame(String p_filename) { printInvalidCommandMessage(); }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void tournament(List<String> p_listOfMapFiles, List<String> p_listOfPlayerStrategies, int p_numberOfGames,
+                           int p_maxNumberOfTurns) { printInvalidCommandMessage(); }}

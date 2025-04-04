@@ -1,29 +1,29 @@
 package ca.concordia.soen6441.project.phases;
 
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.gameplay.orders.*;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 import ca.concordia.soen6441.project.log.LogWriter;
+
+import java.io.Serializable;
 
 /**
  * The IssueOrder class represents the phase where players issue their orders.
  * This includes deploying troops and progressing to the next phase.
  */
-public class IssueOrder extends MainPlay {
-    private int d_currentPlayIndex;
+public class IssueOrder extends MainPlay implements Serializable {
     private LogWriter d_logWriter;
 
     /**
      * Constructs an IssueOrder phase.
      *
-     * @param p_gameEngine      The game engine instance controlling the game state.
      * @param p_currentPlayIndex The index of the current player issuing orders.
      */
-    public IssueOrder(GameContext p_gameEngine, int p_currentPlayIndex) {
-        super(p_gameEngine);
-        d_currentPlayIndex = p_currentPlayIndex;
+    public IssueOrder(int p_currentPlayIndex) {
+        
+        GameDriver.getGameEngine().getPlayerManager().setCurrentPlayerIndex(p_currentPlayIndex);
         d_logWriter = new LogWriter(LogEntryBuffer.getInstance());
     }
 
@@ -35,8 +35,8 @@ public class IssueOrder extends MainPlay {
      */
     @Override
     public void deploy(String p_countryID, int p_toDeploy) {
-        Country l_country = d_gameEngine.getCountryManager().getCountries().get(p_countryID);
-        Player l_player = d_gameEngine.getPlayerManager().getPlayer(d_currentPlayIndex);
+        Country l_country = GameDriver.getGameEngine().getCountryManager().getCountries().get(p_countryID);
+        Player l_player = GameDriver.getGameEngine().getPlayerManager().getPlayer(GameDriver.getGameEngine().getPlayerManager().getCurrentPlayerIndex());
         int l_numberOfTroopsLeftToDeploy = l_player.getReinforcements() - l_player.getNumberOfTroopsOrderedToDeploy();
 
         LogEntryBuffer.getInstance().appendToBuffer(l_player.getName() + " issued order to deploy " + p_toDeploy
@@ -53,7 +53,7 @@ public class IssueOrder extends MainPlay {
         }
         else
         {
-            l_player.issue_order(new Deploy(l_player, l_country, p_toDeploy));
+            l_player.addToOrders(new Deploy(l_player, l_country, p_toDeploy));
             LogEntryBuffer.getInstance().appendToBuffer(l_player.getName() +
                     " issued order to deploy to " + p_countryID + " granted", false);
         }
@@ -61,8 +61,8 @@ public class IssueOrder extends MainPlay {
 
     @Override
     public void advance(String p_countryNameFrom, String p_countryNameTo, int p_toAdvance) {
-        Country l_countryFrom = d_gameEngine.getCountryManager().getCountries().get(p_countryNameFrom);
-        Country l_countryTo = d_gameEngine.getCountryManager().getCountries().get(p_countryNameTo);
+        Country l_countryFrom = GameDriver.getGameEngine().getCountryManager().getCountries().get(p_countryNameFrom);
+        Country l_countryTo = GameDriver.getGameEngine().getCountryManager().getCountries().get(p_countryNameTo);
 
         LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to advance "
                         + p_toAdvance + " from " + p_countryNameFrom + " to " + p_countryNameTo, false);
@@ -89,7 +89,7 @@ public class IssueOrder extends MainPlay {
         }
         else
         {
-            getCurrentPlayer().issue_order(new Advance(l_countryFrom, l_countryTo, p_toAdvance, getCurrentPlayer(), d_gameEngine));
+            getCurrentPlayer().addToOrders(new Advance(l_countryFrom, l_countryTo, p_toAdvance, getCurrentPlayer()));
             LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to advance "
                     + p_toAdvance + " from " + p_countryNameFrom + " to " + p_countryNameTo +  " granted", false);
         }
@@ -97,7 +97,7 @@ public class IssueOrder extends MainPlay {
 
     @Override
     public void bomb(String p_countryID) {
-        Country l_countryToBomb = d_gameEngine.getCountryManager().getCountries().get(p_countryID);
+        Country l_countryToBomb = GameDriver.getGameEngine().getCountryManager().getCountries().get(p_countryID);
         String l_playerName = getCurrentPlayer().getName();
 
         LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to bomb "
@@ -133,7 +133,7 @@ public class IssueOrder extends MainPlay {
         }
         else
         {
-            getCurrentPlayer().issue_order(new Bomb(getCurrentPlayer(), l_countryToBomb));
+            getCurrentPlayer().addToOrders(new Bomb(getCurrentPlayer(), l_countryToBomb));
             getCurrentPlayer().getHandOfCardsManager().getBombCardManager().removeCard();
             LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to bomb "
                     + p_countryID + " granted", true);
@@ -142,7 +142,7 @@ public class IssueOrder extends MainPlay {
 
     @Override
     public void blockade(String p_countryID) {
-        Country l_country = d_gameEngine.getCountryManager().getCountries().get(p_countryID);
+        Country l_country = GameDriver.getGameEngine().getCountryManager().getCountries().get(p_countryID);
 
         if (getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) > 0) // Can only do after all troops are deployed
         {
@@ -154,7 +154,7 @@ public class IssueOrder extends MainPlay {
         }
         else
         {
-            getCurrentPlayer().issue_order(new Blockade(l_country, getCurrentPlayer(), d_gameEngine));
+            getCurrentPlayer().addToOrders(new Blockade(l_country, getCurrentPlayer()));
             getCurrentPlayer().getHandOfCardsManager().getBlockadeCardManager().removeCard();
             LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to blockade " +
                     p_countryID +  " granted", false);
@@ -163,8 +163,8 @@ public class IssueOrder extends MainPlay {
 
     @Override
     public void airlift(String p_sourceCountryID, String p_targetCountryID, int p_numArmies) {
-        Country l_sourceCountry = d_gameEngine.getCountryManager().getCountries().get(p_sourceCountryID);
-        Country l_targetCountry = d_gameEngine.getCountryManager().getCountries().get(p_targetCountryID);
+        Country l_sourceCountry = GameDriver.getGameEngine().getCountryManager().getCountries().get(p_sourceCountryID);
+        Country l_targetCountry = GameDriver.getGameEngine().getCountryManager().getCountries().get(p_targetCountryID);
 
         LogEntryBuffer.getInstance().appendToBuffer(getCurrentPlayer().getName() + " issued order to airlift "
                 + p_numArmies + " from " + p_sourceCountryID + " to " + p_targetCountryID, false);
@@ -193,12 +193,12 @@ public class IssueOrder extends MainPlay {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: You do not have an Airlift card!", true);
         }
         else {
-            getCurrentPlayer().issue_order(new Airlift(
+            getCurrentPlayer().addToOrders(new Airlift(
                     l_sourceCountry,
                     l_targetCountry,
                     p_numArmies,
                     getCurrentPlayer(),
-                    d_gameEngine
+                    GameDriver.getGameEngine()
             ));
             getCurrentPlayer().getHandOfCardsManager().getAirLiftCardManager().removeCard();
 
@@ -221,7 +221,7 @@ public class IssueOrder extends MainPlay {
     @Override
     public void negotiate(String p_playerID) {
         // Step 1: Fetch current player
-        Player l_currentPlayer = d_gameEngine.getPlayerManager().getPlayer(d_currentPlayIndex);
+        Player l_currentPlayer = GameDriver.getGameEngine().getPlayerManager().getPlayer(GameDriver.getGameEngine().getPlayerManager().getCurrentPlayerIndex());
 
         // Step 2: Ensure all reinforcements are deployed before diplomacy
         if (getNumberOfTroopsLeftToDeploy(l_currentPlayer) > 0) {
@@ -233,7 +233,7 @@ public class IssueOrder extends MainPlay {
         }
 
         // Step 3: Validate the target player
-        Player l_targetPlayer = d_gameEngine.getPlayerManager().getPlayers().get(p_playerID);
+        Player l_targetPlayer = GameDriver.getGameEngine().getPlayerManager().getPlayers().get(p_playerID);
 
         if (l_targetPlayer == null) {
             LogEntryBuffer.getInstance().appendToBuffer("ERROR: Player with ID '" + p_playerID + "' does not exist.", true);
@@ -247,7 +247,7 @@ public class IssueOrder extends MainPlay {
         }
 
         // Step 5: Issue Diplomacy order
-        l_currentPlayer.issue_order(new Diplomacy(l_currentPlayer, l_targetPlayer));
+        l_currentPlayer.addToOrders(new Diplomacy(l_currentPlayer, l_targetPlayer));
         // Remove the used DiplomacyCard
         l_currentPlayer.getHandOfCardsManager().getDiplomacyCardManager().removeCard();
         LogEntryBuffer.getInstance().appendToBuffer("Diplomacy order issued to negotiate with " + l_targetPlayer.getName(), false);
@@ -265,11 +265,11 @@ public class IssueOrder extends MainPlay {
         {
             System.out.println("You still have " + getNumberOfTroopsLeftToDeploy(getCurrentPlayer()) + " left to deploy!");
         }
-        else if (d_currentPlayIndex == d_gameEngine.getPlayerManager().getPlayers().size() - 1) {
-            OrderExecution l_orderExecution = new OrderExecution(d_gameEngine);
+        else if (GameDriver.getGameEngine().getPlayerManager().getCurrentPlayerIndex() == GameDriver.getGameEngine().getPlayerManager().getPlayers().size() - 1) {
+            OrderExecution l_orderExecution = new OrderExecution();
             l_orderExecution.execute();
         } else {
-            d_gameEngine.setPhase(new IssueOrder(d_gameEngine, ++d_currentPlayIndex));
+            GameDriver.getGameEngine().setPhase(new IssueOrder(GameDriver.getGameEngine().getPlayerManager().getCurrentPlayerIndex() + 1));
         }
     }
 
@@ -280,16 +280,19 @@ public class IssueOrder extends MainPlay {
      */
     @Override
     public String getPhaseName() {
-        Player l_currentPlayer = d_gameEngine.getPlayerManager().getPlayer(d_currentPlayIndex);
+        Player l_currentPlayer = GameDriver.getGameEngine().getPlayerManager().getPlayer(GameDriver.getGameEngine().getPlayerManager().getCurrentPlayerIndex());
         String l_currentOrders = l_currentPlayer.getOrders().toString();
         String l_currentCards = l_currentPlayer.getHandOfCardsManager().toString();
-        return l_currentOrders + "\n" + l_currentCards + "\n" + getClass().getSimpleName() + " ["
-                + l_currentPlayer.getName() + "]";
+        String l_playerStr = "[" + l_currentPlayer.getName() + "]";
+
+        return l_playerStr + ": " + l_currentOrders + "\n" +
+               l_playerStr + ": " + l_currentCards + "\n" +
+               getClass().getSimpleName() + " " + l_playerStr;
     }
 
     private Player getCurrentPlayer()
     {
-        return d_gameEngine.getPlayerManager().getPlayer(d_currentPlayIndex);
+        return GameDriver.getGameEngine().getPlayerManager().getPlayer(GameDriver.getGameEngine().getPlayerManager().getCurrentPlayerIndex());
     }
 
     int getNumberOfTroopsLeftToDeploy(Player p_player)

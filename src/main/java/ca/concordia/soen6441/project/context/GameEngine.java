@@ -10,6 +10,7 @@ import ca.concordia.soen6441.project.map.*;
 import ca.concordia.soen6441.project.phases.Phase;
 
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
  * GameEngine class represents the main controller of the game.
  * It manages the game state, executes commands, and interacts with other components.
  */
-public class GameEngine implements GameContext, MapComponent {
+public class GameEngine implements GameContext, MapComponent, Serializable {
     private Phase d_gamePhase;
     private ValidateMapImpl d_validateMapImpl;
     private ContinentManager d_ContinentManager;
@@ -33,9 +34,9 @@ public class GameEngine implements GameContext, MapComponent {
      */
     public GameEngine() {
         d_ContinentManager = new ContinentManager();
-        d_CountryManager = new CountryManager(this);
-        d_NeighborManager = new NeighborManager(this);
-        d_PlayerManager = new PlayerManager(this);
+        d_CountryManager = new CountryManager();
+        d_NeighborManager = new NeighborManager();
+        d_PlayerManager = new PlayerManager();
         d_validateMapImpl = new ValidateMapImpl(d_CountryManager.getCountries(), d_ContinentManager.getContinents());
         d_DeckOfCards = new DeckOfCards();
     }
@@ -182,7 +183,7 @@ public class GameEngine implements GameContext, MapComponent {
 
         // Read Map into Game Engine
         MapFileReader l_mapFileReader = new MapFileReader();
-        l_mapFileReader.readMapFile(p_filename, this);
+        l_mapFileReader.readMapFile(p_filename);
 
         // Validate Map
         if (isMapValid()) {

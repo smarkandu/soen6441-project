@@ -1,9 +1,9 @@
 package ca.concordia.soen6441.project.gameplay.orders;
 
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -13,7 +13,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 /**
@@ -24,7 +25,6 @@ public class AdvanceTest {
     private Country d_targetTerritory;
     private Player d_initiator;
     private Player d_defender;
-    private GameContext d_GameEngine;
 
     /**
      * Set up method of all testcases in file
@@ -35,7 +35,8 @@ public class AdvanceTest {
         d_targetTerritory = mock(Country.class);
         d_initiator = mock(Player.class);
         d_defender = mock(Player.class);
-        d_GameEngine = mock(GameContext.class);
+        GameEngine l_mockGameEngine = mock(GameEngine.class);
+        GameDriver.setGameEngine(l_mockGameEngine);
 
         when(d_sourceTerritory.getID()).thenReturn("A");
         when(d_targetTerritory.getID()).thenReturn("B");
@@ -53,7 +54,7 @@ public class AdvanceTest {
         int l_numberOfTroops = 5;
         Mockito.when(d_sourceTerritory.getTroops()).thenReturn(l_numberOfTroops);
 
-        Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, l_numberOfTroops, d_initiator, d_GameEngine);
+        Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, l_numberOfTroops, d_initiator);
         assertEquals(null, l_advanceOrder.validate(), "Valid advance order should pass validation.");
     }
 
@@ -62,7 +63,7 @@ public class AdvanceTest {
      */
     @Test
     public void testSourceAndTargetAreSame() {
-        Advance l_advanceOrder = new Advance(d_sourceTerritory, d_sourceTerritory, 5, d_initiator, d_GameEngine);
+        Advance l_advanceOrder = new Advance(d_sourceTerritory, d_sourceTerritory, 5, d_initiator);
         assertEquals("Error: Source and target territories cannot be the same.", l_advanceOrder.validate(),
                 "Validation should fail the source and the target cannot be the same.");
     }
@@ -75,7 +76,7 @@ public class AdvanceTest {
         Mockito.when(d_sourceTerritory.getOwner()).thenReturn(Mockito.mock(Player.class)); // Different owner
         Mockito.when(d_sourceTerritory.getOwner().getName()).thenReturn("DifferentPlayer"); // Different owner
 
-        Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, 5, d_initiator, d_GameEngine);
+        Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, 5, d_initiator);
         assertEquals("Error: Player does not own the source territory.", l_advanceOrder.validate(),
                 "Validation should fail because the player does not own the source territory.");
     }
@@ -95,7 +96,7 @@ public class AdvanceTest {
         Mockito.when(d_sourceTerritory.getTroops()).thenReturn(l_numberOfTroops - 1);
 
         Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, l_numberOfTroops,
-                d_initiator, d_GameEngine);
+                d_initiator);
         assertEquals("Error: No longer enough troops in the source territory.", l_advanceOrder.validate(),
                 "Validation should fail due to not enough troops.");
     }
@@ -108,7 +109,7 @@ public class AdvanceTest {
         Mockito.when(d_sourceTerritory.getNeighborIDs()).thenReturn(Collections.emptyList()); // No adjacency
         when(d_sourceTerritory.getOwner()).thenReturn(d_initiator);
 
-        Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, 5, d_initiator, d_GameEngine);
+        Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, 5, d_initiator);
         assertEquals("Error: Source and target territories are not neighbors.", l_advanceOrder.validate(),
                 "Validation should fail since they are not neighbors");
     }
@@ -131,7 +132,7 @@ public class AdvanceTest {
         when(d_sourceTerritory.getNeighborIDs()).thenReturn(l_neighbors);
 
         // Create Advance instance
-        Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, 3, d_initiator, d_GameEngine);
+        Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, 3, d_initiator);
 
         // Ensure that attacker always wins
         l_advanceOrder.setProbabilityWinningAttacker(1.00);
@@ -147,7 +148,7 @@ public class AdvanceTest {
 
         // Verify that winning attacker is assigned country
         // and that the number of troops has changed
-        verify(d_GameEngine).assignCountryToPlayer(d_targetTerritory, d_initiator);
+        verify(GameDriver.getGameEngine()).assignCountryToPlayer(d_targetTerritory, d_initiator);
         assertTrue(l_advanceOrder.conquersTerritory(), "Player should conquer the territory.");
         verify(d_targetTerritory).setTroops(3);  // Player1 should have 3 troops left after battle
     }
@@ -169,14 +170,14 @@ public class AdvanceTest {
         when(d_sourceTerritory.getNeighborIDs()).thenReturn(l_neighbors);
 
         // Create Advance instance
-        Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, 3, d_initiator, d_GameEngine);
+        Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, 3, d_initiator);
 
         // Simulate battle outcome
         l_advanceOrder.execute();
 
         // Verify that winning attacker is assigned country
         // and that the number of troops has changed
-        Mockito.verify(d_GameEngine, Mockito.never()).assignCountryToPlayer(Mockito.any(), Mockito.any());
+        Mockito.verify(GameDriver.getGameEngine(), Mockito.never()).assignCountryToPlayer(Mockito.any(), Mockito.any());
         verify(d_targetTerritory).setTroops(8);  // Player1 should have 3 troops left after battle
     }
 }

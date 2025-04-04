@@ -1,23 +1,29 @@
 package ca.concordia.soen6441.project.map;
+
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MapFileReader {
 
     /**
      * Checks the existence of file before reading it
      * @param p_filePath The file path of the .map file.
-     * @param p_gameEngine The game engine context to update with the map data.
      * @throws FileNotFoundException If the specified file is not found.
      */
-    public void readMapFile(String p_filePath, GameContext p_gameEngine) throws FileNotFoundException {
+    public void readMapFile(String p_filePath) throws FileNotFoundException {
         //Validate first
         try {
-            readFile(p_filePath, p_gameEngine);
+            readFile(p_filePath);
         } catch (FileNotFoundException e) {
             throw e; // We catch exception (so it's not caught by IOException), and throw it back to caller
         } catch (Exception e) {
@@ -29,10 +35,9 @@ public class MapFileReader {
      * Reads the file and processes its content to extract map details.
      *
      * @param p_filePath   The file path of the .map file.
-     * @param p_gameEngine The game engine context to update with the map data.
      * @throws FileNotFoundException If the specified file is not found.
      */
-    private void readFile(String p_filePath, GameContext p_gameEngine) throws FileNotFoundException {
+    private void readFile(String p_filePath) throws FileNotFoundException {
         boolean l_mapIsValid = true;
         Map<String, List<String>> l_sections;
 
@@ -57,13 +62,13 @@ public class MapFileReader {
                     l_mapIsValid &= processFilesSection(l_data);
                     break;
                 case "continents":
-                    l_mapIsValid &= processContinentsSection(l_data, p_gameEngine);
+                    l_mapIsValid &= processContinentsSection(l_data);
                     break;
                 case "countries":
-                    l_mapIsValid &= processCountriesSection(l_data, p_gameEngine);
+                    l_mapIsValid &= processCountriesSection(l_data);
                     break;
                 case "borders":
-                    l_mapIsValid &= processBordersSection(l_data, p_gameEngine);
+                    l_mapIsValid &= processBordersSection(l_data);
                     break;
                 default:
                     // Unknown sections can be ignored or handled as needed.
@@ -130,10 +135,9 @@ public class MapFileReader {
      * Processes the "continents" section of the map file.
      *
      * @param p_lines       The list of lines in the "continents" section.
-     * @param p_gameEngine The game context to update.
      * @return true if the section is valid; false otherwise.
      */
-    private boolean processContinentsSection(List<String> p_lines, GameContext p_gameEngine) {
+    private boolean processContinentsSection(List<String> p_lines) {
         boolean l_mapIsValid = true;
         int l_continentID = 1;
         for (String l_line : p_lines) {
@@ -146,7 +150,7 @@ public class MapFileReader {
                     String l_name = l_parts[0];
                     int l_bonus = Integer.parseInt(l_parts[1]);
                     String l_color = l_parts[2];
-                    p_gameEngine.getContinentManager().addContinent(l_continentID, l_name, l_bonus, l_color);
+                    GameDriver.getGameEngine().getContinentManager().addContinent(l_continentID, l_name, l_bonus, l_color);
                     l_continentID++;
                 } catch (NumberFormatException e) {
                     System.out.println("Invalid number format in continents section.");
@@ -161,10 +165,9 @@ public class MapFileReader {
      * Processes the "countries" section of the map file.
      *
      * @param p_lines       The list of lines in the "countries" section.
-     * @param p_gameEngine The game context to update.
      * @return true if the section is valid; false otherwise.
      */
-    private boolean processCountriesSection(List<String> p_lines, GameContext p_gameEngine) {
+    private boolean processCountriesSection(List<String> p_lines) {
         boolean l_mapIsValid = true;
         for (String l_line : p_lines) {
             String[] l_parts = l_line.split("\\s+");
@@ -178,8 +181,8 @@ public class MapFileReader {
                     int l_continentNumericID = Integer.parseInt(l_parts[2]);
                     int l_x = Integer.parseInt(l_parts[3]);
                     int l_y = Integer.parseInt(l_parts[4]);
-                    Continent l_continent = p_gameEngine.getContinentManager().getContinentByNumericID(l_continentNumericID);
-                    p_gameEngine.getCountryManager().addCountry(l_id, l_name, l_continent.getID(), l_x, l_y);
+                    Continent l_continent = GameDriver.getGameEngine().getContinentManager().getContinentByNumericID(l_continentNumericID);
+                    GameDriver.getGameEngine().getCountryManager().addCountry(l_id, l_name, l_continent.getID(), l_x, l_y);
                 } catch (NumberFormatException e) {
                     System.out.println("Invalid number format in countries section.");
                     l_mapIsValid = false;
@@ -193,10 +196,9 @@ public class MapFileReader {
      * Processes the "borders" section of the map file.
      *
      * @param p_lines       The list of lines in the "borders" section.
-     * @param p_gameEngine The game context to update.
      * @return true if the section is valid; false otherwise.
      */
-    private boolean processBordersSection(List<String> p_lines, GameContext p_gameEngine) {
+    private boolean processBordersSection(List<String> p_lines) {
         boolean l_mapIsValid = true;
         for (String l_line : p_lines) {
             String[] l_parts = l_line.split("\\s+");
@@ -206,10 +208,10 @@ public class MapFileReader {
             } else {
                 try {
                     int l_countryId = Integer.parseInt(l_parts[0]);
-                    Country l_country = p_gameEngine.getCountryManager().getCountryByNumericID(l_countryId);
+                    Country l_country = GameDriver.getGameEngine().getCountryManager().getCountryByNumericID(l_countryId);
                     for (int l_i = 1; l_i < l_parts.length; l_i++) {
                         int l_neighborId = Integer.parseInt(l_parts[l_i]);
-                        Country l_neighbor = p_gameEngine.getCountryManager().getCountryByNumericID(l_neighborId);
+                        Country l_neighbor = GameDriver.getGameEngine().getCountryManager().getCountryByNumericID(l_neighborId);
                         if (l_country != null && l_neighbor != null) {
                             l_country.addNeighbor(l_neighbor);
                         }

@@ -10,7 +10,15 @@ import ca.concordia.soen6441.project.ui.CommandLineInterface;
  * It initializes and starts the game engine.
  */
 public class GameDriver {
-    static GameContext d_gameEngine = new GameEngine();
+    private static GameContext d_gameEngine = new GameEngine();
+
+    public static GameContext getGameEngine() {
+        return d_gameEngine;
+    }
+
+    public static void setGameEngine(GameContext p_gameEngine) {
+        d_gameEngine = p_gameEngine;
+    }
 
 
     /**
@@ -19,7 +27,7 @@ public class GameDriver {
      * @param p_args Command-line arguments (not used).
      */
     public static void main(String[] p_args) {
-        CommandLineInterface l_commandLineInterface = new CommandLineInterface(d_gameEngine);
+        CommandLineInterface l_commandLineInterface = new CommandLineInterface();
         l_commandLineInterface.start();
     }
 

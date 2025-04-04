@@ -1,19 +1,22 @@
 package ca.concordia.soen6441.project.gameplay.behaviour;
 
-import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.gameplay.behavior.PlayerBehavior;
+import ca.concordia.soen6441.project.ui.CommandLineInterface;
+
+import java.io.Serializable;
 
 /**
  * Class which implements the Strategy design pattern for the Human player behavior
  */
-public class HumanPlayerBehavior implements PlayerBehavior {
+public class HumanPlayerBehavior implements PlayerBehavior, Serializable {
     /**
      * {@inheritDoc}
      */
     @Override
-    public void issue_order(Player p_player, Order p_order) {
-        p_player.getOrders().add(p_order);
+    public void issue_order(Player p_player) {
+        CommandLineInterface l_commandLineInterface = new CommandLineInterface();
+        l_commandLineInterface.getInputFromUserAndProcess();
     }
 
     /**

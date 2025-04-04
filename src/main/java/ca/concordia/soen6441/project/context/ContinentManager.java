@@ -4,13 +4,14 @@ import ca.concordia.soen6441.project.OverallFactory;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.context.ContinentContext;
 
+import java.io.Serializable;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
  * Class for managing Continent operations
  */
-public class ContinentManager implements ContinentContext {
+public class ContinentManager implements ContinentContext, Serializable {
     private SortedMap<String, Continent> d_Continents;
 
     /**

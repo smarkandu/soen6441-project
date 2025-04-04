@@ -4,12 +4,13 @@ import ca.concordia.soen6441.project.interfaces.log.Observer;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * This class represents the observer. It writes to a file whenever
  * the observable state changes
  */
-public class LogWriter implements Observer {
+public class LogWriter implements Observer, Serializable {
 
     /**
      * Constructor of LogWriter

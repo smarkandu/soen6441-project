@@ -3,26 +3,25 @@ package ca.concordia.soen6441.project;
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit test for GameEngine class.
  * This test verifies the functionality of the showMap() and toMapString() method.
  */
 class GameEngineTest {
-    private GameEngine d_gameEngine;
     private Continent d_mockContinent;
     private Country d_mockCountry;
     private Country d_mockNeighbor;
@@ -32,7 +31,8 @@ class GameEngineTest {
      */
     @BeforeEach
     void setUp() {
-        d_gameEngine = new GameEngine(); // Real instance
+        GameEngine l_gameEngine = new GameEngine(); // Real instance of GameEngine
+        GameDriver.setGameEngine(l_gameEngine);
 
         // Mock dependencies
         d_mockContinent = mock(Continent.class);
@@ -53,18 +53,18 @@ class GameEngineTest {
         when(d_mockNeighbor.getNeighborIDs()).thenReturn(List.of("India"));
 
         // Inject mock objects
-        d_gameEngine.getContinentManager().getContinents().put("Asia", d_mockContinent);
-        d_gameEngine.getCountryManager().getCountries().put("India", d_mockCountry);
-        d_gameEngine.getCountryManager().getCountries().put("China", d_mockNeighbor); // Ensure neighbor exists
+        GameDriver.getGameEngine().getContinentManager().getContinents().put("Asia", d_mockContinent);
+        GameDriver.getGameEngine().getCountryManager().getCountries().put("India", d_mockCountry);
+        GameDriver.getGameEngine().getCountryManager().getCountries().put("China", d_mockNeighbor); // Ensure neighbor exists
     
 
     // Mock continents map
         SortedMap<String, Continent> l_mockContinents = new TreeMap<>();
         l_mockContinents.put("Asia", d_mockContinent);
-        d_gameEngine.getContinentManager().getContinents().putAll(l_mockContinents);
+        GameDriver.getGameEngine().getContinentManager().getContinents().putAll(l_mockContinents);
 
         // Manually add the mock country
-        d_gameEngine.getCountryManager().getCountries().put("India", d_mockCountry);
+        GameDriver.getGameEngine().getCountryManager().getCountries().put("India", d_mockCountry);
     }
 
     /**
@@ -73,8 +73,6 @@ class GameEngineTest {
      */
     @Test
     void testToMapString() {
-        d_gameEngine = new GameEngine(); // Real instance of GameEngine
-
         // Mock dependencies
         Continent l_mockContinent = mock(Continent.class);
         when(l_mockContinent.getID()).thenReturn("Asia");
@@ -87,11 +85,11 @@ class GameEngineTest {
         when(l_mockCountry.toMapString()).thenReturn("1 India Asia");
 
         // Add to game engine
-        d_gameEngine.getContinentManager().getContinents().put("Asia", l_mockContinent);
-        d_gameEngine.getCountryManager().getCountries().put("India", l_mockCountry);
+        GameDriver.getGameEngine().getContinentManager().getContinents().put("Asia", l_mockContinent);
+        GameDriver.getGameEngine().getCountryManager().getCountries().put("India", l_mockCountry);
 
         // Capture output
-        String l_actualOutput = d_gameEngine.toMapString().trim();
+        String l_actualOutput = GameDriver.getGameEngine().toMapString().trim();
         System.out.println("Captured toMapString Output:\n" + l_actualOutput);
 
         // Assertions
@@ -111,7 +109,7 @@ class GameEngineTest {
         System.setOut(new PrintStream(l_outContent));
 
         // Call the method being tested
-        d_gameEngine.showMap(false);
+        GameDriver.getGameEngine().showMap(false);
 
         // Restore original System.out
         System.setOut(l_originalOut);

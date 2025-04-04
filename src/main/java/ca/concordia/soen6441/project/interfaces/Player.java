@@ -1,6 +1,5 @@
 package ca.concordia.soen6441.project.interfaces;
 
-import ca.concordia.soen6441.project.context.PlayerManager;
 import ca.concordia.soen6441.project.interfaces.context.HandOfCardsContext;
 import ca.concordia.soen6441.project.interfaces.gameplay.behavior.PlayerBehavior;
 
@@ -26,9 +25,8 @@ public interface Player {
 
     /**
      * Issues a new order for the player.
-     * @param p_order The order to be issued
      */
-    void issue_order(Order p_order);
+    void issue_order();
 
     /**
      * Retrieves and removes the next order from the player's order list.
@@ -89,7 +87,7 @@ public interface Player {
 
     /**
      * Gets the total number of troops that have been ordered for advance.
-     *
+     * @param p_countryFrom Country object of where troops are from
      * @return The number of troops ordered to advance.
      */
     int getNumberOfTroopsOrderedToAdvance(Country p_countryFrom);
@@ -113,8 +111,8 @@ public interface Player {
     PlayerBehavior getPlayerBehavior();
 
     /**
-     * Gets the Player Manager
-     * @return PlayerManager object
+     * Add new order to list of orders
+     * @param p_newOrder new Order object to add
      */
-    PlayerManager getPlayerManager();
+    void addToOrders(Order p_newOrder);
 }

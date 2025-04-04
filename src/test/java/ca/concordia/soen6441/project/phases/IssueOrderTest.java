@@ -1,12 +1,9 @@
 package ca.concordia.soen6441.project.phases;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
-
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.context.CountryManager;
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.context.PlayerManager;
-import ca.concordia.soen6441.project.gameplay.orders.Advance;
 import ca.concordia.soen6441.project.gameplay.orders.Deploy;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
@@ -15,9 +12,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.io.PrintStream;
-import java.util.*;
 import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
 
 /**
  * Unit tests for the {@link IssueOrder} class.
@@ -53,12 +55,13 @@ public class IssueOrderTest {
     @BeforeEach
     void setUp() {
         // Mock dependencies required for "deploy" method
-        GameEngine l_gameEngine = mock(GameEngine.class);
+        GameEngine l_mockGameEngine = mock(GameEngine.class);
+        GameDriver.setGameEngine(l_mockGameEngine);
         MockitoAnnotations.openMocks(this);
         CountryManager l_mockCountryManager = mock(CountryManager.class);
-        when(l_gameEngine.getCountryManager()).thenReturn(l_mockCountryManager);
+        when(GameDriver.getGameEngine().getCountryManager()).thenReturn(l_mockCountryManager);
         PlayerManager l_mockPlayerManager = mock(PlayerManager.class);
-        when(l_gameEngine.getPlayerManager()).thenReturn(l_mockPlayerManager);
+        when(GameDriver.getGameEngine().getPlayerManager()).thenReturn(l_mockPlayerManager);
 
         d_player = mock(Player.class);
         d_country = mock(Country.class);
@@ -74,13 +77,13 @@ public class IssueOrderTest {
         l_countries.put("Country1", d_country);
         l_countries.put("Country2", d_country2);
         when(d_country2.getID()).thenReturn("Country2");
-        when(l_gameEngine.getCountryManager().getCountries()).thenReturn(l_countries);
+        when(GameDriver.getGameEngine().getCountryManager().getCountries()).thenReturn(l_countries);
 
         // Mock player behavior
-        when(l_gameEngine.getPlayerManager().getPlayer(0)).thenReturn(d_player);
+        when(GameDriver.getGameEngine().getPlayerManager().getPlayer(0)).thenReturn(d_player);
 
         // Initialize IssueOrder instance
-        d_issueOrder = new IssueOrder(l_gameEngine, 0);
+        d_issueOrder = new IssueOrder(0);
 
         System.setOut(new PrintStream(d_outContent));
     }
@@ -91,7 +94,7 @@ public class IssueOrderTest {
         when(d_player.getReinforcements()).thenReturn(10);
         when(d_player.getNumberOfTroopsOrderedToDeploy()).thenReturn(3);
         d_issueOrder.deploy("Country1", 5);
-        verify(d_player, times(1)).issue_order(any(Deploy.class));
+        verify(d_player, times(1)).addToOrders(any(Deploy.class));
     }
 
     @Test
@@ -100,7 +103,7 @@ public class IssueOrderTest {
         when(d_player.getReinforcements()).thenReturn(5);
         when(d_player.getNumberOfTroopsOrderedToDeploy()).thenReturn(3);
         d_issueOrder.deploy("Country1", 4);
-        verify(d_player, never()).issue_order(any(Deploy.class));
+        verify(d_player, never()).issue_order();
     }
 
     @Test
@@ -108,13 +111,13 @@ public class IssueOrderTest {
         Player l_anotherPlayer = mock(Player.class);
         when(d_country.getOwner()).thenReturn(l_anotherPlayer);
         d_issueOrder.deploy("Country1", 5);
-        verify(d_player, never()).issue_order(any(Deploy.class));
+        verify(d_player, never()).issue_order();
     }
 
     @Test
     void testAdvance_Error_SameSourceAndTarget() {
         d_issueOrder.advance("Country1", "Country1", 5);
-        verify(d_player, never()).issue_order(any(Advance.class));
+        verify(d_player, never()).issue_order();
         assertTrue(d_outContent.toString().contains("ERROR: Source and target territories cannot be the same."));
     }
 
@@ -129,7 +132,7 @@ public class IssueOrderTest {
         l_neighbors.add("Country2");
         when(d_country.getNeighborIDs()).thenReturn(l_neighbors);
         d_issueOrder.advance("Country1", "Country2", 5);
-        verify(d_player, never()).issue_order(any(Advance.class));
+        verify(d_player, never()).issue_order();
         assertTrue(d_outContent.toString().contains("ERROR: You still have 5 left to deploy!"));
     }
 
@@ -137,7 +140,7 @@ public class IssueOrderTest {
     void testAdvance_Error_PlayerDoesNotOwnCountry() {
         when(d_countryFrom.getOwner()).thenReturn(mock(Player.class));
         d_issueOrder.advance("Country1", "Country2", 5);
-        verify(d_player, never()).issue_order(any(Advance.class));
+        verify(d_player, never()).issue_order();
         assertTrue(d_outContent.toString().contains("ERROR: Player"));
     }
 
@@ -150,7 +153,7 @@ public class IssueOrderTest {
         l_neighbors.add("Country2");
         when(d_country.getNeighborIDs()).thenReturn(l_neighbors);
         d_issueOrder.advance("Country1", "Country2", 5);
-        verify(d_player, never()).issue_order(any(Advance.class));
+        verify(d_player, never()).issue_order();
         assertTrue(d_outContent.toString().contains("ERROR: Only 3 left to advance!"));
     }
 
@@ -162,7 +165,7 @@ public class IssueOrderTest {
         when(d_player.getNumberOfTroopsOrderedToAdvance(d_country)).thenReturn(0);
         when(d_country.getTroops()).thenReturn(10);
         d_issueOrder.advance("Country1", "Country2", 5);
-        verify(d_player, never()).issue_order(any(Advance.class));
+        verify(d_player, never()).issue_order();
         assertTrue(d_outContent.toString().contains("ERROR: Country2 is not a neighbor"));
     }
 
@@ -184,9 +187,9 @@ public class IssueOrderTest {
         when(l_countryManager.getCountries()).thenReturn(l_countries);
         when(l_playerManager.getPlayer(0)).thenReturn(d_player);
 
-        IssueOrder l_issueOrder = new IssueOrder(l_gameEngine, 0);
+        IssueOrder l_issueOrder = new IssueOrder(0);
         l_issueOrder.airlift("Country1", "Country1", 5);
-        verify(d_player, never()).issue_order(any());
+        verify(d_player, never()).issue_order();
     }
 
     /**
@@ -197,7 +200,7 @@ public class IssueOrderTest {
         Player l_otherPlayer = mock(Player.class);
         when(d_country.getOwner()).thenReturn(l_otherPlayer);
         d_issueOrder.airlift("Country1", "Country2", 5);
-        verify(d_player, never()).issue_order(any());
+        verify(d_player, never()).issue_order();
     }
 
     /**
@@ -208,7 +211,7 @@ public class IssueOrderTest {
         when(d_country.getOwner()).thenReturn(d_player);
         when(d_country2.getOwner()).thenReturn(mock(Player.class));
         d_issueOrder.airlift("Country1", "Country2", 5);
-        verify(d_player, never()).issue_order(any());
+        verify(d_player, never()).issue_order();
     }
 
     /**
@@ -222,6 +225,6 @@ public class IssueOrderTest {
         when(d_player.getNumberOfTroopsOrderedToDeploy()).thenReturn(0);
         when(d_country.getTroops()).thenReturn(10);
         d_issueOrder.airlift("Country1", "Country2", 5);
-        verify(d_player, times(1)).issue_order(any());
+        verify(d_player, times(1)).addToOrders(any());
     }
 }

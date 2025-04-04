@@ -1,18 +1,13 @@
 package ca.concordia.soen6441.project.context.hand;
 
-import ca.concordia.soen6441.project.gameplay.cards.AirliftCard;
-import ca.concordia.soen6441.project.gameplay.cards.BlockadeCard;
-import ca.concordia.soen6441.project.gameplay.cards.BombCard;
-import ca.concordia.soen6441.project.gameplay.cards.DiplomacyCard;
-import ca.concordia.soen6441.project.interfaces.Card;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Generic Class to deal with the various types of cards
  * @param <T> The object type you want to use
  */
-public class CardManager<T> {
+public class CardManager<T> implements Serializable {
     private ArrayList<T> d_cards;
 
     /**

@@ -1,5 +1,6 @@
 package ca.concordia.soen6441.project.phases;
 
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.context.PlayerManager;
 import ca.concordia.soen6441.project.gameplay.PlayerImpl;
@@ -34,6 +35,8 @@ public class StartupTest {
     @BeforeEach
     void setUp() {
         d_playerManager = mock(PlayerManager.class);
+        GameEngine l_gameEngine = spy(new GameEngine());
+        GameDriver.setGameEngine(l_gameEngine);
     }
 
     /**
@@ -41,26 +44,25 @@ public class StartupTest {
      */
     @Test
     void testSuccessfulStartup() {
-        GameEngine l_gameEngine = spy(new GameEngine());
-        Startup l_startup = new Startup(l_gameEngine);
+        Startup l_startup = new Startup();
 
         // Add 2 players
         Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(),
-                new HumanPlayerBehavior(), d_playerManager);
+                new HumanPlayerBehavior());
         Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>(),
-                new HumanPlayerBehavior(), d_playerManager);
-        l_gameEngine.getPlayerManager().getPlayers().put(l_player1.getName(), l_player1);
-        l_gameEngine.getPlayerManager().getPlayers().put(l_player2.getName(), l_player2);
+                new HumanPlayerBehavior());
+        GameDriver.getGameEngine().getPlayerManager().getPlayers().put(l_player1.getName(), l_player1);
+        GameDriver.getGameEngine().getPlayerManager().getPlayers().put(l_player2.getName(), l_player2);
 
         // Add 2 mock countries
         for (int l_i = 1; l_i <= 2; l_i++) {
             Country l_country = mock(Country.class);
             when(l_country.getID()).thenReturn("Country" + l_i);
-            l_gameEngine.getCountryManager().getCountries().put("Country" + l_i, l_country);
+            GameDriver.getGameEngine().getCountryManager().getCountries().put("Country" + l_i, l_country);
         }
 
         // Simulate valid map
-        doReturn(true).when(l_gameEngine).isMapValid();
+        doReturn(true).when(GameDriver.getGameEngine()).isMapValid();
 
         // Capture system output
         ByteArrayOutputStream l_outContent = new ByteArrayOutputStream();
@@ -87,19 +89,16 @@ public class StartupTest {
      */
     @Test
     void testInvalidMap() {
-        GameEngine l_gameEngine = spy(new GameEngine());
-        Startup l_startup = new Startup(l_gameEngine);
+        Startup l_startup = new Startup();
 
         // Add valid players
-        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior(),
-                d_playerManager);
-        Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior(),
-                d_playerManager);
-        l_gameEngine.getPlayerManager().getPlayers().put(l_player1.getName(), l_player1);
-        l_gameEngine.getPlayerManager().getPlayers().put(l_player2.getName(), l_player2);
+        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
+        Player l_player2 = new PlayerImpl("Player2", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
+        GameDriver.getGameEngine().getPlayerManager().getPlayers().put(l_player1.getName(), l_player1);
+        GameDriver.getGameEngine().getPlayerManager().getPlayers().put(l_player2.getName(), l_player2);
 
         // Simulate invalid map
-        doReturn(false).when(l_gameEngine).isMapValid();
+        doReturn(false).when(GameDriver.getGameEngine()).isMapValid();
 
         // Capture output
         ByteArrayOutputStream l_outContent = new ByteArrayOutputStream();
@@ -120,16 +119,14 @@ public class StartupTest {
      */
     @Test
     void testNotEnoughPlayers() {
-        GameEngine l_gameEngine = spy(new GameEngine());
-        Startup l_startup = new Startup(l_gameEngine);
+        Startup l_startup = new Startup();
 
         // Add only one player
-        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior(),
-                d_playerManager);
-        l_gameEngine.getPlayerManager().getPlayers().put(l_player1.getName(), l_player1);
+        Player l_player1 = new PlayerImpl("Player1", new ArrayList<>(), new ArrayList<>(), new HumanPlayerBehavior());
+        GameDriver.getGameEngine().getPlayerManager().getPlayers().put(l_player1.getName(), l_player1);
 
         // Simulate valid map
-        doReturn(true).when(l_gameEngine).isMapValid();
+        doReturn(true).when(GameDriver.getGameEngine()).isMapValid();
 
         // Capture output
         ByteArrayOutputStream l_outContent = new ByteArrayOutputStream();

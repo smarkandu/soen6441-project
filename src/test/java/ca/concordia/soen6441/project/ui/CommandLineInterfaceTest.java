@@ -1,10 +1,11 @@
 package ca.concordia.soen6441.project.ui;
 
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.context.GameEngine;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.phases.Phase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
@@ -15,7 +16,6 @@ import static org.mockito.Mockito.*;
  * Test cases created for GameDriver class.
  */
 class CommandLineInterfaceTest {
-    private GameContext d_mockGameEngine;
     private Phase d_mockPhase;
     private CommandLineInterface d_commandLineInterface;
 
@@ -24,10 +24,11 @@ class CommandLineInterfaceTest {
      */
     @BeforeEach
     void setUp() {
-        d_mockGameEngine = mock(GameEngine.class);
+        GameEngine l_mockGameEngine = mock(GameEngine.class);
+        GameDriver.setGameEngine(l_mockGameEngine);
         d_mockPhase = mock(Phase.class);
-        when(d_mockGameEngine.getPhase()).thenReturn(d_mockPhase);
-        d_commandLineInterface = new CommandLineInterface(d_mockGameEngine);
+        when(GameDriver.getGameEngine().getPhase()).thenReturn(d_mockPhase);
+        d_commandLineInterface = new CommandLineInterface();
     }
 
     /**

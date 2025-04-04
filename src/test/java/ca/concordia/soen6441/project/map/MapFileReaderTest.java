@@ -1,38 +1,41 @@
 package ca.concordia.soen6441.project.map;
+
+import ca.concordia.soen6441.project.GameDriver;
+import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.interfaces.Continent;
-import ca.concordia.soen6441.project.interfaces.context.CountryContext;
 import ca.concordia.soen6441.project.interfaces.context.ContinentContext;
-import ca.concordia.soen6441.project.interfaces.context.GameContext;
+import ca.concordia.soen6441.project.interfaces.context.CountryContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mockito;
+
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+
 public class MapFileReaderTest {
 
     @TempDir
     Path d_tempDir;
 
-    private GameContext d_gameContext;
     private ContinentContext d_continentContext;
     private CountryContext d_countryContext;
 
     @BeforeEach
     public void setup() {
         // Create mocks for GameContext and its managers.
-        d_gameContext = Mockito.mock(GameContext.class);
+        GameEngine l_mockGameEngine = mock(GameEngine.class);
+        GameDriver.setGameEngine(l_mockGameEngine);
         d_continentContext = Mockito.mock(ContinentContext.class);
         d_countryContext = Mockito.mock(CountryContext.class);
 
         // Stub the GameContext methods to return our mocks.
-        when(d_gameContext.getContinentManager()).thenReturn(d_continentContext);
-        when(d_gameContext.getCountryManager()).thenReturn(d_countryContext);
+        when(GameDriver.getGameEngine().getContinentManager()).thenReturn(d_continentContext);
+        when(GameDriver.getGameEngine().getCountryManager()).thenReturn(d_countryContext);
 
         // Create stub continents for numeric IDs.
         // For numeric ID 1, we return a continent with ID "NorthAmerica".
@@ -76,7 +79,7 @@ public class MapFileReaderTest {
 
         // Create an instance of MapFileReader and read the file.
         MapFileReader l_mapFileReader = new MapFileReader();
-        l_mapFileReader.readMapFile(l_mapFile.toString(), d_gameContext);
+        l_mapFileReader.readMapFile(l_mapFile.toString());
 
         // Verify that continents were added.
         // According to the file, the first continent is "NorthAmerica" with bonus 5.
@@ -101,7 +104,7 @@ public class MapFileReaderTest {
         MapFileReader l_mapFileReader = new MapFileReader();
         // Expect a FileNotFoundException when reading a non-existent file.
         try {
-            l_mapFileReader.readMapFile("wrong_name.map", d_gameContext);
+            l_mapFileReader.readMapFile("wrong_name.map");
             fail("Expected FileNotFoundException to be thrown");
         } catch (FileNotFoundException e) {
             // Test passes, exception was thrown as expected.
