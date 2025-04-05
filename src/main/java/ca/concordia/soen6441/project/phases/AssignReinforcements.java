@@ -15,12 +15,14 @@ import java.util.Map;
  * - The number of territories a player owns (min of 3)
  * - Bonus reinforcements for owning all countries in a continent
  */
-public class AssignReinforcements extends MainPlay {
+public class AssignReinforcements extends MainPlay
+{
 
     /**
      * Constructs the AssignReinforcements phase.
      */
-    public AssignReinforcements() {
+    public AssignReinforcements()
+    {
 
     }
 
@@ -31,7 +33,8 @@ public class AssignReinforcements extends MainPlay {
      * @param p_toDeploy  number of armies to deploy
      */
     @Override
-    public void deploy(String p_countryID, int p_toDeploy) {
+    public void deploy(String p_countryID, int p_toDeploy)
+    {
         printInvalidCommandMessage();
     }
 
@@ -43,7 +46,8 @@ public class AssignReinforcements extends MainPlay {
      * @param p_toAdvance       armies to move
      */
     @Override
-    public void advance(String p_countryNameFrom, String p_countryNameTo, int p_toAdvance) {
+    public void advance(String p_countryNameFrom, String p_countryNameTo, int p_toAdvance)
+    {
         printInvalidCommandMessage();
     }
 
@@ -53,7 +57,8 @@ public class AssignReinforcements extends MainPlay {
      * @param p_countryID country to bomb
      */
     @Override
-    public void bomb(String p_countryID) {
+    public void bomb(String p_countryID)
+    {
         printInvalidCommandMessage();
     }
 
@@ -63,7 +68,8 @@ public class AssignReinforcements extends MainPlay {
      * @param p_countryID country to blockade
      */
     @Override
-    public void blockade(String p_countryID) {
+    public void blockade(String p_countryID)
+    {
         printInvalidCommandMessage();
     }
 
@@ -75,7 +81,8 @@ public class AssignReinforcements extends MainPlay {
      * @param p_numArmies       armies to airlift
      */
     @Override
-    public void airlift(String p_sourceCountryID, String p_targetCountryID, int p_numArmies) {
+    public void airlift(String p_sourceCountryID, String p_targetCountryID, int p_numArmies)
+    {
         printInvalidCommandMessage();
     }
 
@@ -85,7 +92,8 @@ public class AssignReinforcements extends MainPlay {
      * @param p_playerID player to negotiate with
      */
     @Override
-    public void negotiate(String p_playerID) {
+    public void negotiate(String p_playerID)
+    {
         printInvalidCommandMessage();
     }
 
@@ -93,7 +101,8 @@ public class AssignReinforcements extends MainPlay {
      * Invalid command for this phase.
      */
     @Override
-    public void next() {
+    public void next()
+    {
         printInvalidCommandMessage();
     }
 
@@ -103,13 +112,15 @@ public class AssignReinforcements extends MainPlay {
      * - Calculates reinforcements from territory and continent control
      * - Assigns reinforcement count to each player
      */
-    public void execute() {
-        LogEntryBuffer.getInstance().appendToBuffer("\nGame #" + GameDriver.getGameEngine().getGameNumber() +
-                "; Turn #" + GameDriver.getGameEngine().incrementNumberOfTurns(), true);
-        for (int l_i = 0; l_i < GameDriver.getGameEngine().getPlayerManager().getPlayers().size(); l_i++) {
+    public void execute()
+    {
+        LogEntryBuffer.getInstance().appendToBuffer("\nGame #" + GameDriver.getGameEngine().getGameNumber() + "; Turn #" + GameDriver.getGameEngine().incrementNumberOfTurns(), true);
+        for (int l_i = 0; l_i < GameDriver.getGameEngine().getPlayerManager().getPlayers().size(); l_i++)
+        {
             Player l_player = GameDriver.getGameEngine().getPlayerManager().getPlayer(l_i);
 
-            if (!((PlayerImpl) l_player).getNegotiatedPlayers().isEmpty()) {
+            if (!((PlayerImpl) l_player).getNegotiatedPlayers().isEmpty())
+            {
                 ((PlayerImpl) l_player).resetNegotiatedPlayers();
                 LogEntryBuffer.getInstance().appendToBuffer("Diplomacy list reset for player: " + l_player.getName(), true);
             }
@@ -136,28 +147,35 @@ public class AssignReinforcements extends MainPlay {
      * @param p_continents map of all continents
      * @return the total continent bonus value
      */
-    private int calculateContinentBonus(Player p_player, Map<String, Continent> p_continents) {
+    private int calculateContinentBonus(Player p_player, Map<String, Continent> p_continents)
+    {
         int l_bonus = 0;
 
-        for (Continent l_continent : p_continents.values()) {
+        for (Continent l_continent : p_continents.values())
+        {
             boolean l_ownsAll = true;
             int l_countriesInContinent = 0;
 
-            for (Country l_country : GameDriver.getGameEngine().getCountryManager().getCountries().values()) {
-                if (l_country.getContinent() == l_continent) {
+            for (Country l_country : GameDriver.getGameEngine().getCountryManager().getCountries().values())
+            {
+                if (l_country.getContinent() == l_continent)
+                {
                     l_countriesInContinent++;
-                    if (!p_player.getOwnedCountries().contains(l_country.getID())) {
+                    if (!p_player.getOwnedCountries().contains(l_country.getID()))
+                    {
                         l_ownsAll = false;
                         break;
                     }
                 }
             }
 
-            if (l_countriesInContinent == 0) {
+            if (l_countriesInContinent == 0)
+            {
                 l_ownsAll = false;
             }
 
-            if (l_ownsAll) {
+            if (l_ownsAll)
+            {
                 l_bonus += l_continent.getValue();
             }
         }

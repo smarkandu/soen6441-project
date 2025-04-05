@@ -63,10 +63,11 @@ public class OverallFactory {
      * @param p_Continent Continent to which the country belongs.
      * @param p_xCoord    X coordinate of the country.
      * @param p_yCoord    Y coordinate of the country.
+     * @param p_troops    Number of troops
      * @return A new Country instance.
      */
-    public Country CreateCountry(int p_numericID, String p_ID, Continent p_Continent, int p_xCoord, int p_yCoord, Player p_owner) {
-        return new CountryImpl(p_numericID, p_ID, p_Continent, p_xCoord, p_yCoord, p_owner);
+    public Country CreateCountry(int p_numericID, String p_ID, Continent p_Continent, int p_xCoord, int p_yCoord, Player p_owner, int p_troops) {
+        return new CountryImpl(p_numericID, p_ID, p_Continent, p_xCoord, p_yCoord, p_owner, p_troops);
     }
 
     /**
@@ -74,9 +75,10 @@ public class OverallFactory {
      *
      * @param p_ID        String ID of the country.
      * @param p_Continent Continent to which the country belongs.
+     * @param p_troops    Number of troops
      * @return A new Country instance.
      */
-    public Country CreateCountry(String p_ID, Continent p_Continent, Player p_owner) {
-        return new CountryImpl(p_ID, p_Continent, p_owner);
+    public Country CreateCountry(String p_ID, Continent p_Continent, Player p_owner, int p_troops) {
+        return new CountryImpl(p_ID, p_Continent, p_owner, p_troops);
     }
 }

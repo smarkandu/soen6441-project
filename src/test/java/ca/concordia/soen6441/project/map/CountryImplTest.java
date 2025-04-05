@@ -17,7 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Testclass to test CountryImpl
  */
-public class CountryImplTest {
+public class CountryImplTest
+{
     private CountryImpl d_country;
     private Continent d_mockContinent;
     private Player d_mockPlayer;
@@ -26,17 +27,19 @@ public class CountryImplTest {
      * Setup before each test
      */
     @BeforeEach
-    public void setUp() {
+    public void setUp()
+    {
         d_mockContinent = new MockContinent("Continent1", 1);
         d_mockPlayer = new MockPlayer("Player1");
-        d_country = new CountryImpl(1, "Country1", d_mockContinent, 10, 20, d_mockPlayer);
+        d_country = new CountryImpl(1, "Country1", d_mockContinent, 10, 20, d_mockPlayer, 0);
     }
 
     /**
      * Testcase for GetID
      */
     @Test
-    public void testGetID() {
+    public void testGetID()
+    {
         assertEquals("Country1", d_country.getID());
     }
 
@@ -44,7 +47,8 @@ public class CountryImplTest {
      * Testcase for GetNumericID
      */
     @Test
-    public void testGetNumericID() {
+    public void testGetNumericID()
+    {
         assertEquals(1, d_country.getNumericID());
     }
 
@@ -52,8 +56,9 @@ public class CountryImplTest {
      * Testcase for adding a Neighbor
      */
     @Test
-    public void testAddNeighbor() {
-        Country l_neighbor = new CountryImpl(2, "Country2", d_mockContinent, 15, 25, d_mockPlayer);
+    public void testAddNeighbor()
+    {
+        Country l_neighbor = new CountryImpl(2, "Country2", d_mockContinent, 15, 25, d_mockPlayer, 0);
         d_country.addNeighbor(l_neighbor);
         List<String> l_neighbors = d_country.getNeighborIDs();
         assertEquals(1, l_neighbors.size());
@@ -64,8 +69,9 @@ public class CountryImplTest {
      * Testcase for removing a neighbor
      */
     @Test
-    public void testRemoveNeighbor() {
-        Country l_neighbor = new CountryImpl(2, "Country2", d_mockContinent, 15, 25, d_mockPlayer);
+    public void testRemoveNeighbor()
+    {
+        Country l_neighbor = new CountryImpl(2, "Country2", d_mockContinent, 15, 25, d_mockPlayer, 0);
         d_country.addNeighbor(l_neighbor);
         d_country.removeNeighbor("Country2");
         assertTrue(d_country.getNeighborIDs().isEmpty());
@@ -75,38 +81,45 @@ public class CountryImplTest {
      * Testcase for GetTroops
      */
     @Test
-    public void testGetTroops() {
+    public void testGetTroops()
+    {
         assertEquals(0, d_country.getTroops());
         d_country.setTroops(10);
         assertEquals(10, d_country.getTroops());
     }
 
-    static class MockContinent implements Continent {
+    static class MockContinent implements Continent
+    {
         private final String d_id;
         private final int d_numericId;
 
-        public MockContinent(String p_id, int p_numericId) {
+        public MockContinent(String p_id, int p_numericId)
+        {
             this.d_id = p_id;
             this.d_numericId = p_numericId;
         }
 
         @Override
-        public String getID() {
+        public String getID()
+        {
             return d_id;
         }
 
         @Override
-        public int getValue() {
+        public int getValue()
+        {
             return 0;
         }
 
         @Override
-        public int getNumericID() {
+        public int getNumericID()
+        {
             return d_numericId;
         }
 
         @Override
-        public String toMapString() {
+        public String toMapString()
+        {
             return "";
         }
     }
@@ -114,14 +127,17 @@ public class CountryImplTest {
     /**
      * Mocked Class representing a Player
      */
-    static class MockPlayer implements Player {
+    static class MockPlayer implements Player
+    {
         private final String d_name;
 
         /**
          * Constructor
+         *
          * @param p_name Name of player
          */
-        public MockPlayer(String p_name) {
+        public MockPlayer(String p_name)
+        {
             this.d_name = p_name;
         }
 
@@ -129,7 +145,8 @@ public class CountryImplTest {
          * {@inheritDoc}
          */
         @Override
-        public List<String> getOwnedCountries() {
+        public List<String> getOwnedCountries()
+        {
             return List.of();
         }
 
@@ -137,7 +154,8 @@ public class CountryImplTest {
          * {@inheritDoc}
          */
         @Override
-        public List<Order> getOrders() {
+        public List<Order> getOrders()
+        {
             return List.of();
         }
 
@@ -145,7 +163,8 @@ public class CountryImplTest {
          * {@inheritDoc}
          */
         @Override
-        public void issue_order() {
+        public void issue_order()
+        {
 
         }
 
@@ -153,7 +172,8 @@ public class CountryImplTest {
          * {@inheritDoc}
          */
         @Override
-        public Order next_order() {
+        public Order next_order()
+        {
             return null;
         }
 
@@ -161,7 +181,8 @@ public class CountryImplTest {
          * {@inheritDoc}
          */
         @Override
-        public String getName() {
+        public String getName()
+        {
             return d_name;
         }
 
@@ -169,7 +190,8 @@ public class CountryImplTest {
          * {@inheritDoc}
          */
         @Override
-        public int getTotalNumberOfReinforcementsPerTurn() {
+        public int getTotalNumberOfReinforcementsPerTurn()
+        {
             return 0;
         }
 
@@ -177,7 +199,8 @@ public class CountryImplTest {
          * {@inheritDoc}
          */
         @Override
-        public void addOwnedCountry(Country p_country) {
+        public void addOwnedCountry(Country p_country)
+        {
 
         }
 
@@ -185,7 +208,8 @@ public class CountryImplTest {
          * {@inheritDoc}
          */
         @Override
-        public void removeOwnedCountry(Country p_country) {
+        public void removeOwnedCountry(Country p_country)
+        {
 
         }
 
@@ -193,7 +217,8 @@ public class CountryImplTest {
          * {@inheritDoc}
          */
         @Override
-        public int getReinforcements() {
+        public int getReinforcements()
+        {
             return 0;
         }
 
@@ -201,7 +226,8 @@ public class CountryImplTest {
          * {@inheritDoc}
          */
         @Override
-        public void setReinforcements(int p_reinforcements) {
+        public void setReinforcements(int p_reinforcements)
+        {
 
         }
 
@@ -209,7 +235,8 @@ public class CountryImplTest {
          * {@inheritDoc}
          */
         @Override
-        public int getNumberOfTroopsOrderedToDeploy() {
+        public int getNumberOfTroopsOrderedToDeploy()
+        {
             return 0;
         }
 
@@ -217,7 +244,8 @@ public class CountryImplTest {
          * {@inheritDoc}
          */
         @Override
-        public int getNumberOfTroopsOrderedToAdvance(Country p_countryFrom) {
+        public int getNumberOfTroopsOrderedToAdvance(Country p_countryFrom)
+        {
             return 0;
         }
 
@@ -225,7 +253,8 @@ public class CountryImplTest {
          * {@inheritDoc}
          */
         @Override
-        public HandOfCardsContext getHandOfCardsManager() {
+        public HandOfCardsContext getHandOfCardsManager()
+        {
             return null;
         }
 
@@ -233,7 +262,8 @@ public class CountryImplTest {
          * {@inheritDoc}
          */
         @Override
-        public void addNegotiatedPlayer(Player p_player) {
+        public void addNegotiatedPlayer(Player p_player)
+        {
 
         }
 
@@ -241,7 +271,8 @@ public class CountryImplTest {
          * {@inheritDoc}
          */
         @Override
-        public boolean hasNegotiatedWith(Player p_player) {
+        public boolean hasNegotiatedWith(Player p_player)
+        {
             return false;
         }
 
@@ -249,7 +280,8 @@ public class CountryImplTest {
          * {@inheritDoc}
          */
         @Override
-        public void resetNegotiatedPlayers() {
+        public void resetNegotiatedPlayers()
+        {
 
         }
 
@@ -257,7 +289,8 @@ public class CountryImplTest {
          * {@inheritDoc}
          */
         @Override
-        public List<Player> getNegotiatedPlayers() {
+        public List<Player> getNegotiatedPlayers()
+        {
             return List.of();
         }
 
@@ -265,17 +298,20 @@ public class CountryImplTest {
          * {@inheritDoc}
          */
         @Override
-        public void removeNegotiatedPlayer(Player p_player) {
+        public void removeNegotiatedPlayer(Player p_player)
+        {
 
         }
 
         @Override
-        public PlayerBehavior getPlayerBehavior() {
+        public PlayerBehavior getPlayerBehavior()
+        {
             return null;
         }
 
         @Override
-        public void addToOrders(Order p_newOrder) {
+        public void addToOrders(Order p_newOrder)
+        {
 
         }
     }
