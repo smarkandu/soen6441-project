@@ -1,10 +1,17 @@
 [continents]
+Asia 7 yellow
+Europe 5 yellow
+SouthAmerica 2 yellow
+Africa 3 yellow
+Australia 2 yellow
 NorthAmerica 5 yellow
 
 [countries]
-1 Canada 1 0 0
-2 UnitedStates 1 0 0
+1 Japan 1 0 0
+2 Canada 6 0 0
+3 UnitedStates 6 0 0
 
 [borders]
-1 2
-2 1
+1
+2 3
+3 2
