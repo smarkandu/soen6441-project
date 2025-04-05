@@ -133,7 +133,7 @@ public class CommandLineInterface {
                 GameDriver.getGameEngine().getPhase().saveGame(l_filename);
             }
             break;
-            case "tournamentmode":
+            case "tournament":
                 processTournament(l_args);
                 break;
             case "":
@@ -271,8 +271,13 @@ public class CommandLineInterface {
         int l_numberOfGames = Integer.parseInt(p_args[6]);
         int l_maxNumberOfTurns = Integer.parseInt(p_args[8]);
 
-        GameDriver.getGameEngine().getPhase().tournament(l_listOfMapFiles, l_listOfPlayerStrategies, l_numberOfGames,
-                l_maxNumberOfTurns);
+        if (p_args[1].equalsIgnoreCase("-M") && p_args[3].equalsIgnoreCase("-P") && p_args[5].equalsIgnoreCase("-G")
+                && p_args[7].equalsIgnoreCase("-D") && p_args.length == 9) {
+            GameDriver.getGameEngine().getPhase().tournament(l_listOfMapFiles, l_listOfPlayerStrategies, l_numberOfGames,
+                    l_maxNumberOfTurns);
+        } else {
+            System.out.println("ERROR: Tournament command not entered correctly");
+        }
     }
 
     /**

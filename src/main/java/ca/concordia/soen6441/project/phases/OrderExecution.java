@@ -21,46 +21,60 @@ public class OrderExecution extends MainPlay {
      * Constructor to initialize the phase with the current game context.
      */
     public OrderExecution() {
-        
+
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deploy(String p_countryID, int p_toDeploy) {
         printInvalidCommandMessage();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void advance(String p_countryNameFrom, String p_countryNameTo, int p_toAdvance) {
         printInvalidCommandMessage();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void bomb(String p_countryID) {
         printInvalidCommandMessage();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void blockade(String p_countryID) {
         printInvalidCommandMessage();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void airlift(String p_sourceCountryID, String p_targetCountryID, int p_numArmies) {
         printInvalidCommandMessage();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void negotiate(String p_playerID) {
         printInvalidCommandMessage();
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void next() {
         printInvalidCommandMessage();
@@ -109,9 +123,9 @@ public class OrderExecution extends MainPlay {
 
         String l_playerWhoWon = gameWonBy();
         if (l_playerWhoWon != null) {
-            System.out.println("Game won by " + l_playerWhoWon + ": congratulations!");
-            End l_end = new End();
-            l_end.endGame();
+            System.out.println("Game #" + GameDriver.getGameEngine().getGameNumber() + " won by " + l_playerWhoWon + ": congratulations!");
+            Startup l_startup = new Startup();
+            l_startup.execute();
         } else {
             AssignReinforcements l_assignReinforcements = new AssignReinforcements();
             l_assignReinforcements.execute();
@@ -143,16 +157,23 @@ public class OrderExecution extends MainPlay {
      * @return the name of the winning player, or null if no winner
      */
     public String gameWonBy() {
-        ArrayList<Country> l_listOfCountries = new ArrayList<>(GameDriver.getGameEngine().getCountryManager().getCountries().values());
-        if (l_listOfCountries.isEmpty()) return null;
+        if (GameDriver.getGameEngine().getNumberOfTurns() == GameDriver.getGameEngine().getMaxNumberOfTurns()) {
+            GameDriver.getGameEngine().setOutcomeOfGame("Draw");
+        } else {
+            ArrayList<Country> l_listOfCountries = new ArrayList<>(GameDriver.getGameEngine().getCountryManager().getCountries().values());
+            if (l_listOfCountries.isEmpty()) return null;
 
-        Player l_player = l_listOfCountries.get(0).getOwner();
-        for (Country l_country : l_listOfCountries) {
-            if (l_country.getOwner() == null || l_country.getOwner() != l_player) {
-                return null;
+            Player l_player = l_listOfCountries.get(0).getOwner();
+            for (Country l_country : l_listOfCountries) {
+                if (l_country.getOwner() == null || l_country.getOwner() != l_player) {
+                    return null;
+                }
             }
+            GameDriver.getGameEngine().setOutcomeOfGame(l_player.getName());
+            return GameDriver.getGameEngine().getOutcomeOfGame();
         }
-        return l_player.getName();
+
+        return GameDriver.getGameEngine().getOutcomeOfGame();
     }
 
     /**

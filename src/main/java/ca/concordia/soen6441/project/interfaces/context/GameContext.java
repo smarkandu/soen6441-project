@@ -99,14 +99,72 @@ public interface GameContext {
 
     /**
      * Sets metadata for ownership for both player (if not null) and country
+     *
      * @param p_country the Country object to be owned
-     * @param p_player the Player object to own the country.  Null if unowned
+     * @param p_player  the Player object to own the country.  Null if unowned
      */
     void assignCountryToPlayer(Country p_country, Player p_player);
 
     /**
      * Removes ownership metadata from both player and country
+     *
      * @param p_country the Country object to be set to unowned
      */
     void unassignCountryFromPlayer(Country p_country);
+
+    /**
+     * Get number of turns
+     *
+     * @return turn value (integer)
+     */
+    int getNumberOfTurns();
+
+    /**
+     * Increments number of turns by 1 and returns updated value
+     *
+     * @return updated turn value (integer)
+     */
+    int incrementNumberOfTurns();
+
+    /**
+     * Get the maximum number of turns allowable for the game
+     *
+     * @return integer value
+     */
+    int getMaxNumberOfTurns();
+
+    /**
+     * Set the maximum number of turns allowable for the game
+     *
+     * @param p_maxNumberOfTurns integer value
+     */
+    void setMaxNumberOfTurns(int p_maxNumberOfTurns);
+
+    /**
+     * Get the outcome of the game (i.e. the winner or "draw")
+     *
+     * @return String value
+     */
+    public String getOutcomeOfGame();
+
+    /**
+     * Set the outcome of the game (i.e. the winner or "draw")
+     *
+     * @param p_outcomeOfGame String value to set outcome
+     */
+    public void setOutcomeOfGame(String p_outcomeOfGame);
+
+    /**
+     * Get Game Number
+     *
+     * @return integer value representing the game number
+     */
+    public int getGameNumber();
+
+    /**
+     * Set Game Number
+     *
+     * @param p_gameNumber integer value to set the game number to
+     */
+    public void setGameNumber(int p_gameNumber);
 }

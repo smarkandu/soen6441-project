@@ -19,10 +19,9 @@ public class AssignReinforcements extends MainPlay {
 
     /**
      * Constructs the AssignReinforcements phase.
-     *
      */
     public AssignReinforcements() {
-        
+
     }
 
     /**
@@ -105,6 +104,8 @@ public class AssignReinforcements extends MainPlay {
      * - Assigns reinforcement count to each player
      */
     public void execute() {
+        LogEntryBuffer.getInstance().appendToBuffer("\nGame #" + GameDriver.getGameEngine().getGameNumber() +
+                "; Turn #" + GameDriver.getGameEngine().incrementNumberOfTurns(), true);
         for (int l_i = 0; l_i < GameDriver.getGameEngine().getPlayerManager().getPlayers().size(); l_i++) {
             Player l_player = GameDriver.getGameEngine().getPlayerManager().getPlayer(l_i);
 

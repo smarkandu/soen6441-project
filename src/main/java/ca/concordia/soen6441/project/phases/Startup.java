@@ -3,10 +3,10 @@ package ca.concordia.soen6441.project.phases;
 import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.gameplay.CountryAssignment;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
+import ca.concordia.soen6441.project.log.LogEntryBuffer;
 import ca.concordia.soen6441.project.map.InvalidMapFileException;
 
 import java.io.FileNotFoundException;
-import java.util.List;
 
 /**
  * The Startup class represents the initial phase of the game.
@@ -19,7 +19,7 @@ public class Startup extends Play {
      * Constructs the Startup phase.
      */
     public Startup() {
-        
+
         d_countryAssignment = new CountryAssignment();
     }
 
@@ -52,8 +52,7 @@ public class Startup extends Play {
             d_countryAssignment.assignCountries();
 
             // After assigning countries, go to the next phase for each player (Assign Reinforcements)
-            AssignReinforcements l_assignReinforcements = new AssignReinforcements();
-            l_assignReinforcements.execute();
+            GameDriver.getGameEngineStack().push(GameDriver.getGameEngine());
         }
     }
 
@@ -124,16 +123,24 @@ public class Startup extends Play {
     /**
      * {@inheritDoc}
      */
-    public void loadGame(String p_filename) { printInvalidCommandMessage(); }
+    public void loadGame(String p_filename) {
+        printInvalidCommandMessage();
+    }
 
     /**
      * {@inheritDoc}
      */
-    public void saveGame(String p_filename) { printInvalidCommandMessage(); }
+    public void saveGame(String p_filename) {
+        printInvalidCommandMessage();
+    }
 
-    /**
-     * {@inheritDoc}
-     */
-    public void tournament(List<String> p_listOfMapFiles, List<String> p_listOfPlayerStrategies, int p_numberOfGames,
-                           int p_maxNumberOfTurns) { printInvalidCommandMessage(); }
+    public void execute() {
+        if (GameDriver.getGameEngineStack().size() > 1) {
+            GameDriver.setGameEngine(GameDriver.getGameEngineStack().removeFirst());
+        } else if (GameDriver.getGameEngineStack().size() == 1) {
+            LogEntryBuffer.getInstance().appendToBuffer("The tournament is over!  The results are as follows:", true);
+            LogEntryBuffer.getInstance().appendToBuffer("We now return you back to your game", true);
+            GameDriver.setGameEngine(GameDriver.getGameEngineStack().removeFirst());
+        }
+    }
 }

@@ -28,6 +28,10 @@ public class GameEngine implements GameContext, MapComponent, Serializable {
     private NeighborManager d_NeighborManager;
     private PlayerManager d_PlayerManager;
     private DeckOfCards d_DeckOfCards;
+    private int d_GameNumber;
+    private int d_numberOfTurns;
+    private int d_maxNumberOfTurns;
+    private String d_outcomeOfGame;
 
     /**
      * Constructs a new GameEngine instance and initializes game data structures.
@@ -39,6 +43,9 @@ public class GameEngine implements GameContext, MapComponent, Serializable {
         d_PlayerManager = new PlayerManager();
         d_validateMapImpl = new ValidateMapImpl(d_CountryManager.getCountries(), d_ContinentManager.getContinents());
         d_DeckOfCards = new DeckOfCards();
+        d_GameNumber = 1;
+        d_numberOfTurns = 0;
+        d_maxNumberOfTurns = Integer.MAX_VALUE;
     }
 
     public State getPhase() {
@@ -89,16 +96,16 @@ public class GameEngine implements GameContext, MapComponent, Serializable {
                 if (p_isDetailed) {
                     Player l_owner = l_country.getOwner(); // Get the country owner
                     int l_armyCount = l_country.getTroops(); // Get the number of troops in the country
-                    
+
                     // Append detailed information about the country
                     l_countryInfo.append(" | Owner: ").append(l_owner.getName()) // Owner's name
                             .append(" | Armies: ").append(l_armyCount); // Number of armies stationed
-                            
+
                 }
 
                 l_countryInfo.append(" | Neighbors: ")
-                         .append(String.join(", ", l_neighbors));
-                         
+                        .append(String.join(", ", l_neighbors));
+
                 // Print the formatted country information
                 System.out.println(l_countryInfo);
             }
@@ -244,20 +251,14 @@ public class GameEngine implements GameContext, MapComponent, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public void assignCountryToPlayer(Country p_country, Player p_player)
-    {
-        if (p_country == null)
-        {
+    public void assignCountryToPlayer(Country p_country, Player p_player) {
+        if (p_country == null) {
             System.out.println("ERROR: null value set for assignCountryToPlayer for p_country.  Operation cancelled.");
             return;
-        }
-        else if (p_player == null)
-        {
+        } else if (p_player == null) {
             System.out.println("ERROR: null value set for assignCountryToPlayer for p_player.  Operation cancelled.");
             return;
-        }
-        else
-        {
+        } else {
             p_country.setOwner(p_player);
             p_player.addOwnedCountry(p_country);
         }
@@ -267,12 +268,75 @@ public class GameEngine implements GameContext, MapComponent, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public void unassignCountryFromPlayer(Country p_country)
-    {
+    public void unassignCountryFromPlayer(Country p_country) {
         if (p_country.getOwner() != null) {
             p_country.getOwner().removeOwnedCountry(p_country);
         }
 
         p_country.setOwner(d_PlayerManager.getNeutralPlayer()); // Becomes Neutral
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getNumberOfTurns() {
+        return d_numberOfTurns;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int incrementNumberOfTurns() {
+        return ++d_numberOfTurns;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getMaxNumberOfTurns() {
+        return d_maxNumberOfTurns;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setMaxNumberOfTurns(int p_maxNumberOfTurns) {
+        d_maxNumberOfTurns = p_maxNumberOfTurns;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getOutcomeOfGame() {
+        return d_outcomeOfGame;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setOutcomeOfGame(String p_outcomeOfGame) {
+        d_outcomeOfGame = p_outcomeOfGame;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getGameNumber() {
+        return d_GameNumber;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setGameNumber(int p_gameNumber) {
+        d_GameNumber = p_gameNumber;
     }
 }

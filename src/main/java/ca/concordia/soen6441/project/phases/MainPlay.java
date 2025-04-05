@@ -6,7 +6,6 @@ import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
 import java.io.*;
-import java.util.List;
 
 /**
  * The MainPlay class represents the abstract base class for main gameplay phases.
@@ -18,7 +17,7 @@ public abstract class MainPlay extends Play implements Serializable {
      * Constructs a MainPlay phase.
      */
     public MainPlay() {
-        
+
     }
 
     /**
@@ -47,7 +46,7 @@ public abstract class MainPlay extends Play implements Serializable {
     /**
      * Invalid command for this phase.
      *
-     * @param p_playerName The name of the player to add.
+     * @param p_playerName         The name of the player to add.
      * @param p_playerBehaviorType The player behavior type
      */
     @Override
@@ -57,6 +56,7 @@ public abstract class MainPlay extends Play implements Serializable {
 
     /**
      * Invalid command for this phase.
+     *
      * @param p_playerName the name of the player to be removed.
      */
     @Override
@@ -91,14 +91,4 @@ public abstract class MainPlay extends Play implements Serializable {
                     + e.getMessage(), true);
         }
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void tournament(List<String> p_listOfMapFiles, List<String> p_listOfPlayerStrategies, int p_numberOfGames,
-                           int p_maxNumberOfTurns)
-    {
-        //TODO
-    }
-
 }

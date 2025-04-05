@@ -1,10 +1,15 @@
 package ca.concordia.soen6441.project.phases;
 
 import ca.concordia.soen6441.project.GameDriver;
+import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
+import ca.concordia.soen6441.project.interfaces.context.GameContext;
 
 import java.io.Serializable;
+import java.util.List;
 
 // State of the State pattern
+
 /**
  * The Play class represents an abstract phase in the game where the main gameplay occurs.
  * It extends the Phase class and defines behaviors specific to the play state.
@@ -15,7 +20,7 @@ public abstract class Play extends Phase implements Serializable {
      * Constructs a Play phase.
      */
     public Play() {
-        
+
     }
 
     /**
@@ -68,5 +73,35 @@ public abstract class Play extends Phase implements Serializable {
      */
     public void endGame() {
         GameDriver.getGameEngine().setPhase(new End());
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    public void tournament(List<String> p_listOfMapFiles, List<String> p_listOfPlayerStrategies, int p_numberOfGames,
+                           int p_maxNumberOfTurns) {
+        GameContext l_currentGameContext = GameDriver.getGameEngine();
+        StartupMethodImpl l_phaseMethodImpl = new StartupMethodImpl();
+        int l_game_number = 1;
+        for (int l_h = 0; l_h < p_listOfMapFiles.size(); l_h++) {
+            for (int l_i = 0; l_i < p_numberOfGames; l_i++) {
+                GameContext l_newGameContext = new GameEngine();
+                GameDriver.setGameEngine(l_newGameContext);
+                GameDriver.getGameEngine().setGameNumber(l_game_number);
+                l_phaseMethodImpl.loadMap(p_listOfMapFiles.get(l_h));
+
+                for (int l_j = 0; l_j < p_listOfPlayerStrategies.size(); l_j++) {
+                    PlayerBehaviorType l_playerBehaviorType = PlayerBehaviorType.valueOf(p_listOfPlayerStrategies.get(l_j).toUpperCase());
+                    l_phaseMethodImpl.gamePlayerAdd(p_listOfPlayerStrategies.get(l_j).toUpperCase() + l_j, l_playerBehaviorType);
+                }
+                l_phaseMethodImpl.assignCountries();
+                GameDriver.getGameEngineStack().addLast(GameDriver.getGameEngine());
+                l_game_number++;
+            }
+        }
+        GameDriver.getGameEngineStack().addLast(l_currentGameContext);
+        Startup l_startup = new Startup();
+        l_startup.execute();
     }
 }

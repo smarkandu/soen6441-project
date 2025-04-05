@@ -4,6 +4,7 @@ import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.ui.CommandLineInterface;
 
+import java.util.ArrayDeque;
 
 /**
  * The GameDriver class serves as the entry point for the game.
@@ -11,6 +12,7 @@ import ca.concordia.soen6441.project.ui.CommandLineInterface;
  */
 public class GameDriver {
     private static GameContext d_gameEngine = new GameEngine();
+    private static ArrayDeque<GameContext> d_arrayDeque = new ArrayDeque<>();
 
     public static GameContext getGameEngine() {
         return d_gameEngine;
@@ -18,6 +20,10 @@ public class GameDriver {
 
     public static void setGameEngine(GameContext p_gameEngine) {
         d_gameEngine = p_gameEngine;
+    }
+
+    public static ArrayDeque<GameContext> getGameEngineStack() {
+        return d_arrayDeque;
     }
 
     /**

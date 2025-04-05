@@ -1,0 +1,4 @@
+next
+next
+tournament -M F:\Github\soen6441-project\sample_maps\valid\america.map -P Random,Random -G 2 -D 10
+
