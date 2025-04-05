@@ -167,4 +167,12 @@ public interface GameContext {
      * @param p_gameNumber integer value to set the game number to
      */
     public void setGameNumber(int p_gameNumber);
+
+    /**
+     * Checks if a player has won the game.
+     * A player wins if they own all the countries on the map.
+     *
+     * @return the name of the winning player, or null if no winner
+     */
+    String gameWonBy();
 }

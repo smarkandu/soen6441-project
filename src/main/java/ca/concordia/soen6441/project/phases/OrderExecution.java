@@ -3,7 +3,6 @@ package ca.concordia.soen6441.project.phases;
 import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.gameplay.orders.Advance;
 import ca.concordia.soen6441.project.interfaces.Card;
-import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
@@ -121,7 +120,7 @@ public class OrderExecution extends MainPlay {
 
         validatePlayers();
 
-        String l_playerWhoWon = gameWonBy();
+        String l_playerWhoWon = GameDriver.getGameEngine().gameWonBy();
         if (l_playerWhoWon != null) {
             System.out.println("Game #" + GameDriver.getGameEngine().getGameNumber() + " won by " + l_playerWhoWon + ": congratulations!");
             Startup l_startup = new Startup();
@@ -148,32 +147,6 @@ public class OrderExecution extends MainPlay {
             }
         }
         return l_finished == GameDriver.getGameEngine().getPlayerManager().getPlayers().size();
-    }
-
-    /**
-     * Checks if a player has won the game.
-     * A player wins if they own all the countries on the map.
-     *
-     * @return the name of the winning player, or null if no winner
-     */
-    public String gameWonBy() {
-        if (GameDriver.getGameEngine().getNumberOfTurns() == GameDriver.getGameEngine().getMaxNumberOfTurns()) {
-            GameDriver.getGameEngine().setOutcomeOfGame("Draw");
-        } else {
-            ArrayList<Country> l_listOfCountries = new ArrayList<>(GameDriver.getGameEngine().getCountryManager().getCountries().values());
-            if (l_listOfCountries.isEmpty()) return null;
-
-            Player l_player = l_listOfCountries.get(0).getOwner();
-            for (Country l_country : l_listOfCountries) {
-                if (l_country.getOwner() == null || l_country.getOwner() != l_player) {
-                    return null;
-                }
-            }
-            GameDriver.getGameEngine().setOutcomeOfGame(l_player.getName());
-            return GameDriver.getGameEngine().getOutcomeOfGame();
-        }
-
-        return GameDriver.getGameEngine().getOutcomeOfGame();
     }
 
     /**
