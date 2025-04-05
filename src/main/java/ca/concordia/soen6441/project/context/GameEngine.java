@@ -7,9 +7,11 @@ import ca.concordia.soen6441.project.interfaces.MapComponent;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.interfaces.context.*;
 import ca.concordia.soen6441.project.interfaces.phases.State;
+import ca.concordia.soen6441.project.log.LogEntryBuffer;
 import ca.concordia.soen6441.project.map.*;
 import ca.concordia.soen6441.project.phases.Phase;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ public class GameEngine implements GameContext, MapComponent, Serializable
     private int d_numberOfTurns;
     private int d_maxNumberOfTurns;
     private String d_outcomeOfGame;
+    private String d_mapFileLoaded;
 
     /**
      * Constructs a new GameEngine instance and initializes game data structures.
@@ -49,6 +52,7 @@ public class GameEngine implements GameContext, MapComponent, Serializable
         d_GameNumber = 1;
         d_numberOfTurns = 0;
         d_maxNumberOfTurns = Integer.MAX_VALUE;
+        d_mapFileLoaded = null;
     }
 
     /**
@@ -64,6 +68,7 @@ public class GameEngine implements GameContext, MapComponent, Serializable
         d_GameNumber = 1;
         d_numberOfTurns = 0;
         d_maxNumberOfTurns = Integer.MAX_VALUE;
+        d_mapFileLoaded = null;
     }
 
     public State getPhase()
@@ -216,10 +221,14 @@ public class GameEngine implements GameContext, MapComponent, Serializable
         // Validate Map
         if (isMapValid())
         {
-            System.out.println("Map " + p_filename + " loaded");
+            File file = new File(p_filename);
+            String fileName = file.getName();
+            setMapFileLoaded(fileName);
+            LogEntryBuffer.getInstance().appendToBuffer("Map " + fileName + " loaded", true);
         }
         else
         {
+            setMapFileLoaded(null);
             throw new InvalidMapFileException();
         }
     }
@@ -418,5 +427,21 @@ public class GameEngine implements GameContext, MapComponent, Serializable
 
         GameDriver.getGameEngine().setOutcomeOfGame(l_player.getName());
         return GameDriver.getGameEngine().getOutcomeOfGame();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getMapFileLoaded()
+    {
+        return d_mapFileLoaded;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void setMapFileLoaded(String p_mapFileLoaded)
+    {
+        d_mapFileLoaded = p_mapFileLoaded;
     }
 }

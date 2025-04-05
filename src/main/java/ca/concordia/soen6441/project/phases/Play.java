@@ -93,6 +93,10 @@ public abstract class Play extends Phase implements Serializable
      */
     public void tournament(List<String> p_listOfMapFiles, List<String> p_listOfPlayerStrategies, int p_numberOfGames, int p_maxNumberOfTurns)
     {
+        // Clear Queues
+        GameDriver.getTournamentQueue().clear();
+        GameDriver.getPriorTournaments().clear();
+
         GameContext l_currentGameContext = GameDriver.getGameEngine();
         StartupMethodImpl l_phaseMethodImpl = new StartupMethodImpl();
         int l_gameNumber = 1;
@@ -101,9 +105,10 @@ public abstract class Play extends Phase implements Serializable
             for (int l_i = 0; l_i < p_numberOfGames; l_i++)
             {
                 GameContext l_newGameContext = new GameEngine();
-                GameDriver.setGameEngine(l_newGameContext);
-                GameDriver.getGameEngine().setGameNumber(l_gameNumber++);
-                l_phaseMethodImpl.loadMap(p_listOfMapFiles.get(l_h));
+                GameDriver.setGameEngine(l_newGameContext); // set tournament match as current
+                GameDriver.getGameEngine().setGameNumber(l_i); // set game number
+                GameDriver.getGameEngine().setMaxNumberOfTurns(p_maxNumberOfTurns); // set max number of turns
+                l_phaseMethodImpl.loadMap(p_listOfMapFiles.get(l_h)); // load map
 
                 for (int l_j = 0; l_j < p_listOfPlayerStrategies.size(); l_j++)
                 {
@@ -111,10 +116,12 @@ public abstract class Play extends Phase implements Serializable
                     l_phaseMethodImpl.gamePlayerAdd(p_listOfPlayerStrategies.get(l_j).toUpperCase() + l_j, l_playerBehaviorType);
                 }
                 l_phaseMethodImpl.assignCountries();
-                GameDriver.getGameEngineStack().addLast(GameDriver.getGameEngine());
+                GameDriver.getTournamentQueue().addLast(GameDriver.getGameEngine());
             }
         }
-        GameDriver.getGameEngineStack().addLast(l_currentGameContext);
+
+        // Add game that was interrupted for tournament at end of queue
+        GameDriver.getTournamentQueue().addLast(l_currentGameContext);
         Startup l_startup = new Startup();
         l_startup.execute();
     }

@@ -9,7 +9,8 @@ import ca.concordia.soen6441.project.phases.Phase;
 
 import java.io.FileNotFoundException;
 
-public interface GameContext {
+public interface GameContext
+{
     /**
      * To get the current phase of the game
      *
@@ -175,4 +176,18 @@ public interface GameContext {
      * @return the name of the winning player, or null if no winner
      */
     String gameWonBy();
+
+    /**
+     * Gets the filename of the map currently loaded
+     *
+     * @return String value representing the map currently loaded
+     */
+    public String getMapFileLoaded();
+
+    /**
+     * Sets the filename of the map currently loaded
+     *
+     * @param p_mapFileLoaded String value representing the map to set the value to
+     */
+    public void setMapFileLoaded(String p_mapFileLoaded);
 }

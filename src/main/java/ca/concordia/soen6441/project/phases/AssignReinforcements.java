@@ -114,7 +114,7 @@ public class AssignReinforcements extends MainPlay
      */
     public void execute()
     {
-        LogEntryBuffer.getInstance().appendToBuffer("\nGame #" + GameDriver.getGameEngine().getGameNumber() + "; Turn #" + GameDriver.getGameEngine().incrementNumberOfTurns(), true);
+        LogEntryBuffer.getInstance().appendToBuffer("\nMap: " + GameDriver.getGameEngine().getMapFileLoaded() + "; Game #" + GameDriver.getGameEngine().getGameNumber() + "; Turn #" + GameDriver.getGameEngine().incrementNumberOfTurns(), true);
         for (int l_i = 0; l_i < GameDriver.getGameEngine().getPlayerManager().getPlayers().size(); l_i++)
         {
             Player l_player = GameDriver.getGameEngine().getPlayerManager().getPlayer(l_i);
