@@ -14,6 +14,7 @@ public abstract class ComputerPlayerBehavior implements PlayerBehavior, Serializ
     public void issue_order(Player p_player) {
         deployment(p_player);
         attackTransfer(p_player);
+        LogEntryBuffer.getInstance().appendToBuffer(GameDriver.getGameEngine().getPhase().getPhaseName(), true);
         GameDriver.getGameEngine().getPhase().next();
     }
 

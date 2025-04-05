@@ -14,35 +14,36 @@ import java.util.Random;
  * the armies are moved to the target territory. If the target territory belongs to
  * another player, an attack happens between the two territories.
  */
-public class Advance implements Order {
-
-
+public class Advance implements Order
+{
     private Country d_sourceTerritory;
     private Country d_targetTerritory;
     private int d_toAdvance;
     private Player d_initiator;
     private Random d_random;
     private boolean d_conquersTerritory;
-    
+
     private double d_probabilityWinningAttacker = 0.60;
     private double d_probabilityWinningDefender = 0.70;
 
 
     /**
      * Constructor for Advance
+     *
      * @param p_sourceTerritory The country the player wants his army to move from
      * @param p_targetTerritory The country the player wants his army to move to
-     * @param p_toAdvance Number of troops the player wants to advance
-     * @param p_initiator The player that initiated the command
+     * @param p_toAdvance       Number of troops the player wants to advance
+     * @param p_initiator       The player that initiated the command
      */
-    public Advance(Country p_sourceTerritory, Country p_targetTerritory, int p_toAdvance, Player p_initiator) {
+    public Advance(Country p_sourceTerritory, Country p_targetTerritory, int p_toAdvance, Player p_initiator)
+    {
         this.d_sourceTerritory = p_sourceTerritory;
         this.d_targetTerritory = p_targetTerritory;
         this.d_toAdvance = p_toAdvance;
         this.d_initiator = p_initiator;
         this.d_random = new Random();
         this.d_conquersTerritory = false;
-        
+
         d_probabilityWinningAttacker = 0.60;
         d_probabilityWinningDefender = 0.70;
     }
@@ -51,14 +52,12 @@ public class Advance implements Order {
      * Execute method for Advance command
      */
     @Override
-    public void execute() {
-        int l_actualTroopsAdvance = getActualTroopsAdvance(d_toAdvance);
-        this.d_sourceTerritory.setTroops(this.d_sourceTerritory.getTroops() - l_actualTroopsAdvance);
-
+    public void execute()
+    {
         // Cancel attack if diplomacy pact exists
-        if (d_targetTerritory.getOwner() != null && d_initiator.hasNegotiatedWith(d_targetTerritory.getOwner())) {
-            LogEntryBuffer.getInstance().appendToBuffer("Attack canceled due to diplomacy pact between "
-                + d_initiator.getName() + " and " + d_targetTerritory.getOwner().getName(), true);
+        if (d_targetTerritory.getOwner() != null && d_initiator.hasNegotiatedWith(d_targetTerritory.getOwner()))
+        {
+            LogEntryBuffer.getInstance().appendToBuffer("Attack canceled due to diplomacy pact between " + d_initiator.getName() + " and " + d_targetTerritory.getOwner().getName(), true);
             return;
         }
 
@@ -70,11 +69,12 @@ public class Advance implements Order {
         }
         else
         {
-            LogEntryBuffer.getInstance().appendToBuffer(d_initiator.getName() + "'s army have advanced " + l_actualTroopsAdvance + " troops from "
-                    + d_sourceTerritory.getID() + " to "
-                    + d_targetTerritory.getID(), true);
+            int l_actualTroopsAdvance = getActualTroopsAdvance(d_toAdvance);
+            this.d_sourceTerritory.setTroops(this.d_sourceTerritory.getTroops() - l_actualTroopsAdvance);
+            LogEntryBuffer.getInstance().appendToBuffer(d_initiator.getName() + "'s army have advanced " + l_actualTroopsAdvance + " troops from " + d_sourceTerritory.getID() + " to " + d_targetTerritory.getID(), true);
 
-            if (d_targetTerritory.getTroops() == 0) {
+            if (d_targetTerritory.getTroops() == 0)
+            {
                 // Unoccupied, user takes control without difficulty
                 this.d_targetTerritory.setTroops(l_actualTroopsAdvance);
 
@@ -104,17 +104,13 @@ public class Advance implements Order {
                 {
                     GameDriver.getGameEngine().assignCountryToPlayer(d_targetTerritory, d_initiator);
                     d_targetTerritory.setTroops(l_battleResult.getPlayersTroops());
-                    LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName()
-                            + " wins the battle and conquers " + d_targetTerritory.getID() + "!\nRemaining survivors: "
-                            + d_targetTerritory.getTroops(), true);
+                    LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName() + " wins the battle and conquers " + d_targetTerritory.getID() + "!\nRemaining survivors: " + d_targetTerritory.getTroops(), true);
                     d_conquersTerritory = true;
                 }
                 else if (l_battleResult.getOpponentsTroops() > 0)
                 {
                     d_targetTerritory.setTroops(l_battleResult.getOpponentsTroops());
-                    LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName()
-                            + " fends of attacker at " + d_targetTerritory.getID() + " and wins the battle!\nRemaining survivors: "
-                            + d_targetTerritory.getTroops(), true);
+                    LogEntryBuffer.getInstance().appendToBuffer(d_targetTerritory.getOwner().getName() + " fends of attacker at " + d_targetTerritory.getID() + " and wins the battle!\nRemaining survivors: " + d_targetTerritory.getTroops(), true);
                 }
             }
         }
@@ -122,6 +118,7 @@ public class Advance implements Order {
 
     /**
      * Calculates if a battle was won for a given soldier
+     *
      * @param p_probabilityOfWinning The probability that a given soldier has of winning
      * @return true if won, false otherwise
      */
@@ -132,14 +129,14 @@ public class Advance implements Order {
 
     /**
      * Method that loops through the each solider fought until one side finally wins
-     * @param p_playersTroops Number of troops the current player has
+     *
+     * @param p_playersTroops   Number of troops the current player has
      * @param p_opponentsTroops Number of troops the defender has
      * @return A BattleResult object with stats on the outcome of the battle
      */
     private BattleResult calculateBattle(int p_playersTroops, int p_opponentsTroops)
     {
-        String l_battleMessage = "*** Country " + d_targetTerritory.getID() + " currently owned by " + d_targetTerritory.getOwner().getName()
-                + ".  A battle commences! ***";
+        String l_battleMessage = "*** Country " + d_targetTerritory.getID() + " currently owned by " + d_targetTerritory.getOwner().getName() + ".  A battle commences! ***";
         LogEntryBuffer.getInstance().appendToBuffer(l_battleMessage + " " + getTroopStatsInfo(p_playersTroops, p_opponentsTroops), true);
 
         boolean l_isInvader = true; // Invader goes first
@@ -184,6 +181,7 @@ public class Advance implements Order {
     /**
      * Obtain the actual number of troops available from the source
      * (Could change between the issue order and when executed)
+     *
      * @param p_toAdvance Number of troops requested when order was issued
      * @return Actual number of troops available ( gte # requested)
      */
@@ -194,84 +192,100 @@ public class Advance implements Order {
 
     /**
      * Gets the Source country where the troops will move form
+     *
      * @return A country object representing the source country
      */
-    public Country getSourceTerritory() {
+    public Country getSourceTerritory()
+    {
         return d_sourceTerritory;
     }
 
     /**
      * Gets the Destination country where the troops will move form
+     *
      * @return A country object representing the destination country
      */
-    public Country getTargetTerritory() {
+    public Country getTargetTerritory()
+    {
         return d_targetTerritory;
     }
 
     /**
      * Get the number of troops requested to advance when the order was issued
+     *
      * @return An integer value representing the # of troops
      */
-    public int getToAdvance() {
+    public int getToAdvance()
+    {
         return d_toAdvance;
     }
 
     /**
      * Get the player that issued the order
+     *
      * @return A Player object representing the player that initiated the order
      */
-    public Player getInitiator() {
+    public Player getInitiator()
+    {
         return d_initiator;
     }
 
     /**
      * Get a string representing the # of troops of the attacker vs. the defender
-     * @param p_playersTroops # of troops of the attacker
+     *
+     * @param p_playersTroops   # of troops of the attacker
      * @param p_opponentsTroops # of troops of the defender
      * @return String value representing the # of troops of the attacker vs. the defender
      */
     public String getTroopStatsInfo(int p_playersTroops, int p_opponentsTroops)
     {
 
-        return "(" + d_initiator.getName() + ": " + p_playersTroops + ";"
-                + d_targetTerritory.getOwner().getName() + ": " + p_opponentsTroops + ")";
+        return "(" + d_initiator.getName() + ": " + p_playersTroops + ";" + d_targetTerritory.getOwner().getName() + ": " + p_opponentsTroops + ")";
     }
 
     /**
      * Get a String Representation representing this object
+     *
      * @return A String value
      */
     @Override
-    public String toString() {
-        return "{Advance " + d_sourceTerritory.getID() +
-                " " + d_targetTerritory.getID() +
-                " " + d_toAdvance + "}";
+    public String toString()
+    {
+        return "{Advance " + d_sourceTerritory.getID() + " " + d_targetTerritory.getID() + " " + d_toAdvance + " (" + d_initiator.getName() + ")" + "}";
     }
 
     /**
      * Get Method for determining if the attacker won the battle
+     *
      * @return true if atacker won battle, false if battle lost or didnt take place
      */
-    public boolean conquersTerritory() {
+    public boolean conquersTerritory()
+    {
         return d_conquersTerritory;
     }
 
     /**
      * Used to validate whether there are any issues prior to executing an Order
+     *
      * @return A string if an error occurs, null otherwise.
      */
-    public String validate() {
-        if (d_sourceTerritory.equals(d_targetTerritory)) {
-            return "Error: Source and target territories cannot be the same.";
+    public String validate()
+    {
+        if (d_sourceTerritory.equals(d_targetTerritory))
+        {
+            return "Error: Source and target territories cannot be the same: " + this;
         }
-        if (!d_sourceTerritory.getOwner().getName().equals(d_initiator.getName())) {
-            return "Error: Player does not own the source territory.";
+        if (!d_sourceTerritory.getOwner().getName().equals(d_initiator.getName()))
+        {
+            return "Error: Player does not own the source territory: " + this;
         }
-        if (!d_sourceTerritory.getNeighborIDs().contains(d_targetTerritory.getID())) {
-            return "Error: Source and target territories are not neighbors.";
+        if (!d_sourceTerritory.getNeighborIDs().contains(d_targetTerritory.getID()))
+        {
+            return "Error: Source and target territories are not neighbors: " + this;
         }
-        if (d_sourceTerritory.getTroops() < d_toAdvance) {
-            return "Error: No longer enough troops in the source territory.";
+        if (d_sourceTerritory.getTroops() < d_toAdvance)
+        {
+            return "Error: No longer enough troops in the source territory: " + this + "; troops available: " + d_sourceTerritory.getTroops();
         }
 
         return null;
@@ -279,33 +293,41 @@ public class Advance implements Order {
 
     /**
      * Get probability for winning as an attacker
+     *
      * @return double value
      */
-    public double getProbabilityWinningAttacker() {
+    public double getProbabilityWinningAttacker()
+    {
         return d_probabilityWinningAttacker;
     }
 
     /**
      * Get probability for winning as a defender
+     *
      * @return double value
      */
-    public double getProbabilityWinningDefender() {
+    public double getProbabilityWinningDefender()
+    {
         return d_probabilityWinningDefender;
     }
 
     /**
      * Set probability for winning as an attacker
+     *
      * @param p_probabilityWinningAttacker double value representing the probability of attacker winning
      */
-    public void setProbabilityWinningAttacker(double p_probabilityWinningAttacker) {
+    public void setProbabilityWinningAttacker(double p_probabilityWinningAttacker)
+    {
         this.d_probabilityWinningAttacker = p_probabilityWinningAttacker;
     }
 
     /**
      * Set probability for winning as a defender
+     *
      * @param p_probabilityWinningDefender double value representing the probability of defender winning
      */
-    public void setProbabilityWinningDefender(double p_probabilityWinningDefender) {
+    public void setProbabilityWinningDefender(double p_probabilityWinningDefender)
+    {
         this.d_probabilityWinningDefender = p_probabilityWinningDefender;
     }
 }
