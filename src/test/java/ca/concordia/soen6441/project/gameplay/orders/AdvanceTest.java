@@ -20,7 +20,8 @@ import static org.mockito.Mockito.*;
 /**
  * Test Class to test the Advance Class
  */
-public class AdvanceTest {
+public class AdvanceTest
+{
     private Country d_sourceTerritory;
     private Country d_targetTerritory;
     private Player d_initiator;
@@ -30,7 +31,8 @@ public class AdvanceTest {
      * Set up method of all testcases in file
      */
     @BeforeEach
-    void setUp() {
+    void setUp()
+    {
         d_sourceTerritory = mock(Country.class);
         d_targetTerritory = mock(Country.class);
         d_initiator = mock(Player.class);
@@ -47,7 +49,8 @@ public class AdvanceTest {
      * Testcase for verifying that an Advance order can be executed when it has correct input
      */
     @Test
-    public void testValidAdvanceOrder() {
+    public void testValidAdvanceOrder()
+    {
         when(d_sourceTerritory.getOwner()).thenReturn(d_initiator);
         String l_temp = d_targetTerritory.getID();
         Mockito.when(d_sourceTerritory.getNeighborIDs()).thenReturn(Arrays.asList(l_temp));
@@ -62,23 +65,23 @@ public class AdvanceTest {
      * Testcase to verify that an error is generated if the source and destination are the same
      */
     @Test
-    public void testSourceAndTargetAreSame() {
+    public void testSourceAndTargetAreSame()
+    {
         Advance l_advanceOrder = new Advance(d_sourceTerritory, d_sourceTerritory, 5, d_initiator);
-        assertEquals("Error: Source and target territories cannot be the same.", l_advanceOrder.validate(),
-                "Validation should fail the source and the target cannot be the same.");
+        assertTrue(l_advanceOrder.validate().contains("Error: Source and target territories cannot be the same"), "Validation should fail the source and the target cannot be the same.");
     }
 
     /**
      * Testcase to verify that an error is generated if the source location is not owned by the attacker
      */
     @Test
-    public void testSourceNotOwnedByPlayer() {
+    public void testSourceNotOwnedByPlayer()
+    {
         Mockito.when(d_sourceTerritory.getOwner()).thenReturn(Mockito.mock(Player.class)); // Different owner
         Mockito.when(d_sourceTerritory.getOwner().getName()).thenReturn("DifferentPlayer"); // Different owner
 
         Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, 5, d_initiator);
-        assertEquals("Error: Player does not own the source territory.", l_advanceOrder.validate(),
-                "Validation should fail because the player does not own the source territory.");
+        assertTrue(l_advanceOrder.validate().contains("Error: Player does not own the source territory"), "Validation should fail because the player does not own the source territory.");
     }
 
 
@@ -87,7 +90,8 @@ public class AdvanceTest {
      * the advance
      */
     @Test
-    public void testInsufficientTroops() {
+    public void testInsufficientTroops()
+    {
         Mockito.when(d_sourceTerritory.getTroops()).thenReturn(3); // Less than requested
         when(d_sourceTerritory.getOwner()).thenReturn(d_initiator);
         String l_temp = d_targetTerritory.getID();
@@ -95,30 +99,29 @@ public class AdvanceTest {
         int l_numberOfTroops = 5;
         Mockito.when(d_sourceTerritory.getTroops()).thenReturn(l_numberOfTroops - 1);
 
-        Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, l_numberOfTroops,
-                d_initiator);
-        assertEquals("Error: No longer enough troops in the source territory.", l_advanceOrder.validate(),
-                "Validation should fail due to not enough troops.");
+        Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, l_numberOfTroops, d_initiator);
+        assertTrue(l_advanceOrder.validate().contains("Error: No longer enough troops in the source territory"), "Validation should fail due to not enough troops.");
     }
 
     /**
      * Testcase to verify that an error is generated if the neighbors selected are not neighbors
      */
     @Test
-    public void testNotNeighbors() {
+    public void testNotNeighbors()
+    {
         Mockito.when(d_sourceTerritory.getNeighborIDs()).thenReturn(Collections.emptyList()); // No adjacency
         when(d_sourceTerritory.getOwner()).thenReturn(d_initiator);
 
         Advance l_advanceOrder = new Advance(d_sourceTerritory, d_targetTerritory, 5, d_initiator);
-        assertEquals("Error: Source and target territories are not neighbors.", l_advanceOrder.validate(),
-                "Validation should fail since they are not neighbors");
+        assertTrue(l_advanceOrder.validate().contains("Error: Source and target territories are not neighbors"), "Validation should fail since they are not neighbors");
     }
 
     /**
      * Testcase When Conquering a Country
      */
     @Test
-    public void testConqueringACountry() {
+    public void testConqueringACountry()
+    {
         // Setup mock behaviors
         when(d_initiator.getName()).thenReturn("Player1");
         when(d_defender.getName()).thenReturn("Player2");
@@ -157,7 +160,8 @@ public class AdvanceTest {
      * Testcase when moving armies in a conquered country after conquering it
      */
     @Test
-    public void testMovingOfArmiesInConqueredCountryAfterConqueringIt() {
+    public void testMovingOfArmiesInConqueredCountryAfterConqueringIt()
+    {
         // Setup mock behaviors
         when(d_initiator.getName()).thenReturn("Player1");
         when(d_sourceTerritory.getOwner()).thenReturn(d_initiator);

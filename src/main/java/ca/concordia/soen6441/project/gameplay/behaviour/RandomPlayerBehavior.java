@@ -3,6 +3,7 @@ package ca.concordia.soen6441.project.gameplay.behaviour;
 import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
+import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
 import java.util.Collections;
 import java.util.List;
@@ -50,7 +51,9 @@ public class RandomPlayerBehavior extends ComputerPlayerBehavior {
                 GameDriver.getGameEngine().getPhase().deploy(l_randomCountryID, l_toDeploy);
             }
         }
-        System.out.println(GameDriver.getGameEngine().getPhase().getPhaseName());
+        LogEntryBuffer.getInstance().appendToBuffer(
+                "[RandomPlayer] deployment() executed in phase: " +
+                        GameDriver.getGameEngine().getPhase().getPhaseName(), true);
     }
 
     /**
@@ -61,8 +64,9 @@ public class RandomPlayerBehavior extends ComputerPlayerBehavior {
      */
     @Override
     public void attackTransfer(Player p_player) {
-        System.out.println("[RandomPlayer] attackTransfer() executed in phase: " +
-                GameDriver.getGameEngine().getPhase().getPhaseName());
+        LogEntryBuffer.getInstance().appendToBuffer(
+                "[RandomPlayer] attackTransfer() executed in phase: " +
+                        GameDriver.getGameEngine().getPhase().getPhaseName(), true);
         // Get all owned countries
         List<String> l_ownedCountryIDs = p_player.getOwnedCountries();
         Collections.shuffle(l_ownedCountryIDs); // Shuffle for randomness
