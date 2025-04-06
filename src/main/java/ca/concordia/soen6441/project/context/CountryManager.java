@@ -14,14 +14,16 @@ import java.util.TreeMap;
 /**
  * Class for managing the Country operations
  */
-public class CountryManager implements CountryContext, Serializable {
+public class CountryManager implements CountryContext, Serializable
+{
     private SortedMap<String, Country> d_Countries;
 
 
     /**
      * Constructor
      */
-    public CountryManager() {
+    public CountryManager()
+    {
         d_Countries = new TreeMap<String, Country>();
 
     }
@@ -33,10 +35,9 @@ public class CountryManager implements CountryContext, Serializable {
      * @param p_CountryID The unique identifier for the continent.
      */
     @Override
-    public void addCountry(int p_numericID, String p_CountryID, String p_continentID, int p_xCoord, int p_yCoord) {
-        Country l_country = OverallFactory.getInstance().CreateCountry(p_numericID, p_CountryID,
-                GameDriver.getGameEngine().getContinentManager().getContinents().get(p_continentID),
-                p_xCoord, p_yCoord, GameDriver.getGameEngine().getPlayerManager().getNeutralPlayer(), 2); // neutral army by default
+    public void addCountry(int p_numericID, String p_CountryID, String p_continentID, int p_xCoord, int p_yCoord)
+    {
+        Country l_country = OverallFactory.getInstance().CreateCountry(p_numericID, p_CountryID, GameDriver.getGameEngine().getContinentManager().getContinents().get(p_continentID), p_xCoord, p_yCoord, GameDriver.getGameEngine().getPlayerManager().getNeutralPlayer(), 0); // neutral army by default
         d_Countries.put(p_CountryID, l_country);
         System.out.println("Country added: " + d_Countries.get(l_country.getID()));
     }
@@ -45,9 +46,9 @@ public class CountryManager implements CountryContext, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public void addCountry(String p_CountryID, String p_continentID) {
-        Country l_country = OverallFactory.getInstance().CreateCountry(p_CountryID, GameDriver.getGameEngine().getContinentManager().getContinents().get(p_continentID),
-                GameDriver.getGameEngine().getPlayerManager().getNeutralPlayer(), 2); // neutral army by default
+    public void addCountry(String p_CountryID, String p_continentID)
+    {
+        Country l_country = OverallFactory.getInstance().CreateCountry(p_CountryID, GameDriver.getGameEngine().getContinentManager().getContinents().get(p_continentID), GameDriver.getGameEngine().getPlayerManager().getNeutralPlayer(), 0); // neutral army by default
         d_Countries.put(p_CountryID, l_country);
         System.out.println("Country added: " + d_Countries.get(l_country.getID()));
     }
@@ -58,7 +59,8 @@ public class CountryManager implements CountryContext, Serializable {
      * @param p_countryID The unique identifier of the country to be removed.
      */
     @Override
-    public void removeCountry(String p_countryID) {
+    public void removeCountry(String p_countryID)
+    {
         d_Countries.remove(p_countryID);
     }
 
@@ -66,10 +68,13 @@ public class CountryManager implements CountryContext, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public Country getCountryByNumericID(int p_numericIDOfCountry) {
+    public Country getCountryByNumericID(int p_numericIDOfCountry)
+    {
 
-        for (String l_key : d_Countries.keySet()) {
-            if (d_Countries.get(l_key).getNumericID() == p_numericIDOfCountry) {
+        for (String l_key : d_Countries.keySet())
+        {
+            if (d_Countries.get(l_key).getNumericID() == p_numericIDOfCountry)
+            {
                 return d_Countries.get(l_key); // found
             }
         }
@@ -84,10 +89,13 @@ public class CountryManager implements CountryContext, Serializable {
      * @return A list of countries within the specified continent.
      */
     @Override
-    public List<Country> getCountriesOfContinent(String p_continentID) {
+    public List<Country> getCountriesOfContinent(String p_continentID)
+    {
         List<Country> l_countries = new ArrayList<>();
-        for (Country l_country : d_Countries.values()) {
-            if (l_country.getContinent().getID().equals(p_continentID)) {
+        for (Country l_country : d_Countries.values())
+        {
+            if (l_country.getContinent().getID().equals(p_continentID))
+            {
                 l_countries.add(l_country);
             }
         }
@@ -98,14 +106,16 @@ public class CountryManager implements CountryContext, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public SortedMap<String, Country> getCountries() {
+    public SortedMap<String, Country> getCountries()
+    {
         return d_Countries;
     }
 
     /**
      * Clears all Country contents
      */
-    public void clear() {
+    public void clear()
+    {
         d_Countries.clear();
     }
 }

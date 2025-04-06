@@ -17,29 +17,29 @@ public class GameDriver
 {
     public static void getTournamentResults()
     {
-        TreeMap<String, List<String>> returnValue = new TreeMap<>();
+        TreeMap<String, List<String>> l_returnValue = new TreeMap<>();
         for (int l_i = 0; l_i < d_priorTournaments.size(); l_i++)
         {
             String l_filename = d_priorTournaments.get(l_i).getMapFileLoaded();
             String l_outcome = d_priorTournaments.get(l_i).getOutcomeOfGame();
-            if (!returnValue.containsKey(l_filename))
+            if (!l_returnValue.containsKey(l_filename))
             {
                 List<String> l_tempList = new ArrayList<String>();
                 l_tempList.add(l_outcome);
-                returnValue.put(l_filename, l_tempList);
+                l_returnValue.put(l_filename, l_tempList);
             }
             else
             {
-                List<String> l_tempList = returnValue.get(l_filename);
+                List<String> l_tempList = l_returnValue.get(l_filename);
                 l_tempList.add(l_outcome);
-                returnValue.put(l_filename, l_tempList);
+                l_returnValue.put(l_filename, l_tempList);
             }
         }
 
         System.out.println("Map\t\t\t[Game_Outcomes]");
-        for (String key : returnValue.keySet())
+        for (String l_key : l_returnValue.keySet())
         {
-            System.out.println(key + "\t\t\t" + returnValue.get(key));
+            System.out.println(l_key + "\t\t\t" + l_returnValue.get(l_key));
         }
     }
 
