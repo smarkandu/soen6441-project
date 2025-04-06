@@ -6,6 +6,24 @@ gameplayer -add Vipin -behavior random
 assigncountries
 showmap
 
-gameplayer -add Tharun -behavior benevolent
+next
+next
+loadmap F:\Github\soen6441-project\sample_maps\valid\europass.map
+gameplayer -add Tharun
+gameplayer -add Shubo
+assigncountries
+
+next
+next
+loadmap F:\Github\soen6441-project\sample_maps\valid\america.map
+gameplayer -add Steve -behavior human
 gameplayer -add Shubo -behavior aggressive
-gameplayer -add Marc -behavior cheater
+assigncountries
+
+next
+next
+loadmap F:\Github\soen6441-project\sample_maps\valid\america.map
+gameplayer -add Steve -behavior human
+gameplayer -add Tharun -behavior benevolent
+assigncountries
+
