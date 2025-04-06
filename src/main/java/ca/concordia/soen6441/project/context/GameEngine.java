@@ -221,10 +221,10 @@ public class GameEngine implements GameContext, MapComponent, Serializable
         // Validate Map
         if (isMapValid())
         {
-            File file = new File(p_filename);
-            String fileName = file.getName();
-            setMapFileLoaded(fileName);
-            LogEntryBuffer.getInstance().appendToBuffer("Map " + fileName + " loaded", true);
+            File l_file = new File(p_filename);
+            String l_fileName = l_file.getName();
+            setMapFileLoaded(l_fileName);
+            LogEntryBuffer.getInstance().appendToBuffer("Map " + l_fileName + " loaded", true);
         }
         else
         {
