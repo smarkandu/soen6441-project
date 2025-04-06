@@ -61,6 +61,10 @@ public class Startup extends Play
         else
         {
             d_countryAssignment.assignCountries();
+
+            // After assigning countries, go to the next phase for each player (Assign Reinforcements)
+            AssignReinforcements l_assignReinforcements = new AssignReinforcements();
+            l_assignReinforcements.execute();
         }
     }
 
@@ -163,9 +167,9 @@ public class Startup extends Play
         }
         else if (GameDriver.getTournamentQueue().size() == 1)
         {
-            LogEntryBuffer.getInstance().appendToBuffer("The tournament is over!  The results are as follows:", true);
+            LogEntryBuffer.getInstance().appendToBuffer("\nThe tournament is over!  The results are as follows:\n", true);
             GameDriver.getTournamentResults();
-            LogEntryBuffer.getInstance().appendToBuffer("We now return you back to your game", true);
+            LogEntryBuffer.getInstance().appendToBuffer("\nWe now return you back to your game!\n", true);
             GameDriver.setGameEngine(GameDriver.getTournamentQueue().removeFirst());
         }
     }
