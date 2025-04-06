@@ -4,6 +4,7 @@ import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.MapComponent;
 import ca.concordia.soen6441.project.interfaces.Player;
+import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
 import java.io.Serializable;
 import java.util.List;
@@ -34,9 +35,10 @@ public class CountryImpl implements Country, MapComponent, Serializable {
      * @param p_Continent Continent to which the country belongs.
      * @param p_xCoord    X coordinate of the country.
      * @param p_yCoord    Y coordinate of the country.
-     * @param p_owner Player object representing the owner of the country
+     * @param p_owner     Player object representing the owner of the country
+     * @param p_troops    Number of troops
      */
-    public CountryImpl(int p_numericID, String p_ID, Continent p_Continent, int p_xCoord, int p_yCoord, Player p_owner) {
+    public CountryImpl(int p_numericID, String p_ID, Continent p_Continent, int p_xCoord, int p_yCoord, Player p_owner, int p_troops) {
         this.d_ID = p_ID;
         this.d_xCoord = p_xCoord;
         this.d_yCoord = p_yCoord;
@@ -47,6 +49,7 @@ public class CountryImpl implements Country, MapComponent, Serializable {
             d_Counter = p_numericID;
         }
         this.d_owner = p_owner;
+        this.d_troops = p_troops;
     }
 
     /**
@@ -54,9 +57,10 @@ public class CountryImpl implements Country, MapComponent, Serializable {
      *
      * @param p_ID        String ID of the country.
      * @param p_Continent Continent to which the country belongs.
-     * @param p_owner Player object representing the owner
+     * @param p_owner     Player object representing the owner
+     * @param p_troops    Number of troops
      */
-    public CountryImpl(String p_ID, Continent p_Continent, Player p_owner) {
+    public CountryImpl(String p_ID, Continent p_Continent, Player p_owner, int p_troops) {
         this.d_ID = p_ID;
         this.d_xCoord = 0; // Hardcoded
         this.d_yCoord = 0; // Hardcoded
@@ -64,6 +68,7 @@ public class CountryImpl implements Country, MapComponent, Serializable {
         d_Neighbors = new TreeMap<String, Country>();
         this.d_numericID = ++d_Counter;
         d_owner = p_owner;
+        this.d_troops = p_troops;
     }
 
     /**
@@ -169,8 +174,7 @@ public class CountryImpl implements Country, MapComponent, Serializable {
      */
     @Override
     public void setOwner(Player p_owner) {
-        if (d_owner != null)
-        {
+        if (d_owner != null) {
             d_owner.getOwnedCountries().remove(this.getID());
         }
         d_owner = p_owner;
