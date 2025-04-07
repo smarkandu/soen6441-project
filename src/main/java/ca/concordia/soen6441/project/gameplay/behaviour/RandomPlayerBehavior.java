@@ -26,31 +26,28 @@ public class RandomPlayerBehavior extends ComputerPlayerBehavior {
      *
      * @param p_player The player issuing the order.
      */
+
     @Override
     public void deployment(Player p_player) {
-        // Get the list of countries owned by the player
         List<String> l_ownedCountries = p_player.getOwnedCountries();
-
-        // Shuffle to randomize order
         Collections.shuffle(l_ownedCountries);
 
-        // Only proceed if there are owned countries
         if (!l_ownedCountries.isEmpty()) {
-            // Get a random country ID from the list
-            String l_randomCountryID = l_ownedCountries.get(0);
+            while (p_player.getNumberOfTroopsOrderedToDeploy() < p_player.getReinforcements()) {
+                String l_randomCountryID = l_ownedCountries.get(0);
+                int l_remainingTroops = p_player.getReinforcements() - p_player.getNumberOfTroopsOrderedToDeploy();
 
-            // Get how many troops the player can still deploy
-            int l_remainingTroops = p_player.getReinforcements() - p_player.getNumberOfTroopsOrderedToDeploy();
+                // FIX: prevent Random.nextInt(0) error
+                if (l_remainingTroops <= 0) {
+                    break;
+                }
 
-            // If there are troops left to deploy
-            if (l_remainingTroops > 0 && l_randomCountryID != null) {
-                // Choose a random number of troops to deploy (between 1 and remaining troops)
                 int l_toDeploy = 1 + d_random.nextInt(l_remainingTroops);
 
-                // Create a deploy order and add it to the player's orders
                 GameDriver.getGameEngine().getPhase().deploy(l_randomCountryID, l_toDeploy);
             }
         }
+
         LogEntryBuffer.getInstance().appendToBuffer(
                 "[RandomPlayer] deployment() executed in phase: " +
                         GameDriver.getGameEngine().getPhase().getPhaseName(), true);
@@ -67,34 +64,40 @@ public class RandomPlayerBehavior extends ComputerPlayerBehavior {
         LogEntryBuffer.getInstance().appendToBuffer(
                 "[RandomPlayer] attackTransfer() executed in phase: " +
                         GameDriver.getGameEngine().getPhase().getPhaseName(), true);
-        // Get all owned countries
+
         List<String> l_ownedCountryIDs = p_player.getOwnedCountries();
-        Collections.shuffle(l_ownedCountryIDs); // Shuffle for randomness
+        Collections.shuffle(l_ownedCountryIDs);
 
         for (String l_countryID : l_ownedCountryIDs) {
-            // Get Country object
             Country l_source = GameDriver.getGameEngine().getCountryManager().getCountries().get(l_countryID);
-            if (l_source == null || l_source.getTroops() <= 1) continue; // Skip if no troops to send
+            if (l_source == null || l_source.getTroops() <= 1) continue;
 
-            // Shuffle neighbors
             List<String> l_neighbors = l_source.getNeighborIDs();
             Collections.shuffle(l_neighbors);
 
             for (String l_neighborID : l_neighbors) {
-                Country l_target = GameDriver.getGameEngine()
-                        .getCountryManager().getCountries().get(l_neighborID);
-
+                Country l_target = GameDriver.getGameEngine().getCountryManager().getCountries().get(l_neighborID);
                 if (l_target == null) continue;
-                // Skip if we've already used all troops from source
+
                 int l_availableTroops = l_source.getTroops() - p_player.getNumberOfTroopsOrderedToAdvance(l_source);
 
-                if (l_availableTroops <= 0) break;
+                // Fix: skip if no troops
+                if (l_availableTroops <= 0) continue;
 
+                // Fix: prevent crash
                 int l_toAdvance = 1 + d_random.nextInt(l_availableTroops);
 
-                // Issue advance order (attack or transfer)
-                GameDriver.getGameEngine().getPhase()
-                        .advance(l_countryID, l_neighborID, l_toAdvance);
+                // check if owned or enemy
+                if (p_player.getOwnedCountries().contains(l_neighborID)) {
+                    // Transfer to owned neighbor
+                    GameDriver.getGameEngine().getPhase().advance(l_countryID, l_neighborID, l_toAdvance);
+                } else {
+                    // Attack enemy neighbor
+                    GameDriver.getGameEngine().getPhase().advance(l_countryID, l_neighborID, l_toAdvance);
+                }
+
+                // Prevent infinite loop: move to next source country
+                break;
             }
         }
     }
