@@ -215,10 +215,8 @@ public class GameEngine implements GameContext, MapComponent, Serializable
         resetMap();
 
         // Read Map into Game Engine
-        //MapFileReader l_mapFileReader = new MapFileReader();
-        //l_mapFileReader.readMapFile(p_filename);
-        ConquestMapAdapter l_mapAdapter = new ConquestMapAdapter();
-        l_mapAdapter.readMapFile(p_filename);
+        MapFileReader l_mapFileReader = new MapFileReader();
+        l_mapFileReader.readMapFile(p_filename);
 
         // Validate Map
         if (isMapValid())
