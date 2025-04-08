@@ -22,14 +22,14 @@ public class CheaterPlayerBehavior extends ComputerPlayerBehavior {
 
         if(l_ownedCountries == null) {
             LogEntryBuffer.getInstance().appendToBuffer(
-                    "[Cheater] can't deploy because his owned Countries list doesn't exist" +
+                    p_player.getName() + " can't deploy because his owned Countries list doesn't exist" +
                             GameDriver.getGameEngine().getPhase().getPhaseName(), true);
         }
 
         assert l_ownedCountries != null;
         if(l_ownedCountries.isEmpty()) {
             LogEntryBuffer.getInstance().appendToBuffer(
-                    "[Cheater] can't deploy because his owned Countries list is empty" +
+                    p_player.getName() + " can't deploy because his owned Countries list is empty" +
                             GameDriver.getGameEngine().getPhase().getPhaseName(), true);
         }
 
@@ -71,18 +71,15 @@ public class CheaterPlayerBehavior extends ComputerPlayerBehavior {
 
         if (!l_neighborCountries.isEmpty()) {
             // conquer all neighbor countries and double army
-            LogEntryBuffer.getInstance().appendToBuffer(
-                    "[Cheater] is ready to conquer!" +
-                            GameDriver.getGameEngine().getPhase().getPhaseName(), true);
-
             for (String l_neighborCountry : l_neighborCountries) {
                 Country l_neighborTerritoryConquered = GameDriver.getGameEngine().getCountryManager().getCountries().get(l_neighborCountry);
                 l_neighborTerritoryConquered.setOwner(p_player);
+                int l_oldNumberOfTroops = l_neighborTerritoryConquered.getTroops();
                 l_neighborTerritoryConquered.setTroops(l_neighborTerritoryConquered.getTroops() * l_ARMY_MULTIPLICATOR);
                 LogEntryBuffer.getInstance().appendToBuffer(
-                        "[Cheater] has conquer " + l_neighborTerritoryConquered.getID() + ", and now there is " +
-                                l_neighborTerritoryConquered.getTroops() + " " +
-                                GameDriver.getGameEngine().getPhase().getPhaseName(), true);
+                        p_player.getName() + " cheats and modifies the map such that he now owns " +
+                                l_neighborTerritoryConquered.getID() + " and has doubled the number of troops from " + l_oldNumberOfTroops + " to " + l_neighborTerritoryConquered.getTroops()
+                                , true);
             }
         } else {
             // if we don't have any neighbor enemy territory, let's advance.
@@ -110,7 +107,7 @@ public class CheaterPlayerBehavior extends ComputerPlayerBehavior {
                     l_neighborCountry.get(0), l_countryWithHighestTroop.getTroops());
 
             LogEntryBuffer.getInstance().appendToBuffer(
-                    "[Cheater] has advanced to " + l_neighborCountry.get(0) + " " +
+                    p_player.getName() + " has advanced to " + l_neighborCountry.get(0) + " " +
                             GameDriver.getGameEngine().getPhase().getPhaseName(), true);
         }
     }
