@@ -15,13 +15,13 @@ public class ConquestMapAdapter implements MapReader
     /**
      * Adapts the Conquest map file reading to the MapReader interface.
      *
-     * @param filePath the file path of the Conquest map.
+     * @param p_filePath the file path of the Conquest map.
      * @throws FileNotFoundException if the file is not found.
      */
     @Override
-    public void readMapFile(String filePath) throws FileNotFoundException {
-        boolean valid = conquestReader.readConquestMap(filePath);
-        if (!valid) {
+    public void readMapFile(String p_filePath) throws FileNotFoundException {
+        boolean l_valid = conquestReader.readConquestMap(p_filePath);
+        if (!l_valid) {
             System.out.println("Conquest map is invalid.");
         }
     }

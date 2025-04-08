@@ -6,8 +6,8 @@ public interface MapReader
     /**
      * Reads a map from the given file path.
      *
-     * @param filePath the file path of the map.
+     * @param p_filePath the file path of the map.
      * @throws FileNotFoundException if the file is not found.
      */
-    void readMapFile(String filePath) throws FileNotFoundException;
+    void readMapFile(String p_filePath) throws FileNotFoundException;
 }
