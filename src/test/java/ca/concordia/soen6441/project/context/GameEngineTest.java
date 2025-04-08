@@ -1,8 +1,9 @@
-package ca.concordia.soen6441.project;
+package ca.concordia.soen6441.project.context;
 
-import ca.concordia.soen6441.project.context.GameEngine;
+import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
+import ca.concordia.soen6441.project.interfaces.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +13,7 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -21,7 +21,8 @@ import static org.mockito.Mockito.when;
  * Unit test for GameEngine class.
  * This test verifies the functionality of the showMap() and toMapString() method.
  */
-class GameEngineTest {
+public class GameEngineTest
+{
     private Continent d_mockContinent;
     private Country d_mockCountry;
     private Country d_mockNeighbor;
@@ -30,8 +31,10 @@ class GameEngineTest {
      * Sets up mock data for GameEngine before each test.
      */
     @BeforeEach
-    void setUp() {
-        GameEngine l_gameEngine = new GameEngine(); // Real instance of GameEngine
+    void setUp()
+    {
+        // Real instance of GameEngine with mock components
+        GameEngine l_gameEngine = new GameEngine(mock(ContinentManager.class), mock(CountryManager.class), mock(NeighborManager.class), mock(PlayerManager.class), mock(DeckOfCards.class));
         GameDriver.setGameEngine(l_gameEngine);
 
         // Mock dependencies
@@ -56,9 +59,9 @@ class GameEngineTest {
         GameDriver.getGameEngine().getContinentManager().getContinents().put("Asia", d_mockContinent);
         GameDriver.getGameEngine().getCountryManager().getCountries().put("India", d_mockCountry);
         GameDriver.getGameEngine().getCountryManager().getCountries().put("China", d_mockNeighbor); // Ensure neighbor exists
-    
 
-    // Mock continents map
+
+        // Mock continents map
         SortedMap<String, Continent> l_mockContinents = new TreeMap<>();
         l_mockContinents.put("Asia", d_mockContinent);
         GameDriver.getGameEngine().getContinentManager().getContinents().putAll(l_mockContinents);
@@ -72,7 +75,8 @@ class GameEngineTest {
      * Ensures that the generated map string contains expected data.
      */
     @Test
-    void testToMapString() {
+    void testToMapString()
+    {
         // Mock dependencies
         Continent l_mockContinent = mock(Continent.class);
         when(l_mockContinent.getID()).thenReturn("Asia");
@@ -85,8 +89,12 @@ class GameEngineTest {
         when(l_mockCountry.toMapString()).thenReturn("1 India Asia");
 
         // Add to game engine
-        GameDriver.getGameEngine().getContinentManager().getContinents().put("Asia", l_mockContinent);
-        GameDriver.getGameEngine().getCountryManager().getCountries().put("India", l_mockCountry);
+        TreeMap<String, Continent> l_treeMapContinent = new TreeMap<>();
+        l_treeMapContinent.put(l_mockContinent.getID(), l_mockContinent);
+        TreeMap<String, Country> l_treeMapCountry = new TreeMap<>();
+        l_treeMapCountry.put(l_mockCountry.getID(), l_mockCountry);
+        when(GameDriver.getGameEngine().getContinentManager().getContinents()).thenReturn(l_treeMapContinent);
+        when(GameDriver.getGameEngine().getCountryManager().getCountries()).thenReturn(l_treeMapCountry);
 
         // Capture output
         String l_actualOutput = GameDriver.getGameEngine().toMapString().trim();
@@ -97,12 +105,33 @@ class GameEngineTest {
         assertTrue(l_actualOutput.contains("Asia"), "Expected continent 'Asia' in output.");
         assertTrue(l_actualOutput.contains("1 India Asia"), "Expected country 'India' in output.");
     }
+
     /**
      * Tests the showMap() method of GameEngine.
      * Ensures that the map output contains expected continent and country data.
      */
     @Test
-    void testShowMap() {
+    void testShowMap()
+    {
+        // Mock dependencies
+        Continent l_mockContinent = mock(Continent.class);
+        when(l_mockContinent.getID()).thenReturn("Asia");
+        when(l_mockContinent.getValue()).thenReturn(5);
+        when(l_mockContinent.toMapString()).thenReturn("Asia 5");
+
+        Country l_mockCountry = mock(Country.class);
+        when(l_mockCountry.getID()).thenReturn("India");
+        when(l_mockCountry.getNumericID()).thenReturn(1);
+        when(l_mockCountry.toMapString()).thenReturn("1 India Asia");
+
+        // Add to game engine
+        TreeMap<String, Continent> l_treeMapContinent = new TreeMap<>();
+        l_treeMapContinent.put(l_mockContinent.getID(), l_mockContinent);
+        TreeMap<String, Country> l_treeMapCountry = new TreeMap<>();
+        l_treeMapCountry.put(l_mockCountry.getID(), l_mockCountry);
+        when(GameDriver.getGameEngine().getContinentManager().getContinents()).thenReturn(l_treeMapContinent);
+        when(GameDriver.getGameEngine().getCountryManager().getCountries()).thenReturn(l_treeMapCountry);
+
         // Capture console output
         ByteArrayOutputStream l_outContent = new ByteArrayOutputStream();
         PrintStream l_originalOut = System.out;
@@ -121,5 +150,61 @@ class GameEngineTest {
         // Assertions to check expected values
         assertFalse(l_actualOutput.isEmpty(), "showMap() output is empty.");
         assertTrue(l_actualOutput.contains("Asia"), "Expected 'Asia' in output.");
+    }
+
+    /**
+     * Tests that a player is correctly recognized as the winner
+     * when they own all countries on the map.
+     */
+    @Test
+    void testGameWonByPlayer()
+    {
+        Player l_mockPlayer = mock(Player.class);
+        when(l_mockPlayer.getName()).thenReturn("PlayerOne");
+
+        Country l_country1 = mock(Country.class);
+        when(l_country1.getOwner()).thenReturn(l_mockPlayer);
+
+        Country l_country2 = mock(Country.class);
+        when(l_country2.getOwner()).thenReturn(l_mockPlayer);
+
+        SortedMap<String, Country> l_mockCountries = new TreeMap<>();
+        l_mockCountries.put("C1", l_country1);
+        l_mockCountries.put("C2", l_country2);
+
+        when(GameDriver.getGameEngine().getCountryManager().getCountries()).thenAnswer(inv -> l_mockCountries);
+
+        String l_winner = GameDriver.getGameEngine().gameWonBy();
+
+        assertEquals("PlayerOne", l_winner);
+    }
+
+    /**
+     * Tests that no player is considered the winner if countries
+     * are owned by multiple players.
+     */
+    @Test
+    void testGameNotWonByAnyPlayer()
+    {
+        CountryManager l_mockCountryManager = mock(CountryManager.class);
+        Player l_mockPlayer1 = mock(Player.class);
+        Player l_mockPlayer2 = mock(Player.class);
+
+        Country l_country1 = mock(Country.class);
+        when(l_country1.getOwner()).thenReturn(l_mockPlayer1);
+
+        Country l_country2 = mock(Country.class);
+        when(l_country2.getOwner()).thenReturn(l_mockPlayer2);
+
+        SortedMap<String, Country> l_mockCountries = new TreeMap<>();
+        l_mockCountries.put("C1", l_country1);
+        l_mockCountries.put("C2", l_country2);
+
+//        when(GameDriver.getGameEngine().getCountryManager()).thenReturn(l_mockCountryManager);
+        when(GameDriver.getGameEngine().getCountryManager().getCountries()).thenAnswer(inv -> l_mockCountries);
+
+        String l_winner = GameDriver.getGameEngine().gameWonBy();
+
+        assertNull(l_winner);
     }
 }
