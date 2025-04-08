@@ -174,7 +174,7 @@ public class ConquestMapReader {
         return l_valid;
     }
     private Country getCountryByName(String p_countryName){
-        SortedMap<String, Country> d_Countries = GameDriver.getGameEngine().getCountryManager().getCountries();
-        return d_Countries.get(p_countryName);
+        SortedMap<String, Country> l_Countries = GameDriver.getGameEngine().getCountryManager().getCountries();
+        return l_Countries.get(p_countryName);
     }
 }

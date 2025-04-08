@@ -6,10 +6,10 @@ import java.io.FileNotFoundException;
 public class ConquestMapAdapter implements MapReader
 {
 
-    private ConquestMapReader conquestReader;
+    private ConquestMapReader d_conquestReader;
 
     public ConquestMapAdapter() {
-        this.conquestReader = new ConquestMapReader();
+        this.d_conquestReader = new ConquestMapReader();
     }
 
     /**
@@ -20,7 +20,7 @@ public class ConquestMapAdapter implements MapReader
      */
     @Override
     public void readMapFile(String p_filePath) throws FileNotFoundException {
-        boolean l_valid = conquestReader.readConquestMap(p_filePath);
+        boolean l_valid = d_conquestReader.readConquestMap(p_filePath);
         if (!l_valid) {
             System.out.println("Conquest map is invalid.");
         }
