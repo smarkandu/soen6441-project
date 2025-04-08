@@ -5,6 +5,7 @@ import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class which implements the Strategy design pattern for the Benevolent player behavior.
@@ -57,6 +58,7 @@ public class BenevolentPlayerBehavior extends ComputerPlayerBehavior {
     /**
      * Transfers troops from the strongest to the weakest owned neighboring country.
      * Benevolent players do not attack but are allowed to transfer troops defensively.
+     * This version also avoids transferring to a country adjacent to an enemy.
      *
      * @param p_player The player performing the transfer.
      */
@@ -106,6 +108,23 @@ public class BenevolentPlayerBehavior extends ComputerPlayerBehavior {
         }
 
         if (l_weakestNeighbor != null) {
+            // 🛡️ Safety check: skip if any enemy is adjacent to the transfer target
+            List<String> l_neighborOfNeighbor = l_weakestNeighbor.getNeighborIDs();
+            Map<String, Player> l_allPlayers = GameDriver.getGameEngine()
+                    .getPlayerManager()
+                    .getPlayers();
+            l_allPlayers.remove(p_player.getName());
+
+            for (String l_otherPlayer : l_allPlayers.keySet()) {
+                Player l_enemy = l_allPlayers.get(l_otherPlayer);
+                for (String l_enemyCountryId : l_enemy.getOwnedCountries()) {
+                    if (l_neighborOfNeighbor.contains(l_enemyCountryId)) {
+                        System.out.println("[Benevolent] Skipped transfer due to enemy nearby: " + l_enemyCountryId);
+                        return;
+                    }
+                }
+            }
+
             int l_availableTroops = l_strongest.getTroops()
                     - p_player.getNumberOfTroopsOrderedToAdvance(l_strongest);
 
