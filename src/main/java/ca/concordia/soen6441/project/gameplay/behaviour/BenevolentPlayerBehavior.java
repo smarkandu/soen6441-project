@@ -108,7 +108,6 @@ public class BenevolentPlayerBehavior extends ComputerPlayerBehavior {
         }
 
         if (l_weakestNeighbor != null) {
-            // 🛡️ Safety check: skip if any enemy is adjacent to the transfer target
             List<String> l_neighborOfNeighbor = l_weakestNeighbor.getNeighborIDs();
             Map<String, Player> l_allPlayers = GameDriver.getGameEngine()
                     .getPlayerManager()
