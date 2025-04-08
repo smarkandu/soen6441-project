@@ -27,3 +27,12 @@ gameplayer -add Steve -behavior human
 gameplayer -add Tharun -behavior benevolent
 assigncountries
 
+
+============================
+Commands for testing map reader for conquest
+next
+next
+loadmap ./sample_maps/invalid_conquestMap/Asia.map
+loadmap ./sample_maps/invalid_conquestMap/Africa.map
+loadmap ./sample_maps/valid_conquestMap/Asia.map
+loadmap ./sample_maps/valid_conquestMap/Africa.map

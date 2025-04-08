@@ -89,7 +89,6 @@ public class ConquestMapReader {
     private void processMapSection(List<String> lines) {
         for(String line : lines) {
             // Example: "image=Asia.bmp"
-            System.out.println("Map setting: " + line);
         }
     }
 
@@ -150,24 +149,25 @@ public class ConquestMapReader {
             // Retrieve the continent using getContinent(String)
             Continent continent = GameDriver.getGameEngine().getContinentManager().getContinent(continentName);
             if (continent == null) {
-                System.out.println("Continent not found for territory: " + line);
+                System.out.println("Continent not found for territory/country: " + line);
                 valid = false;
                 continue;
             }
-            // Add the country. In Conquest, use territoryName as country id.
+            // Add the country.
             GameDriver.getGameEngine().getCountryManager().addCountry(countryId, countryName, continent.getID(), x, y);
             countryId++;
         }
-
         //Add neighbors only after all the countries are added.
-        for(String line: lines){
-            String[] parts = line.split(",");
-            Country l_country = getCountryByName(parts[0].trim());
-            for (int i = 4; i < parts.length; i++) {
-                String neighborName = parts[i].trim();
-                Country l_neighbor = getCountryByName(neighborName);
-                if (l_country != null && l_neighbor != null) {
-                    l_country.addNeighbor(l_neighbor);
+        if(valid){
+            for(String line: lines){
+                String[] parts = line.split(",");
+                Country l_country = getCountryByName(parts[0].trim());
+                for (int i = 4; i < parts.length; i++) {
+                    String neighborName = parts[i].trim();
+                    Country l_neighbor = getCountryByName(neighborName);
+                    if (l_country != null && l_neighbor != null) {
+                        l_country.addNeighbor(l_neighbor);
+                    }
                 }
             }
         }
