@@ -3,6 +3,7 @@ package ca.concordia.soen6441.project.gameplay.behaviour;
 import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
+import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
 import java.util.List;
 import java.util.Map;
@@ -49,16 +50,18 @@ public class BenevolentPlayerBehavior extends ComputerPlayerBehavior {
                 GameDriver.getGameEngine()
                         .getPhase()
                         .deploy(l_weakest.getID(), l_availableTroops);
+
+                LogEntryBuffer.getInstance().addLog(
+                        p_player.getName() + " deployed " + l_availableTroops +
+                                " troops to weakest country: " + l_weakest.getID()
+                );
             }
         }
-
-        System.out.println("[Benevolent] deployment done for: " + p_player.getName());
     }
 
     /**
      * Transfers troops from the strongest to the weakest owned neighboring country.
-     * Benevolent players do not attack but are allowed to transfer troops defensively.
-     * This version also avoids transferring to a country adjacent to an enemy.
+     * Benevolent players do not attack but may transfer troops defensively.
      *
      * @param p_player The player performing the transfer.
      */
@@ -118,7 +121,9 @@ public class BenevolentPlayerBehavior extends ComputerPlayerBehavior {
                 Player l_enemy = l_allPlayers.get(l_otherPlayer);
                 for (String l_enemyCountryId : l_enemy.getOwnedCountries()) {
                     if (l_neighborOfNeighbor.contains(l_enemyCountryId)) {
-                        System.out.println("[Benevolent] Skipped transfer due to enemy nearby: " + l_enemyCountryId);
+                        LogEntryBuffer.getInstance().addLog(
+                                p_player.getName() + " skipped transfer: enemy near " + l_weakestNeighbor.getID()
+                        );
                         return;
                     }
                 }
@@ -128,14 +133,16 @@ public class BenevolentPlayerBehavior extends ComputerPlayerBehavior {
                     - p_player.getNumberOfTroopsOrderedToAdvance(l_strongest);
 
             if (l_availableTroops > 1) {
-                int l_toTransfer = l_availableTroops - 1; // Leave at least 1 troop behind
+                int l_toTransfer = l_availableTroops - 1; // Leave at least 1 behind
                 GameDriver.getGameEngine()
                         .getPhase()
                         .advance(l_strongest.getID(), l_weakestNeighbor.getID(), l_toTransfer);
 
-                System.out.println("[Benevolent] Transferred " + l_toTransfer
-                        + " troops from " + l_strongest.getID()
-                        + " to " + l_weakestNeighbor.getID());
+                LogEntryBuffer.getInstance().addLog(
+                        p_player.getName() + " transferred " + l_toTransfer
+                                + " troops from " + l_strongest.getID()
+                                + " to " + l_weakestNeighbor.getID()
+                );
             }
         }
     }
