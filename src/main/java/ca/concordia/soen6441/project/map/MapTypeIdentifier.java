@@ -25,9 +25,9 @@ public class MapTypeIdentifier {
         Pattern l_pattern = Pattern.compile("\\[(.*?)\\]"); // Regex to match text inside square brackets
 
         try (BufferedReader l_reader = new BufferedReader(new FileReader(p_filepath))) {
-            String line;
-            while ((line = l_reader.readLine()) != null) {
-                Matcher l_matcher = l_pattern.matcher(line);
+            String l_line;
+            while ((l_line = l_reader.readLine()) != null) {
+                Matcher l_matcher = l_pattern.matcher(l_line);
                 if (l_matcher.find()) {
                     l_sectionHeadings.add(l_matcher.group(1).toLowerCase()); // Add the matched text (without brackets)
                 }
