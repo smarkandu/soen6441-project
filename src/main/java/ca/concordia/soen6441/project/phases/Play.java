@@ -4,7 +4,11 @@ import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
+import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.List;
 
@@ -87,6 +91,21 @@ public abstract class Play extends Phase implements Serializable
         GameDriver.getGameEngine().setPhase(new End());
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public void loadGame(String p_filename)
+    {
+        try (ObjectInputStream l_objectInputStream = new ObjectInputStream(new FileInputStream(p_filename)))
+        {
+            GameEngine l_gameEngine = (GameEngine) l_objectInputStream.readObject(); // Deserialize the object
+            GameDriver.setGameEngine(l_gameEngine);
+            LogEntryBuffer.getInstance().appendToBuffer("Game loaded from: " + p_filename, true);
+        } catch (IOException | ClassNotFoundException e)
+        {
+            LogEntryBuffer.getInstance().appendToBuffer("Issue loading game: " + p_filename + ":\n" + e.getMessage(), true);
+        }
+    }
 
     /**
      * {@inheritDoc}

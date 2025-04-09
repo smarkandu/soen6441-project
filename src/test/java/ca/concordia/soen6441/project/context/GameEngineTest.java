@@ -4,18 +4,20 @@ import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
+import ca.concordia.soen6441.project.log.LogEntryBuffer;
+import ca.concordia.soen6441.project.phases.MainPlay;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.startsWith;
+import static org.mockito.Mockito.*;
 
 /**
  * Unit test for GameEngine class.
@@ -26,6 +28,17 @@ public class GameEngineTest
     private Continent d_mockContinent;
     private Country d_mockCountry;
     private Country d_mockNeighbor;
+    private MainPlay d_mainPlay;
+    private LogEntryBuffer d_mockLogBuffer;
+    private final String d_testFilename = "test_save_game.dat";
+
+    public class NonSerializableGameEngine extends GameEngine
+    {
+        private void writeObject(ObjectOutputStream out) throws IOException
+        {
+            throw new NotSerializableException("Forced failure for testing.");
+        }
+    }
 
     /**
      * Sets up mock data for GameEngine before each test.
@@ -68,6 +81,10 @@ public class GameEngineTest
 
         // Manually add the mock country
         GameDriver.getGameEngine().getCountryManager().getCountries().put("India", d_mockCountry);
+
+        // Mock the logger
+        d_mockLogBuffer = mock(LogEntryBuffer.class);
+        LogEntryBuffer.setInstance(d_mockLogBuffer);
     }
 
     /**
@@ -206,5 +223,36 @@ public class GameEngineTest
         String l_winner = GameDriver.getGameEngine().gameWonBy();
 
         assertNull(l_winner);
+    }
+
+    @Test
+    void testSaveGame_success()
+    {
+        GameDriver.getGameEngine().saveGame(d_testFilename);
+
+        File file = new File(d_testFilename);
+        assertTrue(file.exists(), "File should be created");
+        assertTrue(file.length() > 0, "File should contain serialized data");
+
+        verify(d_mockLogBuffer).appendToBuffer("Game saved as: " + d_testFilename, true);
+    }
+
+    @Test
+    void testSaveGame_nonSerializableObject_logsError()
+    {
+        // Create a non-serializable object by mocking with no serializable flag
+        GameEngine nonSerializableEngine = new NonSerializableGameEngine();
+        GameDriver.setGameEngine(nonSerializableEngine);
+        GameDriver.getGameEngine().saveGame(d_testFilename);
+
+        verify(d_mockLogBuffer).appendToBuffer(startsWith("Issue saving game: " + d_testFilename), eq(true));
+    }
+
+    @Test
+    void testSaveGame_filePathInvalid_logsError()
+    {
+        String invalidFilename = "/invalid_path/test.dat";
+        GameDriver.getGameEngine().saveGame(invalidFilename);
+        verify(d_mockLogBuffer).appendToBuffer(startsWith("Issue saving game: " + invalidFilename), eq(true));
     }
 }
