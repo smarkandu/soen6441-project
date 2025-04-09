@@ -78,7 +78,7 @@ public class MapFileReader implements MapReader{
         }
 
         if (l_mapIsValid) {
-            System.out.println("\nMap loaded...");
+            System.out.println("\nDomination Map loaded...");
         } else {
             System.out.println("\nSORRY! There was a problem loading the map...");
         }
