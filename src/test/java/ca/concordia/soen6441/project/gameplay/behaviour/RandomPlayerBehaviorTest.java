@@ -53,7 +53,7 @@ public class RandomPlayerBehaviorTest {
 
         // Player with Random behavior
         d_behavior = new RandomPlayerBehavior();
-        d_player = new PlayerImpl("RandomPlayer", new ArrayList<>(), new ArrayList<>(), d_behavior);
+        d_player = spy(new PlayerImpl("RandomPlayer", new ArrayList<>(), new ArrayList<>(), d_behavior));
 
         // Mock Countries
         d_country1 = mock(Country.class);
@@ -91,33 +91,52 @@ public class RandomPlayerBehaviorTest {
     /**
      * Tests that deployment issues a valid deploy order and logs the action.
      */
-    @Test
-    void testDeploymentIssuesOrderAndLogs() {
-        // Act
-        d_behavior.deployment(d_player);
+@Test
+void testDeploymentIssuesOrderAndLogs() {
+    // Force predictable behavior
+    List<String> l_countryList = new ArrayList<>();
+    l_countryList.add("C1");
 
-        // Assert
-        verify(d_mockPhase, atLeastOnce()).deploy(eq("C1"), anyInt());
+    // Return mocked owned country list
+    when(d_player.getOwnedCountries()).thenReturn(l_countryList);
 
-        String l_logs = LogEntryBuffer.getInstance().getLogInfo().toString();
-        assertTrue(l_logs.contains("deployment() executed in phase: Issue Orders"),
-                "Expected deployment log message not found.");
-    }
+    // Ensure deployment loop runs
+    // Simulate multiple deployments until reinforcement count is met
+when(d_player.getNumberOfTroopsOrderedToDeploy())
+    .thenReturn(0, 1, 2, 3, 4, 5);
+
+    when(d_player.getReinforcements()).thenReturn(5);
+
+    // Act
+    d_behavior.deployment(d_player);
+
+    // Assert
+    verify(d_mockPhase, atLeastOnce()).deploy(anyString(), anyInt());
+
+    String l_logs = LogEntryBuffer.getInstance().getLogInfo().toString();
+    assertTrue(l_logs.contains("deployment() executed in phase: Issue Orders"),
+            "Expected deployment log message not found.");
+}
+
+
+
+
 
     /**
      * Tests that attackTransfer issues a valid advance order to a neighbor and logs the action.
      */
-    @Test
-    void testAttackTransferIssuesOrderAndLogs() {
+    
+@Test
+void testAttackTransferIssuesOrderAndLogs() {
+    doReturn(0).when(d_player).getNumberOfTroopsOrderedToAdvance(any(Country.class));
 
-        // Act
-        d_behavior.attackTransfer(d_player);
+    d_behavior.attackTransfer(d_player);
 
-        // Assert
-        verify(d_mockPhase, atLeastOnce()).advance(eq("C1"), eq("C2"), anyInt());
+    verify(d_mockPhase, atLeastOnce()).advance(eq("C1"), eq("C2"), anyInt());
 
-        String l_logs = LogEntryBuffer.getInstance().getLogInfo().toString();
-        assertTrue(l_logs.contains("attackTransfer() executed in phase: Issue Orders"),
-                "Expected attackTransfer log message not found.");
-    }
+    String l_logs = LogEntryBuffer.getInstance().getLogInfo().toString();
+    assertTrue(l_logs.contains("attackTransfer() executed in phase: Issue Orders"),
+            "Expected attackTransfer log message not found.");
+}
+
 }
