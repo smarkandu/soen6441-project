@@ -1,0 +1,12 @@
+[Map]
+image=Asia.bmp
+
+
+[Continents]
+North Asia=3
+Asia Minor=4
+Arabian Peninsula=2
+Indian Sub-Continent=2
+South East Asia=4
+Oceania=4
+Persia=8

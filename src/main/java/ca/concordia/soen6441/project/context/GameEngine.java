@@ -215,8 +215,18 @@ public class GameEngine implements GameContext, MapComponent, Serializable
         resetMap();
 
         // Read Map into Game Engine
-        MapFileReader l_mapFileReader = new MapFileReader();
-        l_mapFileReader.readMapFile(p_filename);
+        MapTypeIdentifier l_mapTypeIdentifier = new MapTypeIdentifier();
+        String l_MapType = l_mapTypeIdentifier.mapType(p_filename);
+        if (l_MapType.equals("DominationMap")){
+            MapFileReader l_mapFileReader = new MapFileReader();
+            l_mapFileReader.readMapFile(p_filename);
+        }else if (l_MapType.equals("ConquestMap"))        {
+            ConquestMapAdapter l_conquestMapAdapter = new ConquestMapAdapter();
+            l_conquestMapAdapter.readMapFile(p_filename);
+        }else{
+            System.out.println("File does not have all the sections of Domination map or Conquest Map");
+            System.out.println("Invalid File Format!");
+        }
 
         // Validate Map
         if (isMapValid())

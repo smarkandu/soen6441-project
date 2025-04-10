@@ -3,6 +3,7 @@ package ca.concordia.soen6441.project.map;
 import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
+import ca.concordia.soen6441.project.interfaces.MapReader;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -13,7 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapFileReader {
+public class MapFileReader implements MapReader{
 
     /**
      * Checks the existence of file before reading it
@@ -57,7 +58,7 @@ public class MapFileReader {
             List<String> l_data = l_entry.getValue();
             System.out.println("Loading [" + l_section + "] from map...");
 
-            switch (l_section) {
+            switch (l_section.toLowerCase()) {
                 case "files":
                     l_mapIsValid &= processFilesSection(l_data);
                     break;
@@ -77,7 +78,7 @@ public class MapFileReader {
         }
 
         if (l_mapIsValid) {
-            System.out.println("\nMap loaded...");
+            System.out.println("\nDomination Map loaded...");
         } else {
             System.out.println("\nSORRY! There was a problem loading the map...");
         }

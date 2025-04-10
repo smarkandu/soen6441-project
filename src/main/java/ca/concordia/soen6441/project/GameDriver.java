@@ -24,7 +24,7 @@ public class GameDriver
             String l_outcome = d_priorTournaments.get(l_i).getOutcomeOfGame();
             if (!l_returnValue.containsKey(l_filename))
             {
-                List<String> l_tempList = new ArrayList<String>();
+                List<String> l_tempList = new ArrayList<>();
                 l_tempList.add(l_outcome);
                 l_returnValue.put(l_filename, l_tempList);
             }
@@ -78,4 +78,3 @@ public class GameDriver
         l_commandLineInterface.start();
     }
 }
-
