@@ -46,7 +46,6 @@ public class Airlift implements Order {
      */
     public String validate() {
         HandOfCardsContext l_cardManager = d_player.getHandOfCardsManager();
-        CardManager<AirliftCard> l_airliftCardManager = l_cardManager.getAirLiftCardManager();
 
         if (!d_player.equals(d_sourceCountry.getOwner())) {
             return "ERROR: Player does not own the source country!";
