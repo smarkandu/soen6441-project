@@ -4,6 +4,7 @@ import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -141,21 +142,28 @@ class PlayTest
 
     private Play d_play;
     private LogEntryBuffer d_mockLogBuffer;
+    private File d_tempSaveGameFile;
 
     /**
      * Setup method called before each test case
      */
     @BeforeEach
-    void setup()
+    void setup() throws IOException
     {
         d_play = new PlayStub();
         d_mockLogBuffer = mock(LogEntryBuffer.class);
         LogEntryBuffer.setInstance(d_mockLogBuffer);
+        d_tempSaveGameFile = File.createTempFile("test_game", ".ser");
     }
 
+    @AfterEach
+    void tearDown()
+    {
+        d_tempSaveGameFile.delete();
+    }
 
     /**
-     * Testcase for a successful load
+     * Testcase for a successful load game
      *
      * @throws IOException may occur due to file operations
      */
@@ -165,16 +173,15 @@ class PlayTest
         GameEngine l_mockGameEngine = mock(GameEngine.class);
         GameDriver.setGameEngine(l_mockGameEngine);
 
-        File l_tempFile = File.createTempFile("test_game", ".ser");
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(l_tempFile)))
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(d_tempSaveGameFile.getAbsolutePath())))
         {
             out.writeObject(l_mockGameEngine);
         }
 
-        d_play.loadGame(l_tempFile.getAbsolutePath());
+        d_play.loadGame(d_tempSaveGameFile.getAbsolutePath());
 
         assertEquals(l_mockGameEngine.getClass(), GameDriver.getGameEngine().getClass());
-        verify(d_mockLogBuffer).appendToBuffer(startsWith("Game loaded from: " + l_tempFile.getAbsolutePath()), eq(true));
+        verify(d_mockLogBuffer).appendToBuffer(startsWith("Game loaded from: " + d_tempSaveGameFile.getAbsolutePath()), eq(true));
     }
 
     /**
@@ -184,7 +191,6 @@ class PlayTest
     void testLoadGame_FileNotFound()
     {
         String l_nonExistentPath = "non_existent_file.ser";
-
         assertDoesNotThrow(() -> d_play.loadGame(l_nonExistentPath));
         verify(d_mockLogBuffer).appendToBuffer(startsWith("Issue loading game: " + l_nonExistentPath), eq(true));
     }
@@ -197,13 +203,14 @@ class PlayTest
     @Test
     void testLoadGame_InvalidObjectFormat() throws IOException
     {
-        File l_tempFile = File.createTempFile("invalid", ".ser");
-        try (FileOutputStream l_fileOutputStream = new FileOutputStream(l_tempFile))
+        // Create Invalid File
+        try (FileOutputStream l_fileOutputStream = new FileOutputStream(d_tempSaveGameFile.getAbsolutePath()))
         {
             l_fileOutputStream.write("not a serialized object".getBytes());
         }
+        assertDoesNotThrow(() -> d_play.loadGame(d_tempSaveGameFile.getAbsolutePath()));
 
-        assertDoesNotThrow(() -> d_play.loadGame(l_tempFile.getAbsolutePath()));
-        verify(d_mockLogBuffer).appendToBuffer(startsWith("Issue loading game: " + l_tempFile.getAbsolutePath()), eq(true));
+        // Try to load invalid file
+        verify(d_mockLogBuffer).appendToBuffer(startsWith("Issue loading game: " + d_tempSaveGameFile.getAbsolutePath()), eq(true));
     }
 }

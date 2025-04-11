@@ -5,7 +5,7 @@ import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
-import ca.concordia.soen6441.project.phases.MainPlay;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,10 +28,12 @@ public class GameEngineTest
     private Continent d_mockContinent;
     private Country d_mockCountry;
     private Country d_mockNeighbor;
-    private MainPlay d_mainPlay;
     private LogEntryBuffer d_mockLogBuffer;
-    private final String d_testFilename = "test_save_game.dat";
+    private File d_tempSaveGameFile;
 
+    /**
+     * Stub Class for a NonSerializable GameEngine object
+     */
     public class NonSerializableGameEngine extends GameEngine
     {
         private void writeObject(ObjectOutputStream out) throws IOException
@@ -44,7 +46,7 @@ public class GameEngineTest
      * Sets up mock data for GameEngine before each test.
      */
     @BeforeEach
-    void setUp()
+    void setUp() throws IOException
     {
         // Real instance of GameEngine with mock components
         GameEngine l_gameEngine = new GameEngine(mock(ContinentManager.class), mock(CountryManager.class), mock(NeighborManager.class), mock(PlayerManager.class), mock(DeckOfCards.class));
@@ -85,6 +87,14 @@ public class GameEngineTest
         // Mock the logger
         d_mockLogBuffer = mock(LogEntryBuffer.class);
         LogEntryBuffer.setInstance(d_mockLogBuffer);
+
+        d_tempSaveGameFile = File.createTempFile("test_game", ".ser");
+    }
+
+    @AfterEach
+    void tearDown()
+    {
+        d_tempSaveGameFile.delete();
     }
 
     /**
@@ -217,7 +227,6 @@ public class GameEngineTest
         l_mockCountries.put("C1", l_country1);
         l_mockCountries.put("C2", l_country2);
 
-//        when(GameDriver.getGameEngine().getCountryManager()).thenReturn(l_mockCountryManager);
         when(GameDriver.getGameEngine().getCountryManager().getCountries()).thenAnswer(inv -> l_mockCountries);
 
         String l_winner = GameDriver.getGameEngine().gameWonBy();
@@ -225,29 +234,37 @@ public class GameEngineTest
         assertNull(l_winner);
     }
 
+    /**
+     * Testcase for a successful save game
+     */
     @Test
     void testSaveGame_success()
     {
-        GameDriver.getGameEngine().saveGame(d_testFilename);
+        GameDriver.getGameEngine().saveGame(d_tempSaveGameFile.getAbsolutePath());
 
-        File file = new File(d_testFilename);
-        assertTrue(file.exists(), "File should be created");
-        assertTrue(file.length() > 0, "File should contain serialized data");
+        assertTrue(d_tempSaveGameFile.exists(), "File should be created");
+        assertTrue(d_tempSaveGameFile.length() > 0, "File should contain serialized data");
 
-        verify(d_mockLogBuffer).appendToBuffer("Game saved as: " + d_testFilename, true);
+        verify(d_mockLogBuffer).appendToBuffer("Game saved as: " + d_tempSaveGameFile.getAbsolutePath(), true);
     }
 
+    /**
+     * Testcase for when an object is non-serializable
+     */
     @Test
     void testSaveGame_nonSerializableObject_logsError()
     {
-        // Create a non-serializable object by mocking with no serializable flag
+        // Create an object that throws a "NotSerializableException" exception when you attempt to write it
         GameEngine nonSerializableEngine = new NonSerializableGameEngine();
         GameDriver.setGameEngine(nonSerializableEngine);
-        GameDriver.getGameEngine().saveGame(d_testFilename);
+        GameDriver.getGameEngine().saveGame(d_tempSaveGameFile.getAbsolutePath());
 
-        verify(d_mockLogBuffer).appendToBuffer(startsWith("Issue saving game: " + d_testFilename), eq(true));
+        verify(d_mockLogBuffer).appendToBuffer(startsWith("Issue saving game: " + d_tempSaveGameFile.getAbsolutePath()), eq(true));
     }
 
+    /**
+     * Testcase for when the filepath given is wrong
+     */
     @Test
     void testSaveGame_filePathInvalid_logsError()
     {
