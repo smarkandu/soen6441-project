@@ -2,3 +2,10 @@ next
 next
 tournament -M F:\Github\soen6441-project\sample_maps\valid\america.map,F:\Github\soen6441-project\sample_maps\valid\northamerica.map -P Cheater,Benevolent -G 2 -D 20
 
+next
+next
+tournament -M F:\Github\soen6441-project\sample_maps\valid\america.map,F:\Github\soen6441-project\sample_maps\valid\northamerica.map -P Cheater,Random -G 2 -D 20
+
+next
+next
+tournament -M F:\Github\soen6441-project\sample_maps\valid\america.map,F:\Github\soen6441-project\sample_maps\valid\northamerica.map -P Random,Benevolent -G 2 -D 20
