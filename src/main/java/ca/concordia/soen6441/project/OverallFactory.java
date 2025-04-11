@@ -1,10 +1,12 @@
 package ca.concordia.soen6441.project;
 
+import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.map.ContinentImpl;
 import ca.concordia.soen6441.project.map.CountryImpl;
+import ca.concordia.soen6441.project.phases.Startup;
 
 /**
  * Factory class for creating Continent and Country objects.
@@ -29,6 +31,15 @@ public class OverallFactory {
         }
 
         return instance;
+    }
+
+    /**
+     * To set the instance (usually for mocking)
+     * @param p_instance an OverallFactory object, or null (to reset)
+     */
+    public static void setInstance(OverallFactory p_instance)
+    {
+        instance = p_instance;
     }
 
     /**
@@ -80,5 +91,23 @@ public class OverallFactory {
      */
     public Country CreateCountry(String p_ID, Continent p_Continent, Player p_owner, int p_troops) {
         return new CountryImpl(p_ID, p_Continent, p_owner, p_troops);
+    }
+
+    /**
+     * Create a new Startup Phase object
+     * @return Startup object
+     */
+    public Startup CreateStartup()
+    {
+        return new Startup();
+    }
+
+    /**
+     * Create a new GameEngine object
+     * @return GameEngine object
+     */
+    public GameEngine CreateGameEngine()
+    {
+        return new GameEngine();
     }
 }
