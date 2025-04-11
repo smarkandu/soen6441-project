@@ -6,6 +6,9 @@ import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.List;
 
@@ -29,52 +32,79 @@ public abstract class Play extends Phase implements Serializable
     /**
      * Displays the current game map.
      */
+    @Override
     public void showMap()
     {
         GameDriver.getGameEngine().showMap(false);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void editContinentAdd(String p_continentID, int p_continentValue)
     {
         printInvalidCommandMessage();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void editContinentRemove(String p_continentID)
     {
         printInvalidCommandMessage();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void editCountryAdd(String p_countryID, String p_continentID)
     {
         printInvalidCommandMessage();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void editCountryRemove(String p_countryID)
     {
         printInvalidCommandMessage();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void editNeighborAdd(String p_countryID, String p_neighborCountryID)
     {
         printInvalidCommandMessage();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void editNeighborRemove(String p_countryID, String p_neighborCountryID)
     {
         printInvalidCommandMessage();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void validateMap()
     {
         printInvalidCommandMessage();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void saveMap(String p_filename)
     {
         printInvalidCommandMessage();
@@ -83,15 +113,33 @@ public abstract class Play extends Phase implements Serializable
     /**
      * Ends the game by transitioning to the End phase.
      */
+    @Override
     public void endGame()
     {
         GameDriver.getGameEngine().setPhase(new End());
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void loadGame(String p_filename)
+    {
+        try (ObjectInputStream l_objectInputStream = new ObjectInputStream(new FileInputStream(p_filename)))
+        {
+            GameEngine l_gameEngine = (GameEngine) l_objectInputStream.readObject(); // Deserialize the object
+            GameDriver.setGameEngine(l_gameEngine);
+            LogEntryBuffer.getInstance().appendToBuffer("Game loaded from: " + p_filename, true);
+        } catch (IOException | ClassNotFoundException e)
+        {
+            LogEntryBuffer.getInstance().appendToBuffer("Issue loading game: " + p_filename + ":\n" + e.getMessage(), true);
+        }
+    }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void tournament(List<String> p_listOfMapFiles, List<String> p_listOfPlayerStrategies, int p_numberOfGames, int p_maxNumberOfTurns)
     {
         // Clear Queues
