@@ -283,7 +283,7 @@ public class PlayTest
     @Test
     public void testTournament_MoreThanFourStrategies_ShouldThrow() {
         List<String> maps = Arrays.asList("map1.map", "map2.map");
-        List<String> strategies = Arrays.asList("A", "B", "C", "D", "E");
+        List<String> strategies = Arrays.asList("strategy1", "strategy2", "strategy3", "strategy4", "strategy5");
 
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
                 d_play.tournament(maps, strategies, 3, 20)
