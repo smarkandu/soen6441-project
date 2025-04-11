@@ -1,6 +1,7 @@
 package ca.concordia.soen6441.project.phases;
 
 import ca.concordia.soen6441.project.GameDriver;
+import ca.concordia.soen6441.project.map.SaveMapConquestAdapter;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -28,7 +29,7 @@ public class PostLoad extends Edit {
     }
 
     /**
-     * Saves the current map to a file.
+     * Saves the current map to a Domination file.
      *
      * @param p_filename The filename to save the map to.
      */
@@ -39,7 +40,26 @@ public class PostLoad extends Edit {
         // Write the data to the specified file
         try (PrintWriter l_writer = new PrintWriter(p_filename)) {
             l_writer.write(l_mapData);
-            System.out.println("Map successfully saved to: " + p_filename);
+            System.out.println("DOMINATION Map successfully saved to: " + p_filename);
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Saves the current map to a Conquest file.
+     *
+     * @param p_filename The filename to save the map to.
+     */
+    public void saveMapConquest(String p_filename) {
+        // Fetch the map data in Conquest format
+        SaveMapConquestAdapter l_saveMapConquestAdapter = new SaveMapConquestAdapter();
+        String l_mapData = l_saveMapConquestAdapter.toMapString();
+
+        // Write the data to the specified file
+        try (PrintWriter l_writer = new PrintWriter(p_filename)) {
+            l_writer.write(l_mapData);
+            System.out.println("CONQUEST Map successfully saved to: " + p_filename);
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }

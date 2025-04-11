@@ -2,6 +2,7 @@ package ca.concordia.soen6441.project.ui;
 
 import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
+import ca.concordia.soen6441.project.map.SaveMapConquestAdapter;
 import ca.concordia.soen6441.project.phases.IssueOrder;
 import ca.concordia.soen6441.project.phases.PreLoad;
 
@@ -81,10 +82,9 @@ public class CommandLineInterface
                 break;
             case "savemap":
             {
-                String l_filename = extractFileNameFromArgs(l_args);
-                GameDriver.getGameEngine().getPhase().saveMap(l_filename);
+                processSaveMap(l_args);
+                break;
             }
-            break;
             case "assigncountries":
                 GameDriver.getGameEngine().getPhase().assignCountries();
                 break;
@@ -167,6 +167,17 @@ public class CommandLineInterface
         }
 
         return l_continuePlaying;
+    }
+
+    private void processSaveMap(String[] p_args){
+        String l_filename = extractFileNameFromArgs(p_args);
+        if (p_args[1].equalsIgnoreCase("-domination") && p_args.length==2){
+            GameDriver.getGameEngine().getPhase().saveMap(l_filename);
+        }else if (p_args[1].equalsIgnoreCase("-conquest") && p_args.length==2){
+            //
+        }else{
+            System.out.println("Operation not recognized");
+        }
     }
 
     /**
