@@ -114,7 +114,7 @@ public class AssignReinforcements extends MainPlay
      */
     public void execute()
     {
-        LogEntryBuffer.getInstance().appendToBuffer("\nMap: " + GameDriver.getGameEngine().getMapFileLoaded() + "; Game #" + GameDriver.getGameEngine().getGameNumber() + "; Turn #" + GameDriver.getGameEngine().incrementNumberOfTurns(), true);
+        LogEntryBuffer.getInstance().appendToBuffer("\n*** Map: " + GameDriver.getGameEngine().getMapFileLoaded() + "; Game #" + GameDriver.getGameEngine().getGameNumber() + "; Turn #" + GameDriver.getGameEngine().incrementNumberOfTurns() + " ***", true);
         for (int l_i = 0; l_i < GameDriver.getGameEngine().getPlayerManager().getPlayers().size(); l_i++)
         {
             Player l_player = GameDriver.getGameEngine().getPlayerManager().getPlayer(l_i);
@@ -130,9 +130,13 @@ public class AssignReinforcements extends MainPlay
             int l_continentBonus = calculateContinentBonus(l_player, l_continents);
 
             int l_reinforcements = Math.max(3, (int) Math.floor(l_territoriesOwned / 3.0)) + l_continentBonus;
-            l_player.setReinforcements(l_reinforcements);
 
-            System.out.println(l_player.getName() + " receives " + l_player.getReinforcements() + " reinforcements.");
+            // Player must own at least one country to obtain reinforcements
+            if (l_territoriesOwned > 0)
+            {
+                l_player.setReinforcements(l_reinforcements);
+                System.out.println(l_player.getName() + " receives " + l_player.getReinforcements() + " reinforcements.");
+            }
         }
 
         // Set Current State to IssueOrder

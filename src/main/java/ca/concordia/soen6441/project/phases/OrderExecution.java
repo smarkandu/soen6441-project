@@ -14,12 +14,14 @@ import java.util.ArrayList;
  * It sequentially executes all player orders in a round-robin fashion,
  * handles territory conquests, card rewards, and determines game completion.
  */
-public class OrderExecution extends MainPlay {
+public class OrderExecution extends MainPlay
+{
 
     /**
      * Constructor to initialize the phase with the current game context.
      */
-    public OrderExecution() {
+    public OrderExecution()
+    {
 
     }
 
@@ -27,7 +29,8 @@ public class OrderExecution extends MainPlay {
      * {@inheritDoc}
      */
     @Override
-    public void deploy(String p_countryID, int p_toDeploy) {
+    public void deploy(String p_countryID, int p_toDeploy)
+    {
         printInvalidCommandMessage();
     }
 
@@ -35,7 +38,8 @@ public class OrderExecution extends MainPlay {
      * {@inheritDoc}
      */
     @Override
-    public void advance(String p_countryNameFrom, String p_countryNameTo, int p_toAdvance) {
+    public void advance(String p_countryNameFrom, String p_countryNameTo, int p_toAdvance)
+    {
         printInvalidCommandMessage();
     }
 
@@ -43,7 +47,8 @@ public class OrderExecution extends MainPlay {
      * {@inheritDoc}
      */
     @Override
-    public void bomb(String p_countryID) {
+    public void bomb(String p_countryID)
+    {
         printInvalidCommandMessage();
     }
 
@@ -51,7 +56,8 @@ public class OrderExecution extends MainPlay {
      * {@inheritDoc}
      */
     @Override
-    public void blockade(String p_countryID) {
+    public void blockade(String p_countryID)
+    {
         printInvalidCommandMessage();
     }
 
@@ -59,7 +65,8 @@ public class OrderExecution extends MainPlay {
      * {@inheritDoc}
      */
     @Override
-    public void airlift(String p_sourceCountryID, String p_targetCountryID, int p_numArmies) {
+    public void airlift(String p_sourceCountryID, String p_targetCountryID, int p_numArmies)
+    {
         printInvalidCommandMessage();
     }
 
@@ -67,7 +74,8 @@ public class OrderExecution extends MainPlay {
      * {@inheritDoc}
      */
     @Override
-    public void negotiate(String p_playerID) {
+    public void negotiate(String p_playerID)
+    {
         printInvalidCommandMessage();
     }
 
@@ -75,7 +83,8 @@ public class OrderExecution extends MainPlay {
      * {@inheritDoc}
      */
     @Override
-    public void next() {
+    public void next()
+    {
         printInvalidCommandMessage();
     }
 
@@ -84,19 +93,24 @@ public class OrderExecution extends MainPlay {
      * Awards cards for territory conquests, validates player status,
      * checks for game winner, and transitions to the next phase.
      */
-    public void execute() {
+    public void execute()
+    {
         int l_currentPlayerIndex = 0;
         int[] l_playerWins = new int[GameDriver.getGameEngine().getPlayerManager().getPlayers().size()];
 
-        while (!allPlayersFinishedExecutingOrders()) {
+        while (!allPlayersFinishedExecutingOrders())
+        {
             Player l_player = GameDriver.getGameEngine().getPlayerManager().getPlayer(l_currentPlayerIndex);
-            if (!l_player.getOrders().isEmpty()) {
+            if (!l_player.getOrders().isEmpty())
+            {
                 Order l_order = l_player.next_order();
                 l_order.execute();
 
-                if (l_order instanceof Advance) {
+                if (l_order instanceof Advance)
+                {
                     Advance l_advance = (Advance) l_order;
-                    if (l_advance.conquersTerritory()) {
+                    if (l_advance.conquersTerritory())
+                    {
                         l_playerWins[l_currentPlayerIndex]++;
                     }
                 }
@@ -105,14 +119,15 @@ public class OrderExecution extends MainPlay {
         }
 
         // Award cards to players who conquered at least one territory
-        for (int l_i = 0; l_i < l_playerWins.length; l_i++) {
-            if (l_playerWins[l_i] > 0) {
+        for (int l_i = 0; l_i < l_playerWins.length; l_i++)
+        {
+            if (l_playerWins[l_i] > 0)
+            {
                 Card l_cardDrawn = GameDriver.getGameEngine().getDeckOfCards().getCardFromDeck();
-                if (l_cardDrawn != null) {
+                if (l_cardDrawn != null)
+                {
                     GameDriver.getGameEngine().getPlayerManager().getPlayer(l_i).getHandOfCardsManager().addCard(l_cardDrawn);
-                    String l_message = GameDriver.getGameEngine().getPlayerManager().getPlayer(l_i).getName()
-                            + " conquered " + l_playerWins[l_i]
-                            + " countries this round! Awarded a " + l_cardDrawn + " card!";
+                    String l_message = GameDriver.getGameEngine().getPlayerManager().getPlayer(l_i).getName() + " conquered " + l_playerWins[l_i] + " countries this round! Awarded a " + l_cardDrawn + " card!";
                     LogEntryBuffer.getInstance().appendToBuffer(l_message, true);
                 }
             }
@@ -121,11 +136,21 @@ public class OrderExecution extends MainPlay {
         validatePlayers();
 
         String l_playerWhoWon = GameDriver.getGameEngine().gameWonBy();
-        if (l_playerWhoWon != null) {
-            System.out.println("Game #" + GameDriver.getGameEngine().getGameNumber() + " won by " + l_playerWhoWon + ": congratulations!");
+        if (l_playerWhoWon != null)
+        {
+            if (l_playerWhoWon.equals("Draw"))
+            {
+                LogEntryBuffer.getInstance().appendToBuffer("Game #" + GameDriver.getGameEngine().getGameNumber() + " declared a draw!\n", true);
+            }
+            else
+            {
+                LogEntryBuffer.getInstance().appendToBuffer("Game #" + GameDriver.getGameEngine().getGameNumber() + " won by " + l_playerWhoWon + ": congratulations!\n", true);
+            }
             Startup l_startup = new Startup();
             l_startup.execute();
-        } else {
+        }
+        else
+        {
             AssignReinforcements l_assignReinforcements = new AssignReinforcements();
             l_assignReinforcements.execute();
 
@@ -139,10 +164,13 @@ public class OrderExecution extends MainPlay {
      *
      * @return true if all players are done, false otherwise
      */
-    public boolean allPlayersFinishedExecutingOrders() {
+    public boolean allPlayersFinishedExecutingOrders()
+    {
         int l_finished = 0;
-        for (Player l_player : GameDriver.getGameEngine().getPlayerManager().getPlayers().values()) {
-            if (l_player.getOrders().isEmpty()) {
+        for (Player l_player : GameDriver.getGameEngine().getPlayerManager().getPlayers().values())
+        {
+            if (l_player.getOrders().isEmpty())
+            {
                 l_finished++;
             }
         }
@@ -153,12 +181,14 @@ public class OrderExecution extends MainPlay {
      * Validates the current players list by removing any player
      * who no longer owns any territories.
      */
-    public void validatePlayers() {
+    public void validatePlayers()
+    {
         ArrayList<Player> l_players = new ArrayList<>(GameDriver.getGameEngine().getPlayerManager().getPlayers().values());
-        for (Player l_player : l_players) {
-            if (l_player == null || l_player.getOwnedCountries().isEmpty()) {
-                LogEntryBuffer.getInstance().appendToBuffer("Player " + l_player.getName()
-                        + " no longer owns any countries and is no longer part of the game!", true);
+        for (Player l_player : l_players)
+        {
+            if (l_player == null || l_player.getOwnedCountries().isEmpty())
+            {
+                LogEntryBuffer.getInstance().appendToBuffer("Player " + l_player.getName() + " no longer owns any countries and is no longer part of the game!", true);
                 GameDriver.getGameEngine().getPlayerManager().removePlayer(l_player.getName());
             }
         }

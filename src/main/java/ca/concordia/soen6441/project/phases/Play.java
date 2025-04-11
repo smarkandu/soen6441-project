@@ -4,6 +4,7 @@ import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
+import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
 import java.io.Serializable;
 import java.util.List;
@@ -98,7 +99,6 @@ public abstract class Play extends Phase implements Serializable
         GameDriver.getPriorTournaments().clear();
 
         GameContext l_currentGameContext = GameDriver.getGameEngine();
-        StartupMethodImpl l_phaseMethodImpl = new StartupMethodImpl();
         int l_gameNumber = 1;
         for (int l_h = 0; l_h < p_listOfMapFiles.size(); l_h++)
         {
@@ -106,16 +106,17 @@ public abstract class Play extends Phase implements Serializable
             {
                 GameContext l_newGameContext = new GameEngine();
                 GameDriver.setGameEngine(l_newGameContext); // set tournament match as current
-                GameDriver.getGameEngine().setGameNumber(l_i); // set game number
+                GameDriver.getGameEngine().setGameNumber(l_i + 1); // set game number (starts at 1)
                 GameDriver.getGameEngine().setMaxNumberOfTurns(p_maxNumberOfTurns); // set max number of turns
-                l_phaseMethodImpl.loadMap(p_listOfMapFiles.get(l_h)); // load map
+                Startup l_startup = new Startup();
+                GameDriver.getGameEngine().setPhase(l_startup);
+                GameDriver.getGameEngine().getPhase().loadMap(p_listOfMapFiles.get(l_h)); // load map
 
                 for (int l_j = 0; l_j < p_listOfPlayerStrategies.size(); l_j++)
                 {
                     PlayerBehaviorType l_playerBehaviorType = PlayerBehaviorType.valueOf(p_listOfPlayerStrategies.get(l_j).toUpperCase());
-                    l_phaseMethodImpl.gamePlayerAdd(p_listOfPlayerStrategies.get(l_j).toUpperCase() + l_j, l_playerBehaviorType);
+                    GameDriver.getGameEngine().getPhase().gamePlayerAdd(p_listOfPlayerStrategies.get(l_j).toUpperCase() + l_j, l_playerBehaviorType);
                 }
-                l_phaseMethodImpl.assignCountries();
                 GameDriver.getTournamentQueue().addLast(GameDriver.getGameEngine());
             }
         }
@@ -123,6 +124,8 @@ public abstract class Play extends Phase implements Serializable
         // Add game that was interrupted for tournament at end of queue
         GameDriver.getTournamentQueue().addLast(l_currentGameContext);
         Startup l_startup = new Startup();
+        GameDriver.getGameEngine().setPhase(l_startup);
+        LogEntryBuffer.getInstance().appendToBuffer("\nThe tournament is about to begin!\n", true);
         l_startup.execute();
     }
 }
