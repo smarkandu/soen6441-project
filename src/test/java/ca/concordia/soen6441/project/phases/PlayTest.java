@@ -223,10 +223,10 @@ public class PlayTest
      */
     @Test
     void testTournamentQueueSizeMatchesExpected() {
-        List<String> mapFiles = List.of("F:\\Github\\soen6441-project\\sample_maps\\valid\\america.map", "F:\\Github\\soen6441-project\\sample_maps\\valid\\northamerica.map");
-        List<String> playerStrategies = List.of("aggressive", "benevolent");
-        int numberOfGames = 2;
-        int maxTurns = 10;
+        List<String> l_mapFiles = List.of("F:\\Github\\soen6441-project\\sample_maps\\valid\\america.map", "F:\\Github\\soen6441-project\\sample_maps\\valid\\northamerica.map");
+        List<String> l_playerStrategies = List.of("aggressive", "benevolent");
+        int l_numberOfGames = 2;
+        int l_maxTurns = 10;
         GameEngine l_gameEngine = mock(GameEngine.class);
         GameDriver.setGameEngine(l_gameEngine);
         OverallFactory l_overallFactory = mock(OverallFactory.class);
@@ -237,7 +237,7 @@ public class PlayTest
         when(GameDriver.getGameEngine().getPhase()).thenReturn(l_startup);
 
         // Call the tournament commands
-        d_play.tournament(mapFiles, playerStrategies, numberOfGames, maxTurns);
+        d_play.tournament(l_mapFiles, l_playerStrategies, l_numberOfGames, l_maxTurns);
 
         // Verify the # of objects on queue
         // Assert: 2 maps × 2 games = 4 tournament games + 1 original context restored
@@ -250,14 +250,14 @@ public class PlayTest
      */
     @Test
     public void testTournament_LessThanTwoMaps_ShouldThrow() {
-        List<String> maps = Collections.singletonList("map1.map");
-        List<String> strategies = Arrays.asList("Aggressive", "Benevolent");
+        List<String> l_maps = Collections.singletonList("map1.map");
+        List<String> l_strategies = Arrays.asList("Aggressive", "Benevolent");
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                d_play.tournament(maps, strategies, 3, 20)
+        Exception l_exception = assertThrows(IllegalArgumentException.class, () ->
+                d_play.tournament(l_maps, l_strategies, 3, 20)
         );
 
-        assertEquals("Tournament must have at least two map files.", exception.getMessage());
+        assertEquals("Tournament must have at least two map files.", l_exception.getMessage());
     }
 
     /**
@@ -266,14 +266,14 @@ public class PlayTest
      */
     @Test
     public void testTournament_LessThanTwoStrategies_ShouldThrow() {
-        List<String> maps = Arrays.asList("map1.map", "map2.map");
-        List<String> strategies = Collections.singletonList("Aggressive");
+        List<String> l_maps = Arrays.asList("map1.map", "map2.map");
+        List<String> l_strategies = Collections.singletonList("Aggressive");
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                d_play.tournament(maps, strategies, 3, 20)
+        Exception l_exception = assertThrows(IllegalArgumentException.class, () ->
+                d_play.tournament(l_maps, l_strategies, 3, 20)
         );
 
-        assertEquals("Tournament must have between 2 and 4 player strategies.", exception.getMessage());
+        assertEquals("Tournament must have between 2 and 4 player strategies.", l_exception.getMessage());
     }
 
     /**
@@ -282,14 +282,14 @@ public class PlayTest
      */
     @Test
     public void testTournament_MoreThanFourStrategies_ShouldThrow() {
-        List<String> maps = Arrays.asList("map1.map", "map2.map");
-        List<String> strategies = Arrays.asList("strategy1", "strategy2", "strategy3", "strategy4", "strategy5");
+        List<String> l_maps = Arrays.asList("map1.map", "map2.map");
+        List<String> l_strategies = Arrays.asList("strategy1", "strategy2", "strategy3", "strategy4", "strategy5");
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                d_play.tournament(maps, strategies, 3, 20)
+        Exception l_exception = assertThrows(IllegalArgumentException.class, () ->
+                d_play.tournament(l_maps, l_strategies, 3, 20)
         );
 
-        assertEquals("Tournament must have between 2 and 4 player strategies.", exception.getMessage());
+        assertEquals("Tournament must have between 2 and 4 player strategies.", l_exception.getMessage());
     }
 
     /**
@@ -298,14 +298,14 @@ public class PlayTest
      */
     @Test
     public void testTournament_GamesLessThanOne_ShouldThrow() {
-        List<String> maps = Arrays.asList("map1.map", "map2.map");
-        List<String> strategies = Arrays.asList("Aggressive", "Random");
+        List<String> l_maps = Arrays.asList("map1.map", "map2.map");
+        List<String> l_strategies = Arrays.asList("Aggressive", "Random");
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                d_play.tournament(maps, strategies, 0, 20)
+        Exception l_exception = assertThrows(IllegalArgumentException.class, () ->
+                d_play.tournament(l_maps, l_strategies, 0, 20)
         );
 
-        assertEquals("Tournament must have between 1 and 5 games per map.", exception.getMessage());
+        assertEquals("Tournament must have between 1 and 5 games per map.", l_exception.getMessage());
     }
 
     /**
@@ -314,14 +314,14 @@ public class PlayTest
      */
     @Test
     public void testTournament_GamesMoreThanFive_ShouldThrow() {
-        List<String> maps = Arrays.asList("map1.map", "map2.map");
-        List<String> strategies = Arrays.asList("Aggressive", "Random");
+        List<String> l_maps = Arrays.asList("map1.map", "map2.map");
+        List<String> l_strategies = Arrays.asList("Aggressive", "Random");
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                d_play.tournament(maps, strategies, 6, 20)
+        Exception l_exception = assertThrows(IllegalArgumentException.class, () ->
+                d_play.tournament(l_maps, l_strategies, 6, 20)
         );
 
-        assertEquals("Tournament must have between 1 and 5 games per map.", exception.getMessage());
+        assertEquals("Tournament must have between 1 and 5 games per map.", l_exception.getMessage());
     }
 
     /**
@@ -330,14 +330,14 @@ public class PlayTest
      */
     @Test
     public void testTournament_TurnsLessThanTen_ShouldThrow() {
-        List<String> maps = Arrays.asList("map1.map", "map2.map");
-        List<String> strategies = Arrays.asList("Aggressive", "Random");
+        List<String> l_maps = Arrays.asList("map1.map", "map2.map");
+        List<String> l_strategies = Arrays.asList("Aggressive", "Random");
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                d_play.tournament(maps, strategies, 3, 5)
+        Exception l_exception = assertThrows(IllegalArgumentException.class, () ->
+                d_play.tournament(l_maps, l_strategies, 3, 5)
         );
 
-        assertEquals("Tournament must have between 10 and 50 turns per game.", exception.getMessage());
+        assertEquals("Tournament must have between 10 and 50 turns per game.", l_exception.getMessage());
     }
 
     /**
@@ -346,14 +346,14 @@ public class PlayTest
      */
     @Test
     public void testTournament_TurnsMoreThanFifty_ShouldThrow() {
-        List<String> maps = Arrays.asList("map1.map", "map2.map");
-        List<String> strategies = Arrays.asList("Aggressive", "Random");
+        List<String> l_maps = Arrays.asList("map1.map", "map2.map");
+        List<String> l_strategies = Arrays.asList("Aggressive", "Random");
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                d_play.tournament(maps, strategies, 3, 60)
+        Exception l_exception = assertThrows(IllegalArgumentException.class, () ->
+                d_play.tournament(l_maps, l_strategies, 3, 60)
         );
 
-        assertEquals("Tournament must have between 10 and 50 turns per game.", exception.getMessage());
+        assertEquals("Tournament must have between 10 and 50 turns per game.", l_exception.getMessage());
     }
 
     /**
@@ -362,14 +362,14 @@ public class PlayTest
      */
     @Test
     public void testTournament_InvalidStrategyName_ShouldThrowException() {
-        List<String> maps = Arrays.asList("map1.map", "map2.map");
-        List<String> strategies = Arrays.asList("InvalidStrategy", "Random");
+        List<String> l_maps = Arrays.asList("map1.map", "map2.map");
+        List<String> l_strategies = Arrays.asList("InvalidStrategy", "Random");
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                d_play.tournament(maps, strategies, 2, 20)
+        Exception l_exception = assertThrows(IllegalArgumentException.class, () ->
+                d_play.tournament(l_maps, l_strategies, 2, 20)
         );
 
-        assertTrue(exception.getMessage().contains("No enum constant"));
+        assertTrue(l_exception.getMessage().contains("No enum constant"));
     }
 
 }
