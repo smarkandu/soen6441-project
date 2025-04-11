@@ -2,6 +2,7 @@ package ca.concordia.soen6441.project;
 
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.interfaces.context.GameContext;
+import ca.concordia.soen6441.project.log.LogEntryBuffer;
 import ca.concordia.soen6441.project.ui.CommandLineInterface;
 
 import java.util.ArrayDeque;
@@ -36,10 +37,10 @@ public class GameDriver
             }
         }
 
-        System.out.println("Map\t\t\t[Game_Outcomes]");
+        LogEntryBuffer.getInstance().appendToBuffer("Map\t\t\t[Game_Outcomes]", true);
         for (String l_key : l_returnValue.keySet())
         {
-            System.out.println(l_key + "\t\t\t" + l_returnValue.get(l_key));
+            LogEntryBuffer.getInstance().appendToBuffer(l_key + "\t\t\t" + l_returnValue.get(l_key), true);
         }
     }
 

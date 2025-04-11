@@ -60,6 +60,7 @@ public class Startup extends Play
         }
         else
         {
+            LogEntryBuffer.getInstance().appendToBuffer("\n*** Map: " + GameDriver.getGameEngine().getMapFileLoaded() + "; Game #" + GameDriver.getGameEngine().getGameNumber() + " begins! ***", true);
             d_countryAssignment.assignCountries();
 
             // After assigning countries, go to the next phase for each player (Assign Reinforcements)
@@ -164,6 +165,7 @@ public class Startup extends Play
         {
             GameDriver.getPriorTournaments().add(GameDriver.getGameEngine());
             GameDriver.setGameEngine(GameDriver.getTournamentQueue().removeFirst());
+            GameDriver.getGameEngine().getPhase().assignCountries();
         }
         else if (GameDriver.getTournamentQueue().size() == 1)
         {
