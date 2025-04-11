@@ -19,6 +19,7 @@ public class Airlift implements Order {
     private Country d_sourceCountry;
     private Country d_targetCountry;
     private int d_numArmies;
+    private GameContext d_gameContext;
 
     /**
      * Constructor for Airlift order.
