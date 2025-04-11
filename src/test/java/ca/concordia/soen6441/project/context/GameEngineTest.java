@@ -36,7 +36,7 @@ public class GameEngineTest
      */
     public class NonSerializableGameEngine extends GameEngine
     {
-        private void writeObject(ObjectOutputStream out) throws IOException
+        private void writeObject(ObjectOutputStream p_objectOutputStream) throws IOException
         {
             throw new NotSerializableException("Forced failure for testing.");
         }
@@ -256,8 +256,8 @@ public class GameEngineTest
     void testSaveGame_nonSerializableObject_logsError()
     {
         // Create an object that throws a "NotSerializableException" exception when you attempt to write it
-        GameEngine nonSerializableEngine = new NonSerializableGameEngine();
-        GameDriver.setGameEngine(nonSerializableEngine);
+        GameEngine l_nonSerializableEngine = new NonSerializableGameEngine();
+        GameDriver.setGameEngine(l_nonSerializableEngine);
         GameDriver.getGameEngine().saveGame(d_tempSaveGameFile.getAbsolutePath());
 
         verify(d_mockLogBuffer).appendToBuffer(startsWith("Issue saving game: " + d_tempSaveGameFile.getAbsolutePath()), eq(true));
@@ -269,8 +269,8 @@ public class GameEngineTest
     @Test
     void testSaveGame_filePathInvalid_logsError()
     {
-        String invalidFilename = "/invalid_path/test.dat";
-        GameDriver.getGameEngine().saveGame(invalidFilename);
-        verify(d_mockLogBuffer).appendToBuffer(startsWith("Issue saving game: " + invalidFilename), eq(true));
+        String l_invalidFilename = "/invalid_path/test.dat";
+        GameDriver.getGameEngine().saveGame(l_invalidFilename);
+        verify(d_mockLogBuffer).appendToBuffer(startsWith("Issue saving game: " + l_invalidFilename), eq(true));
     }
 }
