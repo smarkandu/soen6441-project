@@ -95,6 +95,7 @@ public class GameEngineTest
     void tearDown()
     {
         d_tempSaveGameFile.delete();
+        LogEntryBuffer.setInstance(null);
     }
 
     /**

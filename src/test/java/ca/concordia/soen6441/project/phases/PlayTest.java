@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 /**
  * Test class for class Play (abstract)
  */
-class PlayTest
+public class PlayTest
 {
     /**
      * Stub class created to test "Play" methods
@@ -160,6 +160,7 @@ class PlayTest
     void tearDown()
     {
         d_tempSaveGameFile.delete();
+        LogEntryBuffer.setInstance(null);
     }
 
     /**
