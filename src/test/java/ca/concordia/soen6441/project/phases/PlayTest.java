@@ -3,6 +3,7 @@ package ca.concordia.soen6441.project.phases;
 import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
+import ca.concordia.soen6441.project.log.LogEntryBuffer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,10 @@ import java.io.ObjectOutputStream;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.startsWith;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 /**
  * Test class for class Play (abstract)
@@ -136,6 +140,7 @@ class PlayTest
     }
 
     private Play d_play;
+    private LogEntryBuffer d_mockLogBuffer;
 
     /**
      * Setup method called before each test case
@@ -144,6 +149,8 @@ class PlayTest
     void setup()
     {
         d_play = new PlayStub();
+        d_mockLogBuffer = mock(LogEntryBuffer.class);
+        LogEntryBuffer.setInstance(d_mockLogBuffer);
     }
 
 
@@ -155,18 +162,19 @@ class PlayTest
     @Test
     void testLoadGame_SuccessfulLoad() throws IOException
     {
-        GameEngine mockGameEngine = mock(GameEngine.class);
-        GameDriver.setGameEngine(mockGameEngine);
+        GameEngine l_mockGameEngine = mock(GameEngine.class);
+        GameDriver.setGameEngine(l_mockGameEngine);
 
-        File tempFile = File.createTempFile("test_game", ".ser");
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(tempFile)))
+        File l_tempFile = File.createTempFile("test_game", ".ser");
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(l_tempFile)))
         {
-            out.writeObject(mockGameEngine);
+            out.writeObject(l_mockGameEngine);
         }
 
-        d_play.loadGame(tempFile.getAbsolutePath());
+        d_play.loadGame(l_tempFile.getAbsolutePath());
 
-        assertEquals(mockGameEngine.getClass(), GameDriver.getGameEngine().getClass());
+        assertEquals(l_mockGameEngine.getClass(), GameDriver.getGameEngine().getClass());
+        verify(d_mockLogBuffer).appendToBuffer(startsWith("Game loaded from: " + l_tempFile.getAbsolutePath()), eq(true));
     }
 
     /**
@@ -178,6 +186,7 @@ class PlayTest
         String l_nonExistentPath = "non_existent_file.ser";
 
         assertDoesNotThrow(() -> d_play.loadGame(l_nonExistentPath));
+        verify(d_mockLogBuffer).appendToBuffer(startsWith("Issue loading game: " + l_nonExistentPath), eq(true));
     }
 
     /**
@@ -195,5 +204,6 @@ class PlayTest
         }
 
         assertDoesNotThrow(() -> d_play.loadGame(l_tempFile.getAbsolutePath()));
+        verify(d_mockLogBuffer).appendToBuffer(startsWith("Issue loading game: " + l_tempFile.getAbsolutePath()), eq(true));
     }
 }
