@@ -146,14 +146,6 @@ public class Startup extends Play
     /**
      * {@inheritDoc}
      */
-    public void loadGame(String p_filename)
-    {
-        printInvalidCommandMessage();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public void saveGame(String p_filename)
     {
         printInvalidCommandMessage();
