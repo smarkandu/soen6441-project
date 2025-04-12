@@ -1,15 +1,19 @@
 package ca.concordia.soen6441.project.map;
+
 import ca.concordia.soen6441.project.interfaces.Continent;
 import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 public class ValidateMapFromFile {
     static class ContinentStub implements Continent {
@@ -112,6 +116,12 @@ public class ValidateMapFromFile {
         @Override
         public Continent getContinent() {
             return d_continent;
+        }
+
+        @Override
+        public String toStringWithComma()
+        {
+            return "";
         }
     }
     private Player d_mockPlayer;
