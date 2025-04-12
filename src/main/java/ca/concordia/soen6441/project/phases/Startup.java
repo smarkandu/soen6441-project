@@ -1,6 +1,7 @@
 package ca.concordia.soen6441.project.phases;
 
 import ca.concordia.soen6441.project.GameDriver;
+import ca.concordia.soen6441.project.OverallFactory;
 import ca.concordia.soen6441.project.gameplay.CountryAssignment;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
@@ -165,6 +166,13 @@ public class Startup extends Play
             GameDriver.getTournamentResults();
             LogEntryBuffer.getInstance().appendToBuffer("\nWe now return you back to your game!\n", true);
             GameDriver.setGameEngine(GameDriver.getTournamentQueue().removeFirst());
+        }
+        else if (GameDriver.getGameEngine().getOutcomeOfGame() != null)
+        {
+            // Create new game engine
+            GameDriver.setGameEngine(OverallFactory.getInstance().CreateGameEngine());
+            Startup l_startup = new Startup();
+            GameDriver.getGameEngine().setPhase(l_startup);
         }
     }
 }
