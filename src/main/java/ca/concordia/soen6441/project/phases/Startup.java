@@ -21,7 +21,6 @@ public class Startup extends Play
      */
     public Startup()
     {
-
         d_countryAssignment = new CountryAssignment();
     }
 
@@ -136,6 +135,7 @@ public class Startup extends Play
      *
      * @return The name of the phase.
      */
+    @Override
     public String getPhaseName()
     {
         System.out.println("\n*** Welcome to the Game Warzone! ***\nPlease load map using 'loadmap' and add players using 'gameplayer'");
