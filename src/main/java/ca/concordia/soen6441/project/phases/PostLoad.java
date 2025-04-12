@@ -47,25 +47,6 @@ public class PostLoad extends Edit {
     }
 
     /**
-     * Saves the current map to a Conquest file.
-     *
-     * @param p_filename The filename to save the map to.
-     */
-    public void saveMapConquest(String p_filename) {
-        // Fetch the map data in Conquest format
-        SaveMapConquestAdapter l_saveMapConquestAdapter = new SaveMapConquestAdapter();
-        String l_mapData = l_saveMapConquestAdapter.toMapString();
-
-        // Write the data to the specified file
-        try (PrintWriter l_writer = new PrintWriter(p_filename)) {
-            l_writer.write(l_mapData);
-            System.out.println("CONQUEST Map successfully saved to: " + p_filename);
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    /**
      * Moves to the next phase by resetting the map and transitioning to the Startup phase.
      */
     public void next() {

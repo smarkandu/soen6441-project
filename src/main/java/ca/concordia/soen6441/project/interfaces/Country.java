@@ -82,4 +82,11 @@ public interface Country {
      * @return Continent to which the country belongs.
      */
     Continent getContinent();
+
+    /**
+     * Converts the country object to a string representation with comma after neighbors.
+     *
+     * @return String representation of the country.
+     */
+    String toStringWithComma();
 }
