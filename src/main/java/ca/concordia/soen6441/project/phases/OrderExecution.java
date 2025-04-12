@@ -147,6 +147,7 @@ public class OrderExecution extends MainPlay
                 LogEntryBuffer.getInstance().appendToBuffer("Game #" + GameDriver.getGameEngine().getGameNumber() + " won by " + l_playerWhoWon + ": congratulations!\n", true);
             }
             Startup l_startup = new Startup();
+            GameDriver.getGameEngine().setPhase(l_startup);
             l_startup.execute();
         }
         else

@@ -5,6 +5,7 @@ import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -29,9 +30,8 @@ public class RandomPlayerBehavior extends ComputerPlayerBehavior
      */
 
     @Override
-    public void deployment(Player p_player)
-    {
-        List<String> l_ownedCountries = p_player.getOwnedCountries();
+    public void deployment(Player p_player) {
+        List<String> l_ownedCountries = new ArrayList<>(p_player.getOwnedCountries());
         Collections.shuffle(l_ownedCountries);
 
         if (!l_ownedCountries.isEmpty())
@@ -78,7 +78,7 @@ public class RandomPlayerBehavior extends ComputerPlayerBehavior
                 continue;
             }
 
-            List<String> l_neighbors = l_source.getNeighborIDs();
+            List<String> l_neighbors = new ArrayList<>(l_source.getNeighborIDs());
             Collections.shuffle(l_neighbors);
 
             for (String l_neighborID : l_neighbors)
