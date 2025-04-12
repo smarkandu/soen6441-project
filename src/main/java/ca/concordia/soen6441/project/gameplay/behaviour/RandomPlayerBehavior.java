@@ -5,6 +5,7 @@ import ca.concordia.soen6441.project.interfaces.Country;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -72,7 +73,7 @@ public class RandomPlayerBehavior extends ComputerPlayerBehavior {
             Country l_source = GameDriver.getGameEngine().getCountryManager().getCountries().get(l_countryID);
             if (l_source == null || l_source.getTroops() <= 1) continue;
 
-            List<String> l_neighbors = l_source.getNeighborIDs();
+            List<String> l_neighbors = new ArrayList<>(l_source.getNeighborIDs());
             Collections.shuffle(l_neighbors);
 
             for (String l_neighborID : l_neighbors) {
