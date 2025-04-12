@@ -1,9 +1,7 @@
 package ca.concordia.soen6441.project.gameplay.behaviour;
 
 import ca.concordia.soen6441.project.GameDriver;
-import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.interfaces.Country;
-import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
@@ -98,7 +96,7 @@ public class CheaterPlayerBehavior extends ComputerPlayerBehavior {
             }
 
             // find all neighbors not owned by cheater
-            List<String> l_neighborCountry = l_countryWithHighestTroop.getNeighborIDs();
+            List<String> l_neighborCountry = new ArrayList<>(l_countryWithHighestTroop.getNeighborIDs());
 
 
             // advance to one of them

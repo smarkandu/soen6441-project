@@ -11,9 +11,7 @@ import ca.concordia.soen6441.project.log.LogEntryBuffer;
 import ca.concordia.soen6441.project.map.*;
 import ca.concordia.soen6441.project.phases.Phase;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -221,13 +219,18 @@ public class GameEngine implements GameContext, MapComponent, Serializable
         // Read Map into Game Engine
         MapTypeIdentifier l_mapTypeIdentifier = new MapTypeIdentifier();
         String l_MapType = l_mapTypeIdentifier.mapType(p_filename);
-        if (l_MapType.equals("DominationMap")){
+        if (l_MapType.equals("DominationMap"))
+        {
             MapFileReader l_mapFileReader = new MapFileReader();
             l_mapFileReader.readMapFile(p_filename);
-        }else if (l_MapType.equals("ConquestMap"))        {
+        }
+        else if (l_MapType.equals("ConquestMap"))
+        {
             ConquestMapAdapter l_conquestMapAdapter = new ConquestMapAdapter();
             l_conquestMapAdapter.readMapFile(p_filename);
-        }else{
+        }
+        else
+        {
             System.out.println("File does not have all the sections of Domination map or Conquest Map");
             System.out.println("Invalid File Format!");
         }
@@ -457,5 +460,21 @@ public class GameEngine implements GameContext, MapComponent, Serializable
     public void setMapFileLoaded(String p_mapFileLoaded)
     {
         d_mapFileLoaded = p_mapFileLoaded;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void saveGame(String p_filename)
+    {
+        try (ObjectOutputStream l_objectOutputStream = new ObjectOutputStream(new FileOutputStream(p_filename)))
+        {
+            l_objectOutputStream.writeObject(GameDriver.getGameEngine());
+            LogEntryBuffer.getInstance().appendToBuffer("Game saved as: " + p_filename, true);
+        } catch (IOException e)
+        {
+            LogEntryBuffer.getInstance().appendToBuffer("Issue saving game: " + p_filename + ":\n" + e.getMessage(), true);
+        }
     }
 }

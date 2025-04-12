@@ -190,4 +190,11 @@ public interface GameContext
      * @param p_mapFileLoaded String value representing the map to set the value to
      */
     public void setMapFileLoaded(String p_mapFileLoaded);
+
+    /**
+     * Allows the user to save his game by serializing current GameContext object
+     *
+     * @param p_filename String denoting the filename
+     */
+    void saveGame(String p_filename);
 }

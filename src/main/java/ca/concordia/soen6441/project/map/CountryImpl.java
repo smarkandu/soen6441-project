@@ -88,8 +88,7 @@ public class CountryImpl implements Country, MapComponent, Serializable {
      */
     @Override
     public List<String> getNeighborIDs() {
-        return d_Neighbors.values().stream().map(Country::getID)
-                .collect(Collectors.toList());
+        return d_Neighbors.values().stream().map(Country::getID).toList();
     }
 
     /**
