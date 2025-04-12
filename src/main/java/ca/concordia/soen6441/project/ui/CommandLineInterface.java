@@ -182,8 +182,8 @@ public class CommandLineInterface
         else if (p_args[1].equalsIgnoreCase("-conquest") && p_args.length == 3)
         {
             // Fetch the map data in Domination format
-            SaveMapConquestAdapter obj = new SaveMapConquestAdapter();
-            String l_mapData = obj.toMapString();
+            SaveMapConquestAdapter l_obj = new SaveMapConquestAdapter();
+            String l_mapData = l_obj.toMapString();
             // Write the data to the specified file
             try (PrintWriter l_writer = new PrintWriter(l_filename))
             {
