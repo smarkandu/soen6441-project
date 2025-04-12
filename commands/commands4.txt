@@ -8,23 +8,23 @@ showmap
 
 next
 next
-loadmap F:\Github\soen6441-project\sample_maps\valid\europass.map
+loadmap sample_maps\valid\europass.map
 gameplayer -add Tharun
 gameplayer -add Shubo
 assigncountries
 
 next
 next
-loadmap F:\Github\soen6441-project\sample_maps\valid\america.map
-gameplayer -add Steve -behavior human
-gameplayer -add Shubo -behavior aggressive
+loadmap sample_maps\valid\america.map
+gameplayer -add Random -behavior random
+gameplayer -add Aggressive -behavior aggressive
 assigncountries
 
 next
 next
-loadmap F:\Github\soen6441-project\sample_maps\valid\america.map
-gameplayer -add Steve -behavior human
-gameplayer -add Tharun -behavior benevolent
+loadmap F:\Github\soen6441-project\sample_maps\valid\europass.map
+gameplayer -add Cheater -behavior cheater
+gameplayer -add Random -behavior random
 assigncountries
 
 
