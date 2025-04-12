@@ -12,18 +12,21 @@ import java.util.Random;
 /**
  * Class for modelling a deck of cards
  */
-public class DeckOfCards implements Serializable {
+public class DeckOfCards implements Serializable
+{
     Random d_rand;
 
     /**
      * Constructor
      */
-    public DeckOfCards() {
+    public DeckOfCards()
+    {
         this.d_rand = new Random();
     }
 
     /**
      * Function for obtaining a card from the deck
+     *
      * @return a Card object
      */
     public Card getCardFromDeck()

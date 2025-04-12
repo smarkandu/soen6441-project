@@ -12,25 +12,25 @@ import java.util.*;
 /**
  * Class which implements the Strategy design pattern for the Cheater player behavior
  */
-public class CheaterPlayerBehavior extends ComputerPlayerBehavior {
+public class CheaterPlayerBehavior extends ComputerPlayerBehavior
+{
     /**
      * {@inheritDoc}
      */
     @Override
-    public void deployment(Player p_player) {
+    public void deployment(Player p_player)
+    {
         List<String> l_ownedCountries = p_player.getOwnedCountries();
 
-        if(l_ownedCountries == null) {
-            LogEntryBuffer.getInstance().appendToBuffer(
-                    p_player.getName() + " can't deploy because his owned Countries list doesn't exist" +
-                            GameDriver.getGameEngine().getPhase().getPhaseName(), true);
+        if (l_ownedCountries == null)
+        {
+            LogEntryBuffer.getInstance().appendToBuffer(p_player.getName() + " can't deploy because his owned Countries list doesn't exist" + GameDriver.getGameEngine().getPhase().getPhaseName(), true);
         }
 
         assert l_ownedCountries != null;
-        if(l_ownedCountries.isEmpty()) {
-            LogEntryBuffer.getInstance().appendToBuffer(
-                    p_player.getName() + " can't deploy because his owned Countries list is empty" +
-                            GameDriver.getGameEngine().getPhase().getPhaseName(), true);
+        if (l_ownedCountries.isEmpty())
+        {
+            LogEntryBuffer.getInstance().appendToBuffer(p_player.getName() + " can't deploy because his owned Countries list is empty" + GameDriver.getGameEngine().getPhase().getPhaseName(), true);
         }
 
         // Get how many troops the player can still deploy
@@ -44,7 +44,8 @@ public class CheaterPlayerBehavior extends ComputerPlayerBehavior {
      * {@inheritDoc}
      */
     @Override
-    public void attackTransfer(Player p_player) {
+    public void attackTransfer(Player p_player)
+    {
         final int l_ARMY_MULTIPLICATOR = 2;
 
         // Let's look if one of the adjacent countries is an enemy territory.
@@ -53,45 +54,54 @@ public class CheaterPlayerBehavior extends ComputerPlayerBehavior {
 
         // get all neighbor countries
         Set<String> l_neighborCountries = new HashSet<>();
-        for (String l_ownedCountry : l_ownedCountries) {
+        for (String l_ownedCountry : l_ownedCountries)
+        {
             Country l_adjacentCountry = GameDriver.getGameEngine().getCountryManager().getCountries().get(l_ownedCountry);
             l_neighborCountries.addAll(l_adjacentCountry.getNeighborIDs());
         }
 
         // remove countries own by the cheater and to neutral player
         Iterator<String> l_iterator = l_neighborCountries.iterator();
-        while (l_iterator.hasNext()) {
+        while (l_iterator.hasNext())
+        {
             Country l_country = GameDriver.getGameEngine().getCountryManager().getCountries().get(l_iterator.next());
             String l_ownerOfCountry = l_country.getOwner().getName();
-            if (l_ownerOfCountry.equals(p_player.getName()) || l_ownerOfCountry.equals("Neutral")) {
+            if (l_ownerOfCountry.equals(p_player.getName()) || l_ownerOfCountry.equals("Neutral"))
+            {
                 l_iterator.remove();
             }
         }
 
 
-        if (!l_neighborCountries.isEmpty()) {
+        if (!l_neighborCountries.isEmpty())
+        {
             // conquer all neighbor countries and double army
-            for (String l_neighborCountry : l_neighborCountries) {
+            for (String l_neighborCountry : l_neighborCountries)
+            {
                 Country l_neighborTerritoryConquered = GameDriver.getGameEngine().getCountryManager().getCountries().get(l_neighborCountry);
                 l_neighborTerritoryConquered.setOwner(p_player);
                 int l_oldNumberOfTroops = l_neighborTerritoryConquered.getTroops();
                 l_neighborTerritoryConquered.setTroops(l_neighborTerritoryConquered.getTroops() * l_ARMY_MULTIPLICATOR);
-                LogEntryBuffer.getInstance().appendToBuffer(
-                        p_player.getName() + " cheats and modifies the map such that he now owns " +
-                                l_neighborTerritoryConquered.getID() + " and has doubled the number of troops from " + l_oldNumberOfTroops + " to " + l_neighborTerritoryConquered.getTroops()
-                                , true);
+                LogEntryBuffer.getInstance().appendToBuffer(p_player.getName() + " cheats and modifies the map such that he now owns " + l_neighborTerritoryConquered.getID() + " and has doubled the number of troops from " + l_oldNumberOfTroops + " to " + l_neighborTerritoryConquered.getTroops(), true);
             }
-        } else {
+        }
+        else
+        {
             // if we don't have any neighbor enemy territory, let's advance.
             // get the country with the highest troop and advance to adjacent neutral territory
 
             Country l_countryWithHighestTroop = null;
-            for (String l_ownedCountry : l_ownedCountries) {
+            for (String l_ownedCountry : l_ownedCountries)
+            {
                 Country l_countryInExamination = GameDriver.getGameEngine().getCountryManager().getCountries().get(l_ownedCountry);
-                if(l_countryWithHighestTroop == null) {
+                if (l_countryWithHighestTroop == null)
+                {
                     l_countryWithHighestTroop = l_countryInExamination;
-                } else {
-                    if(l_countryInExamination.getTroops() > l_countryWithHighestTroop.getTroops()) {
+                }
+                else
+                {
+                    if (l_countryInExamination.getTroops() > l_countryWithHighestTroop.getTroops())
+                    {
                         l_countryWithHighestTroop = l_countryInExamination;
                     }
                 }
@@ -103,12 +113,9 @@ public class CheaterPlayerBehavior extends ComputerPlayerBehavior {
 
             // advance to one of them
             Collections.shuffle(l_neighborCountry);
-            GameDriver.getGameEngine().getPhase().advance(l_countryWithHighestTroop.getID(),
-                    l_neighborCountry.get(0), l_countryWithHighestTroop.getTroops());
+            GameDriver.getGameEngine().getPhase().advance(l_countryWithHighestTroop.getID(), l_neighborCountry.get(0), l_countryWithHighestTroop.getTroops());
 
-            LogEntryBuffer.getInstance().appendToBuffer(
-                    p_player.getName() + " has advanced to " + l_neighborCountry.get(0) + " " +
-                            GameDriver.getGameEngine().getPhase().getPhaseName(), true);
+            LogEntryBuffer.getInstance().appendToBuffer(p_player.getName() + " has advanced to " + l_neighborCountry.get(0) + " " + GameDriver.getGameEngine().getPhase().getPhaseName(), true);
         }
     }
 
@@ -116,7 +123,8 @@ public class CheaterPlayerBehavior extends ComputerPlayerBehavior {
      * String representing the object
      */
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Cheater";
     }
 }

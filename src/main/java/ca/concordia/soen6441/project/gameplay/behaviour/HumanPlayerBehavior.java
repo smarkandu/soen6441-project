@@ -9,12 +9,14 @@ import java.io.Serializable;
 /**
  * Class which implements the Strategy design pattern for the Human player behavior
  */
-public class HumanPlayerBehavior implements PlayerBehavior, Serializable {
+public class HumanPlayerBehavior implements PlayerBehavior, Serializable
+{
     /**
      * {@inheritDoc}
      */
     @Override
-    public void issue_order(Player p_player) {
+    public void issue_order(Player p_player)
+    {
         CommandLineInterface l_commandLineInterface = new CommandLineInterface();
         l_commandLineInterface.getInputFromUserAndProcess();
     }
@@ -23,7 +25,8 @@ public class HumanPlayerBehavior implements PlayerBehavior, Serializable {
      * String representing the object
      */
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Human";
     }
 }

@@ -14,7 +14,8 @@ import ca.concordia.soen6441.project.log.LogEntryBuffer;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.gameplay.cards.DiplomacyCard;
 
-public class Diplomacy implements Order {
+public class Diplomacy implements Order
+{
 
     /**
      * The player who issued the diplomacy order.
@@ -31,7 +32,8 @@ public class Diplomacy implements Order {
      * @param p_initiator The player issuing the diplomacy command.
      * @param p_target    The target player with whom the negotiation is made.
      */
-    public Diplomacy(Player p_initiator, Player p_target) {
+    public Diplomacy(Player p_initiator, Player p_target)
+    {
         this.d_initiator = p_initiator;
         this.d_target = p_target;
     }
@@ -46,9 +48,11 @@ public class Diplomacy implements Order {
      * Logs the event to the log buffer.
      */
     @Override
-    public void execute() {
+    public void execute()
+    {
         String l_validationResult = validate();
-        if (l_validationResult != null) {
+        if (l_validationResult != null)
+        {
             LogEntryBuffer.getInstance().appendToBuffer(l_validationResult, true);
             return;
         }
@@ -56,10 +60,7 @@ public class Diplomacy implements Order {
         d_initiator.addNegotiatedPlayer(d_target);
         d_target.addNegotiatedPlayer(d_initiator);
 
-        LogEntryBuffer.getInstance().appendToBuffer(
-                d_initiator.getName() + " has negotiated a non-aggression pact with " + d_target.getName() + ".",
-                true
-        );
+        LogEntryBuffer.getInstance().appendToBuffer(d_initiator.getName() + " has negotiated a non-aggression pact with " + d_target.getName() + ".", true);
     }
 
     /**
@@ -67,11 +68,14 @@ public class Diplomacy implements Order {
      *
      * @return Null if valid; otherwise, an error message string.
      */
-    public String validate() {
-        if (d_target == null) {
+    public String validate()
+    {
+        if (d_target == null)
+        {
             return "Error: Target player does not exist.";
         }
-        if (d_initiator.equals(d_target)) {
+        if (d_initiator.equals(d_target))
+        {
             return "Error: Cannot negotiate with yourself.";
         }
 
@@ -84,7 +88,8 @@ public class Diplomacy implements Order {
      * @return A string describing the diplomacy action.
      */
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "{Diplomacy with " + d_target.getName() + "}";
     }
 
@@ -93,7 +98,8 @@ public class Diplomacy implements Order {
      *
      * @return The initiating player.
      */
-    public Player getInitiator() {
+    public Player getInitiator()
+    {
         return d_initiator;
     }
 
@@ -102,7 +108,8 @@ public class Diplomacy implements Order {
      *
      * @return The target player.
      */
-    public Player getTarget() {
+    public Player getTarget()
+    {
         return d_target;
     }
 }

@@ -11,13 +11,15 @@ import java.util.TreeMap;
 /**
  * Class for managing Continent operations
  */
-public class ContinentManager implements ContinentContext, Serializable {
+public class ContinentManager implements ContinentContext, Serializable
+{
     private SortedMap<String, Continent> d_Continents;
 
     /**
      * Constructor
      */
-    public ContinentManager() {
+    public ContinentManager()
+    {
         this.d_Continents = new TreeMap<String, Continent>();
     }
 
@@ -30,7 +32,8 @@ public class ContinentManager implements ContinentContext, Serializable {
      * @param p_colour         The color associated with the continent.
      */
     @Override
-    public void addContinent(int p_numericID, String p_continentID, int p_continentValue, String p_colour) {
+    public void addContinent(int p_numericID, String p_continentID, int p_continentValue, String p_colour)
+    {
         Continent l_continent = OverallFactory.getInstance().CreateContinent(p_numericID, p_continentID, p_continentValue, p_colour);
         d_Continents.put(l_continent.getID(), l_continent);
         System.out.println("Continent added: " + d_Continents.get(l_continent.getID()));
@@ -40,7 +43,8 @@ public class ContinentManager implements ContinentContext, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public void addContinent(String p_continentID, int p_continentValue) {
+    public void addContinent(String p_continentID, int p_continentValue)
+    {
         Continent l_continent = OverallFactory.getInstance().CreateContinent(p_continentID, p_continentValue);
         d_Continents.put(l_continent.getID(), l_continent);
         System.out.println("Continent added: " + d_Continents.get(l_continent.getID()));
@@ -51,7 +55,8 @@ public class ContinentManager implements ContinentContext, Serializable {
      *
      * @param p_continentID The unique identifier of the continent to be removed.
      */
-    public void removeContinent(String p_continentID) {
+    public void removeContinent(String p_continentID)
+    {
         d_Continents.remove(p_continentID);
     }
 
@@ -62,10 +67,13 @@ public class ContinentManager implements ContinentContext, Serializable {
      * @return The continent if found, otherwise null.
      */
     @Override
-    public Continent getContinentByNumericID(int p_numericIDOfContinent) {
+    public Continent getContinentByNumericID(int p_numericIDOfContinent)
+    {
 
-        for (String l_key : d_Continents.keySet()) {
-            if (d_Continents.get(l_key).getNumericID() == p_numericIDOfContinent) {
+        for (String l_key : d_Continents.keySet())
+        {
+            if (d_Continents.get(l_key).getNumericID() == p_numericIDOfContinent)
+            {
                 return d_Continents.get(l_key); // found
             }
         }
@@ -80,7 +88,8 @@ public class ContinentManager implements ContinentContext, Serializable {
      * @return The continent if found, otherwise null.
      */
     @Override
-    public Continent getContinent(String p_continentID) {
+    public Continent getContinent(String p_continentID)
+    {
         return d_Continents.get(p_continentID); // Retrieve the continent from the map
     }
 
@@ -88,7 +97,8 @@ public class ContinentManager implements ContinentContext, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public SortedMap<String, Continent> getContinents() {
+    public SortedMap<String, Continent> getContinents()
+    {
         return d_Continents;
     }
 

@@ -8,14 +8,16 @@ import java.io.Serializable;
 /**
  * Manages all Neighbor operations
  */
-public class NeighborManager implements NeighborContext, Serializable {
-    
+public class NeighborManager implements NeighborContext, Serializable
+{
+
 
     /**
      * Constructor
      */
-    public NeighborManager() {
-        
+    public NeighborManager()
+    {
+
     }
 
     /**
@@ -24,7 +26,8 @@ public class NeighborManager implements NeighborContext, Serializable {
      * @param p_CountryID         The ID of the country.
      * @param p_neighborCountryID The ID of the neighboring country.
      */
-    public void addNeighbor(String p_CountryID, String p_neighborCountryID) {
+    public void addNeighbor(String p_CountryID, String p_neighborCountryID)
+    {
         GameDriver.getGameEngine().getCountryManager().getCountries().get(p_CountryID).addNeighbor(GameDriver.getGameEngine().getCountryManager().getCountries().get(p_neighborCountryID));
         GameDriver.getGameEngine().getCountryManager().getCountries().get(p_neighborCountryID).addNeighbor(GameDriver.getGameEngine().getCountryManager().getCountries().get(p_CountryID));
         System.out.println("Neighbor added: " + GameDriver.getGameEngine().getCountryManager().getCountries().get(p_CountryID));
@@ -37,7 +40,8 @@ public class NeighborManager implements NeighborContext, Serializable {
      * @param p_CountryID         The ID of the country.
      * @param p_neighborCountryID The ID of the neighboring country.
      */
-    public void removeNeighbor(String p_CountryID, String p_neighborCountryID) {
+    public void removeNeighbor(String p_CountryID, String p_neighborCountryID)
+    {
         GameDriver.getGameEngine().getCountryManager().getCountries().get(p_CountryID).removeNeighbor(p_neighborCountryID);
         GameDriver.getGameEngine().getCountryManager().getCountries().get(p_neighborCountryID).removeNeighbor(p_CountryID);
     }

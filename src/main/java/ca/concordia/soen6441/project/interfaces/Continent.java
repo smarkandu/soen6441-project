@@ -4,7 +4,8 @@ package ca.concordia.soen6441.project.interfaces;
  * Represents a continent in the game map.
  * A continent is a collection of countries with an associated bonus value.
  */
-public interface Continent {
+public interface Continent
+{
     /**
      * Gets the string identifier of the continent.
      *

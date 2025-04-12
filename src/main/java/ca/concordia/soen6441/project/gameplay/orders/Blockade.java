@@ -9,17 +9,20 @@ import ca.concordia.soen6441.project.log.LogEntryBuffer;
 /**
  * Class representing the Blockade command
  */
-public class Blockade implements Order {
+public class Blockade implements Order
+{
     private Country d_territory;
     private Player d_initiator;
-    
+
 
     /**
      * Constructor
+     *
      * @param p_territory The territory for blockade
      * @param p_initiator The player that initiated it
      */
-    public Blockade(Country p_territory, Player p_initiator) {
+    public Blockade(Country p_territory, Player p_initiator)
+    {
         this.d_territory = p_territory;
         this.d_initiator = p_initiator;
     }
@@ -28,14 +31,16 @@ public class Blockade implements Order {
      * Method for executing the order
      */
     @Override
-    public void execute() {
+    public void execute()
+    {
         String l_errorMsg = null;
         if ((l_errorMsg = validate()) != null)
         {
             // Error found, write to screen and add to log
             LogEntryBuffer.getInstance().appendToBuffer(l_errorMsg, true);
         }
-        else {
+        else
+        {
             // Assign Country as Neutral
             GameDriver.getGameEngine().assignCountryToPlayer(d_territory, GameDriver.getGameEngine().getPlayerManager().getNeutralPlayer());
 
@@ -43,8 +48,7 @@ public class Blockade implements Order {
             int l_oldTroopNumber = d_territory.getTroops();
             d_territory.setTroops(l_oldTroopNumber * 3);
 
-            LogEntryBuffer.getInstance().appendToBuffer("Blockade created in " + d_territory.getID() + " by " + d_initiator.getName()
-                    + ".  Country becomes neutral and troops have increased from " + l_oldTroopNumber + " to " + d_territory.getTroops(), true);
+            LogEntryBuffer.getInstance().appendToBuffer("Blockade created in " + d_territory.getID() + " by " + d_initiator.getName() + ".  Country becomes neutral and troops have increased from " + l_oldTroopNumber + " to " + d_territory.getTroops(), true);
         }
     }
 
@@ -53,8 +57,10 @@ public class Blockade implements Order {
      *
      * @return Null if valid; otherwise, an error message string.
      */
-    public String validate() {
-        if (!d_territory.getOwner().getName().equals(d_initiator.getName())) {
+    public String validate()
+    {
+        if (!d_territory.getOwner().getName().equals(d_initiator.getName()))
+        {
             return "Error: Player does not own the territory to create blockade on.";
         }
 
@@ -63,10 +69,12 @@ public class Blockade implements Order {
 
     /**
      * Get a String Representation representing this object
+     *
      * @return A String value
      */
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "{Blockade " + d_territory.getID() + "}";
     }
 }
