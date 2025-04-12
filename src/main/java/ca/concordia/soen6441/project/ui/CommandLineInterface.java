@@ -171,23 +171,31 @@ public class CommandLineInterface
         return l_continuePlaying;
     }
 
-    private void processSaveMap(String[] p_args){
+    private void processSaveMap(String[] p_args)
+    {
         String l_filename = String.join(" ", Arrays.copyOfRange(p_args, 2, p_args.length));
         l_filename = l_filename.replace("\"", "") + ".map";
-        if (p_args[1].equalsIgnoreCase("-domination") && p_args.length==3){
+        if (p_args[1].equalsIgnoreCase("-domination") && p_args.length == 3)
+        {
             GameDriver.getGameEngine().getPhase().saveMap(l_filename);
-        }else if (p_args[1].equalsIgnoreCase("-conquest") && p_args.length==3){
+        }
+        else if (p_args[1].equalsIgnoreCase("-conquest") && p_args.length == 3)
+        {
             // Fetch the map data in Domination format
             SaveMapConquestAdapter obj = new SaveMapConquestAdapter();
             String l_mapData = obj.toMapString();
             // Write the data to the specified file
-            try (PrintWriter l_writer = new PrintWriter(l_filename)) {
+            try (PrintWriter l_writer = new PrintWriter(l_filename))
+            {
                 l_writer.write(l_mapData);
                 System.out.println("CONQUEST Map successfully saved to: " + l_filename);
-            } catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e)
+            {
                 System.out.println(e.getMessage());
             }
-        }else{
+        }
+        else
+        {
             System.out.println("Operation not recognized");
         }
     }
