@@ -30,7 +30,7 @@ public class RandomPlayerBehavior extends ComputerPlayerBehavior {
 
     @Override
     public void deployment(Player p_player) {
-        List<String> l_ownedCountries = p_player.getOwnedCountries();
+        List<String> l_ownedCountries = new ArrayList<>(p_player.getOwnedCountries());
         Collections.shuffle(l_ownedCountries);
 
         if (!l_ownedCountries.isEmpty()) {
