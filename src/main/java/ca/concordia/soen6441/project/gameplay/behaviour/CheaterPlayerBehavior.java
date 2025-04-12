@@ -1,9 +1,7 @@
 package ca.concordia.soen6441.project.gameplay.behaviour;
 
 import ca.concordia.soen6441.project.GameDriver;
-import ca.concordia.soen6441.project.context.GameEngine;
 import ca.concordia.soen6441.project.interfaces.Country;
-import ca.concordia.soen6441.project.interfaces.Order;
 import ca.concordia.soen6441.project.interfaces.Player;
 import ca.concordia.soen6441.project.log.LogEntryBuffer;
 
@@ -14,7 +12,8 @@ import java.util.*;
  */
 public class CheaterPlayerBehavior extends ComputerPlayerBehavior {
     /**
-     * {@inheritDoc}
+     * This method deploy army in the cheater's territories
+     * @param p_player the cheater player
      */
     @Override
     public void deployment(Player p_player) {
@@ -41,7 +40,9 @@ public class CheaterPlayerBehavior extends ComputerPlayerBehavior {
     }
 
     /**
-     * {@inheritDoc}
+     * This method attack the enemy. The cheater conquer all adjacent enemy territories
+     * and double the army troop
+     * @param p_player the cheater player
      */
     @Override
     public void attackTransfer(Player p_player) {
