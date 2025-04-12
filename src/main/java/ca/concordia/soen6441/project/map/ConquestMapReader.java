@@ -89,7 +89,7 @@ public class ConquestMapReader
             String l_line;
             while ((l_line = l_br.readLine()) != null)
             {
-                l_line = l_line.trim();
+                l_line = l_line.trim().replace(" ","");
                 if (l_line.isEmpty() || l_line.startsWith(";"))
                 {
                     continue;

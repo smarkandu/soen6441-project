@@ -75,7 +75,7 @@ public interface State {
     void editNeighborRemove(String p_countryID, String p_neighborCountryID);
 
     /**
-     * Saves the current map configuration to a file.
+     * Saves the current map configuration to a Domination file.
      *
      * @param p_filename the name of the file to save the map data.
      */

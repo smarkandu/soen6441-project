@@ -180,6 +180,10 @@ public class GameEngine implements GameContext, MapComponent, Serializable
         // Create sections
         StringBuilder l_mapBuilder = new StringBuilder();
 
+        // Add [files] section
+        l_mapBuilder.append("[files]\n");
+        l_mapBuilder.append("\n");
+
         // Add [continents] section
         l_mapBuilder.append("[continents]\n");
         d_ContinentManager.getContinents().values().stream().sorted(Comparator.comparingInt(Continent::getNumericID)) // Sort by numeric ID

@@ -44,3 +44,7 @@ loadmap ./sample_maps/valid/america.map
 loadmap ./sample_maps/valid/europass.map
 loadmap ./sample_maps/valid/europass.txt
 loadmap ./sample_maps/valid/northamerica.map
+
+//NEW SAVE MAP COMMANDS
+savemap -conquest <file_name>
+savemap -domination <file_name>

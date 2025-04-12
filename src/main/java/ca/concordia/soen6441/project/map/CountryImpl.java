@@ -138,6 +138,23 @@ public class CountryImpl implements Country, MapComponent, Serializable {
     }
 
     /**
+     * Converts the country object to a string representation with comma after neighbors.
+     *
+     * @return String representation of the country.
+     */
+    @Override
+    public String toStringWithComma() {
+        String l_NeighborIDsAsString = d_Neighbors.values().stream()
+                .map(Country::getID)
+                .collect(Collectors.joining(","));
+
+        return d_ID + "," + d_xCoord +
+                "," + d_yCoord +
+                "," + d_Continent.getID() +
+                (!l_NeighborIDsAsString.isEmpty() ? "," + l_NeighborIDsAsString : "");
+    }
+
+    /**
      * Gets the number of troops in the country.
      *
      * @return Number of troops.

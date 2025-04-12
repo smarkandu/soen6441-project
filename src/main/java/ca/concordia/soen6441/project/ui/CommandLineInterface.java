@@ -2,9 +2,12 @@ package ca.concordia.soen6441.project.ui;
 
 import ca.concordia.soen6441.project.GameDriver;
 import ca.concordia.soen6441.project.gameplay.behaviour.PlayerBehaviorType;
+import ca.concordia.soen6441.project.map.SaveMapConquestAdapter;
 import ca.concordia.soen6441.project.phases.IssueOrder;
 import ca.concordia.soen6441.project.phases.PreLoad;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -81,10 +84,9 @@ public class CommandLineInterface
                 break;
             case "savemap":
             {
-                String l_filename = extractFileNameFromArgs(l_args);
-                GameDriver.getGameEngine().getPhase().saveMap(l_filename);
+                processSaveMap(l_args);
+                break;
             }
-            break;
             case "assigncountries":
                 GameDriver.getGameEngine().getPhase().assignCountries();
                 break;
@@ -167,6 +169,35 @@ public class CommandLineInterface
         }
 
         return l_continuePlaying;
+    }
+
+    private void processSaveMap(String[] p_args)
+    {
+        String l_filename = String.join(" ", Arrays.copyOfRange(p_args, 2, p_args.length));
+        l_filename = l_filename.replace("\"", "") + ".map";
+        if (p_args[1].equalsIgnoreCase("-domination") && p_args.length == 3)
+        {
+            GameDriver.getGameEngine().getPhase().saveMap(l_filename);
+        }
+        else if (p_args[1].equalsIgnoreCase("-conquest") && p_args.length == 3)
+        {
+            // Fetch the map data in Domination format
+            SaveMapConquestAdapter l_obj = new SaveMapConquestAdapter();
+            String l_mapData = l_obj.toMapString();
+            // Write the data to the specified file
+            try (PrintWriter l_writer = new PrintWriter(l_filename))
+            {
+                l_writer.write(l_mapData);
+                System.out.println("CONQUEST Map successfully saved to: " + l_filename);
+            } catch (FileNotFoundException e)
+            {
+                System.out.println(e.getMessage());
+            }
+        }
+        else
+        {
+            System.out.println("Operation not recognized");
+        }
     }
 
     /**
